@@ -1,0 +1,12 @@
+DEALING W/ const: It binds names to expressions
+We can bind any expression. Functions are expressions, so we can bind helper functions:
+
+(d) => {
+  const calc = (diameter) => {
+    const PI = 3.14159265;
+
+    return diameter * PI
+  };
+
+  return "The circumference is " + calc(d)
+}
