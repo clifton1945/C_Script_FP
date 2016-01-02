@@ -2,7 +2,11 @@
  * Created by CLIF on 12/30/2015.
  */
 "use strict";
-const C_It = (txt) => document.querySelector(".console").textContent = txt;
+const Doc_It = (txt) => document.querySelector(".console").textContent = txt;
+const C_It = (txt) => console.log(txt);
+const C_This = (fn) => (obj) => {
+    C_It( fn(obj));
+    return obj};
 //
 const mapWith = (fn) => (list) => list.map(fn);
 const mapW_arr = (arr) => (fn) => {return arr.map(fn)};
@@ -15,12 +19,7 @@ const FOROF_EACH = (arr) => (fn) =>  {
     for ( let a of arr) { fn(a)}
 };
 const EXTRACT_VerseGrpName = (VerseGrp) => VerseGrp.className;
-
-
-
-
-
-
+const EXTRACT_ThisStyleObj = ( VerseGrpName) => StyleObj[VerseGrpName];
 
 
 const f_NL2Arr = (nl) => {return [...nl]};

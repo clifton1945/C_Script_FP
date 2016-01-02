@@ -29,7 +29,7 @@ console.assert(___srt, ___msg);// PASSED
 // **************  the Plan
 // (UPDATE_VerseGrpStyle}FOROF_EACH(VerseGrp) USING (VerseGrpArr)
 //// EXTRACT_VerseGrpName OFTHIS (VerseGrp)
-//// EXTRACT_StyleObj OFTHIS (VerseGroupName)
+//// EXTRACT_ThisStyleObj OFTHIS (VerseGroupName)
 //// {UPDATE_VerseStyle) FOROF_EACH (Verse) USING (StyleObj)
 ////// EXTRACT_VerseObj USING (Verse)
 ////// UPDATE StyleWt USING (EXTRACT_VerseObj)
@@ -40,15 +40,15 @@ console.assert(___srt, ___msg);// PASSED
 
 // (UPDATE_VerseGrpStyle}FOROF_EACH(VerseGrp) USING (VerseGrpArr)
 //// EXTRACT_VerseGrpName OFTHIS (VerseGrp)
-//// EXTRACT_StyleObj OFTHIS (VerseGroupName)
-const EXTRACT_StyleObj = ( VerseGrpName) => {
-    return StyleObj[VerseGrpName]
-};
+//// EXTRACT_ThisStyleObj OFTHIS (VerseGroupName)
 
 const UPDATE_VerseGrpStyle = (el) => {
-    console.log(EXTRACT_VerseGrpName(el));
+    C_This ( o => JSON.stringify({sml:o.smlWt, lrg:o.lrgWt})
+            )
+        (EXTRACT_ThisStyleObj(
+            EXTRACT_VerseGrpName(el)
+            )
+        )
 };
 
 FOROF_EACH(VerseGrpsArr)(UPDATE_VerseGrpStyle);
-
-
