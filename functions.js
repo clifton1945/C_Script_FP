@@ -9,6 +9,10 @@ const mapW_arr = (arr) => (fn) => {return arr.map(fn)};
 const mapW_fn = (fn) => (arr) => {return arr.map(fn)};
 //
 const DO = (f) => (arg) => f(arg);
+const FOROF_EACH = (arr) => (fn) =>  {
+    for ( let a of arr) { fn(a)}
+};
+
 const f_NL2Arr = (nl) => {return [...nl]};
 const f_map = (arr) => (fn) => {return arr.map(fn)};
 const pickOne_Elem = (arr) =>  {
@@ -80,9 +84,5 @@ const StyleObj = {
     }
 };
 const VerseObj = {ver:{}, ndx:0, arr:[]};
-// update Style Code
-
-
-
-
-
+// update Style
+const get_GrpClassName = (c,n,a) => c.getAttribute("class");

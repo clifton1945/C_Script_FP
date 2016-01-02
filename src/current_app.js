@@ -14,29 +14,30 @@ var ov;
 //TESTS
 ov = "test2: set_VerseStyle() ON ALL curChapter verses ";
 
-var _cut, _exp, _ret, _msg;
+var _cut, _exp, _ret, _msg, _fn;
 // PLAN
 let VerseGrpsCollStr = '#curChptrGrp .verseGrps > div';
 let VerseGrpsColl = document.querySelectorAll(VerseGrpsCollStr);
 // CodeUnderTest - CUT:   DO( CONVERT NodeList TO Array)
 let VerseGrpsArr = DO((collection) => [...collection])(VerseGrpsColl);
+
 // CUT NOW USE THE SHELL OF update_aVerseGrpStyle FLESH IT OUT.
-const update_aVerseGrpStyle = (c,n,a) => {
-    console.log(a[n].getAttribute('class'));
-    return c.getAttribute("class")
-};
+_fn = REST_this;
 
 // CUT mapW_arr( do something to each element )
-_ret = mapW_arr(VerseGrpsArr)(update_aVerseGrpStyle);
+_ret = mapW_arr(VerseGrpsArr)(_fn);
 // Test
-_msg = `EXP arr of just chapter verseGrp names`;
-_exp = (_ret[0] === 'pst' && _ret[2] == 'fut') ;
+_msg = `EXP 3 VerseGrpObj: [{pst}, {cur}, {fut}`;
+_exp = (_ret[0][0].getAttribute('class') === 'pst' ) ;
+console.assert(_exp, _msg);// PASSED
+
 C_It("current_app.#01>> " + _ret);
 
 // CUT
 //mapWith(VerseGrpsArr)(update_aVerseGrpStyle);
 //      update_aVerseGrpStyle = ( verseGrpEl) => {
-//      extract_grpNameFrom( VerseGrpEl)                  //>> vgName
+//      aVerseGrpObj = REST_this(ChptrGrp)                //>> aVerseGrpObj
+//      extract_grpNameFrom( aVerseGrpObj)                  //>> vgName
 //      set_styleObjForThis( vgName)                      //>> styleObj
 //      get_verseElemColl( verseGrpEl)                    // verseElemColl
 //      MapWith( VerseElemColl,
