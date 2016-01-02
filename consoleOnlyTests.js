@@ -36,20 +36,19 @@ console.assert(___srt, ___msg);// PASSED
 ////// UPDATE StyleTmpl USING (UPDATE_StyleWt)
 ////// UPDATE Verse USING (UPDATE_StyleTmpl)
 
+
+
 // (UPDATE_VerseGrpStyle}FOROF_EACH(VerseGrp) USING (VerseGrpArr)
+//// EXTRACT_VerseGrpName OFTHIS (VerseGrp)
+//// EXTRACT_StyleObj OFTHIS (VerseGroupName)
+const EXTRACT_StyleObj = ( VerseGrpName) => {
+    return StyleObj[VerseGrpName]
+};
 
-___cut = (el) => console.log(el.className);
-FOROF_EACH(VerseGrpsArr)(___cut);
+const UPDATE_VerseGrpStyle = (el) => {
+    console.log(EXTRACT_VerseGrpName(el));
+};
 
-//mock Data
-var o = VerseGrpsArr;
-let mockVGrp = {val:o[2], ndx:2, arr:o};  // a Mock map return
+FOROF_EACH(VerseGrpsArr)(UPDATE_VerseGrpStyle);
 
-// CUT ITERATE_over_eacf
-//___ret = mapW_arr(VerseGrpsArr)((obj) => {obj});
-//// Test
-//___msg = `ASSET  arr of 3 chapter verseGrp classes: pst, cur, fut`;
-//___srt = (___ret[0] === 'pst' && ___ret[2] == 'fut') ;
-//console.assert(___srt, ___msg);// PASSED
 
-//C_It("consoleOnlyTests.#01>> " + ___ret);

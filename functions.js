@@ -7,11 +7,21 @@ const C_It = (txt) => document.querySelector(".console").textContent = txt;
 const mapWith = (fn) => (list) => list.map(fn);
 const mapW_arr = (arr) => (fn) => {return arr.map(fn)};
 const mapW_fn = (fn) => (arr) => {return arr.map(fn)};
-//
+
+
+// USED IN consoleOnlyTest
 const DO = (f) => (arg) => f(arg);
 const FOROF_EACH = (arr) => (fn) =>  {
     for ( let a of arr) { fn(a)}
 };
+const EXTRACT_VerseGrpName = (VerseGrp) => VerseGrp.className;
+
+
+
+
+
+
+
 
 const f_NL2Arr = (nl) => {return [...nl]};
 const f_map = (arr) => (fn) => {return arr.map(fn)};
