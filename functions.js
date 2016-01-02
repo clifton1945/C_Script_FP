@@ -4,15 +4,15 @@
 "use strict";
 const Doc_It = (txt) => document.querySelector(".console").textContent = txt;
 const C_It = (txt) => console.log(txt);
+/**
+ * a Wrapper to log and pass thru an object.
+ * @param fn :  sets what will be seen.
+ * @constructor
+ */
 const C_This = (fn) => (obj) => {
     C_It( fn(obj));
     return obj};
 //
-const mapWith = (fn) => (list) => list.map(fn);
-const mapW_arr = (arr) => (fn) => {return arr.map(fn)};
-const mapW_fn = (fn) => (arr) => {return arr.map(fn)};
-
-
 // USED IN consoleOnlyTest
 const DO = (f) => (arg) => f(arg);
 const FOROF_EACH = (arr) => (fn) =>  {
@@ -20,24 +20,9 @@ const FOROF_EACH = (arr) => (fn) =>  {
 };
 const EXTRACT_VerseGrpName = (VerseGrp) => VerseGrp.className;
 const EXTRACT_ThisStyleObj = ( VerseGrpName) => StyleObj[VerseGrpName];
+const EXTRACT_VerseObj = () => {};
 
 
-const f_NL2Arr = (nl) => {return [...nl]};
-const f_map = (arr) => (fn) => {return arr.map(fn)};
-const pickOne_Elem = (arr) =>  {
-    return  (name) => {
-        let pick = (val) => {
-            return val.getAttribute("class") === name
-        };
-        return arr.filter(pick);  // an array with filtered Element[s].
-    }
-};
-const pickOne_fromNL = ( nodelist) => {
-    return pickOne_Elem([...nodelist]);
-};
-const set_StyleTmpl = (wt) => {
-    return `opacity:${wt}; font-size:${wt * 100}%`;  // color:red is just for testing.
-};
 /**
  * calculates a specific verse style wt USING StyleObj.calcWt
  * @param so: StyleObj
@@ -51,6 +36,10 @@ const set_VerseStyle = (so) => (vo) => {
     // NOTE: no return required; this sets the DOM
     vo.ver.setAttribute("style", tmpl)
 };
+const set_StyleTmpl = (wt) => {
+    return `opacity:${wt}; font-size:${wt * 100}%`;  // color:red is just for testing.
+};
+
 // OBJECTS
 const StyleObj = {
     fut: {
@@ -95,3 +84,17 @@ const StyleObj = {
 const VerseObj = {ver:{}, ndx:0, arr:[]};
 // update Style
 const get_GrpClassName = (c,n,a) => c.getAttribute("class");
+// *********** DEPRECATED
+//const f_NL2Arr = (nl) => {return [...nl]};
+const f_map = (arr) => (fn) => {return arr.map(fn)};
+const pickOne_Elem = (arr) =>  {
+    return  (name) => {
+        let pick = (val) => {
+            return val.getAttribute("class") === name
+        };
+        return arr.filter(pick);  // an array with filtered Element[s].
+    }
+};
+const pickOne_fromNL = ( nodelist) => {
+    return pickOne_Elem([...nodelist]);
+};
