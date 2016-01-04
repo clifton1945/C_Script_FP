@@ -98,3 +98,24 @@ const pickOne_Elem = (arr) =>  {
 const pickOne_fromNL = ( nodelist) => {
     return pickOne_Elem([...nodelist]);
 };
+
+function runStep(intermediate, step) {
+    return step(intermediate);
+}
+function pipeline() {
+    var steps = [].slice.call(arguments, 0);
+    return function(initialValue) {
+        return steps.reduce(runStep, initialValue);
+    };
+}
+function addTwo(x) {
+    return x + 2;
+}
+function timesFive(x) {
+    return x * 5;
+}
+// Using it:
+var addTwoThenTimesFive = pipeline(addTwo, timesFive);
+C_It(addTwoThenTimesFive(1)); //=> 15
+addTwoThenTimesFive(-1); //=> 5
+C_It(addTwoThenTimesFive(100)); //=> 510

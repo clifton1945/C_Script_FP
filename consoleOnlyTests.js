@@ -13,12 +13,14 @@ ov = "test2: set_VerseStyle() ON ALL curChapter verses ";
 
 let ___cut, ___srt, ___ret, ___msg;
 // PLAN: forEach Chnptr forEach Verse UPDATE eachVerse_Style
-let VerseGrpsCollStr = '#curChptrGrp .verseGrps > div';
-let VerseGrpsColl = document.querySelectorAll(VerseGrpsCollStr);
+let VerseGrpsCollStr = () => '#curChptrGrp .verseGrps > div';
+let VerseGrpsColl = (str) => document.querySelectorAll(str);
+___ret = pipeline(VerseGrpsCollStr, VerseGrpsColl) ;
 // Test
 ___msg = `ASSERT VerseGrpsColl IS NOT an Array.`;
-___srt = !Array.isArray(VerseGrpsColl);
+___srt = !Array.isArray(___ret);
 console.assert(___srt, ___msg);// PASSED
+
 // CodeUnderTest - CUT:   DO( CONVERT NodeList TO Array)
 let VerseGrpsArr = DO((collection) => [...collection])(VerseGrpsColl);
 // Test
@@ -36,6 +38,7 @@ console.assert(___srt, ___msg);// PASSED
 ////// UPDATE StyleWt USING (EXTRACT_VerseObj)
 ////// UPDATE StyleTmpl USING (UPDATE_StyleWt)
 ////// UPDATE Verse USING (UPDATE_StyleTmpl)
+
 
 
 
