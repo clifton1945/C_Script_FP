@@ -12,14 +12,14 @@ const C_It = (txt) => console.log(txt);
 const C_This = (fn) => (obj) => {
     C_It( fn(obj));
     return obj};
-//
-// USED IN consoleOnlyTest
-const DO = (f) => (arg) => f(arg);
+
+const CONVERT_NodeList_TO_Array = (coll) => (coll) => [...coll];
 const FOROF_EACH = (arr) => (fn) =>  {
     for ( let a of arr) { fn(a)}
 };
 const EXTRACT_VerseGrpName = (VerseGrp) => VerseGrp.className;
-const EXTRACT_ThisStyleObj = ( VerseGrpName) => StyleObj[VerseGrpName];
+const GET_Obj = (obj) => obj;
+const EXTRACT_ThisStyleObj = (StyleObj) => (VerseGrpName) => StyleObj[VerseGrpName];
 const EXTRACT_VerseObj = () => {};
 
 
@@ -39,11 +39,13 @@ const set_VerseStyle = (so) => (vo) => {
 const set_StyleTmpl = (wt) => {
     return `opacity:${wt}; font-size:${wt * 100}%`;  // color:red is just for testing.
 };
+const DO = (f) => (arg) => f(arg);
 
 // OBJECTS
 const StyleObj = {
     fut: {
-        smlWt: .5
+        name: 'fut'
+        , smlWt: .5
         , lrgWt: .9
         , calcWt: (sObj, vObj) => {
             //noinspection JSUnusedLocalSymbols
@@ -56,9 +58,10 @@ const StyleObj = {
         }
     },
     cur: {
-        smlWt: 1.0
-        , lrgWt: 1.0
-        , calcWt: (sObj, vObj) => {
+        name:'cur',
+        smlWt: 1.0,
+        lrgWt: 1.0,
+        calcWt: (sObj, vObj) => {
             // using es6 destructuring
             let {ver, ndx, arr} = vObj;
             let {smlWt, lrgWt} = sObj;
@@ -69,7 +72,8 @@ const StyleObj = {
         }
     },
     pst: {
-        smlWt: 0.4
+        name: 'pst'
+        , smlWt: 0.4
         , lrgWt: 0.9
         , calcWt: (sObj, vObj) => {
             let {ver, ndx, arr} = vObj;
@@ -114,8 +118,8 @@ function addTwo(x) {
 function timesFive(x) {
     return x * 5;
 }
-// Using it:
-var addTwoThenTimesFive = pipeline(addTwo, timesFive);
-C_It(addTwoThenTimesFive(1)); //=> 15
-addTwoThenTimesFive(-1); //=> 5
-C_It(addTwoThenTimesFive(100)); //=> 510
+// Using pipeline from :
+//var addTwoThenTimesFive = pipeline(addTwo, timesFive);
+//C_It(addTwoThenTimesFive(1)); //=> 15
+//addTwoThenTimesFive(-1); //=> 5
+//C_It(addTwoThenTimesFive(100)); //=> 510
