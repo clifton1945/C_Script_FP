@@ -103,8 +103,18 @@ let M_vO = (val, ndx, ary) => {
 };
 // OK THIS WORKS!! lets start ADDING | PIPING smoe more functionality
 let data = GET_VerseGrpsArr();
-let fn = (val) => C_It(` val:${val}`);
+let fn1 = (val) => {
+    C_It(`vGrp is :${val.className} w/${val.children.length} verses.`);
+    return val
+};
+let fn2 = (val) => {
+    C_It(`firstChild:${val.innerHTML}.`);
+    return val
+};
+
 let pipe = pipeline(
-    fn ()
+    fn1,
+    val => { return val.firstElementChild},
+    fn2
 );
 f_map(pipe)(data);

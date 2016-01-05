@@ -4,16 +4,13 @@
 "use strict";
 const Doc_It = (txt) => document.querySelector(".console").textContent = txt;
 const C_It = (txt) => console.log(txt);
-const C_Both = (txt) => {
-    Doc_It(txt);
-    C_It(txt);
-};
 /**
  * a Wrapper to log and pass thru an object.
  * @param fn :  sets what will be seen.
  * @constructor
  */
 const C_This = (fn) => (obj) => {
+    C_It( fn(obj));
     C_It( fn(obj));
     return obj};
 
