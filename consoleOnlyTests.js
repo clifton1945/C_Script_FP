@@ -101,10 +101,10 @@ let M_vO = (val, ndx, ary) => {
     //VerseObj.ary = ary;
     return VerseObj
 };
-// (UPDATE_VerseGrpStyle}FOROF_EACH(VerseGrp) USING (VerseGrpArr)
-//// GET_ThisVerseGrp_VerseNL FROM (VerseGrp)
-//// {UPDATE_VerseStyle) FOROF_EACH (Verse) USING (GET_ThisVerseGrp_VerseNL)
-
+// OK THIS WORKS!! lets start ADDING | PIPING smoe more functionality
 let data = GET_VerseGrpsArr();
-let fn = (val) => C_It(val);
-f_map(fn)(data);
+let fn = (val) => C_It(` val:${val}`);
+let pipe = pipeline(
+    fn ()
+);
+f_map(pipe)(data);
