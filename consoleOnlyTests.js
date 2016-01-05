@@ -63,14 +63,17 @@ var ___here_is_v_Grp = GET_VerseGrpsArr()[2];
 //  NOW USE a pipeline() to BUILD GET_thisVGrpStyleObj
 // it will need to apply (vGrpName)(StyleObj)
 ___cut = pipeline(
-    EXTRACT_VerseGrpName,
-    EXTRACT_ThisStyleObj(StyleObj)  // NOTE HardCoded Object
-);
-___cut = ___cut(___here_is_v_Grp);
-___msg = "CONFIRM this is the futStyleObj.";
+    (vGrp) => vGrp.className,  // need to select 1 / 3 groups
+    (vGrpName) => (sO) => sO[vGrpName]
+);  // in the end this needs two arguments w/
+___ret = ___cut((StyleObj));
+___ret = ___ret( ___here_is_v_Grp);
+//ALSO final eqivalent
+___ret = SELECT_vGrpStyleObj(StyleObj)(___here_is_v_Grp);
+___msg = "CONFIRM this is THE futStyleObj.";
 ___srt = (
-    ___cut.name === 'fut' &&
-    ___cut.smlWt === 0.5);
+    ___ret.name === 'fut' &&
+    ___ret.smlWt === 0.5);
 console.assert(___srt, ___msg);// PASSED
 
 

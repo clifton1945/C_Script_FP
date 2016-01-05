@@ -17,9 +17,11 @@ const FOROF_EACH = (arr) => (fn) =>  {
     for ( let a of arr) { fn(a)}
 };
 const EXTRACT_VerseGrpName = (VerseGrp) => VerseGrp.className;
-const GET_Obj = (obj) => obj;
-const EXTRACT_ThisStyleObj = (StyleObj) => (VerseGrpName) => StyleObj[VerseGrpName];
-const EXTRACT_VerseObj = () => {};
+const EXTRACT_ThisStyleObj = (VerseGrpName) => (styleObj) => styleObj[VerseGrpName];
+const SELECT_vGrpStyleObj = pipeline(
+    (VerseGrp) => VerseGrp.className,
+    (VerseGrpName) => (styleObj) => styleObj[VerseGrpName]
+);
 
 
 /**
