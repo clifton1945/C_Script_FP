@@ -13,7 +13,6 @@ const C_This = (fn) => (obj) => {
     C_It( fn(obj));
     return obj};
 
-const CONVERT_NodeList_TO_Array = (coll) => (coll) => [...coll];
 const FOROF_EACH = (arr) => (fn) =>  {
     for ( let a of arr) { fn(a)}
 };
@@ -103,6 +102,8 @@ const pickOne_fromNL = ( nodelist) => {
     return pickOne_Elem([...nodelist]);
 };
 
+
+// SOMEONE ELSES PIPELINE - to ASSEMBLE || COMPOSE functions
 function runStep(intermediate, step) {
     return step(intermediate);
 }

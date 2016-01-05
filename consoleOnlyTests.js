@@ -13,44 +13,60 @@ ov = "test2: set_VerseStyle() ON ALL curChapter verses ";
 
 let ___cut, ___srt, ___ret, ___msg;
 // PLAN: forEach Chnptr forEach Verse UPDATE eachVerse_Style
-let GET_VerseGrpsCollStr = () => '#curChptrGrp .verseGrps > div';
-let GET_VerseGrpsColl = (str) => document.querySelectorAll(str);
-// Test
-___cut = pipeline(GET_VerseGrpsCollStr, GET_VerseGrpsColl) ();  // NOTE following ()
-___msg = `ASSERT GET_VerseGrpsColl IS NOT an Array.`;
-___srt = !Array.isArray(___cut);
+// Test  that pipeline and the two functions work: GotIW!
+___cut = pipeline(
+    () => '#curChptrGrp .verseGrps > div',
+    (str) => document.querySelectorAll(str)
+    );
+___msg = `ASSERT GET_VerseGrpsColl  IS NOT an Array.`;
+___srt = !Array.isArray(___cut());  //NOTE the invoking ()
 console.assert(___srt, ___msg);// PASSED
 
-// CodeUnderTest - CUT:   DO( CONVERT NodeList TO Array)
+// CodeUnderTest - CUT:   DO CONVERT NodeList TO Array)
+let GET_VerseGrpsCollStr = () => '#curChptrGrp .verseGrps > div';
+let GET_VerseGrpsColl = (str) => document.querySelectorAll(str);
+//ADD  CONVERT2_VerseGrpsArr_FROM(VerseGrpsNL)
+let CONVERT_NLtoARR = (nl) => [...nl];
+// LETS name these assembled functions: GET_VerseGrpsArr
 let GET_VerseGrpsArr = pipeline(
     GET_VerseGrpsCollStr,
     GET_VerseGrpsColl,
-    CONVERT_NodeList_TO_Array () // NOTE the following () !!
-);
-___msg = `ASSERT VerseGrpsArr IS an Array.`;
+    CONVERT_NLtoARR
+    );
+___msg = `and CONFIRM VerseGrpsArr NOW IS an Array.`;
 ___srt = Array.isArray(GET_VerseGrpsArr ());// NOTE the following () !!
 console.assert(___srt, ___msg);// PASSED
 
-// **************  the Plan
-// (UPDATE_VerseGrpStyle}FOROF_EACH(VerseGrp) USING (VerseGrpArr)
-//// EXTRACT_VerseGrpName OFTHIS (VerseGrp)
-//// EXTRACT_ThisStyleObj OFTHIS (VerseGroupName)//// GET_ThisVerseGrp_VerseNL FROM (VerseGrp)
-//// GET_ThisVerseGrp_VerseNL FROM (VerseGrp)
-//// {UPDATE_VerseStyle) FOROF_EACH (Verse) USING (GET_ThisVerseGrp_VerseNL)
+// **************  the Plan GIVEN the currentChptrGrp
+// SET_VerseGrpsNLStr_()
+// GET_VerseGrpsNL_FROM(VerseGrpsNLStr)
+// CONVERT2_VerseGrpsArr_FROM(VerseGrpsNL)
+//
+// AND APPLY__EXTRACT_StyleObj_FROM(VerseGrp)FOROF(VerseGrpArr)
+// OR
+// AND APPLY__EXTRACT_StyleObj_FROM(VerseGrp)FOROF(VerseGrpArr)
+//// EXTRACT_VerseGrp_FOROF_(VerseGrpArr) 
+//// EXTRACT_VerseGrpName_FROM(VerseGrp)
+//// EXTRACT_ThisStyleObj_FROM(VerseGrpName)(StyleObj)
+
+//// ASSMBL_VerseObj_FOROF_FROM (GET_ThisVerseGrp_VerseNL)
 ////// EXTRACT_VerseObj USING (Verse)
 ////// UPDATE StyleWt USING (EXTRACT_VerseObj)
 ////// UPDATE StyleTmpl USING (UPDATE_StyleWt)
 ////// UPDATE Verse USING (UPDATE_StyleTmpl)
+//  ***************************
 
-//// EXTRACT_VerseGrpName OFTHIS (VerseGrp)
-//// EXTRACT_ThisStyleObj OFTHIS (VerseGroupName)
-var ___tst_vgrp = GET_VerseGrpsArr()[2];
-//  NOW USE a pipeline()
+// BEFORE I //// EXTRACT_VerseGrp_FOROF_(VerseGrpArr) 
+// Two things: a group StyleObj subset And a verse Object
+// so build a function GET_thisVGrpStyleObj
+var ___here_is_v_Grp = GET_VerseGrpsArr()[2];
+//  NOW USE a pipeline() to BUILD GET_thisVGrpStyleObj
+// it will need to apply (vGrpName)(StyleObj)
 ___cut = pipeline(
     EXTRACT_VerseGrpName,
     EXTRACT_ThisStyleObj(StyleObj)  // NOTE HardCoded Object
 );
-___cut = ___cut(___tst_vgrp);
+___cut = ___cut(___here_is_v_Grp);
 ___msg = "CONFIRM this is the futStyleObj.";
 ___srt = (
     ___cut.name === 'fut' &&
