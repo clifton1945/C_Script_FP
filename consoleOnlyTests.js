@@ -81,8 +81,8 @@ ___ret = ___ret(___here_is_a_test_v_Grp);
 // NOW make this into a fixed function.
 ___ret = SELECT_vGrpStyleObj(StyleObj)(___here_is_a_test_v_Grp);
 ___msg = "CONFIRM this is THE futStyleObj.";
-___srt = ___ret.name === 'fut' && ___ret.smlWt === 0.5;
-console.assert(___srt, ___msg); // PASSED
+//___srt = ___ret.name === 'fut' && ___ret.smlWt === 0.5;
+//console.assert(___srt, ___msg); // PASSED
 
 // #2 >>  I need a GrpVersesNL >> ARR holding all the verses of 1 of 3 Groups: pst, cur, fut
 //// opton A: just use a vGrp.querySelectorAll( ' > P')
