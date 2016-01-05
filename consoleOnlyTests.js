@@ -56,25 +56,28 @@ console.assert(___srt, ___msg);// PASSED
 ////// UPDATE Verse USING (UPDATE_StyleTmpl)
 //  ***************************
 
-// BEFORE I //// EXTRACT_VerseGrp_FOROF_(VerseGrpArr) 
-// Two things: a group StyleObj subset And a verse Object
-// so build a function GET_thisVGrpStyleObj
-var ___here_is_v_Grp = GET_VerseGrpsArr()[2];
-//  NOW USE a pipeline() to BUILD GET_thisVGrpStyleObj
+// BEFORE I //// EXTRACT_VerseGrp_FOROF_(VerseGrpArr)
+// Two things needed:
+//    1. a group StyleObj subset
+//    2. a group verse node list.
+//
+// First build a function SELECT_vGrpStyleObj function
+// An  I'll need a test v_Grp
+var ___here_is_a_test_v_Grp = GET_VerseGrpsArr()[2];
+
+//  NOW USE a pipeline() to assemble a  SELECT_vGrpStyleObj()()
 // it will need to apply (vGrpName)(StyleObj)
 ___cut = pipeline(
     (vGrp) => vGrp.className,  // need to select 1 / 3 groups
     (vGrpName) => (sO) => sO[vGrpName]
 );  // in the end this needs two arguments w/
-___ret = ___cut((StyleObj));
-___ret = ___ret( ___here_is_v_Grp);
-//ALSO final eqivalent
-___ret = SELECT_vGrpStyleObj(StyleObj)(___here_is_v_Grp);
+___ret = ___cut(StyleObj);
+___ret = ___ret(___here_is_a_test_v_Grp);
+// NOW make this into a fixed function.
+___ret = SELECT_vGrpStyleObj(StyleObj)(___here_is_a_test_v_Grp);
 ___msg = "CONFIRM this is THE futStyleObj.";
-___srt = (
-    ___ret.name === 'fut' &&
-    ___ret.smlWt === 0.5);
-console.assert(___srt, ___msg);// PASSED
+___srt = ___ret.name === 'fut' && ___ret.smlWt === 0.5;
+console.assert(___srt, ___msg); // PASSED
 
 
 // (UPDATE_VerseGrpStyle}FOROF_EACH(VerseGrp) USING (VerseGrpArr)

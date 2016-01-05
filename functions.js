@@ -16,13 +16,10 @@ const C_This = (fn) => (obj) => {
 const FOROF_EACH = (arr) => (fn) =>  {
     for ( let a of arr) { fn(a)}
 };
-const EXTRACT_VerseGrpName = (VerseGrp) => VerseGrp.className;
-const EXTRACT_ThisStyleObj = (VerseGrpName) => (styleObj) => styleObj[VerseGrpName];
 const SELECT_vGrpStyleObj = pipeline(
     (VerseGrp) => VerseGrp.className,
     (VerseGrpName) => (styleObj) => styleObj[VerseGrpName]
 );
-
 
 /**
  * calculates a specific verse style wt USING StyleObj.calcWt
