@@ -17,7 +17,7 @@ let ___cut, ___srt, ___ret, ___msg;
 ___cut = pipeline(
     () => '#curChptrGrp .verseGrps > div',
     (str) => document.querySelectorAll(str)
-    );
+);
 ___msg = `ASSERT GET_VerseGrpsColl  IS NOT an Array.`;
 ___srt = !Array.isArray(___cut());  //NOTE the invoking ()
 console.assert(___srt, ___msg);// PASSED
@@ -32,7 +32,7 @@ let GET_VerseGrpsArr = pipeline(
     GET_VerseGrpsCollStr,
     GET_VerseGrpsColl,
     CONVERT_NLtoARR
-    );
+);
 ___msg = `and CONFIRM VerseGrpsArr NOW IS an Array.`;
 ___srt = Array.isArray(GET_VerseGrpsArr ());// NOTE the following () !!
 console.assert(___srt, ___msg);// PASSED
@@ -68,9 +68,14 @@ var ___here_is_a_test_v_Grp = GET_VerseGrpsArr()[2];
 //  NOW USE a pipeline() to assemble a  SELECT_vGrpStyleObj()()
 // it will need to apply (vGrpName)(StyleObj)
 ___cut = pipeline(
-    (vGrp) => vGrp.className,  // need to select 1 / 3 groups
-    (vGrpName) => (sO) => sO[vGrpName]
-);  // in the end this needs two arguments w/
+    function (vGrp) {
+        return vGrp.className;
+    }, // need to select 1 / 3 groups
+    function (vGrpName) {
+        return function (sO) {
+            return sO[vGrpName];
+        };
+    }); // in the end this needs two arguments w/
 ___ret = ___cut(StyleObj);
 ___ret = ___ret(___here_is_a_test_v_Grp);
 // NOW make this into a fixed function.
@@ -79,11 +84,13 @@ ___msg = "CONFIRM this is THE futStyleObj.";
 ___srt = ___ret.name === 'fut' && ___ret.smlWt === 0.5;
 console.assert(___srt, ___msg); // PASSED
 
-
+// #2 >>  I need a GrpVersesNL >> ARR holding all the verses of 1 of 3 Groups: pst, cur, fut
+//// opton A: just use a vGrp.querySelectorAll( ' > P')
+//// option B: vGrp.childElements????
 // (UPDATE_VerseGrpStyle}FOROF_EACH(VerseGrp) USING (VerseGrpArr)
 //// GET_ThisVerseGrp_VerseNL FROM (VerseGrp)
 //// {UPDATE_VerseStyle) FOROF_EACH (Verse) USING (GET_ThisVerseGrp_VerseNL)
-
+___here_is_a_test_v_Grp.childElementCount; // WIP
 //
 ////// EXTRACT_VerseObj OFTHIS (Verse)
 
