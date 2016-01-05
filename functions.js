@@ -4,6 +4,10 @@
 "use strict";
 const Doc_It = (txt) => document.querySelector(".console").textContent = txt;
 const C_It = (txt) => console.log(txt);
+const C_Both = (txt) => {
+    Doc_It(txt);
+    C_It(txt);
+};
 /**
  * a Wrapper to log and pass thru an object.
  * @param fn :  sets what will be seen.
@@ -13,8 +17,8 @@ const C_This = (fn) => (obj) => {
     C_It( fn(obj));
     return obj};
 
-const FOROF_EACH = (arr) => (fn) =>  {
-    for ( let a of arr) { fn(a)}
+const FOROF_EACH = (fn) => (ary) => {
+    for ( let a of ary) { fn(a)}
 };
 const SELECT_vGrpStyleObj = pipeline(
     (VerseGrp) => VerseGrp.className,
@@ -47,9 +51,9 @@ const StyleObj = {
         , lrgWt: .9
         , calcWt: (sObj, vObj) => {
             //noinspection JSUnusedLocalSymbols
-            let {ver, ndx, arr} = vObj;
+            let {ver, ndx, ary} = vObj;
             let {smlWt, lrgWt} = sObj;
-            let len = arr.length - 1;
+            let len = ary.length - 1;
             return (len > 0)
                 ? (-(lrgWt - smlWt) / len * ndx + lrgWt)
                 : lrgWt;  // always lrgWt
@@ -61,9 +65,9 @@ const StyleObj = {
         lrgWt: 1.0,
         calcWt: (sObj, vObj) => {
             // using es6 destructuring
-            let {ver, ndx, arr} = vObj;
+            let {ver, ndx, ary} = vObj;
             let {smlWt, lrgWt} = sObj;
-            let len = arr.length - 1;
+            let len = ary.length - 1;
             return (len > 0)
                 ? ((lrgWt - smlWt) / len * ndx + smlWt)
                 : lrgWt;  // always lrgWt
@@ -74,29 +78,21 @@ const StyleObj = {
         , smlWt: 0.4
         , lrgWt: 0.9
         , calcWt: (sObj, vObj) => {
-            let {ver, ndx, arr} = vObj;
+            let {ver, ndx, ary} = vObj;
             let {smlWt, lrgWt} = sObj;
-            let len = arr.length - 1;
+            let len = ary.length - 1;
             return (len > 0)
                 ? ((lrgWt - smlWt) / len * ndx + smlWt)
                 : lrgWt;  // start small grow larger.
         }
     }
 };
-const VerseObj = {ver:{}, ndx:0, arr:[]};
+const VerseObj = {ver:{}, ndx:0, ary:[]};
 // update Style
 const get_GrpClassName = (c,n,a) => c.getAttribute("class");
 // *********** DEPRECATED
 //const f_NL2Arr = (nl) => {return [...nl]};
-const f_map = (arr) => (fn) => {return arr.map(fn)};
-const pickOne_Elem = (arr) =>  {
-    return  (name) => {
-        let pick = (val) => {
-            return val.getAttribute("class") === name
-        };
-        return arr.filter(pick);  // an array with filtered Element[s].
-    }
-};
+const f_map = (fn) => (ary) => {return ary.map(fn)};
 const pickOne_fromNL = ( nodelist) => {
     return pickOne_Elem([...nodelist]);
 };

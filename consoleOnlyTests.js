@@ -35,6 +35,9 @@ let GET_VerseGrpsArr = pipeline(
 );
 ___msg = `and CONFIRM VerseGrpsArr NOW IS an Array.`;
 ___srt = Array.isArray(GET_VerseGrpsArr ());// NOTE the following () !!
+//  NOW USE a pipeline() to assemble a  SELECT_vGrpStyleObj()()
+// it will need to apply (vGrpName)(StyleObj)
+
 console.assert(___srt, ___msg);// PASSED
 
 // **************  the Plan GIVEN the currentChptrGrp
@@ -45,7 +48,7 @@ console.assert(___srt, ___msg);// PASSED
 // AND APPLY__EXTRACT_StyleObj_FROM(VerseGrp)FOROF(VerseGrpArr)
 // OR
 // AND APPLY__EXTRACT_StyleObj_FROM(VerseGrp)FOROF(VerseGrpArr)
-//// EXTRACT_VerseGrp_FOROF_(VerseGrpArr) 
+//// EXTRACT_VerseGrp_FOROF_(VerseGrpArr)
 //// EXTRACT_VerseGrpName_FROM(VerseGrp)
 //// EXTRACT_ThisStyleObj_FROM(VerseGrpName)(StyleObj)
 
@@ -59,14 +62,11 @@ console.assert(___srt, ___msg);// PASSED
 // BEFORE I //// EXTRACT_VerseGrp_FOROF_(VerseGrpArr)
 // Two things needed:
 //    1. a group StyleObj subset
-//    2. a group verse node list.
+//    2. a group VerseObjlist.
 //
 // First build a function SELECT_vGrpStyleObj function
 // An  I'll need a test v_Grp
-var ___here_is_a_test_v_Grp = GET_VerseGrpsArr()[2];
-
-//  NOW USE a pipeline() to assemble a  SELECT_vGrpStyleObj()()
-// it will need to apply (vGrpName)(StyleObj)
+var ___here_is_a_test_v_Grp = GET_VerseGrpsArr()[2];  // >> v Grp div.fut
 ___cut = pipeline(
     function (vGrp) {
         return vGrp.className;
@@ -86,14 +86,25 @@ ___msg = "CONFIRM this is THE futStyleObj.";
 
 // #2 >>  I need a GrpVersesNL >> ARR holding all the verses of 1 of 3 Groups: pst, cur, fut
 //// opton A: just use a vGrp.querySelectorAll( ' > P')
-//// option B: vGrp.childElements????
+//// option B: vGrp.children
+// let's go with B:  no hit server.
+//
+////  MAKE_vGrpVersesColl(vGrp) //
+let GET_vColl = function fn(vGrp) {
+    return vGrp.children;
+
+}; // >> children Live Collection
+////  MAKE_verseObj(verseEl)  //
+let M_vO = (val, ndx, ary) => {
+    VerseObj.val = val;
+    VerseObj.ndx = ndx;
+    //VerseObj.ary = ary;
+    return VerseObj
+};
 // (UPDATE_VerseGrpStyle}FOROF_EACH(VerseGrp) USING (VerseGrpArr)
 //// GET_ThisVerseGrp_VerseNL FROM (VerseGrp)
 //// {UPDATE_VerseStyle) FOROF_EACH (Verse) USING (GET_ThisVerseGrp_VerseNL)
-___ret = ___here_is_a_test_v_Grp.childElementCount; // WIP
-console.assert(___ret === 5);
-//
-////// EXTRACT_VerseObj OFTHIS (Verse)
 
-//
-//FOROF_EACH(GET_VerseGrpsArr)(UPDATE_VerseGrpStyle);
+let data = GET_VerseGrpsArr();
+let fn = (val) => C_It(val);
+f_map(fn)(data);
