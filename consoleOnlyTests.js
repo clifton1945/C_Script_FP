@@ -90,7 +90,8 @@ console.assert(___srt, ___msg); // PASSED
 // (UPDATE_VerseGrpStyle}FOROF_EACH(VerseGrp) USING (VerseGrpArr)
 //// GET_ThisVerseGrp_VerseNL FROM (VerseGrp)
 //// {UPDATE_VerseStyle) FOROF_EACH (Verse) USING (GET_ThisVerseGrp_VerseNL)
-___here_is_a_test_v_Grp.childElementCount; // WIP
+___ret = ___here_is_a_test_v_Grp.childElementCount; // WIP
+console.assert(___ret === 5);
 //
 ////// EXTRACT_VerseObj OFTHIS (Verse)
 
