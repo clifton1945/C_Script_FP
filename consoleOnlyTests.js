@@ -88,19 +88,13 @@ ___msg = "CONFIRM this is THE futStyleObj.";
 //// opton A: just use a vGrp.querySelectorAll( ' > P')
 //// option B: vGrp.children
 // let's go with B:  no hit server.
-//
+
 ////  MAKE_vGrpVersesColl(vGrp) //
 let GET_vColl = function fn(vGrp) {
     return vGrp.children;
-
-}; // >> children Live Collection
-////  MAKE_verseObj(verseEl)  //
-let M_vO = (val, ndx, ary) => {
-    VerseObj.val = val;
-    VerseObj.ndx = ndx;
-    //VerseObj.ary = ary;
-    return VerseObj
 };
+ // >> children Live Collection
+
 // OK THIS WORKS!! lets start ADDING | PIPING smoe more functionality
 let data = GET_VerseGrpsArr();
 let fn1 = (val) => {
@@ -108,13 +102,27 @@ let fn1 = (val) => {
     return val
 };
 let fn2 = (val) => {
-    C_It(`firstChild:${val.innerHTML}.`);
+    C_It(`firstChild:${val[0].innerHTML}.`);
     return val
 };
 
 let pipe = pipeline(
     fn1,
-    val => { return val.firstElementChild},
+    GET_vColl,
     fn2
 );
-f_map(pipe)(data);
+
+//NOW SWITCH TO data AS VerseCollection
+data = f_map(pipe)(data);  // >> produced a versesColl. Ready for
+////  MAKE_verseObj(verseEl)  //
+let MAKE_vO = (val, ndx, ary) => {
+    VerseObj.val = val;
+    VerseObj.ndx = ndx;
+    //VerseObj.ary = ary;
+    return VerseObj
+};
+pipe = pipeline(
+    MAKE_vO
+);
+let fn = pipe;
+f_map(fn)(data);
