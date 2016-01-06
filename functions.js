@@ -2,6 +2,7 @@
  * Created by CLIF on 12/30/2015.
  */
 "use strict";
+// *********** TRACE HELPERS
 const Doc_It = (txt) => document.querySelector(".console").textContent = txt;
 const C_It = (txt) => console.log(txt);
 /**
@@ -12,15 +13,26 @@ const C_It = (txt) => console.log(txt);
 const C_This = (fn) => (obj) => {
     C_It( fn(obj));
     C_It( fn(obj));
-    return obj};
-
-const FOROF_EACH = (fn) => (ary) => {
-    for ( let a of ary) { fn(a)}
+    return obj
 };
+// ******************  FUNCTIONS
+
+/**
+ * Hardcoded query RETURNS cur chapter's 3 verseGroups
+ *    AS an array
+ */
+const GET_VerseGrpsArr = pipeline(
+    () => '#curChptrGrp .verseGrps > div',  // > str
+    (str) => document.querySelectorAll(str),// > NodeList
+    (nl) => [...nl] // Ary
+);  // CALLED: ()
+/**
+ * EXTRACTS style settings FOR this (verseGrp) FROM global (StyleObj)
+ */
 const SELECT_vGrpStyleObj = pipeline(
     (VerseGrp) => VerseGrp.className,
     (VerseGrpName) => (styleObj) => styleObj[VerseGrpName]
-);
+);  // CALLEDBY (VerseGrp)(StyleObj)
 
 /**
  * calculates a specific verse style wt USING StyleObj.calcWt
@@ -38,7 +50,6 @@ const set_VerseStyle = (so) => (vo) => {
 const set_StyleTmpl = (wt) => {
     return `opacity:${wt}; font-size:${wt * 100}%`;  // color:red is just for testing.
 };
-const DO = (f) => (arg) => f(arg);
 
 // OBJECTS
 const StyleObj = {
@@ -84,7 +95,7 @@ const StyleObj = {
         }
     }
 };
-const VerseObj = {ver:{}, ndx:0, ary:[]};
+const VerseObj = {val:{}, ndx:0, ary:[]};
 // update Style
 const get_GrpClassName = (c,n,a) => c.getAttribute("class");
 // *********** DEPRECATED
