@@ -16,7 +16,9 @@ const C_This = (fn) => (obj) => {
     return obj
 };
 // ******************  FUNCTIONS
-
+const ab_ba = (a, b) => (b, a);
+const f_map = (fn) => (ary) => {return ary.map(fn)};
+const a_map = (ary) => (fn) => {return ary.map(fn)};
 /**
  * Hardcoded query RETURNS cur chapter's 3 verseGroups
  *    AS an array
@@ -33,6 +35,14 @@ const SELECT_vGrpStyleObj = pipeline(
     (VerseGrp) => VerseGrp.className,
     (VerseGrpName) => (styleObj) => styleObj[VerseGrpName]
 );  // CALLEDBY (VerseGrp)(StyleObj)
+
+/**
+ * returns the verses collection FROM (verseGrp)
+ * @param vGrp
+ * @constructor
+ */
+const MAKE_vGrp_VerseColl_FROM = (vGrp) => vGrp.children;
+// called by fn(verseGroup)
 
 /**
  * calculates a specific verse style wt USING StyleObj.calcWt
@@ -100,11 +110,9 @@ const VerseObj = {val:{}, ndx:0, ary:[]};
 const get_GrpClassName = (c,n,a) => c.getAttribute("class");
 // *********** DEPRECATED
 //const f_NL2Arr = (nl) => {return [...nl]};
-const f_map = (fn) => (ary) => {return ary.map(fn)};
 const pickOne_fromNL = ( nodelist) => {
     return pickOne_Elem([...nodelist]);
 };
-
 
 // SOMEONE ELSES PIPELINE - to ASSEMBLE || COMPOSE functions
 function runStep(intermediate, step) {
