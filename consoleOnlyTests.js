@@ -23,44 +23,31 @@
 // for now these are GLOBAL vars.
 var ov;
 
-let ___cut, ___srt, ___ret, ___msg;
-/**
- *GET_VerseGrpsArr:  slow series of Tests connfirming pipeline and  : GotIW!
- */
-___cut = pipeline(  // get the hard coded nodelist
-    () => '#curChptrGrp .verseGrps > div',
-    (str) => document.querySelectorAll(str)
-);
-___msg = `ASSERT GET_VerseGrpsColl  IS NOT an Array.`;
-___srt = !Array.isArray(___cut());  //NOTE the invoking ()
-console.assert(___srt, ___msg);// PASSED
+let ___cut, ___srt, ___ret, ___msg, ___pipe, ___data;
 
 /**
  *  CUT: CodeUnderTest GET an Array of the 3 verseGroups in the current chapter.)
  */
-let GET_VerseGrpsCollStr = () => '#curChptrGrp .verseGrps > div';
-let GET_VerseGrpsColl = (str) => document.querySelectorAll(str);
-//ADD  CONVERT2_VerseGrpsArr_FROM(VerseGrpsNL)
-let CONVERT_NLtoARR = (nl) => [...nl];
-// LETS name these assembled functions: GET_VerseGrpsArr
+___pipe = pipeline(  // get the hard coded nodelist
+    () => '#curChptrGrp .verseGrps > div',
+    (str) => document.querySelectorAll(str),
+    C_isArray,
+    Coll2Arry,
+    C_isArray
+);
+___data = ___pipe (); // NOTE ending () call.
+___srt = isArray(___data);
+// LETS name this pipeline: GET_VerseGrpsArr
 // and move it to functions.js
-___cut = GET_VerseGrpsArr (); // NOTE ending () call.
-___msg = `and CONFIRM VerseGrpsArr NOW IS an Array.`;
-___srt = isArray(___cut);// NOTE the following () !!
-
-
-
-//  NOW USE a pipeline() to assemble a  SELECT_vGrpStyleObj()()
-// it will need to apply (vGrpName)(StyleObj)
-console.assert(___srt, ___msg);// PASSED
+___data = GET_VerseGrpsArr (); // AGAIN invole this with  ()
+___srt = isArray(___data);// NOTE the following () !!
 
 // NEXT I'll need two objects *****************************
 //    1. a group StyleObj subset
 //    2. a group VerseObjlist.
 //
-
 /**
- * #1  BUILD a function TO SELECT this verse Group's  _vGrpStyleObj
+ * #1  BUILD a function TO SELECT this verse Group's _vGrpStyleObj
  */
 // *  I'll need a test v_Grp
 var ___here_is_a_test_v_Grp = GET_VerseGrpsArr()[2];  // >> v Grp div.fut
@@ -69,8 +56,7 @@ ___cut = pipeline(
     (vGrp) => vGrp.className,
     (vGrpName) => (styleObj) => styleObj[vGrpName]
 );
-___ret = ___cut(___here_is_a_test_v_Grp);
-___ret = ___ret(StyleObj);
+___ret = ___cut(___here_is_a_test_v_Grp)(StyleObj);
 // NOW make this into a fixed function in functions.js.
 ___ret = SELECT_vGrpStyleObj(___here_is_a_test_v_Grp)(StyleObj);
 ___msg = "CONFIRM this is THE futStyleObj.";

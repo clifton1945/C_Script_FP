@@ -15,9 +15,9 @@ const C_This = (fn) => (obj) => {
     C_It( fn(obj));
     return obj
 };
-const isArray = (coll) => {
-    let ret = Array.isArray(coll);
-    C_It(`${coll} isArray:[${ret}]`);
+const isArray = (coll) => Array.isArray(coll);
+const C_isArray = (coll) => {
+    C_It(`${coll} isArray:[${isArray(coll)}]`);
     return coll};
 const Coll2Arry = (coll) => [...coll];
 // ******************  FUNCTIONS
@@ -30,8 +30,8 @@ const a_map = (ary) => (fn) => {return ary.map(fn)};
 const GET_VerseGrpsArr = pipeline(
     () => '#curChptrGrp .verseGrps > div',  // > str
     (str) => document.querySelectorAll(str),// > NodeList
-    (nl) => [...nl] // Ary
-);  // CALLED: ()
+    Coll2Arry
+);  // CALLED with empty aruments ()
 /**
  * EXTRACTS style settings FOR this (verseGrp) FROM global (StyleObj)
  */
