@@ -64,6 +64,9 @@ ___srt = ___ret.name === 'fut' && ___ret.smlWt === 0.5;
 console.assert(___srt, ___msg); // true
 // OK, I can EXTRACT the style settings FOR this verseGrp FROM global StyleObj
 //*****************************************************
+
+
+
 /**
  * #2 >>  I need a GrpVersesNL >> ARR holding all the verses of 1 of 3 Groups: pst, cur, fut
  *  option A: just use a vGrp.querySelectorAll( ' > P')
@@ -72,38 +75,39 @@ console.assert(___srt, ___msg); // true
  */
 // first start with the collection of 3 verse Group divs
 ////  MAKE_vGrpVersesColl = GET_Children_FROM (vGrp) //
-let data = GET_VerseGrpsArr ();  // standalone. no arg needed
+___data = GET_VerseGrpsArr ();  // standalone. no arg needed
 //PIPELINE:
-let pipe = pipeline(
-    isArray,
-    GET_Children_FROM,
+___pipe = pipeline(
+    //C_isArray,
+    GET_Children_FROM,  // >> HTMLParagraphElements
+
     Coll2Arry,
-    isArray
+    C_isArray
 );
-___ret = f_map(pipe)(data);  // >> produced a verses HTML Coll with TRACES.
+___ret = f_map(___pipe)(___data);  // >> produced a verses HTML Coll with TRACES.
 
 
 // PUTTING MAKE_vGrp_VerseColl INTO functions.js
 // OK I can produce a collection of verses for each verse Group:pst, cur, fut
 // **************************************************
 //NOW SWITCH TO MAP EACH Verse OFTHE VerseCollection
-
-pipe = pipeline(
+ov = "*** using GET_Children:";
+___pipe = pipeline(
+    (vGrp) => { console.log (ov);
+        return vGrp
+    },
     GET_Children_FROM,  // vGrp >> vCollection
-    (coll) => [...coll ],
-    (val) => {  // C something
-        C_It(
-            `${val[0].parentElement.className} collection has ${val.length} verses.`
-        );
-        return val
-    }
-);
-data = GET_VerseGrpsArr();  // will return vGrp
-
-___cut = f_map(GET_Children_FROM)(data);  // todo UNDERLINE VERSION
-___ret = f_map(
-    (val ) => val
+    Coll2Arry,          // vColl  >> vAry
+    f_map( (val, ndx) => {  //. FIRST TIME CALLING MAP IN pipeline
+            console.log(`    ${val.innerHTML}, ${ndx}`);
+            return val
+        }
     )
-    ([...___cut])
-    ;
-let tst = ___ret;
+    //(val) => {  // C something
+    //    C_It(
+    //        `HTMLPara: ${val.children}.length: Collectn w/${val.length} verses.`
+    //    );
+    //    return val
+    //}
+);
+

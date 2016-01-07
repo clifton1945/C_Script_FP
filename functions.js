@@ -10,8 +10,7 @@ const C_It = (txt) => console.log(txt);
  * @param fn :  sets what will be seen.
  * @constructor
  */
-const C_This = (fn) => (obj) => {
-    C_It( fn(obj));
+const C_This = (obj) => (fn) => {
     C_It( fn(obj));
     return obj
 };
@@ -39,7 +38,6 @@ const SELECT_vGrpStyleObj = pipeline(
     (VerseGrp) => VerseGrp.className,
     (VerseGrpName) => (styleObj) => styleObj[VerseGrpName]
 );  // CALLEDBY (VerseGrp)(StyleObj)
-
 /**
  * returns a children Array FROM an Array
  * @param vGrp
