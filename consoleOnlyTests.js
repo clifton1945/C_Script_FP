@@ -44,9 +44,12 @@ let GET_VerseGrpsColl = (str) => document.querySelectorAll(str);
 let CONVERT_NLtoARR = (nl) => [...nl];
 // LETS name these assembled functions: GET_VerseGrpsArr
 // and move it to functions.js
-___cut = GET_VerseGrpsArr(); // NOTE ending () call.
+___cut = GET_VerseGrpsArr (); // NOTE ending () call.
 ___msg = `and CONFIRM VerseGrpsArr NOW IS an Array.`;
-___srt = Array.isArray(___cut);// NOTE the following () !!
+___srt = isArray(___cut);// NOTE the following () !!
+
+
+
 //  NOW USE a pipeline() to assemble a  SELECT_vGrpStyleObj()()
 // it will need to apply (vGrpName)(StyleObj)
 console.assert(___srt, ___msg);// PASSED
@@ -82,44 +85,39 @@ console.assert(___srt, ___msg); // true
  * let's go with B:  no hit server.
  */
 // first start with the collection of 3 verse Group divs
-let data = GET_VerseGrpsArr();  // standalone. no arg needed
-
-////  MAKE_vGrpVersesColl FROM (vGrp) //
-let _MAKE_vGrp_VerseColl_FROM = (vGrp) => vGrp.children; // >> Live Collection of verse in one vGrp
-
-let fn1 = (val) => {
-    C_It(`vGrp is :${val.className} w/${val.children.length} verses.`);
-    return val
-};
-let fn2 = (val) => {
-    C_It(`firstChild:${val[0].innerHTML}.`);
-    return val
-};
+////  MAKE_vGrpVersesColl = GET_Children_FROM (vGrp) //
+let data = GET_VerseGrpsArr ();  // standalone. no arg needed
+//PIPELINE:
 let pipe = pipeline(
-    //fn1,
-    _MAKE_vGrp_VerseColl_FROM
-    //fn2
+    isArray,
+    GET_Children_FROM,
+    Coll2Arry,
+    isArray
 );
-___ret = f_map(pipe)(data);  // >> produced a versesColl with TRACES.
+___ret = f_map(pipe)(data);  // >> produced a verses HTML Coll with TRACES.
+
+
 // PUTTING MAKE_vGrp_VerseColl INTO functions.js
 // OK I can produce a collection of verses for each verse Group:pst, cur, fut
 // **************************************************
 //NOW SWITCH TO MAP EACH Verse OFTHE VerseCollection
 
-////  1st PACK_VerseObj(verseEl)  //
-let PACK_VerseObj = (val, ndx, ary) => {
-    VerseObj.val = val;
-    VerseObj.ndx = ndx;
-    //VerseObj.ary = ary;
-    return VerseObj
-};
-
 pipe = pipeline(
-    MAKE_vGrp_VerseColl_FROM,  // vGrp>> vCollection
-    (val) => C_It(
-        `${val[0].parentElement.className} collection has ${val.length} verses.`
-    )
+    GET_Children_FROM,  // vGrp >> vCollection
+    (coll) => [...coll ],
+    (val) => {  // C something
+        C_It(
+            `${val[0].parentElement.className} collection has ${val.length} verses.`
+        );
+        return val
+    }
 );
 data = GET_VerseGrpsArr();  // will return vGrp
 
-___ret = a_map(data)(pipe);
+___cut = f_map(GET_Children_FROM)(data);  // todo UNDERLINE VERSION
+___ret = f_map(
+    (val ) => val
+    )
+    ([...___cut])
+    ;
+let tst = ___ret;

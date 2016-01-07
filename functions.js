@@ -15,8 +15,12 @@ const C_This = (fn) => (obj) => {
     C_It( fn(obj));
     return obj
 };
+const isArray = (coll) => {
+    let ret = Array.isArray(coll);
+    C_It(`${coll} isArray:[${ret}]`);
+    return coll};
+const Coll2Arry = (coll) => [...coll];
 // ******************  FUNCTIONS
-const ab_ba = (a, b) => (b, a);
 const f_map = (fn) => (ary) => {return ary.map(fn)};
 const a_map = (ary) => (fn) => {return ary.map(fn)};
 /**
@@ -37,12 +41,12 @@ const SELECT_vGrpStyleObj = pipeline(
 );  // CALLEDBY (VerseGrp)(StyleObj)
 
 /**
- * returns the verses collection FROM (verseGrp)
+ * returns a children Array FROM an Array
  * @param vGrp
  * @constructor
  */
-const MAKE_vGrp_VerseColl_FROM = (vGrp) => vGrp.children;
-// called by fn(verseGroup)
+const GET_Children_FROM = (col) => col.children;
+// called by fn(verseGroup)  >> HTMLCollection
 
 /**
  * calculates a specific verse style wt USING StyleObj.calcWt
