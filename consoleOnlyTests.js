@@ -84,8 +84,31 @@ ___pipe = pipeline(
     Coll2Arry,
     C_isArray
 );
-___ret = f_map(___pipe)(___data);  // >> produced a verses HTML Coll with TRACES.
-
+//TODO   activate this; remove //
+//___ret = f_map(___pipe)(___data);  // >> produced a verses HTML Coll with TRACES.
+//+++++++++++++++++++++++++++++
+___cut = (a1) =>
+    (a2) => C_It(`(a1:${a1}, a2:${a2}) >> 10a1+a2 = ${a2 + 10 * a1}`);
+___cut(10)(3);  //>>a1:10, a2:3 >> 103
+___cut(3)(10);  //>>a1:3, a2:10 >> 40
+// ++++++++++++++++++++++++++++
+___ret = pipeline (
+    () => 10,        // this is a2:10
+___cut(3)          // a1:3. cut is a VALUE, not function, ready be called in ___ret()
+);
+___ret();           //calls cut VALUE >> >>a1:3, a2:10 >> 40
+___ret(222);           //calls cut VALUE >> >>a1:3, a2:10 >> 40
+___ret(444);           //calls cut VALUE >> >>a1:3, a2:10 >> 40
+//****************
+___ret = pipeline (
+    () => 3,    // a2:3
+___cut,
+    () => 10,   // WOOPS ??  a2:10 ????
+___cut       // a1:NAN, a2:10
+);
+___ret(3333333)(5);       //>> cut function. >> a1:10, a2:5 >> 105
+___ret(3333333)(1);       //>> cut function. >> a1:10, a2:1 >> 101
+___ret(3333333)(7);       //>> cut function. >> a1:10, a2:7 >> 107
 
 // PUTTING MAKE_vGrp_VerseColl INTO functions.js
 // OK I can produce a collection of verses for each verse Group:pst, cur, fut
@@ -98,16 +121,16 @@ ___pipe = pipeline(
     },
     GET_Children_FROM,  // vGrp >> vCollection
     Coll2Arry,          // vColl  >> vAry
-    f_map( (val, ndx) => {  //. FIRST TIME CALLING MAP IN pipeline
-            console.log(`    ${val.innerHTML}, ${ndx}`);
-            return val
+    f_map(
+        (val, ndx, ary) => {  //. FIRST TIME CALLING MAP IN pipeline
+            VerseObj.val = val;
+            VerseObj.ndx = ndx;
+            VerseObj.ary = ary;
+            // TODO  tracer is commented off
+            //C_It(`NDX:, ${VerseObj.ndx},  ${VerseObj.val.innerHTML}`);
+            return VerseObj
         }
-    )
-    //(val) => {  // C something
-    //    C_It(
-    //        `HTMLPara: ${val.children}.length: Collectn w/${val.length} verses.`
-    //    );
-    //    return val
-    //}
+    )  // f_map expects an array from Coll2Arry
 );
-
+___data = GET_VerseGrpsArr ();  // standalone. no arg needed
+f_map( ___pipe)(___data);

@@ -10,7 +10,7 @@ const C_It = (txt) => console.log(txt);
  * @param fn :  sets what will be seen.
  * @constructor
  */
-const C_This = (obj) => (fn) => {
+const C_This =  (fn) => (obj) => {
     C_It( fn(obj));
     return obj
 };
