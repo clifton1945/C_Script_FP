@@ -49,21 +49,22 @@ function timesFive(x) {
 
 
 /**
- * Hardcoded query RETURNS cur chapter's 3 verseGroups
+ * GET_VerseGrpsArr::  Hardcoded query RETURNS cur chapter's 3 verseGroups
  *    AS an array
  */
 const GET_VerseGrpsArr = pipeline(
     () => '#curChptrGrp .verseGrps > div',  // > str
     (str) => document.querySelectorAll(str),// > NodeList
     Coll2Arry
-);  // CALLED with empty aruments ()
+);  // CALLEDBY ()  >> fn
 /**
  * EXTRACTS style settings FOR this (verseGrp) FROM global (StyleObj)
  */
 const SELECT_vGrpStyleObj = pipeline(
     (VerseGrp) => VerseGrp.className,
     (VerseGrpName) => (styleObj) => styleObj[VerseGrpName]
-);  // CALLEDBY (VerseGrp)(StyleObj)
+);  // CALLEDBY (VerseGrp)(StyleObj) >> fn
+
 /**
  * returns a children Array FROM an Array
  * @param vGrp

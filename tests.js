@@ -1,11 +1,15 @@
 
 var ov;
 let ___cut, ___srt, ___ret, ___msg, ___pipe, ___data;
-___data = GET_VerseGrpsArr (); // AGAIN invoke this with  ()
+___cut = GET_VerseGrpsArr (); // AGAIN invoke this with  ()
 ___srt = (
-    ___data.length === 3 &&
-    isArray(___data)
+    ___cut.length === 3 &&
+    isArray(___cut)
 );
+console.assert(___srt,`___cut = GET_VerseGrpsArr ();
+___srt = (___cut.length === 3 &&
+    isArray(___cut)
+`);
 
 
 
@@ -20,12 +24,6 @@ ___srt = (
 // *  I'll need a test v_Grp
 var ___here_is_a_test_v_Grp = GET_VerseGrpsArr()[2];  // >> v Grp div.fut
 // BUILD away
-___cut = pipeline(
-    (vGrp) => vGrp.className,
-    (vGrpName) => (styleObj) => styleObj[vGrpName]
-);
-___ret = ___cut(___here_is_a_test_v_Grp)(StyleObj);
-// NOW make this into a fixed function in functions.js.
 ___ret = SELECT_vGrpStyleObj(___here_is_a_test_v_Grp)(StyleObj);
 ___msg = "CONFIRM this is THE futStyleObj.";
 ___srt = ___ret.name === 'fut' && ___ret.smlWt === 0.5;
@@ -43,7 +41,7 @@ console.assert(___srt, ___msg); // true
  */
 // first start with the collection of 3 verse Group divs
 ////  MAKE_vGrpVersesColl = GET_Children_FROM (vGrp) //
-___data = GET_VerseGrpsArr ();  // standalone. no arg needed
+___cut = GET_VerseGrpsArr ();  // standalone. no arg needed
 //PIPELINE:
 ___pipe = pipeline(
     //C_isArray,
@@ -52,7 +50,7 @@ ___pipe = pipeline(
     Coll2Arry,
     C_isArray
 );
-___ret = f_map(___pipe)(___data);  // >> produced a verses HTML Coll with TRACES.
+___ret = f_map(___pipe)(___cut);  // >> produced a verses HTML Coll with TRACES.
 //+++++++++++++++++++++++++++++
 
 // PUTTING MAKE_vGrp_VerseColl INTO functions.js
@@ -76,5 +74,5 @@ ___pipe = pipeline(
         }
     ) // f_map expects an array from Coll2Arry & return a VerseObj
 );
-___data = GET_VerseGrpsArr ();  // standalone. no arg needed
-f_map( ___pipe)(___data);
+___cut = GET_VerseGrpsArr ();  // standalone. no arg needed
+f_map( ___pipe)(___cut);
