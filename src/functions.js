@@ -50,7 +50,7 @@ function pipeline() {
  *    AS an array
  */
 const GET_VerseGrpsArr = pipeline(
-    () => '#curChptrGrp .verseGrps > div',  // > str
+    () => '#curChptrGrp .VerseRead > div',  // > str
     (str) => document.querySelectorAll(str),// > NodeList
     Coll2Arry
 );  // CALLEDBY ()  >> fn
