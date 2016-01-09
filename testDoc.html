@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>testDoc</title>
+    <!--<link rel="stylesheet" href="//code.jquery.com/qunit/qunit-1.20.0.css">-->
+    <!--<link rel="stylesheet" href="uTD.css">-->
+    <style>
+        .console {
+            position: fixed;
+            font-size: larger;
+            top: 0;
+            height: auto;
+            background: #333;
+            left: 0;
+            right: 0;
+            padding: 5px;
+            color: #FFF
+        }
+        .console b {
+            font-weight: bold
+        }
+        .verseGrps > .pst {
+            background-color: rgba(255, 0, 0, 0.24);
+        }
+        .verseGrps > .cur {
+            font-size: larger;
+        }
+        .verseGrps > .fut {
+            background-color: rgba(145, 248, 29, 0.29);
+        }
+        .chptrs > .pst {
+            display: none;
+        }
+        .chptrs > .fut {
+            display: none;
+        }
+        <!--</style>
+</head>
+<body>
+<div class="console">C_It</div>
+
+<!--<div id="qunit"></div>-->
+<!--<div id="qunit-fixture"></div>-->
+<div class="book">
+    <span id="testStyle">King James Version:</span>
+    <div class="chptrGrps">
+        <div class="pst">
+            <div class="chptr" id="ndx1">
+                King James Version: Chapter 1
+                <div class="verseGrps">
+                    <div class="pst">
+                    </div>
+                    <div class="cur">
+                        <p>chptr:1 verse:1 ndx:0</p>
+                    </div>
+                    <div class="fut">
+                        <p>chptr:1 verse:2 ndx:1</p>
+                        <p>chptr:1 verse:3 ndx:2</p>
+                        <p>chptr:1 verse:4 ndx:3</p>
+                        <p>chptr:1 verse:5 ndx:4</p>
+                        <p>chptr:1 verse:6 ndx:5</p>
+                        <p>chptr:1 verse:7 ndx:6</p>
+                        <p>chptr:1 verse:8 ndx:7</p>
+                        <p>chptr:1 verse:9 ndx:8</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="cur" id="curChptrGrp">
+            <div class="chptr" id="ndx2">
+                King James Version: Chapter 2
+                <div class="verseGrps">
+                    <div class="pst">
+                        <p>chptr:2 verse:1 ndx:0</p>
+                    </div>
+                    <div class="cur" id="curVerseGrp">
+                        <p>chptr:2 verse:2 ndx:1</p>
+                    </div>
+                    <div class="fut">
+                        <p>chptr:2 verse:3 ndx:2</p>
+                        <p>chptr:2 verse:4 ndx:3</p>
+                        <p>chptr:2 verse:5 ndx:4</p>
+                        <p>chptr:2 verse:6 ndx:5</p>
+                        <p>chptr:2 verse:7 ndx:6</p>
+                        <p>chptr:2 verse:8 ndx:7</p>
+                        <p>chptr:2 verse:9 ndx:8</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="fut">
+            <div class="chptr" id="ndx3">
+                King James Version: Chapter 3
+                <div class="verseGrps">
+                    <div class="pst">
+                        <p>chptr:3 verse:1 ndx:0</p>
+                        <p>chptr:3 verse:2 ndx:1</p>
+                    </div>
+                    <div class="cur">
+                        <p>chptr:3 verse:3 ndx:2</p>
+                    </div>
+                    <div class="fut">
+                        <p>chptr:3 verse:4 ndx:3</p>
+
+                        <p>chptr:3 verse:5 ndx:4</p>
+
+                        <p>chptr:3 verse:6 ndx:5</p>
+
+                        <p>chptr:3 verse:7 ndx:6</p>
+
+                        <p>chptr:3 verse:8 ndx:7</p>
+
+                        <p>chptr:3 verse:9 ndx:8</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--<script src="//code.jquery.com/qunit/qunit-1.20.0.js"></script>-->
+<!--<script src="node_modules/qunitjs/qunit/qunit.js"></script>-->
+<script src="./src/functions-compiled.js"></script>
+<script src="./src/objects-compiled.js"></script>
+<script src="tests-compiled.js"></script>
+<!--<script src="./src/current_app-compiled.js"></script>-->
+
+</body>
+</html>
