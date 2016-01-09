@@ -114,7 +114,7 @@ ___ret(3333333)(7);       //>> cut function. >> a1:10, a2:7 >> 107
 // OK I can produce a collection of verses for each verse Group:pst, cur, fut
 // **************************************************
 //NOW SWITCH TO MAP EACH Verse OFTHE VerseCollection
-ov = "*** using GET_Children:";
+ov = "***GET_Children_FROM(a vGrp)>>Coll>> updates it's VerseObj";
 ___pipe = pipeline(
     (vGrp) => { console.log (ov);
         return vGrp
@@ -126,11 +126,10 @@ ___pipe = pipeline(
             VerseObj.val = val;
             VerseObj.ndx = ndx;
             VerseObj.ary = ary;
-            // TODO  tracer is commented off
-            //C_It(`NDX:, ${VerseObj.ndx},  ${VerseObj.val.innerHTML}`);
+            C_It(`NDX:, ${VerseObj.ndx},  ${VerseObj.val.innerHTML}`);
             return VerseObj
         }
-    )  // f_map expects an array from Coll2Arry
+    ) // f_map expects an array from Coll2Arry & return a VerseObj
 );
 ___data = GET_VerseGrpsArr ();  // standalone. no arg needed
 f_map( ___pipe)(___data);
