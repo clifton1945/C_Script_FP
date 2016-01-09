@@ -34,23 +34,21 @@ console.assert(___srt, ___msg); // true
 // OK I can produce a collection of verses for each verse Group:pst, cur, fut
 // **************************************************
 //NOW SWITCH TO MAP EACH Verse OFTHE VerseCollection
-ov = "***GET_Children_FROM(a vGrp)>>Coll>> updates it's VerseObj";
+// AND CALL this fn GET_VerseObjsArr
 ___pipe = pipeline(
-    (vGrp) => { console.log (ov);
-        return vGrp
-    },
-    (col) => col.children,  // vGrp >> vCollection
-    Coll2Arry,          // vColl  >> ___datay
-    f_map(
-        (val, ndx, ary) => {  //. FIRST TIME CALLING MAP IN pipeline
+    (col) => col.children,  // one vGrp >> array of verseObjs for that group
+    Coll2Arry,
+    f_map (
+        (val, ndx, ary) => {
             VerseObj.val = val;
             VerseObj.ndx = ndx;
             VerseObj.ary = ary;
-            C_It(`VerseObj.ndx:${VerseObj.ndx},.ary.length:${VerseObj.ary.length},
+            C_It(`TRACE: VerseObj.ndx:${VerseObj.ndx},.ary.length:${VerseObj.ary.length},
             innerHTML  ${VerseObj.val.innerHTML}`);
             return VerseObj
         }
-    ) // f_map expects an array from Coll2Arry & return a VerseObj
+    ) // >> each child - a verse - transformed to a VerseObj.
 );
-___cut = GET_VerseGrpsArr ();  // standalone. no arg needed
-f_map( ___pipe)(___cut);
+const GET_VerseObjsArr = ___pipe;
+___data = GET_VerseGrpsArr ();  // standalone. no arg needed
+f_map( ___pipe)(___data);
