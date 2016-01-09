@@ -11,24 +11,16 @@ ___srt = (___cut.length === 3 &&
     isArray(___cut)
 `);
 
-
-
-
-// NEXT I'll need two objects *****************************
-//    1. a group StyleObj subset
-//    2. a group VerseObjlist.
-//
 /**
- * #1  BUILD a function TO SELECT this verse Group's _vGrpStyleObj
+ * SELECT_vGrpStyleObj: a function TO SELECT A verse Group's _vGrpStyleObj
  */
-// *  I'll need a test v_Grp
 var ___here_is_a_test_v_Grp = GET_VerseGrpsArr()[2];  // >> v Grp div.fut
 // BUILD away
 ___ret = SELECT_vGrpStyleObj(___here_is_a_test_v_Grp)(StyleObj);
 ___msg = "CONFIRM this is THE futStyleObj.";
 ___srt = ___ret.name === 'fut' && ___ret.smlWt === 0.5;
 console.assert(___srt, ___msg); // true
-// OK, I can EXTRACT the style settings FOR this verseGrp FROM global StyleObj
+// OK, I can EXTRACT the style settings FOR A verseGrp FROM global StyleObj
 //*****************************************************
 
 

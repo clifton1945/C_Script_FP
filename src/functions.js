@@ -32,12 +32,13 @@ function pipeline() {
         return steps.reduce(runStep, initialValue);
     };
 }
-function addTwo(x) {
-    return x + 2;
-}
-function timesFive(x) {
-    return x * 5;
-}
+//SOME TESTS
+// function addTwo(x) {
+//    return x + 2;
+//}
+//function timesFive(x) {
+//    return x * 5;
+//}
 // Using pipeline from :
 //var addTwoThenTimesFive = pipeline(addTwo, timesFive);
 //C_It(addTwoThenTimesFive(1)); //=> 15
