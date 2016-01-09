@@ -45,10 +45,6 @@ function pipeline() {
 //addTwoThenTimesFive(-1); //=> 5
 //C_It(addTwoThenTimesFive(100)); //=> 510
 
-
-
-
-
 /**
  * GET_VerseGrpsArr::  Hardcoded query RETURNS cur chapter's 3 verseGroups
  *    AS an array
