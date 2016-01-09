@@ -61,8 +61,7 @@ ___pipe = pipeline(
     Coll2Arry,
     C_isArray
 );
-//TODO   activate this; remove //
-//___ret = f_map(___pipe)(___data);  // >> produced a verses HTML Coll with TRACES.
+___ret = f_map(___pipe)(___data);  // >> produced a verses HTML Coll with TRACES.
 //+++++++++++++++++++++++++++++
 
 // PUTTING MAKE_vGrp_VerseColl INTO functions.js
