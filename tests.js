@@ -1,23 +1,14 @@
 
 var ov;
 let ___cut, ___srt, ___ret, ___msg, ___pipe, ___data;
-
-/**
- *  CUT: CodeUnderTest GET an Array of the 3 verseGroups in the current chapter.)
- */
-___pipe = pipeline(  // get the hard coded nodelist
-    () => '#curChptrGrp .verseGrps > div',
-    (str) => document.querySelectorAll(str),
-    C_isArray,
-    Coll2Arry,
-    C_isArray
+___data = GET_VerseGrpsArr (); // AGAIN invoke this with  ()
+___srt = (
+    ___data.length === 3 &&
+    isArray(___data)
 );
-___data = ___pipe (); // NOTE ending () call.
-___srt = isArray(___data);
-// LETS name this pipeline: GET_VerseGrpsArr
-// and move it to functions.js
-___data = GET_VerseGrpsArr (); // AGAIN invole this with  ()
-___srt = isArray(___data);// NOTE the following () !!
+
+
+
 
 // NEXT I'll need two objects *****************************
 //    1. a group StyleObj subset
