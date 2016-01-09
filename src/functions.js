@@ -46,10 +46,10 @@ function pipeline() {
 //C_It(addTwoThenTimesFive(100)); //=> 510
 
 /**
- * GET_VerseGrpsArr::  Hardcoded query RETURNS cur chapter's 3 verseGroups
+ * GET_VerseReadArr::  Hardcoded query RETURNS cur chapter's 3 verseGroups
  *    AS an array
  */
-const GET_VerseGrpsArr = pipeline(
+const GET_VerseReadArr = pipeline(
     () => '#curChptrGrp .VerseRead > div',  // > str
     (str) => document.querySelectorAll(str),// > NodeList
     Coll2Arry

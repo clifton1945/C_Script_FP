@@ -7,12 +7,12 @@
 
 var ov;
 let ___cut, ___srt, ___ret, ___msg, ___pipe, ___data;
-___cut = GET_VerseGrpsArr (); // AGAIN invoke this with  ()
+___cut = GET_VerseReadArr (); // AGAIN invoke this with  ()
 ___srt = (
     ___cut.length === 3 &&
     isArray(___cut)
 );
-console.assert(___srt,`___cut = GET_VerseGrpsArr ();
+console.assert(___srt,`___cut = GET_VerseReadArr ();
 ___srt = (___cut.length === 3 &&
     isArray(___cut)
 `);
@@ -20,7 +20,7 @@ ___srt = (___cut.length === 3 &&
 /**
  * SELECT_vGrpStyleObj: a function TO SELECT A verse Group's _vGrpStyleObj
  */
-___data = GET_VerseGrpsArr()[2];  //TEST DATA >> v Grp div.fut
+___data = GET_VerseReadArr()[2];  //TEST DATA >> v Grp div.fut
 // BUILD away
 ___ret = SELECT_vGrpStyleObj(___data)(StyleObj);
 ___msg = "CONFIRM this is THE futStyleObj.";
