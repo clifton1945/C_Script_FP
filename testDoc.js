@@ -18,13 +18,13 @@ ___srt = (___cut.length === 3 &&
 `);
 
 /**
- * SELECT_vGrpStyleObj: a function TO SELECT A verse Group's _vGrpStyleObj
+ * SELECT_VerseRead_StyleObj: a function TO SELECT A verse Group's _vGrpStyleObj
  */
 ___data = GET_VerseReadArr()[2];  //TEST DATA >> v Grp div.fut
 // BUILD away
-___ret = SELECT_vGrpStyleObj(___data)(StyleObj);
+___ret = SELECT_VerseRead_StyleObj(___data)(StyleObj);
 ___msg = "CONFIRM this is THE futStyleObj.";
 ___srt = ___ret.name === 'fut' && ___ret.smlWt === 0.5;
 console.assert(___srt, ___msg); // true
-// OK, I can EXTRACT the style settings FOR A verseGrp FROM global StyleObj
+// OK, I can EXTRACT the specific FROM global StyleObj FOR a specific VerseRead element.
 //*****************************************************

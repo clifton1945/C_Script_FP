@@ -57,7 +57,7 @@ const GET_VerseReadArr = pipeline(
 /**
  * EXTRACTS style settings FOR this (verseGrp) FROM global (StyleObj)
  */
-const SELECT_vGrpStyleObj = pipeline(
+const SELECT_VerseRead_StyleObj = pipeline(
     (VerseGrp) => VerseGrp.className,
     (VerseGrpName) => (styleObj) => styleObj[VerseGrpName]
 );  // CALLEDBY (VerseGrp)(StyleObj) >> fn
