@@ -19,6 +19,7 @@
 
 let ___cut, ___srt, ___ret, ___msg, ___pipe, ___data;
 
+
 //*****************************************************
 // I'll assume I'll always want to CEE  and MODIFY just the verses IN the curChptrReadGrps div.
 // AND that the style of the verses will vary as fn(VerseReadGrps group) AND (the current VersObject)
@@ -26,10 +27,10 @@ let ___cut, ___srt, ___ret, ___msg, ___pipe, ___data;
 /**
  * first simple test of GET_VerseReadGrpsArr(): when invoked with just () returns >> a value: VerseReadArr
  */
-___cut = GET_VerseReadGrpsArr ();  // NOTE: () >> value
+___cut = GET_VerseReadGrpsArr(); // NOTE: () >> value
 ___msg = "should look like an array with div.pst...cur...fut";
-___srt = (___cut.length === 3 && isArray(___cut));
-console.assert(___srt,___msg);
+___srt = ___cut.length === 3 && isArray(___cut);
+console.assert(___srt, ___msg);
 //*****************************************************
 // 2nd
 /**
@@ -37,25 +38,24 @@ console.assert(___srt,___msg);
  * : a function TO SELECT the current VerseReadGrps StyleObj
  */
 // the style needs to know WHICH VerseReadGrps
-___data = GET_VerseReadGrpsArr()[2];  // HERE IS A VerseReadGrps with n Verses
-___cut = SELECT_VerseReadGrp_StyleObj(___data)(StyleObj);  // >> returns One Value: a subset of the StyleObj.
+___data = GET_VerseReadGrpsArr()[2]; // HERE IS A VerseReadGrps with n Verses
+___cut = SELECT_VerseReadGrp_StyleObj(___data)(StyleObj); // >> returns One Value: a subset of the StyleObj.
 ___msg = "CONFIRM this is THE futStyleObj.";
 ___srt = ___cut.name === 'fut' && ___cut.smlWt === 0.5;
 console.assert(___srt, ___msg);
 // OK, I can EXTRACT the specific FROM global StyleObj FOR a specific VerseReadGrps element.
 // NOW
-////*****************************************************
-///**
-// * simple test of UPDATE_VerseObj(the global VerseObj)(a verse returned by map i.e. val, ndx, ary
-// * @type {{val: string, ndx: number, ary: number[]}} : TEST DATA!!
-// * @private
-// */
-//TODO   reinstate___data = ['some vers element', 222, [1,2,3,4]];
-//___cut = UPDATE_VerseObject(VerseObj)(___data);
-//___msg = "EXP the test data is now in the Global VerseObj.";
-//___srt = ___cut.ndx === 222; // don't expect 222 anywhere else.
-//console.assert(___srt, ___msg);
-
+//*****************************************************
+/**
+ * simple test of UPDATE_VerseObj(the global VerseObj)(a verse returned by map i.e. val, ndx, ary
+ * @type {{val: string, ndx: number, ary: number[]}} : TEST DATA!!
+ * @private
+ */
+___data = ['some vers element', 222, [1,2,3,4]];
+___cut = UPDATE_VerseObject(VerseObj)(...___data);
+___msg = "EXP the test data is now in the Global VerseObj.";
+___srt = VerseObj.ndx === 222; // don't expect 222 anywhere else.
+console.assert(___srt, ___msg);
 //*****************************************************
 //SO BUILD something that UPDATES All the Verses IN One VerseReadGrps group
 //___data = GET_VerseReadGrpsArr()[2];  // HERE IS One VerseReadGrps group: fut.

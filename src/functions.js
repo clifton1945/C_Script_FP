@@ -72,11 +72,11 @@ const SELECT_VerseReadGrp_StyleObj = pipeline(
  * @param vO:  the global VerseObj
  * @constructor
  */
-const UPDATE_VerseObj = (vO) => (...vers) => {
+const UPDATE_VerseObject = (vO) => (...vers) => {
     vO.val = vers[0];
     vO.ndx = vers[1];
     vO.ary = vers[2];
-    //C_It(vO.toStr());
+    //C_Trace((o) => o.ndx)(vO);
     return vO
 };
 
