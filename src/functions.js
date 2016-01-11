@@ -10,8 +10,8 @@ const C_It = (txt) => console.log(txt);
  * @param fn :  sets what will be seen.
  * @constructor
  */
-const C_This =  (fn) => (obj) => {
-    C_It( fn(obj));
+const C_This =  (txt) => (obj) => {
+    C_It( txt );
     return obj
 };
 const isArray = (coll) => Array.isArray(coll);
@@ -60,15 +60,7 @@ const GET_VerseReadArr = pipeline(
 const SELECT_VerseRead_StyleObj = pipeline(
     (VerseGrp) => VerseGrp.className,
     (VerseGrpName) => (styleObj) => styleObj[VerseGrpName]
-);  // CALLEDBY (VerseGrp)(StyleObj) >> fn
-
-/**
- * returns a children Array FROM an Array
- * @param vGrp
- * @constructor
- */
-const GET_Children_FROM = (col) => col.children;
-// called by fn(verseGroup)  >> HTMLCollection
+);  // CALLEDBY (VerseGrp)( general StyleObj) >> just the StyleObj data for this VrsereadGroup
 
 /**
  * calculates a specific verse style wt USING StyleObj.calcWt
