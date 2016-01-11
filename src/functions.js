@@ -11,15 +11,19 @@ const C_It = (txt) => console.log(txt);
  * @constructor
  */
 const C_This =  (txt) => (obj) => {
-    C_It( txt );
+    console.log( `${txt} @ ${obj}` );
+    return obj
+};
+const C_Trace = (fn) => (obj) => {
+    console.log(fn(obj));
     return obj
 };
 const isArray = (coll) => Array.isArray(coll);
 const C_isArray = (coll) => {
-    C_It(`${coll} isArray:[${isArray(coll)}]`);
+    console.log(`${coll} isArray:[${isArray(coll)}]`);
     return coll};
-const Coll2Arry = (coll) => [...coll];
 // ******************  FUNCTIONS
+const Coll2Array = (coll) => [...coll];
 const f_map = (fn) => (ary) => {return ary.map(fn)};
 const a_map = (ary) => (fn) => {return ary.map(fn)};
 // SOMEONE ELSES PIPELINE - to ASSEMBLE || COMPOSE functions
@@ -32,18 +36,18 @@ function pipeline() {
         return steps.reduce(runStep, initialValue);
     };
 }
-//SOME TESTS
- function addTwo(x) {
-    return x + 2;
-}
-function timesFive(x) {
-    return x * 5;
-}
-//Using pipeline from :
-var addTwoThenTimesFive = pipeline(addTwo, timesFive);
-C_It(addTwoThenTimesFive(1)); //=> 15
-addTwoThenTimesFive(-1); //=> 5
-C_It(addTwoThenTimesFive(100)); //=> 510
+////SOME TESTS
+// function addTwo(x) {
+//    return x + 2;
+//}
+//function timesFive(x) {
+//    return x * 5;
+//}
+////Using pipeline from :
+//var addTwoThenTimesFive = pipeline(addTwo, timesFive);
+//C_It(addTwoThenTimesFive(1)); //=> 15
+//addTwoThenTimesFive(-1); //=> 5
+//C_It(addTwoThenTimesFive(100)); //=> 510
 
 /**
  * GET_VerseReadArr::  use hardcoded query RETURNS current chapter's 3 verseGroups
@@ -51,10 +55,10 @@ C_It(addTwoThenTimesFive(100)); //=> 510
  *    I ALWAYS want just the currrent Chapter.
  */
 const GET_VerseReadArr = pipeline(
-    () => '#curChptrGrp .VerseRead > div',  // > str
+    () => '#cur_ChptrReadGrps .VerseReadGrps > div',  // > str
     (str) => document.querySelectorAll(str),// > NodeList
-    Coll2Arry
-);  // CALLEDBY ()  >> fn
+    Coll2Array
+);  // fn CALLEDBY ()  >> a value: nodelist
 /**
  * EXTRACTS style settings FOR this (verseGrp) FROM global (StyleObj)
  */
