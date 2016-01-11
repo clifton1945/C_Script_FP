@@ -10,10 +10,10 @@ const C_It = (txt) => console.log(txt);
  * @param fn :  sets what will be seen.
  * @constructor
  */
-const C_This =  (txt) => (obj) => {
-    console.log( `${txt} @ ${obj}` );
-    return obj
-};
+//const C_This =  (txt) => (obj) => {
+//    console.log( `${txt} @ ${obj}` );
+//    return obj
+//};
 const C_Trace = (fn) => (obj) => {
     console.log(fn(obj));
     return obj
@@ -25,7 +25,6 @@ const C_isArray = (coll) => {
 // ******************  FUNCTIONS
 const Coll2Array = (coll) => [...coll];
 const f_map = (fn) => (ary) => {return ary.map(fn)};
-const a_map = (ary) => (fn) => {return ary.map(fn)};
 // SOMEONE ELSES PIPELINE - to ASSEMBLE || COMPOSE functions
 function runStep(intermediate, step) {
     return step(intermediate);
