@@ -20,13 +20,13 @@
         .console b {
             font-weight: bold
         }
-        .VerseRead > .pst {
+        .VerseReadGrps > .pst {
             background-color: rgba(255, 0, 0, 0.24);
         }
-        .VerseRead > .cur {
+        .VerseReadGrps > .cur {
             font-size: larger;
         }
-        .VerseRead > .fut {
+        .VerseReadGrps > .fut {
             background-color: rgba(145, 248, 29, 0.29);
         }
         .chptrs > .pst {
@@ -44,11 +44,11 @@
 <!--<div id="qunit-fixture"></div>-->
 <div class="book">
     <span id="testStyle">King James Version:</span>
-    <div class="ChptrRead">
+    <div class="ChptrReadGrps">
         <div class="pst">
             <div class="chptr" id="ndx1">
                 King James Version: Chapter 1
-                <div class="VerseRead">
+                <div class="VerseReadGrps">
                     <div class="pst">
                     </div>
                     <div class="cur">
@@ -67,10 +67,10 @@
                 </div>
             </div>
         </div>
-        <div class="cur" id="curChptrGrp">
+        <div class="cur" id="cur_ChptrReadGrps">
             <div class="chptr" id="ndx2">
                 King James Version: Chapter 2
-                <div class="VerseRead">
+                <div class="VerseReadGrps">
                     <div class="pst">
                         <div class='vers'>chptr:2 verse:1 ndx:0</div>
                     </div>
@@ -92,7 +92,7 @@
         <div class="fut">
             <div class="chptr" id="ndx3">
                 King James Version: Chapter 3
-                <div class="VerseRead">
+                <div class="VerseReadGrps">
                     <div class="pst">
                         <div class='vers'>chptr:3 verse:1 ndx:0</div>
                         <div class='vers'>chptr:3 verse:2 ndx:1</div>
