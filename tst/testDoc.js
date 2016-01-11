@@ -1,3 +1,6 @@
+"use strict";
+
+
 /**
  * testDoc.js
  * ALL THIS CODE, accumulating in functions.js and objects.js,
@@ -25,7 +28,7 @@ var ___cut, ___srt, ___ret, ___msg, ___pipe, ___data;
  * simple test of GET_VerseReadArr(): when invoked with just () returns >> a value: VerseReadArr
  */
 ___cut = GET_VerseReadArr (); // AGAIN invoke this with  ()
-___msg = " exp looks like an array with div.pst...cur...fut";
+___msg = "should look like an array with div.pst...cur...fut";
 ___srt = (
     ___cut.length === 3 && isArray(___cut)
 );

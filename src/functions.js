@@ -3,7 +3,7 @@
  */
 "use strict";
 // *********** TRACE HELPERS
-const Doc_It = (txt) => document.querySelector(".console").textContent = txt;
+//const Doc_It = (txt) => document.querySelector(".console").textContent = txt;
 const C_It = (txt) => console.log(txt);
 /**
  * a Wrapper to log and pass thru an object.
@@ -33,20 +33,20 @@ function pipeline() {
     };
 }
 //SOME TESTS
-// function addTwo(x) {
-//    return x + 2;
-//}
-//function timesFive(x) {
-//    return x * 5;
-//}
-// Using pipeline from :
-//var addTwoThenTimesFive = pipeline(addTwo, timesFive);
-//C_It(addTwoThenTimesFive(1)); //=> 15
-//addTwoThenTimesFive(-1); //=> 5
-//C_It(addTwoThenTimesFive(100)); //=> 510
+ function addTwo(x) {
+    return x + 2;
+}
+function timesFive(x) {
+    return x * 5;
+}
+//Using pipeline from :
+var addTwoThenTimesFive = pipeline(addTwo, timesFive);
+C_It(addTwoThenTimesFive(1)); //=> 15
+addTwoThenTimesFive(-1); //=> 5
+C_It(addTwoThenTimesFive(100)); //=> 510
 
 /**
- * GET_VerseReadArr::  Hardcoded query RETURNS current chapter's 3 verseGroups
+ * GET_VerseReadArr::  use hardcoded query RETURNS current chapter's 3 verseGroups
  *    AS an array.
  *    I ALWAYS want just the currrent Chapter.
  */
