@@ -25,7 +25,7 @@ var ___cut, ___srt, ___ret, ___msg, ___pipe, ___data;
  * simple test of GET_VerseReadArr(): when invoked with just () returns >> a value: VerseReadArr
  */
 ___cut = GET_VerseReadArr (); // AGAIN invoke this with  ()
-___msg = " looks like an array with div.pst...cur...fut";
+___msg = " exp looks like an array with div.pst...cur...fut";
 ___srt = (
     ___cut.length === 3 && isArray(___cut)
 );
