@@ -49,8 +49,12 @@ const StyleObj = {
         }
     }
 };
-const VerseObj = {val:{}, ndx:0, ary:[],
-    toStr: `VerseObj.ndx:${VerseObj.ndx},.ary.length:${VerseObj.ary.length},
+const VerseObj = {
+    val:{}
+    , ndx:0
+    , ary:[]
+    , toStr: () => `VerseObj.ndx:${VerseObj.ndx},.ary.length:${VerseObj.ary.length},
         innerHTML  ${VerseObj.val.innerHTML}`
 };
 
+//toStr:

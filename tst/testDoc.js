@@ -14,7 +14,7 @@
  * Created by CLIF on 1/9/2016.
  */
 
-let ___cut, ___srt, ___ret, ___msg, ___pipe, ___data;
+var ___cut, ___srt, ___ret, ___msg, ___pipe, ___data;
 
 //*****************************************************
 // I'll assume I'll always want to CEE  and MODIFY just the verses IN the curChptrRead div.
@@ -25,97 +25,86 @@ let ___cut, ___srt, ___ret, ___msg, ___pipe, ___data;
  * simple test of GET_VerseReadArr(): when invoked with just () returns >> a value: VerseReadArr
  */
 ___cut = GET_VerseReadArr (); // AGAIN invoke this with  ()
+___msg = " looks like an array with div.pst...cur...fut";
 ___srt = (
-    ___cut.length === 3 &&
-    isArray(___cut)
+    ___cut.length === 3 && isArray(___cut)
 );
-console.assert(___srt,`___cut = GET_VerseReadArr ();
-___srt = (___cut.length === 3 &&
-    isArray(___cut)
-`);
-//*****************************************************
-// 2nd
-/**
- * simple test of SELECT_VerseRead_StyleObj fn( data)(StyleObj)
- * : a function TO SELECT the current VerseRead StyleObj
- */
-// the style needs to know WHICH VerseRead
-___data = GET_VerseReadArr()[2];  // HERE IS A VerseRead with n Verses
-___cut = SELECT_VerseRead_StyleObj(___data)(StyleObj);  // >> returns One Value: a subset of the StyleObj.
-___msg = "CONFIRM this is THE futStyleObj.";
-___srt = ___cut.name === 'fut' && ___cut.smlWt === 0.5;
-console.assert(___srt, ___msg); // true
-// OK, I can EXTRACT the specific FROM global StyleObj FOR a specific VerseRead element.
-//*****************************************************
-//SO BUILD something that UPDATES One Verses FROM One VerseRead group
-___data = GET_VerseReadArr()[2];  // HERE IS One Vers FROM One VersArr FROM One VerseRead group.
-//Here is a function
-const f = (vO) => (...vers) => {
-    vO.val = vers[0];
-    vO.ndx = vers[1];
-    vO.ary = vers[2];
-    C_It(vers[1]);
-    return vO
-};
-//f(VerseObj);
+console.assert(___srt,___msg);
+////*****************************************************
+//// 2nd
+///**
+// * simple test of SELECT_VerseRead_StyleObj fn( data)(StyleObj)
+// * : a function TO SELECT the current VerseRead StyleObj
+// */
+//// the style needs to know WHICH VerseRead
+//___data = GET_VerseReadArr()[2];  // HERE IS A VerseRead with n Verses
+//___cut = SELECT_VerseRead_StyleObj(___data)(StyleObj);  // >> returns One Value: a subset of the StyleObj.
+//___msg = "CONFIRM this is THE futStyleObj.";
+//___srt = ___cut.name === 'fut' && ___cut.smlWt === 0.5;
+//console.assert(___srt, ___msg);
+//// OK, I can EXTRACT the specific FROM global StyleObj FOR a specific VerseRead element.
+//
+////*****************************************************
+///**
+// * simple test of UPDATE_VerseObj(the global VerseObj)(a verse returned by map i.e. val, ndx, ary
+// * @type {{val: string, ndx: number, ary: number[]}} : TEST DATA!!
+// * @private
+// */
+//TODO   reinstate___data = ['some vers element', 222, [1,2,3,4]];
+//___cut = UPDATE_VerseObject(VerseObj)(___data);
+//___msg = "EXP the test data is now in the Global VerseObj.";
+//___srt = ___cut.ndx === 222; // don't expect 222 anywhere else.
+//console.assert(___srt, ___msg);
+
 //*****************************************************
 //SO BUILD something that UPDATES All the Verses IN One VerseRead group
-___data = GET_VerseReadArr()[2];  // HERE IS One VerseRead group: fut.
-
-___pipe = pipeline(
-    (col) => col.children,  // FROM One VerseRead Group TO >> Collection of verseObjs
-    Coll2Arry,              //
-    f_map (                 //
-        f(VerseObj)
-        //(val, ndx, ary) => {
-        //    VerseObj.val = val;
-        //    VerseObj.ndx = ndx;
-        //    VerseObj.ary = ary;
-        //    C_It(
-        //        `TRACE: VerseObj.ndx:${VerseObj.ndx},.ary.length:${VerseObj.ary.length},
-        //        innerHTML  ${VerseObj.val.innerHTML}`
-        //    );
-        //    return VerseObj
-        //}
-    ), // >> each child - a verse - transformed to a VerseObj.
-    VerseObj.toLocaleString()
-);
-const UPDATE_VersObj = ___pipe;
-___data = GET_VerseReadArr()[2];  // HERE IS One VerseRead group with n Verses
-___cut = UPDATE_VersObj (___data); //
-___srt = (
-    ___cut.length === 3 &&
-    isArray(___cut)
-);
-console.assert(___srt,`___cut = GET_VerseReadArr ();
-___srt = (___cut.length === 3 &&
-    isArray(___cut)
-`);
-
-
-//*****************************************************
-// Next - thinking out loud- I need to UPDATE_VerseObj USING( current_Style value)  and (current_Verse).
-// DO OTAAT to get the brother of SELECT_VerseRead_StyleValue.
-// FINALLY the UPDATE_vers_style can be called using it's calc_wt >> style str >> verse.setAttribute.style str.
+//___data = GET_VerseReadArr()[2];  // HERE IS One VerseRead group: fut.
 //
-//SO BUILD something that UPDATES All the Verses IN One VerseRead groups
-___pipe = pipeline(
-    (col) => col.children,  // FROM one  >> array of verseObjs for that group
-    Coll2Arry,
-    f_map (
-        (val, ndx, ary) => {
-            VerseObj.val = val;
-            VerseObj.ndx = ndx;
-            VerseObj.ary = ary;
-            C_It(
-                `TRACE: VerseObj.ndx:${VerseObj.ndx},.ary.length:${VerseObj.ary.length},
-                innerHTML  ${VerseObj.val.innerHTML}`
-                );
-            return VerseObj
-        }
-    ) // >> each child - a verse - transformed to a VerseObj.
-);
-//const UPDATE_VerObj = ___pipe;
-//___data = GET_VerseReadArr ();  // standalone. no arg needed
-//f_map( ___pipe)(___data);
-
+//___pipe = pipeline(
+//    (col) => col.children,  // FROM One VerseRead Group TO >> Collection of verseObjs
+//    Coll2Arry,              //
+//    f_map (                 //
+//        UPDATE_VerseObj(VerseObj)  // NOTE curried with VerseObj
+//    ) // >> each child - a verse - transformed to a VerseObj.
+//);
+//
+//const UPDATE_VerseObj = ___pipe;
+//___data = GET_VerseReadArr()[2];  // HERE IS One VerseRead group with n Verses
+//___cut = UPDATE_VerseObj (___data); //
+//___srt = (
+//    ___cut.length === 3 &&
+//    isArray(___cut)
+//);
+////TODO  REINSTATE TEST
+////console.assert(___srt,`___cut = GET_VerseReadArr ();
+////___srt = (___cut.length === 3 &&
+////    isArray(___cut)
+////`);
+//
+//
+////*****************************************************
+//// Next - thinking out loud- I need to UPDATE_VerseObj USING( current_Style value)  and (current_Verse).
+//// DO OTAAT to get the brother of SELECT_VerseRead_StyleValue.
+//// FINALLY the UPDATE_vers_style can be called using it's calc_wt >> style str >> verse.setAttribute.style str.
+////
+////SO BUILD something that UPDATES All the Verses IN One VerseRead groups
+//___pipe = pipeline(
+//    (col) => col.children,  // FROM one  >> array of verseObjs for that group
+//    Coll2Arry,
+//    f_map (
+//        (val, ndx, ary) => {
+//            VerseObj.val = val;
+//            VerseObj.ndx = ndx;
+//            VerseObj.ary = ary;
+//            C_It(
+//                `TRACE: VerseObj.ndx:${VerseObj.ndx},.ary.length:${VerseObj.ary.length},
+//                innerHTML  ${VerseObj.val.innerHTML}`
+//                );
+//            return VerseObj
+//        }
+//    ) // >> each child - a verse - transformed to a VerseObj.
+//);
+////const UPDATE_VerObj = ___pipe;
+////___data = GET_VerseReadArr ();  // standalone. no arg needed
+////f_map( ___pipe)(___data);
+//

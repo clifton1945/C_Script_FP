@@ -46,8 +46,9 @@ function pipeline() {
 //C_It(addTwoThenTimesFive(100)); //=> 510
 
 /**
- * GET_VerseReadArr::  Hardcoded query RETURNS cur chapter's 3 verseGroups
- *    AS an array
+ * GET_VerseReadArr::  Hardcoded query RETURNS current chapter's 3 verseGroups
+ *    AS an array.
+ *    I ALWAYS want just the currrent Chapter.
  */
 const GET_VerseReadArr = pipeline(
     () => '#curChptrGrp .VerseRead > div',  // > str
@@ -61,29 +62,41 @@ const SELECT_VerseRead_StyleObj = pipeline(
     (VerseGrp) => VerseGrp.className,
     (VerseGrpName) => (styleObj) => styleObj[VerseGrpName]
 );  // CALLEDBY (VerseGrp)( general StyleObj) >> just the StyleObj data for this VrsereadGroup
-
 /**
- * calculates a specific verse style wt USING StyleObj.calcWt
- * @param so: StyleObj
+ * UPDATES  the global VerseObj FOR this vers elem.
+ * @param vO:  the global VerseObj
+ * @constructor
  */
-const calcWt = (so) => (vo) => {
-    return so.calcWt(so, vo); // return a style wt.
-};
-const set_VerseStyle = (so) => (vo) => {
-    let fn_calcWt = calcWt(so); // >> fn
-    let tmpl = set_StyleTmpl(fn_calcWt(vo));  // >> fn >> str
-    // NOTE: no return required; this sets the DOM
-    vo.ver.setAttribute("style", tmpl)
-};
-const set_StyleTmpl = (wt) => {
-    return `opacity:${wt}; font-size:${wt * 100}%`;  // color:red is just for testing.
+const UPDATE_VerseObj = (vO) => (...vers) => {
+    vO.val = vers[0];
+    vO.ndx = vers[1];
+    vO.ary = vers[2];
+    //C_It(vO.toStr());
+    return vO
 };
 
-// update Style
-const get_GrpClassName = (c,n,a) => c.getAttribute("class");
-// *********** DEPRECATED
-//const f_NL2Arr = (nl) => {return [...nl]};
-const pickOne_fromNL = ( nodelist) => {
-    return pickOne_Elem([...nodelist]);
-};
+///**
+// * calculates a specific verse style wt USING StyleObj.calcWt
+// * @param so: StyleObj
+// */
+//const calcWt = (so) => (vo) => {
+//    return so.calcWt(so, vo); // return a style wt.
+//};
+//const set_VerseStyle = (so) => (vo) => {
+//    let fn_calcWt = calcWt(so); // >> fn
+//    let tmpl = set_StyleTmpl(fn_calcWt(vo));  // >> fn >> str
+//    // NOTE: no return required; this sets the DOM
+//    vo.ver.setAttribute("style", tmpl)
+//};
+//const set_StyleTmpl = (wt) => {
+//    return `opacity:${wt}; font-size:${wt * 100}%`;  // color:red is just for testing.
+//};
+//
+//// update Style
+//const get_GrpClassName = (c,n,a) => c.getAttribute("class");
+//// *********** DEPRECATED
+////const f_NL2Arr = (nl) => {return [...nl]};
+//const pickOne_fromNL = ( nodelist) => {
+//    return pickOne_Elem([...nodelist]);
+//};
 
