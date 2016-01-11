@@ -50,19 +50,21 @@ function pipeline() {
 //C_It(addTwoThenTimesFive(100)); //=> 510
 
 /**
- * GET_VerseReadArr::  use hardcoded query RETURNS current chapter's 3 verseGroups
+ * GET_VerseReadGrpsArr:  use hardcoded query RETURNS current chapter's 3 verseGroups
  *    AS an array.
- *    I ALWAYS want just the currrent Chapter.
+ *    hard code because I ALWAYS want just the currrent Chapter.
  */
-const GET_VerseReadArr = pipeline(
-    () => '#cur_ChptrReadGrps .VerseReadGrps > div',  // > str
-    (str) => document.querySelectorAll(str),// > NodeList
-    Coll2Array
-);  // fn CALLEDBY ()  >> a value: nodelist
+const GET_VerseReadGrpsArr = pipeline(
+        () => '#cur_ChptrReadGrps .VerseReadGrps >  div'  // > str
+        //,C_Trace((str) => `query str:${str}`)
+        ,(str) => document.querySelectorAll(str) // > NodeList w/ 3 divs.
+        ,Coll2Array
+        //,C_Trace((ary) => `${ary.length} VerseReadGrps`)
+);  // fn ()  returns a value, if CALLEDBY ()
 /**
  * EXTRACTS style settings FOR this (verseGrp) FROM global (StyleObj)
  */
-const SELECT_VerseRead_StyleObj = pipeline(
+const SELECT_VerseReadGrp_StyleObj = pipeline(
     (VerseGrp) => VerseGrp.className,
     (VerseGrpName) => (styleObj) => styleObj[VerseGrpName]
 );  // CALLEDBY (VerseGrp)( general StyleObj) >> just the StyleObj data for this VrsereadGroup

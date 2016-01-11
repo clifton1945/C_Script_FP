@@ -22,37 +22,28 @@ let ___cut, ___srt, ___ret, ___msg, ___pipe, ___data;
 //*****************************************************
 // I'll assume I'll always want to CEE  and MODIFY just the verses IN the curChptrReadGrps div.
 // AND that the style of the verses will vary as fn(VerseReadGrps group) AND (the current VersObject)
-//
 // first encompass the verses associated just with curChptr and its three VerseReads.
 /**
- * first simple test of GET_VerseReadArr(): when invoked with just () returns >> a value: VerseReadArr
+ * first simple test of GET_VerseReadGrpsArr(): when invoked with just () returns >> a value: VerseReadArr
  */
-//___cut = GET_VerseReadArr (); // AGAIN invoke this with  ()
-___pipe =  pipeline(
-    () => '#cur_ChptrReadGrps .VerseReadGrps >  div'  // > str
-    ,C_Trace((str) => `query str:${str}`)
-    ,(str) => document.querySelectorAll(str) // > NodeList w/ 3 divs.
-    ,Coll2Array
-    ,C_Trace((ary) => `${ary.length} VerseReadGrps`)
-);  // returns fn CALLEDBY ()  >> Array
-___cut = ___pipe ();
+___cut = GET_VerseReadGrpsArr ();  // NOTE: () >> value
 ___msg = "should look like an array with div.pst...cur...fut";
 ___srt = (___cut.length === 3 && isArray(___cut));
 console.assert(___srt,___msg);
 //*****************************************************
 // 2nd
 /**
- * simple test of SELECT_VerseRead_StyleObj fn( data)(StyleObj)
+ * simple test of SELECT_VerseReadGrp_StyleObj fn( data)(StyleObj)
  * : a function TO SELECT the current VerseReadGrps StyleObj
  */
 // the style needs to know WHICH VerseReadGrps
-___data = GET_VerseReadArr()[2];  // HERE IS A VerseReadGrps with n Verses
-___cut = SELECT_VerseRead_StyleObj(___data)(StyleObj);  // >> returns One Value: a subset of the StyleObj.
+___data = GET_VerseReadGrpsArr()[2];  // HERE IS A VerseReadGrps with n Verses
+___cut = SELECT_VerseReadGrp_StyleObj(___data)(StyleObj);  // >> returns One Value: a subset of the StyleObj.
 ___msg = "CONFIRM this is THE futStyleObj.";
 ___srt = ___cut.name === 'fut' && ___cut.smlWt === 0.5;
 console.assert(___srt, ___msg);
 // OK, I can EXTRACT the specific FROM global StyleObj FOR a specific VerseReadGrps element.
-
+// NOW
 ////*****************************************************
 ///**
 // * simple test of UPDATE_VerseObj(the global VerseObj)(a verse returned by map i.e. val, ndx, ary
@@ -67,7 +58,7 @@ console.assert(___srt, ___msg);
 
 //*****************************************************
 //SO BUILD something that UPDATES All the Verses IN One VerseReadGrps group
-//___data = GET_VerseReadArr()[2];  // HERE IS One VerseReadGrps group: fut.
+//___data = GET_VerseReadGrpsArr()[2];  // HERE IS One VerseReadGrps group: fut.
 //
 //___pipe = pipeline(
 //    (col) => col.children,  // FROM One VerseReadGrps Group TO >> Collection of verseObjs
@@ -78,14 +69,14 @@ console.assert(___srt, ___msg);
 //);
 //
 //const UPDATE_VerseObj = ___pipe;
-//___data = GET_VerseReadArr()[2];  // HERE IS One VerseReadGrps group with n Verses
+//___data = GET_VerseReadGrpsArr()[2];  // HERE IS One VerseReadGrps group with n Verses
 //___cut = UPDATE_VerseObj (___data); //
 //___srt = (
 //    ___cut.length === 3 &&
 //    isArray(___cut)
 //);
 ////TODO  REINSTATE TEST
-////console.assert(___srt,`___cut = GET_VerseReadArr ();
+////console.assert(___srt,`___cut = GET_VerseReadGrpsArr ();
 ////___srt = (___cut.length === 3 &&
 ////    isArray(___cut)
 ////`);
@@ -114,6 +105,6 @@ console.assert(___srt, ___msg);
 //    ) // >> each child - a verse - transformed to a VerseObj.
 //);
 ////const UPDATE_VerObj = ___pipe;
-////___data = GET_VerseReadArr ();  // standalone. no arg needed
+////___data = GET_VerseReadGrpsArr ();  // standalone. no arg needed
 ////f_map( ___pipe)(___data);
 //
