@@ -7,7 +7,7 @@
     <!--<link rel="stylesheet" href="uTD.css">-->
     <style>
         .console {
-            position: fixed;
+            position: static;
             font-size: larger;
             top: 0;
             height: auto;
@@ -20,7 +20,14 @@
         .console b {
             font-weight: bold
         }
+        .ChptrReadGrps > .pst {
+            display: none;
+        }
+        .ChptrReadGrps > .fut  {
+            display: none;
+        }
         .VerseReadGrps > .pst {
+            position: static;
             background-color: rgba(255, 0, 0, 0.24);
         }
         .VerseReadGrps > .cur {
@@ -29,19 +36,11 @@
         .VerseReadGrps > .fut {
             background-color: rgba(145, 248, 29, 0.29);
         }
-        .chptrs > .pst {
-            display: none;
-        }
-        .chptrs > .fut {
-            display: none;
-        }
         <!--</style>
 </head>
 <body>
 <div class="console">C_It</div>
 
-<!--<div id="qunit"></div>-->
-<!--<div id="qunit-fixture"></div>-->
 <div class="book">
     <span id="testStyle">King James Version:</span>
     <div class="ChptrReadGrps">
