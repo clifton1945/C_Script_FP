@@ -54,7 +54,7 @@ function pipeline() {
  *    hard code because I ALWAYS want just the currrent Chapter.
  */
 const GET_VerseReadGrpsArr = pipeline(
-        () => '#cur_ChptrReadGrps .VerseReadGrps >  div'  // > str
+        ( str = '#cur_ChptrReadGrp  .VerseReadGrps > div') => str  // > str
         //,C_Trace((str) => `query str:${str}`)
         ,(str) => document.querySelectorAll(str) // > NodeList w/ 3 divs.
         ,Coll2Array

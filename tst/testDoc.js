@@ -78,9 +78,10 @@ console.assert(___srt,`___cut = array of 7 vers`)
 //*****************************************************
 /**
  * THINKING
- * I'll only want to CEE the current ChapterReadGrps AND Current VerseReadGrps AND HIDE the pst and fut.
- * SO - the two div#id are constants.
+ * I'll only want to CEE the cur_ChapterReadGrp AND UPDATE Style of the VerseReadGrps.
+ * THEREFORE the default querySelectorAll string WILL BE( '#cur_ChptrReadGrp  .VerseReadGrps > div')
+ * I'll css HIDE everything else.
+ * SO
  * I'll constantly BE READING: next || last verse // chptr
  * SO the data aspect is
  */
-
