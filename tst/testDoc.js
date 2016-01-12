@@ -60,46 +60,27 @@ console.assert(___srt, ___msg);
 //SO BUILD something that UPDATES All the Verses IN One VerseReadGrps group
 //___data = GET_VerseReadGrpsArr()[2];  // HERE IS One VerseReadGrps group: fut.
 
-___pipe = pipeline(
+___pipe = pipeline(  // test only. EMBEDS one of three VerseReadGrps in the test
     GET_VerseReadGrpsArr
     ,(a) => a[2]  //  filter to fut VerseReadGrps
     ,(col) => col.children  // FROM One VerseReadGrps TO >> Collection of verse elem
     ,Coll2Array
-    ,C_Trace((ary) => `${ary.length} verses` )
-    ,f_map( C_Trace( (v) => v.innerHTML))  // AND it returns each verse!!
+    ,f_map( C_Trace( (v) => v.innerHTML))
 );
 
 ___data = GET_VerseReadGrpsArr()[2];  // the fut VersesReadGrp with 7 Verses
-//___cut = f_map( C_Trace( (v) => v.innerHTML))(___pipe(___data)); //
 ___cut = ___pipe ();
 ___ret = ___cut; // ISA array of div.vers
 ___srt = ( ___cut.length === 7 );
 console.assert(___srt,`___cut = array of 7 vers`)
 ;
-//
-////*****************************************************
-//// Next - thinking out loud- I need to UPDATE_VerseObj USING( current_Style value)  and (current_Verse).
-//// DO OTAAT to get the brother of SELECT_VerseRead_StyleValue.
-//// FINALLY the UPDATE_vers_style can be called using it's calc_wt >> style str >> verse.setAttribute.style str.
-////
-////SO BUILD something that UPDATES All the Verses IN One VerseReadGrps groups
-//___pipe = pipeline(
-//    (col) => col.children,  // FROM one  >> array of verseObjs for that group
-//    Coll2Array,
-//    f_map (
-//        (val, ndx, ary) => {
-//            VerseObj.val = val;
-//            VerseObj.ndx = ndx;
-//            VerseObj.ary = ary;
-//            C_It(
-//                `TRACE: VerseObj.ndx:${VerseObj.ndx},.ary.length:${VerseObj.ary.length},
-//                innerHTML  ${VerseObj.val.innerHTML}`
-//                );
-//            return VerseObj
-//        }
-//    ) // >> each child - a verse - transformed to a VerseObj.
-//);
-////const UPDATE_VerObj = ___pipe;
-////___data = GET_VerseReadGrpsArr ();  // standalone. no arg needed
-////f_map( ___pipe)(___data);
-//
+
+//*****************************************************
+/**
+ * THINKING
+ * I'll only want to CEE the current ChapterReadGrps AND Current VerseReadGrps AND HIDE the pst and fut.
+ * SO - the two div#id are constants.
+ * I'll constantly BE READING: next || last verse // chptr
+ * SO the data aspect is
+ */
+
