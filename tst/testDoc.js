@@ -59,28 +59,23 @@ console.assert(___srt, ___msg);
 //*****************************************************
 //SO BUILD something that UPDATES All the Verses IN One VerseReadGrps group
 //___data = GET_VerseReadGrpsArr()[2];  // HERE IS One VerseReadGrps group: fut.
-//
-//___pipe = pipeline(
-//    (col) => col.children,  // FROM One VerseReadGrps Group TO >> Collection of verseObjs
-//    Coll2Array,              //
-//    f_map (                 //
-//        UPDATE_VerseObj(VerseObj)  // NOTE curried with VerseObj
-//    ) // >> each child - a verse - transformed to a VerseObj.
-//);
-//
-//const UPDATE_VerseObj = ___pipe;
-//___data = GET_VerseReadGrpsArr()[2];  // HERE IS One VerseReadGrps group with n Verses
-//___cut = UPDATE_VerseObj (___data); //
-//___srt = (
-//    ___cut.length === 3 &&
-//    isArray(___cut)
-//);
-////TODO  REINSTATE TEST
+
+___pipe = pipeline(
+    GET_VerseReadGrpsArr
+    ,(a) => a[2]
+    ,(col) => col.children  // FROM One VerseReadGrps Group TO >> Collection of verseObjs
+    ,Coll2Array
+    ,C_Trace((ary) => `${ary.length} verses` )
+    ,f_map( C_Trace( (v) => v.innerHTML))
+);
+
+
+___data = GET_VerseReadGrpsArr()[2];  // the fut VersesReadGrp with 7 Verses
+//___cut = f_map( C_Trace( (v) => v.innerHTML))(___pipe(___data)); //
+___cut = ___pipe ();
+___ret = ___cut; //
+___srt = ( true );  //TODO  REINSTATE TEST
 ////console.assert(___srt,`___cut = GET_VerseReadGrpsArr ();
-////___srt = (___cut.length === 3 &&
-////    isArray(___cut)
-////`);
-//
 //
 ////*****************************************************
 //// Next - thinking out loud- I need to UPDATE_VerseObj USING( current_Style value)  and (current_Verse).
