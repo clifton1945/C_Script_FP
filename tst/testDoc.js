@@ -62,20 +62,20 @@ console.assert(___srt, ___msg);
 
 ___pipe = pipeline(
     GET_VerseReadGrpsArr
-    ,(a) => a[2]
-    ,(col) => col.children  // FROM One VerseReadGrps Group TO >> Collection of verseObjs
+    ,(a) => a[2]  //  filter to fut VerseReadGrps
+    ,(col) => col.children  // FROM One VerseReadGrps TO >> Collection of verse elem
     ,Coll2Array
     ,C_Trace((ary) => `${ary.length} verses` )
-    ,f_map( C_Trace( (v) => v.innerHTML))
+    ,f_map( C_Trace( (v) => v.innerHTML))  // AND it returns each verse!!
 );
-
 
 ___data = GET_VerseReadGrpsArr()[2];  // the fut VersesReadGrp with 7 Verses
 //___cut = f_map( C_Trace( (v) => v.innerHTML))(___pipe(___data)); //
 ___cut = ___pipe ();
-___ret = ___cut; //
-___srt = ( true );  //TODO  REINSTATE TEST
-////console.assert(___srt,`___cut = GET_VerseReadGrpsArr ();
+___ret = ___cut; // ISA array of div.vers
+___srt = ( ___cut.length === 7 );
+console.assert(___srt,`___cut = array of 7 vers`)
+;
 //
 ////*****************************************************
 //// Next - thinking out loud- I need to UPDATE_VerseObj USING( current_Style value)  and (current_Verse).
