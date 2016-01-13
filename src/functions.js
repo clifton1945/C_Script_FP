@@ -17,7 +17,11 @@ const C_It = (txt) => console.log(txt);
 const C_Trace = (fn) => (obj) => {
     console.log(fn(obj));
     return obj
-};
+};const C_TraceD = (fn=(obj)=>`${obj}`) => (obj) => {
+    console.log(fn(obj));
+    return obj
+}; //C_TraceD()([1,2,3]);//>> 1,2,3
+
 const isArray = (coll) => Array.isArray(coll);
 const C_isArray = (coll) => {
     console.log(`${coll} isArray:[${isArray(coll)}]`);

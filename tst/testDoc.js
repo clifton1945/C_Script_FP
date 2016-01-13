@@ -19,7 +19,6 @@
 
 let ___cut, ___srt, ___ret, ___msg, ___pipe, ___data;
 
-
 //*****************************************************
 // I'll assume I'll always want to CEE  and MODIFY just the verses IN the curChptrReadGrps div.
 // AND that the style of the verses will vary as fn(VerseReadGrps group) AND (the current VersObject)
@@ -65,7 +64,10 @@ ___pipe = pipeline(  // test only. EMBEDS one of three VerseReadGrps in the test
     ,(a) => a[2]  //  filter to fut VerseReadGrps
     ,(col) => col.children  // FROM One VerseReadGrps TO >> Collection of verse elem
     ,Coll2Array
-    ,f_map( C_Trace( (v) => v.innerHTML))
+    ,f_map(
+        //C_Trace( (o) => `${o}`)
+        C_Trace( (v) => v.innerHTML)
+    )
 );
 
 ___data = GET_VerseReadGrpsArr()[2];  // the fut VersesReadGrp with 7 Verses
@@ -80,8 +82,50 @@ console.assert(___srt,`___cut = array of 7 vers`)
  * THINKING
  * I'll only want to CEE the cur_ChapterReadGrp AND UPDATE Style of the VerseReadGrps.
  * THEREFORE the default querySelectorAll string WILL BE( '#cur_ChptrReadGrp  .VerseReadGrps > div')
- * I'll css HIDE everything else.
+ * I'll css display: none everything else.
  * SO
  * I'll constantly BE READING: next || last verse // chptr
- * SO the data aspect is
+ *  SO how about a main() WITH
+ *      GET_cur_crGrps_Ary(str) // =>vrGrps:[o,o,o]     // data:: CURRENT ChpterGrp [w/3 vrGrps:[w/n vers]]
+ *      MAP(SET_All_versesStyle)(vrGrps)            //    each vrGrp:: vrGrp:[w/n vers]] IS
+ *          SET_All_versesStyle(vrGrp)              //    APPLIED TO this fn => all verses.style updated
+ *              SELECT_vStyleObj(StyleObj)(vrGrp)     //=>vStyleObj::sObj
+ *              CALC_StyleWt_WITH(vStyleObj)                 //=>  partial curry CALC...::fn
+ *              GET_versAry_FROM(vrGrp)                       //=> data: versAry w/ n verses.
+ *          MAP(SET_1verseStyle)(versAry)                // each verse of this vrGrp's versAry IS
+ *              SET_1verseStyle( versAry)                 // APPLIED TO this fn
+ *                  TRNFRM_TO_VersObj_FRM(VerseObj)(versAry)           //=> versObj
+ *                  CALC_StyleWt_WITH(~vStyleObj~)(VersObj)     // => styleWt NOTE ~curried~
+ *                  SET_Verse_Style_Str(styleWt)            //=> styleStr
+ *                  SET_Verse_Style( styleStr)              //=> actual vers setAttribute
+ *
  */
+
+
+const GET_cur_crGrps_Ary = pipeline(
+    ( str = '#cur_ChptrReadGrp  .VerseReadGrps > div') => str  // > str
+    //,C_Trace((str) => `query str:${str}`)
+    ,(str) => document.querySelectorAll(str) // > NodeList w/ 3 divs.
+    ,Coll2Array
+    //,C_TraceD((ary) => `GET_cur_crGrps_Ary>> ${ary.length} VerseReadGrps`)
+);  // fn ()  returns a value, if CALLEDBY ()
+
+/**
+ * EXTRACTS style settings FOR this (verseGrp) FROM global (StyleObj)
+ */
+const SELECT_vStyleObj = pipeline
+    //TODO   SET CALL AS (StyleObj)(versGrp) not the other way
+    let fn = (VerseGrpName) => (styleObj) => styleObj[VerseGrpName]
+    (g_style) => g_style, // curry global StyleObj
+    (VerseGrp) => VerseGrp.className,
+    (VerseGrpName) => (styleObj) => styleObj[VerseGrpName]
+);  // CALLEDBY ( global StyleObj)(VerseGrp) >> just the StyleObj data for this VersereadGroup
+
+
+const SET_All_versesStyle = pipeline(
+    C_TraceD()
+    ,SELECT_vStyleObj(StyleObj)
+);
+//
+//GET_cur_crGrps_Ary();
+f_map(SET_All_versesStyle)(GET_cur_crGrps_Ary());
