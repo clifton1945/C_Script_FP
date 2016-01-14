@@ -28,22 +28,30 @@ const GET_cur_crGrps_Ary = pipeline(
     //,C_TraceD((ary) => `GET_cur_crGrps_Ary>> ${ary.length} VerseReadGrps`)
 );  // fn ()  returns a value, if CALLEDBY ()
 /**
- * EXTRACTS style settings FOR this (verseGrp) FROM global (StyleObj)
+ * EXTRACTS
+ *      style settings FOR this (verseGrp) FROM global (StyleObj)
+ *      MAPS verseArray Style
  */
 const SET_One_versGrp_Style = (styleObj) => (vrGrp) => {
     let sO = styleObj[vrGrp.className];
-    C_It(`${sO.name}_StyleObj:`);
-    return sO
+    //BUILD callback fn: SET_Verse_Style for use in map(fn)(vrGrp.chkldren)
+    ___cut = (sO) => (verse) => {
+            C_It(`${sO.name}_StyleObj, ${verse}_Vers.`);
+    };
+    ___data = Coll2Array(vrGrp.children);
+    C_It(`_this_StyleObj:${sO.name}`);
+    C_It(`_this_VerseReadGrp.len:${___data.length}`);
+    f_map( ___cut ) ( ___data   );
 };  // CALLEDBY ( global StyleObj)(VerseGrp) >> just the StyleObj data for this VersereadGroup
 
 
 const SET_All_verseStyles = (globalStyleObj) =>  (data) => {
     //C_TraceD()(globalStyleObj);
     C_Trace((f)=>`fn;${f}`)(data);
-    f_map(SET_One_versGrp_Style (globalStyleObj))( data);
+    f_map(SET_One_versGrp_Style (globalStyleObj))( data); // calls each of 3 VerseReadGrps
 };
 //
-SET_All_verseStyles(StyleObj)(GET_cur_crGrps_Ary ());
+SET_All_verseStyles(StyleObj)(GET_cur_crGrps_Ary ()); // fn () <== INVOKED W/ ()
 
 
 x(); // TODO  REMOVE this Trace stopper.
