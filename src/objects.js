@@ -54,7 +54,7 @@ const VerseObj = {
     , ndx:0
     , ary:[]
     , toStr: () => `Trace>VerseObj.ndx:${VerseObj.ndx},.ary.length:${VerseObj.ary.length},
-        innerHTML  ${VerseObj.val.innerHTML}`
+        innerHTML  ${VerseObj.val.outerHTML}`
 };
 
 //toStr:
