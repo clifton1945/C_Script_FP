@@ -20,19 +20,11 @@
 let ___cut, ___srt, ___ret, ___msg, ___pipe, ___data;
 // CURRENT WIP  WWWWWWWWWWWWWWWWWWWWWWWW IIIIIIIIIIIIIIIIIIIIIIIIIIII PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP
 
-const GET_cur_crGrps_Ary = pipeline(
-    ( str = '#cur_ChptrReadGrp  .VerseReadGrps > div') => str  // > str
-    //,C_Trace((str) => `query str:${str}`)
-    ,(str) => document.querySelectorAll(str) // > NodeList w/ 3 divs.
-    ,Coll2Array
-    //,C_TraceD((ary) => `GET_cur_crGrps_Ary>> ${ary.length} VerseReadGrps`)
-);  // fn ()  returns a value, if CALLEDBY ()
-/**
- * EXTRACTS
- *      style settings FOR this (verseGrp) FROM global (StyleObj)
- *      MAPS verseArray Style
- */
-const SET_One_versGrp_Style = (styleObj) => (vrGrp) => {
+const SET_One_Verse_Style = (sO) => (verse) => {
+    C_It(`${sO.name}_StyleObj, ${verse}_Vers.`);
+};
+
+const SET_One_verseGrp_Styles = (styleObj) => (vrGrp) => {
     let sO = styleObj[vrGrp.className];
     //BUILD callback fn: SET_Verse_Style for use in map(fn)(vrGrp.chkldren)
     ___cut = (sO) => (verse) => {
@@ -44,15 +36,13 @@ const SET_One_versGrp_Style = (styleObj) => (vrGrp) => {
     f_map( ___cut ) ( ___data   );
 };  // CALLEDBY ( global StyleObj)(VerseGrp) >> just the StyleObj data for this VersereadGroup
 
-
-const SET_All_verseStyles = (globalStyleObj) =>  (data) => {
+const SET_All_verse_Styles = (globalStyleObj) =>  (data) => {
     //C_TraceD()(globalStyleObj);
     C_Trace((f)=>`fn;${f}`)(data);
-    f_map(SET_One_versGrp_Style (globalStyleObj))( data); // calls each of 3 VerseReadGrps
+    f_map(SET_One_verseGrp_Styles (globalStyleObj))( data); // calls each of 3 VerseReadGrps
 };
 //
-SET_All_verseStyles(StyleObj)(GET_cur_crGrps_Ary ()); // fn () <== INVOKED W/ ()
-
+SET_All_verse_Styles(StyleObj)(GET_cur_crGrps_Ary ()); // fn () <== INVOKED W/ ()
 
 x(); // TODO  REMOVE this Trace stopper.
 

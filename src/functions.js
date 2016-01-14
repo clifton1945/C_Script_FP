@@ -57,6 +57,14 @@ function pipeline() {
 //addTwoThenTimesFive(-1); //=> 5
 //C_It(addTwoThenTimesFive(100)); //=> 510
 
+const GET_cur_crGrps_Ary = pipeline(
+    ( str = '#cur_ChptrReadGrp  .VerseReadGrps > div') => str  // > str
+    //,C_Trace((str) => `query str:${str}`)
+    ,(str) => document.querySelectorAll(str) // > NodeList w/ 3 divs.
+    ,Coll2Array
+    //,C_TraceD((ary) => `GET_cur_crGrps_Ary>> ${ary.length} VerseReadGrps`)
+);  // fn ()  returns a value, if CALLEDBY ()
+
 /**
  * GET_VerseReadGrpsArr:  use hardcoded query RETURNS current chapter's 3 verseGroups
  *    AS an array.
