@@ -3,8 +3,12 @@
  */
 "use strict";
 // *********** TRACE HELPERS
-//const Doc_It = (txt) => document.querySelector(".console").textContent = txt;
+const Doc_It = (txt) => document.querySelector(".console").textContent = txt;
 const C_It = (txt) => console.log(txt);
+const C_Both = (txt) => {
+    C_It (txt);
+    Doc_It (txt);
+};
 /**
  * a Wrapper to log and pass thru an object.
  * @param fn :  sets what will be seen.
@@ -96,18 +100,6 @@ const GET_VerseReadGrpsArr = pipeline(
         ,Coll2Array
         //,C_Trace((ary) => `${ary.length} VerseReadGrps`)
 );  // fn ()  returns a value, if CALLEDBY ()
-/**
- * UPDATES  the global VerseObj FOR this vers elem.
- * @param vO:  the global VerseObj
- * @constructor
- */
-const UPDATE_VerseObject = (vO) => (...vers) => {
-    vO.val = vers[0];
-    vO.ndx = vers[1];
-    vO.ary = vers[2];
-    //C_Trace((o) => o.ndx)(vO);
-    return vO
-};
 
 ///**
 // * calculates a specific verse style wt USING StyleObj.calcWt

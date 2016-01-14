@@ -19,12 +19,24 @@
 
 let ___cut, ___srt, ___ret, ___msg, ___pipe, ___data;
 // CURRENT WIP  WWWWWWWWWWWWWWWWWWWWWWWW IIIIIIIIIIIIIIIIIIIIIIIIIIII PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP
+/**
+ * UPDATES  the global VerseObj FOR this vers elem.
+ * @param vO:  the global VerseObj
+ * @constructor
+ */
+const UPDATE_VerseObject = (vO) => (vers) => {
+    vO.val = vers[0];
+    vO.ndx = vers[1];
+    vO.ary = vers[2];
+    C_Trace((o) => o.ndx)(vO);
+    return vO
+};
 
-// SET_One_Verse_Style:: ( obj, HTML:div) => some return signal complete.
-const SET_One_Verse_Style = (sO) => (verse) => {
-    C_It(`in SET_One_Verse_Style
-        ${sO.name}_StyleObj, Verse[${verse.innerHTML}]`);
-
+// SET_One_Verse_Style:: ( obj, HTML:div) => some return signal complete
+//************************************************.
+const SET_One_Verse_Style = (sO) => (...verse) => {
+    let vO = UPDATE_VerseObject (VerseObj) (verse) ;
+    C_Both(vO.toStr ());
 };
 //*****************************************************
 //
