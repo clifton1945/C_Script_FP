@@ -64,7 +64,26 @@ const GET_cur_crGrps_Ary = pipeline(
     ,Coll2Array
     //,C_TraceD((ary) => `GET_cur_crGrps_Ary>> ${ary.length} VerseReadGrps`)
 );  // fn ()  returns a value, if CALLEDBY ()
+//let ___cut = GET_cur_crGrps_Ary; // NOTE: () >> value
+//let ___msg = "should look like an array with div.pst...cur...fut";
+//let ___srt = ___cut.length === 3 && isArray(___cut);
+//console.assert(___srt, ___msg);
 
+const SET_One_verseGrp_Styles = (styleObj) => (vrGrp) => {
+    let sO = styleObj[vrGrp.className];
+    //BUILD callback fn: SET_Verse_Style for use in map(fn)(vrGrp.chkldren)
+    ___cut = SET_One_Verse_Style(sO);           //REFACT use directly in f_map
+    ___data = Coll2Array(vrGrp.children);       //REFACT use directly in f_map
+    //C_It(`_this_StyleObj:${sO.name}`);
+    //C_It(`_this_VerseReadGrp.len:${___data.length}`);
+    f_map( ___cut ) ( ___data   );
+};  // CALLEDBY ( global StyleObj)(VerseGrp) >> just the StyleObj data for this VersereadGroup
+
+const SET_All_verse_Styles = (globalStyleObj) =>  (data) => {
+    //C_TraceD()(globalStyleObj);
+    C_Trace((f)=>`fn;${f}`)(data);
+    f_map(SET_One_verseGrp_Styles (globalStyleObj))( data); // calls each of 3 VerseReadGrps
+};
 /**
  * GET_VerseReadGrpsArr:  use hardcoded query RETURNS current chapter's 3 verseGroups
  *    AS an array.
@@ -77,13 +96,6 @@ const GET_VerseReadGrpsArr = pipeline(
         ,Coll2Array
         //,C_Trace((ary) => `${ary.length} VerseReadGrps`)
 );  // fn ()  returns a value, if CALLEDBY ()
-/**
- * EXTRACTS style settings FOR this (verseGrp) FROM global (StyleObj)
- */
-const SELECT_VerseReadGrp_StyleObj = pipeline(
-    (VerseGrp) => VerseGrp.className,
-    (VerseGrpName) => (styleObj) => styleObj[VerseGrpName]
-);  // CALLEDBY (VerseGrp)( general StyleObj) >> just the StyleObj data for this VrsereadGroup
 /**
  * UPDATES  the global VerseObj FOR this vers elem.
  * @param vO:  the global VerseObj
