@@ -37,6 +37,12 @@ const UPDATE_VerseObject = (vO) => (vers) => {
 const SET_One_Verse_Style = (sO) => (...verse) => {
     let vO = UPDATE_VerseObject (VerseObj) (verse) ;
     C_Both(vO.toStr ());
+    // so now HAVE both styleObj && verseObj
+    // SKIP calc style wt for now
+    //AND FINISH with SET_verse_style_Attribute
+    let v_style = vO.val.style;
+    v_style.color = 'blue';
+    v_style.font_size = 'smaller';
 };
 //*****************************************************
 //
