@@ -20,10 +20,13 @@
 let ___cut, ___srt, ___ret, ___msg, ___pipe, ___data;
 // CURRENT WIP  WWWWWWWWWWWWWWWWWWWWWWWW IIIIIIIIIIIIIIIIIIIIIIIIIIII PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP
 
+// SET_One_Verse_Style:: ( obj, HTML:div) => some return signal complete.
 const SET_One_Verse_Style = (sO) => (verse) => {
     C_It(`in SET_One_Verse_Style
         ${sO.name}_StyleObj, Verse[${verse.innerHTML}]`);
-}; //
+
+};
+//*****************************************************
 //
 //const SET_One_verseGrp_Styles = (styleObj) => (vrGrp) => {
 //    let sO = styleObj[vrGrp.className];
@@ -41,10 +44,9 @@ const SET_One_Verse_Style = (sO) => (verse) => {
 //    f_map(SET_One_verseGrp_Styles (globalStyleObj))( data); // calls each of 3 VerseReadGrps
 //};
 
-// RUN IT
+// RUN
 SET_All_verse_Styles(StyleObj)(GET_cur_crGrps_Ary ()); // fn () <== INVOKED W/ ()
 
-//*****************************************************
 //*****************************************************
 /**
  * THINKING
