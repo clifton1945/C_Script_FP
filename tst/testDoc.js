@@ -18,6 +18,35 @@
  */
 
 let ___cut, ___srt, ___ret, ___msg, ___pipe, ___data;
+// CURRENT WIP  WWWWWWWWWWWWWWWWWWWWWWWW IIIIIIIIIIIIIIIIIIIIIIIIIIII PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP
+
+const GET_cur_crGrps_Ary = pipeline(
+    ( str = '#cur_ChptrReadGrp  .VerseReadGrps > div') => str  // > str
+    //,C_Trace((str) => `query str:${str}`)
+    ,(str) => document.querySelectorAll(str) // > NodeList w/ 3 divs.
+    ,Coll2Array
+    //,C_TraceD((ary) => `GET_cur_crGrps_Ary>> ${ary.length} VerseReadGrps`)
+);  // fn ()  returns a value, if CALLEDBY ()
+/**
+ * EXTRACTS style settings FOR this (verseGrp) FROM global (StyleObj)
+ */
+const SET_One_versGrp_Style = (styleObj) => (vrGrp) => {
+    let sO = styleObj[vrGrp.className];
+    C_It(`${sO.name}_StyleObj:`);
+    return sO
+};  // CALLEDBY ( global StyleObj)(VerseGrp) >> just the StyleObj data for this VersereadGroup
+
+
+const SET_All_verseStyles = (globalStyleObj) =>  (data) => {
+    //C_TraceD()(globalStyleObj);
+    C_Trace((f)=>`fn;${f}`)(data);
+    f_map(SET_One_versGrp_Style (globalStyleObj))( data);
+};
+//
+SET_All_verseStyles(StyleObj)(GET_cur_crGrps_Ary ());
+
+
+x(); // TODO  REMOVE this Trace stopper.
 
 //*****************************************************
 // I'll assume I'll always want to CEE  and MODIFY just the verses IN the curChptrReadGrps div.
@@ -101,31 +130,3 @@ console.assert(___srt,`___cut = array of 7 vers`)
  *
  */
 
-
-const GET_cur_crGrps_Ary = pipeline(
-    ( str = '#cur_ChptrReadGrp  .VerseReadGrps > div') => str  // > str
-    //,C_Trace((str) => `query str:${str}`)
-    ,(str) => document.querySelectorAll(str) // > NodeList w/ 3 divs.
-    ,Coll2Array
-    //,C_TraceD((ary) => `GET_cur_crGrps_Ary>> ${ary.length} VerseReadGrps`)
-);  // fn ()  returns a value, if CALLEDBY ()
-
-/**
- * EXTRACTS style settings FOR this (verseGrp) FROM global (StyleObj)
- */
-const SELECT_vStyleObj = pipeline
-    //TODO   SET CALL AS (StyleObj)(versGrp) not the other way
-    let fn = (VerseGrpName) => (styleObj) => styleObj[VerseGrpName]
-    (g_style) => g_style, // curry global StyleObj
-    (VerseGrp) => VerseGrp.className,
-    (VerseGrpName) => (styleObj) => styleObj[VerseGrpName]
-);  // CALLEDBY ( global StyleObj)(VerseGrp) >> just the StyleObj data for this VersereadGroup
-
-
-const SET_All_versesStyle = pipeline(
-    C_TraceD()
-    ,SELECT_vStyleObj(StyleObj)
-);
-//
-//GET_cur_crGrps_Ary();
-f_map(SET_All_versesStyle)(GET_cur_crGrps_Ary());

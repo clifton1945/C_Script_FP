@@ -17,7 +17,13 @@ const C_It = (txt) => console.log(txt);
 const C_Trace = (fn) => (obj) => {
     console.log(fn(obj));
     return obj
-};const C_TraceD = (fn=(obj)=>`${obj}`) => (obj) => {
+};
+const C_TraceD = (fn=(obj)=>`${obj}`) => (obj) => {
+    console.log(fn(obj));
+    return obj
+}; //C_TraceD()([1,2,3]);//>> 1,2,3
+
+const C_TraceS = (fn=(obj)=>`${obj}`) => (obj) => {
     console.log(fn(obj));
     return obj
 }; //C_TraceD()([1,2,3]);//>> 1,2,3
