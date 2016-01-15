@@ -46,8 +46,6 @@ const SET_One_Verse_Style = (sO) => (...verse) => {
     C_Both(vO.toStr())
 };
 //*****************************************************
-//    v_style.font_size = 'smaller';
-
 // RUN
 SET_All_verse_Styles(StyleObj)(GET_cur_crGrps_Ary ()); // fn () <== INVOKED W/ ()
 
