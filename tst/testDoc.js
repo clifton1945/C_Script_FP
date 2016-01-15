@@ -37,12 +37,11 @@ const UPDATE_VerseObject = (vO) => (vers) => {
 const SET_One_Verse_Style = (sO) => (...verse) => {
     let vO = UPDATE_VerseObject (VerseObj) (verse) ;
     // so now HAVE both styleObj && verseObj
-    // MOCK calc style wt for now
-    let v_style = vO.val.style;
-    let wt = vO.ndx * 20;
+    let wt = sO.calcWt(sO, vO);
+    C_Both(`wt:${wt}`);
     //AND FINISH with SET_verse_style_Attribute
-    v_style.color = 'blue';
-    v_style.fontSize = `${wt}%`;
+    let v_style = vO.val.style;
+    v_style.fontSize = `${wt * 10}%`;
     v_style.textAlign = 'center';
     C_Both(vO.toStr())
 };
