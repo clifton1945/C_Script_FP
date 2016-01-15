@@ -15,7 +15,6 @@ const UPDATE_VerseObject = (vO) => (vers) => {
     //C_Trace((o) => o.ndx)(vO);
     return vO
 };
-
 // SET_One_Verse_Style:: ( obj, HTML:div) => some return signal complete
 //************************************************.
 // CUT: CodeUnderTest ****************************
@@ -33,7 +32,6 @@ const SET_One_Verse_Style = (sO) => (...verse) => {
 //*****************************************************
 // RUN
 SET_All_verse_Styles(StyleObj)(GET_cur_crGrps_Ary ()); // fn () <== INVOKED W/ ()
-
 //*****************************************************
 /**
  * THINKING
