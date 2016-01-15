@@ -35,7 +35,6 @@ const C_isArray = (coll) => {
     C_It(`${coll} isArray:[${isArray(coll)}]`);
     return coll};
 // ******************  FUNCTIONS
-const Coll2Array = (coll) => [...coll];
 const f_map = (fn) => (ary) => {return ary.map(fn)};
 // SOMEONE ELSES PIPELINE - to ASSEMBLE || COMPOSE functions
 function runStep(intermediate, step) {

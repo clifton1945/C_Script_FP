@@ -2,22 +2,10 @@
 
 
 let ___cut, ___srt, ___ret, ___msg, ___pipe, ___data;
-// CURRENT WIP  WWWWWWWWWWWWWWWWWWWWWWWW IIIIIIIIIIIIIIIIIIIIIIIIIIII PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP
-////************************************************.
-//// CUT: CodeUnderTest ****************************
-const SET_One_Verse_Style = (sO) => (...verse) => {
-    let vO = UPDATE_VerseObject (VerseObj) (verse) ;
-    // so now HAVE both styleObj && verseObj
-    let wt = sO.calcWt(sO, vO);
-    //C_Both(`wt:${wt}`);
-    //AND FINISH with SET_verse_style_Attribute
-    let v_style = vO.val.style;
-    v_style.fontSize = `${wt * 100}%`;
-    v_style.textAlign = 'center';
-    C_Both(vO.toStr())
-};
+//************************************************.
+// CUT: CodeUnderTest ****************************
 //*****************************************************
-// RUNSPLIT functions INTO 2 files.
+// RUN
 SET_All_verse_Styles(StyleObj)(GET_cur_crGrps_Ary ()); // fn () <== INVOKED W/ ()
 //*****************************************************
 /**
