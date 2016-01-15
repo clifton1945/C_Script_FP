@@ -56,6 +56,7 @@ const SET_All_verse_Styles = (globalStyleObj) =>  (data) => {
     //C_Trace((f)=>`fn;${f}`)(data);
     f_map(SET_One_verseGrp_Styles (globalStyleObj))( data); // calls each of 3 VerseReadGrps
 };
+
 ///**
 // * calculates a specific verse style wt USING StyleObj.calcWt
 // * @param so: StyleObj
