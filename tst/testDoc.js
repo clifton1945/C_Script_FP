@@ -38,12 +38,12 @@ const SET_One_Verse_Style = (sO) => (...verse) => {
     let vO = UPDATE_VerseObject (VerseObj) (verse) ;
     // so now HAVE both styleObj && verseObj
     let wt = sO.calcWt(sO, vO);
-    C_Both(`wt:${wt}`);
+    //C_Both(`wt:${wt}`);
     //AND FINISH with SET_verse_style_Attribute
     let v_style = vO.val.style;
     v_style.fontSize = `${wt * 10}%`;
     v_style.textAlign = 'center';
-    C_Both(vO.toStr())
+    //C_Both(vO.toStr())
 };
 //*****************************************************
 //    v_style.font_size = 'smaller';
