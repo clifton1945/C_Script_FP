@@ -2,6 +2,20 @@
  * Created by CLIF on 01/15/2016
  */
 "use strict";
+
+/**
+ * UPDATES  the global VerseObj FOR this vers elem.
+ * @param vO:  the global VerseObj
+ * @constructor
+ */
+const UPDATE_VerseObject = (vO) => (vers) => {
+    vO.val = vers[0];
+    vO.ndx = vers[1];
+    vO.ary = vers[2];
+    //C_Trace((o) => o.ndx)(vO);
+    return vO
+};
+
 const GET_cur_crGrps_Ary = pipeline(
     ( str = '#cur_ChptrReadGrp  .VerseReadGrps > div') => str  // > str
     //,C_Trace((str) => `query str:${str}`)
@@ -24,11 +38,6 @@ const SET_One_verseGrp_Styles = (styleObj) => (vrGrp) => {
     f_map( ___cut ) ( ___data   );
 };  // CALLEDBY ( global StyleObj)(VerseGrp) >> just the StyleObj data for this VersereadGroup
 
-const SET_All_verse_Styles = (globalStyleObj) =>  (data) => {
-    //C_TraceD()(globalStyleObj);
-    //C_Trace((f)=>`fn;${f}`)(data);
-    f_map(SET_One_verseGrp_Styles (globalStyleObj))( data); // calls each of 3 VerseReadGrps
-};
 /**
  * GET_VerseReadGrpsArr:  use hardcoded query RETURNS current chapter's 3 verseGroups
  *    AS an array.
@@ -42,6 +51,11 @@ const GET_VerseReadGrpsArr = pipeline(
         //,C_Trace((ary) => `${ary.length} VerseReadGrps`)
 );  // fn ()  returns a value, if CALLEDBY ()
 
+const SET_All_verse_Styles = (globalStyleObj) =>  (data) => {
+    //C_TraceD()(globalStyleObj);
+    //C_Trace((f)=>`fn;${f}`)(data);
+    f_map(SET_One_verseGrp_Styles (globalStyleObj))( data); // calls each of 3 VerseReadGrps
+};
 ///**
 // * calculates a specific verse style wt USING StyleObj.calcWt
 // * @param so: StyleObj
