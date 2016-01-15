@@ -43,7 +43,8 @@ const SET_One_Verse_Style = (sO) => (...verse) => {
     let wt = vO.ndx * 20;
     v_style.color = 'blue';
     v_style.fontSize = `${wt}%`;
-    C_Both(vO.toStr ());
+    v_style.textAlign = 'center';
+    C_Both(vO.toStr())
 };
 //*****************************************************
 //    v_style.font_size = 'smaller';
