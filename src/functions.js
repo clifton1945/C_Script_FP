@@ -27,12 +27,12 @@ const C_TraceD = (fn=(obj)=>`${obj}`) => (obj) => {
     return obj
 }; //C_TraceD()([1,2,3]);//>> 1,2,3
 const C_TraceS = (fn=(obj)=>`${obj}`) => (obj) => {
-    console.log(fn(obj));
+    C_It(fn(obj));
     return obj
 }; //C_TraceD()([1,2,3]);//>> 1,2,3
 const isArray = (coll) => Array.isArray(coll);
 const C_isArray = (coll) => {
-    console.log(`${coll} isArray:[${isArray(coll)}]`);
+    C_It(`${coll} isArray:[${isArray(coll)}]`);
     return coll};
 // ******************  FUNCTIONS
 const Coll2Array = (coll) => [...coll];
