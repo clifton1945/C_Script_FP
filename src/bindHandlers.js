@@ -1,5 +1,5 @@
 "use strict";
-
+const book = (document.querySelector('.book'));
 var BindHandlers = function BindHandlers(book) {
     //document.addEventListener("keydown", keysPressed, false);
     document.addEventListener("keyup", keyActions, false);
@@ -9,29 +9,32 @@ var BindHandlers = function BindHandlers(book) {
             //e.stopPropagation();
             e.preventDefault();
             C_Both("read Last Chptr");
-            book.read_lstChptr();
+            READ_A_Verse(1);
         }
         // read Last verse.
         if (e.keyCode == 38) {
             //e.stopPropagation();
             e.preventDefault();
             C_Both("read Last Verse");
-            book.read_lstVerse();
-
+            READ_A_Verse(-1);
         }
         // read Next Chptr.
         if (e.keyCode == 39 || e.keyCode == 96) { // rt arrow || numpad 0
             //e.stopPropagation();
             e.preventDefault();
             C_Both("read Next Chptr ");
-            book.read_nxtChptr();
+            //book.read_nxtChptr();
         }
         // read Next verse.
         if (e.keyCode == 32 || e.keyCode == 40) {
             //e.stopPropagation();
             e.preventDefault();
             C_Both("read Next Verse");
-            book.read_nxtVerse();
+            //book.read_nxtVerse();
         }
     }
+};
+
+const READ_A_Verse = ( key) => {
+    C_TraceD();
 };

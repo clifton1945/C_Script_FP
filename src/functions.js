@@ -11,13 +11,9 @@ const C_Both = (txt) => {
 };
 /**
  * a Wrapper to log and pass thru an object.
- * @param fn :  sets what will be seen.
+ * @param fn :  callback what will be seen.
  * @constructor
  */
-//const C_This =  (txt) => (obj) => {
-//    console.log( `${txt} @ ${obj}` );
-//    return obj
-//};
 const C_Trace = (fn) => (obj) => {
     console.log(fn(obj));
     return obj
