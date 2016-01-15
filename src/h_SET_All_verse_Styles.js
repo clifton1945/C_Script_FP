@@ -4,6 +4,8 @@
  */
 "use strict";
 
+const Coll2Array = (coll) => [...coll];
+
 /**
  * UPDATES  the global VerseObj FOR this vers elem.
  * @param vO:  the global VerseObj
@@ -15,6 +17,18 @@ const UPDATE_VerseObject = (vO) => (vers) => {
     vO.ary = vers[2];
     //C_Trace((o) => o.ndx)(vO);
     return vO
+};
+
+const SET_One_Verse_Style = (sO) => (...verse) => {
+    let vO = UPDATE_VerseObject (VerseObj) (verse) ;
+    // so now HAVE both styleObj && verseObj
+    let wt = sO.calcWt(sO, vO);
+    //C_Both(`wt:${wt}`);
+    //AND FINISH with SET_verse_style_Attribute
+    let v_style = vO.val.style;
+    v_style.fontSize = `${wt * 100}%`;
+    v_style.textAlign = 'center';
+    C_Both(vO.toStr())
 };
 
 const GET_cur_crGrps_Ary = pipeline(
