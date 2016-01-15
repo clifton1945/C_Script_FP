@@ -1,6 +1,11 @@
 "use strict";
+
+const READ_A_Verse = ( key) => {
+    C_TraceD();
+};
 const book = (document.querySelector('.book'));
 var BindHandlers = function BindHandlers(book) {
+    C_Both('IN  BindHandlers');
     //document.addEventListener("keydown", keysPressed, false);
     document.addEventListener("keyup", keyActions, false);
     function keyActions(e) {
@@ -9,7 +14,6 @@ var BindHandlers = function BindHandlers(book) {
             //e.stopPropagation();
             e.preventDefault();
             C_Both("read Last Chptr");
-            READ_A_Verse(1);
         }
         // read Last verse.
         if (e.keyCode == 38) {
@@ -30,11 +34,8 @@ var BindHandlers = function BindHandlers(book) {
             //e.stopPropagation();
             e.preventDefault();
             C_Both("read Next Verse");
-            //book.read_nxtVerse();
+            READ_A_Verse(1);
         }
     }
-};
-
-const READ_A_Verse = ( key) => {
-    C_TraceD();
+    C_Both('OUT BindHandlers');
 };
