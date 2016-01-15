@@ -37,10 +37,10 @@ const UPDATE_VerseObject = (vO) => (vers) => {
 const SET_One_Verse_Style = (sO) => (...verse) => {
     let vO = UPDATE_VerseObject (VerseObj) (verse) ;
     // so now HAVE both styleObj && verseObj
-    // SKIP calc style wt for now
-    //AND FINISH with SET_verse_style_Attribute
+    // MOCK calc style wt for now
     let v_style = vO.val.style;
     let wt = vO.ndx * 20;
+    //AND FINISH with SET_verse_style_Attribute
     v_style.color = 'blue';
     v_style.fontSize = `${wt}%`;
     v_style.textAlign = 'center';
@@ -48,22 +48,6 @@ const SET_One_Verse_Style = (sO) => (...verse) => {
 };
 //*****************************************************
 //    v_style.font_size = 'smaller';
-
-//const SET_One_verseGrp_Styles = (styleObj) => (vrGrp) => {
-//    let sO = styleObj[vrGrp.className];
-//    //BUILD callback fn: SET_Verse_Style for use in map(fn)(vrGrp.chkldren)
-//    ___cut = SET_One_Verse_Style(sO);
-//    ___data = Coll2Array(vrGrp.children);
-//    //C_It(`_this_StyleObj:${sO.name}`);
-//    //C_It(`_this_VerseReadGrp.len:${___data.length}`);
-//    f_map( ___cut ) ( ___data   );
-//};  // CALLEDBY ( global StyleObj)(VerseGrp) >> just the StyleObj data for this VersereadGroup
-//
-//const SET_All_verse_Styles = (globalStyleObj) =>  (data) => {
-//    //C_TraceD()(globalStyleObj);
-//    C_Trace((f)=>`fn;${f}`)(data);
-//    f_map(SET_One_verseGrp_Styles (globalStyleObj))( data); // calls each of 3 VerseReadGrps
-//};
 
 // RUN
 SET_All_verse_Styles(StyleObj)(GET_cur_crGrps_Ary ()); // fn () <== INVOKED W/ ()
