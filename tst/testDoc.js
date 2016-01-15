@@ -28,7 +28,7 @@ const UPDATE_VerseObject = (vO) => (vers) => {
     vO.val = vers[0];
     vO.ndx = vers[1];
     vO.ary = vers[2];
-    C_Trace((o) => o.ndx)(vO);
+    //C_Trace((o) => o.ndx)(vO);
     return vO
 };
 
@@ -38,10 +38,10 @@ const SET_One_Verse_Style = (sO) => (...verse) => {
     let vO = UPDATE_VerseObject (VerseObj) (verse) ;
     // so now HAVE both styleObj && verseObj
     let wt = sO.calcWt(sO, vO);
-    //C_Both(`wt:${wt}`);
+    C_Both(`wt:${wt}`);
     //AND FINISH with SET_verse_style_Attribute
     let v_style = vO.val.style;
-    v_style.fontSize = `${wt * 10}%`;
+    v_style.fontSize = `${wt * 100}%`;
     v_style.textAlign = 'center';
     //C_Both(vO.toStr())
 };
