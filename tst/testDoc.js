@@ -1,22 +1,6 @@
 "use strict";
 
 
-/**
- * testDoc.js
- * ALL THIS CODE, accumulating in functions.js and objects.js,
- * IS TO APPLY the fn: UPDATE_VERSE_STYLE to every div.vers PRESENTED to it
- *
- * I've changed the doc elements hopefully to let me keep track of the code.
- * But mostly to scrap all the many things open in tests.ja and tests.html.
- * This is a new staart.
- * This is in keeping with my oft repeated understanding that
- *   I MUST just DO OTAAT: One Thing At A Time
- *   Because I can't handle m ore that one - three thing at a time.
- *
- *   using new class names in testDoc.html
- * Created by CLIF on 1/9/2016.
- */
-
 let ___cut, ___srt, ___ret, ___msg, ___pipe, ___data;
 // CURRENT WIP  WWWWWWWWWWWWWWWWWWWWWWWW IIIIIIIIIIIIIIIIIIIIIIIIIIII PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP
 /**
@@ -34,6 +18,7 @@ const UPDATE_VerseObject = (vO) => (vers) => {
 
 // SET_One_Verse_Style:: ( obj, HTML:div) => some return signal complete
 //************************************************.
+// CUT: CodeUnderTest ****************************
 const SET_One_Verse_Style = (sO) => (...verse) => {
     let vO = UPDATE_VerseObject (VerseObj) (verse) ;
     // so now HAVE both styleObj && verseObj
