@@ -3,17 +3,17 @@
  */
 "use strict";
 // *********** TRACE HELPERS
+
 const Doc_It = (txt) => document.querySelector(".console").textContent = txt;
 const C_It = (txt) => console.log(txt);
 const C_Both = (txt) => {
     C_It (txt);
     Doc_It (txt);
 };
-/**
- * a Wrapper to log and pass thru an object.
- * @param fn :  callback what will be seen.
- * @constructor
- */
+const Trace = (fn=(obj)=>`${obj}`) => (obj) => {
+    C_Both(fn(obj));
+    return obj
+};
 const C_Trace = (fn) => (obj) => {
     console.log(fn(obj));
     return obj
