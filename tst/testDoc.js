@@ -6,7 +6,7 @@ let ___cut, ___srt, ___ret, ___msg, ___pipe, ___data;
 // CUT: CodeUnderTest ****************************
 // general functions
 const query = (tmpl ) => node => node.querySelector(tmpl);
-const HAS_Child =  (obj)=> obj.firstElementChild === null;
+//const HAS_Child =  (obj)=> obj.firstElementChild === null;
 const TraceChild = (obj)=> (HAS_Child) ? `${obj.innerText}` : `${null}`;
 //
 const book = query('.book')(document);
