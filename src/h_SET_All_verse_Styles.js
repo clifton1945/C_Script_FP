@@ -71,20 +71,3 @@ const SET_All_verse_Styles = (globalStyleObj) =>  (data) => {
     //C_Trace((f)=>`fn;${f}`)(data);
     f_map(SET_One_verseGrp_Styles (globalStyleObj))( data); // calls each of 3 VerseReadGrps
 };
-
-///**
-// * calculates a specific verse style wt USING StyleObj.calcWt
-// * @param so: StyleObj
-// */
-//const calcWt = (so) => (vo) => {
-//    return so.calcWt(so, vo); // return a style wt.
-//};
-//const set_VerseStyle = (so) => (vo) => {
-//    let fn_calcWt = calcWt(so); // >> fn
-//    let tmpl = set_StyleTmpl(fn_calcWt(vo));  // >> fn >> str
-//    // NOTE: no return required; this sets the DOM
-//    vo.ver.setAttribute("style", tmpl)
-//};
-//const set_StyleTmpl = (wt) => {
-//    return `opacity:${wt}; font-size:${wt * 100}%`;  // color:red is just for testing.
-//};
