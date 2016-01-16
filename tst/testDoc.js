@@ -12,44 +12,16 @@ const TraceChild = (obj)=> (HAS_Child) ? `${obj.innerText}` : `${null}`;
 const book = query('.book')(document);
 const curChptr_VRGrps = query('.ChptrReadGrps > .cur > .chptr > .VerseReadGrps')(book);
 const curVRGrp = query('.cur')(curChptr_VRGrps);
-const pstVRGrp = curVRGrp.previousElementSibling;
-const futVRGrp = curVRGrp.nextElementSibling;
-//************************************************
-// TESTING
-//Trace(function (o) {
-//    return 'o: ' + o.firstElementChild.innerHTML;
-//})(pstVRGrp);
-C_Both(`pst..${TraceChild(pstVRGrp)}`);
-Trace(function (o) {
-    return 'o: ' + o.firstElementChild.innerHTML;
-})(curVRGrp);
-Trace(function (o) {
-    return 'o: ' + o.firstElementChild.innerHTML;
-})(futVRGrp);
-
+// TESTS
+C_Both(`cur..${TraceChild(curVRGrp)}`);
 UPDATE_VRGrps(curVRGrp, -1);
-//Trace(function (o) {
-//    return 'o: ' + o.firstElementChild.innerHTML;
-//})(pstVRGrp);
-C_Both(`pst..${TraceChild(pstVRGrp)}`);
-Trace(function (o) {
-    return 'o: ' + o.firstElementChild.innerHTML;
-})(curVRGrp);
-Trace(function (o) {
-    return 'o: ' + o.firstElementChild.innerHTML;
-})(futVRGrp);
-
+C_Both(`cur..${TraceChild(curVRGrp)}`);
+UPDATE_VRGrps(curVRGrp, -1);
+C_Both(`cur..${TraceChild(curVRGrp)}`);
 UPDATE_VRGrps(curVRGrp, 1);
-//Trace(function (o) {
-//    return 'o: ' + o.firstElementChild.innerHTML;
-//})(pstVRGrp);
-C_Both(`pst..${TraceChild(pstVRGrp)}`);
-Trace(function (o) {
-    return 'o: ' + o.firstElementChild.innerHTML;
-})(curVRGrp);
-Trace(function (o) {
-    return 'o: ' + o.firstElementChild.innerHTML;
-})(futVRGrp);
+C_Both(`cur..${TraceChild(curVRGrp)}`);
+UPDATE_VRGrps(curVRGrp, 1);
+C_Both(`cur..${TraceChild(curVRGrp)}`);
 
 //*****************************************************
 /**
