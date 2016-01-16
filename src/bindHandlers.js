@@ -21,7 +21,6 @@ const UPDATE_VRGrps = function (direction) {
             futVRGrp.insertBefore(curVRGrp.lastElementChild, futVRGrp.firstElementChild);
         }
     }
-
     return curVRGrp;  //NEEDED  it's the updated curVRGrp property
 };
 // TESTING
