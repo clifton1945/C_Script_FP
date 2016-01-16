@@ -1,13 +1,17 @@
 "use strict";
 
 // CUT: CodeUnderTest ****************************
-const book = query('.book')(document);
-const curChptr_VRGrps = query('.ChptrReadGrps > .cur > .chptr > .VerseReadGrps')(book);
-const READ_curVRGrp = ()=>query('.cur')(curChptr_VRGrps);
+var READ_curVRGrp = () => query('.cur')(curChptr_VRGrps);
 
 //************************************************
-const UPDATE_VRGrps = function (direction) {
-    var curVRGrp = READ_curVRGrp();
+const UPDATE_VRGrps = (book) => (direction) => {
+    // for use in SET_ALL_verse_Styles
+    var curChptr_VRGrps = query(
+        '.ChptrReadGrps > .cur > .chptr > .VerseReadGrps')
+    (book);
+
+    // for use in this function
+    var curVRGrp = READ_curVRGrp ();
     var pstVRGrp = curVRGrp.previousElementSibling;
     var futVRGrp = curVRGrp.nextElementSibling;
     if (direction > 0) {
@@ -21,8 +25,12 @@ const UPDATE_VRGrps = function (direction) {
             futVRGrp.insertBefore(curVRGrp.lastElementChild, futVRGrp.firstElementChild);
         }
     }
-
-    return curVRGrp;  //NEEDED  it's the updated curVRGrp property
+    // the curChptr_VRGrps HAVAE BEEN UPDATED SO RESTYLE ALL Verses!!
+    //TODO  destructure this !!!!!!!!!!!!!!
+    SET_All_verse_Styles (StyleObj)([...curChptr_VRGrps.children]);
+    //
+    //NOT SURE NEEDED  it's the updated curVRGrp property
+    return curVRGrp;  //NOT SURE NEEDED  it's the updated curVRGrp property
 };
 // TESTING
 // **********************  CUT ***********************
@@ -43,7 +51,7 @@ var BindHandlers = function BindHandlers(book) {
             //e.stopPropagation();
             e.preventDefault();
             C_Both("read Last Verse");
-            UPDATE_VRGrps(-1);
+            UPDATE_VRGrps(book)(-1)
         }
         // read Next Chptr.
         if (e.keyCode == 39 || e.keyCode == 96) { // rt arrow || numpad 0
@@ -57,7 +65,7 @@ var BindHandlers = function BindHandlers(book) {
             //e.stopPropagation();
             e.preventDefault();
             C_Both("read Next Verse");
-            UPDATE_VRGrps(1);
+            UPDATE_VRGrps(book)(1);
         }
     }
     C_Both('OUT BindHandlers');
