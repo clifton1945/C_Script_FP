@@ -4,7 +4,11 @@
 let ___cut, ___srt, ___ret, ___msg, ___pipe, ___data;
 //************************************************
 // CUT: CodeUnderTest ****************************
+// general functions
 const query = (tmpl ) => node => node.querySelector(tmpl);
+const HAS_Child =  (obj)=> obj.firstElementChild === null;
+const TraceChild = (obj)=> (HAS_Child) ? `${obj.innerText}` : `${obj}`;
+//
 const book = query('.book')(document);
 const curChptr_VRGrps = query('.ChptrReadGrps > .cur > .chptr > .VerseReadGrps')(book);
 const curVRGrp = query('.cur')(curChptr_VRGrps);
@@ -12,19 +16,34 @@ const pstVRGrp = curVRGrp.previousElementSibling;
 const futVRGrp = curVRGrp.nextElementSibling;
 //************************************************
 // TESTING
-Trace(function (o) {
-    return 'o: ' + o.firstElementChild.innerHTML;
-})(pstVRGrp);
+//Trace(function (o) {
+//    return 'o: ' + o.firstElementChild.innerHTML;
+//})(pstVRGrp);
+C_Both(`pst..${TraceChild(pstVRGrp)}`);
 Trace(function (o) {
     return 'o: ' + o.firstElementChild.innerHTML;
 })(curVRGrp);
 Trace(function (o) {
     return 'o: ' + o.firstElementChild.innerHTML;
 })(futVRGrp);
+
 UPDATE_VRGrps(curVRGrp, -1);
+//Trace(function (o) {
+//    return 'o: ' + o.firstElementChild.innerHTML;
+//})(pstVRGrp);
+C_Both(`pst..${TraceChild(pstVRGrp)}`);
 Trace(function (o) {
-    return 'o: ' + o.firstElementChild;
-})(pstVRGrp);
+    return 'o: ' + o.firstElementChild.innerHTML;
+})(curVRGrp);
+Trace(function (o) {
+    return 'o: ' + o.firstElementChild.innerHTML;
+})(futVRGrp);
+
+UPDATE_VRGrps(curVRGrp, 1);
+//Trace(function (o) {
+//    return 'o: ' + o.firstElementChild.innerHTML;
+//})(pstVRGrp);
+C_Both(`pst..${TraceChild(pstVRGrp)}`);
 Trace(function (o) {
     return 'o: ' + o.firstElementChild.innerHTML;
 })(curVRGrp);
