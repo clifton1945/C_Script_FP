@@ -7,7 +7,7 @@ let ___cut, ___srt, ___ret, ___msg, ___pipe, ___data;
 // general functions
 const query = (tmpl ) => node => node.querySelector(tmpl);
 const HAS_Child =  (obj)=> obj.firstElementChild === null;
-const TraceChild = (obj)=> (HAS_Child) ? `${obj.innerText}` : `${obj}`;
+const TraceChild = (obj)=> (HAS_Child) ? `${obj.innerText}` : `${null}`;
 //
 const book = query('.book')(document);
 const curChptr_VRGrps = query('.ChptrReadGrps > .cur > .chptr > .VerseReadGrps')(book);
