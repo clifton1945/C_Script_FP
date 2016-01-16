@@ -10,43 +10,30 @@
  * @param direction
  * @returns {*}
  */
-
-const  GET_Initial_Verses_NL = () =>  document.querySelectorAll(
-    '#cur_ChptrReadGrp .VerseReadGrps .vers'
-);
-const update_curEl = function (curEl, direction) {
+const update_curReadGrp = function (curReadGrp, direction) {
     "use strict";
-    var pstEl = curEl.previousElementSibling;
-    var futEl = curEl.nextElementSibling;
+    var pstReadGrp = curReadGrp.previousReadGrpementSibling;
+    var futReadGrp = curReadGrp.nextReadGrpementSibling;
     if (direction > 0) {
-        if (futEl.childElementCount != 0) {
-            curEl.appendChild(futEl.firstElementChild);
-            pstEl.appendChild(curEl.firstElementChild);
+        if (futReadGrp.childReadGrpementCount != 0) {
+            curReadGrp.appendChild(futReadGrp.firstReadGrpementChild);
+            pstReadGrp.appendChild(curReadGrp.firstReadGrpementChild);
         }
     } else if (direction < 0) {
-        if (pstEl.childElementCount != 0) {
-            curEl.insertBefore(pstEl.lastElementChild, curEl.firstElementChild);
-            futEl.insertBefore(curEl.lastElementChild, futEl.firstElementChild);
+        if (pstReadGrp.childReadGrpementCount != 0) {
+            curReadGrp.insertBefore(pstReadGrp.lastReadGrpementChild, curReadGrp.firstReadGrpementChild);
+            futReadGrp.insertBefore(curReadGrp.lastReadGrpementChild, futReadGrp.firstReadGrpementChild);
         }
     }
-    return curEl;  //NEEDED  it's the updated curEl property
+    return curReadGrp;  //NEEDED  it's the updated curReadGrp property
 };
+// **********************  CUT ***********************
+const query = (tmpl ) => node => node.querySelector(tmpl);
+const GET_book = query('.book')(document);
+const GET_curChapter = query('.ChptrReadGrps > .cur')(GET_book());
 
-const READ_A_Verse = ( key) => {
-    let k = Trace((k)=>`key:${k.toString()} in READ_A_Verse.`)(key); // default
-    const curElem = document.querySelector('#cur_VerseReadGrp div'); // exp the first verse in the cur chptr && curVerseGrp
-    Trace((o)=>`obj:${o}`)(curElem.innerHTML);
-    //update_curEl(curElem, key);
-    //Trace((o)=>`obj:${o}`)(curElem.innerHTML);
-};
 
-// TEST ********** update_curEl
-var GET_Initial_curEl = pipeline(
-    GET_Initial_Verses_NL
-    ,(coll) => [...coll]
-    ,Trace((a)=>a.length)
-    ,(a) => a[1]  // hardcoded currentVerse
-);
+
 var direction = 1;
 Trace(update_curEl)(GET_Initial_curEl (), direction);
 
