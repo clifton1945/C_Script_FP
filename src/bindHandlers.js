@@ -3,7 +3,7 @@
 // CUT: CodeUnderTest ****************************
 const book = query('.book')(document);
 const curChptr_VRGrps = query('.ChptrReadGrps > .cur > .chptr > .VerseReadGrps')(book);
-const READ_curVRGrp = ()=>query('.cur')(curChptr_VRGrps);
+const READ_curVRGrp = () => query('.cur')(curChptr_VRGrps);
 
 //************************************************
 const UPDATE_VRGrps = function (direction) {
