@@ -67,6 +67,8 @@ const SET_One_verseGrp_Styles = (styleObj) => (vrGrp) => {
 
 const SET_All_verse_Styles = (globalStyleObj) =>  (data) => {
     //C_TraceD()(globalStyleObj);
-    //C_Trace((f)=>`fn;${f}`)(data);
-    f_map(SET_One_verseGrp_Styles (globalStyleObj))( data); // calls each of 3 VerseReadGrps
+    //C_Trace((f)=>`fn:${f}`)(data);
+    // calls each of 3 VerseReadGrps
+    f_map(SET_One_verseGrp_Styles (globalStyleObj))( data);
+
 };

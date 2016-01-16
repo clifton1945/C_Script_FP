@@ -10,8 +10,8 @@ let ___cut, ___srt, ___ret, ___msg, ___pipe, ___data;
 const TraceChild = (obj)=> (HAS_Child) ? `${obj.innerText}` : `${null}`;
 //
 const book = query('.book')(document);
-//const curChptr_VRGrps = query('.ChptrReadGrps > .cur > .chptr > .VerseReadGrps')(book);
-//const curVRGrp = query('.cur')(curChptr_VRGrps);
+const curChptr_VRGrps = query('.ChptrReadGrps > .cur > .chptr > .VerseReadGrps')(book);
+const curVRGrp = query('.cur')(curChptr_VRGrps);
 //*****************************************************
 // TESTS
 BindHandlers(book);
