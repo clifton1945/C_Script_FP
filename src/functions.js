@@ -15,8 +15,17 @@ const Trace = (fn=(obj)=>`${obj}`) => (obj) => {
     C_Both(fn(obj));
     return obj
 };
+var HAS_Child = function HAS_Child(obj) {
+    return obj.firstElementChild === null;
+};
 
 // ******************  FUNCTIONS
+/// DOM
+const query = function query(tmpl) {
+    return function (node) {
+        return node.querySelector(tmpl);
+    };
+};
 const f_map = (fn) => (ary) => {return ary.map(fn)};
 // SOMEONE ELSES PIPELINE - to ASSEMBLE || COMPOSE functions
 function runStep(intermediate, step) {
