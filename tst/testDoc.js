@@ -4,8 +4,34 @@
 let ___cut, ___srt, ___ret, ___msg, ___pipe, ___data;
 //************************************************
 // CUT: CodeUnderTest ****************************
+const query = (tmpl ) => node => node.querySelector(tmpl);
+const book = query('.book')(document);
+const curChptr_VRGrps = query('.ChptrReadGrps > .cur > .chptr > .VerseReadGrps')(book);
+const curVRGrp = query('.cur')(curChptr_VRGrps);
+const pstVRGrp = curVRGrp.previousElementSibling;
+const futVRGrp = curVRGrp.nextElementSibling;
 //************************************************
-// RUN
+// TESTING
+Trace(function (o) {
+    return 'o: ' + o.firstElementChild.innerHTML;
+})(pstVRGrp);
+Trace(function (o) {
+    return 'o: ' + o.firstElementChild.innerHTML;
+})(curVRGrp);
+Trace(function (o) {
+    return 'o: ' + o.firstElementChild.innerHTML;
+})(futVRGrp);
+UPDATE_VRGrps(curVRGrp, -1);
+Trace(function (o) {
+    return 'o: ' + o.firstElementChild;
+})(pstVRGrp);
+Trace(function (o) {
+    return 'o: ' + o.firstElementChild.innerHTML;
+})(curVRGrp);
+Trace(function (o) {
+    return 'o: ' + o.firstElementChild.innerHTML;
+})(futVRGrp);
+
 //*****************************************************
 /**
  * THINKING

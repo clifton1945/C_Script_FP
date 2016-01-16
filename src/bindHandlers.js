@@ -1,35 +1,39 @@
 "use strict";
 
 // CUT: CodeUnderTest ****************************
-const query = (tmpl ) => node => node.querySelector(tmpl);
-const book = query('.book')(document);
-const curChptr_VRGrps = query('.ChptrReadGrps > .cur > .chptr > .VerseReadGrps')(book);
-const curVRGrp = query('.cur')(curChptr_VRGrps);
-const pstVRGrp = curVRGrp.previousElementSibling;
-const futVRGrp = curVRGrp.nextElementSibling;
+//const query = (tmpl ) => node => node.querySelector(tmpl);
+//const book = query('.book')(document);
+//const curChptr_VRGrps = query('.ChptrVRGrps > .cur > .chptr > .VerseVRGrps')(book);
+//const curVRGrp = query('.cur')(curChptr_VRGrps);
+//const pstVRGrp = curVRGrp.previousElementSibling;
+//const futVRGrp = curVRGrp.nextElementSibling;
 //************************************************
-// RUN
-Trace((o)=>`o: ${o.firstElementChild.innerHTML}`)(pstVRGrp);
-Trace((o)=>`o: ${o.firstElementChild.innerHTML}`)(curVRGrp);
-Trace((o)=>`o: ${o.firstElementChild.innerHTML}`)(futVRGrp);
-
-const update_curReadGrp = function (curReadGrp, direction) {
-    "use strict";
-    var pstReadGrp = curReadGrp.previousReadGrpementSibling;
-    var futReadGrp = curReadGrp.nextReadGrpementSibling;
+const UPDATE_VRGrps = function (curVRGrp, direction) {
+    var pstVRGrp = curVRGrp.previousElementSibling;
+    var futVRGrp = curVRGrp.nextElementSibling;
     if (direction > 0) {
-        if (futReadGrp.childReadGrpementCount != 0) {
-            curReadGrp.appendChild(futReadGrp.firstReadGrpementChild);
-            pstReadGrp.appendChild(curReadGrp.firstReadGrpementChild);
+        if (futVRGrp.childElementCount != 0) {
+            curVRGrp.appendChild(futVRGrp.firstElementChild);
+            pstVRGrp.appendChild(curVRGrp.firstElementChild);
         }
     } else if (direction < 0) {
-        if (pstReadGrp.childReadGrpementCount != 0) {
-            curReadGrp.insertBefore(pstReadGrp.lastReadGrpementChild, curReadGrp.firstReadGrpementChild);
-            futReadGrp.insertBefore(curReadGrp.lastReadGrpementChild, futReadGrp.firstReadGrpementChild);
+        if (pstVRGrp.childElementCount != 0) {
+            curVRGrp.insertBefore(pstVRGrp.lastElementChild, curVRGrp.firstElementChild);
+            futVRGrp.insertBefore(curVRGrp.lastElementChild, futVRGrp.firstElementChild);
         }
     }
-    return curReadGrp;  //NEEDED  it's the updated curReadGrp property
+    return curVRGrp;  //NEEDED  it's the updated curVRGrp property
 };
+// TESTING
+//Trace((o)=>`o: ${o.firstElementChild.innerHTML}`)(pstVRGrp);
+//Trace((o)=>`o: ${o.firstElementChild.innerHTML}`)(curVRGrp);
+//Trace((o)=>`o: ${o.firstElementChild.innerHTML}`)(futVRGrp);
+////UPDATE_VRGrps(curVRGrp, 1);
+//Trace((o)=>`o: ${o.firstElementChild.innerHTML}`)(pstVRGrp);
+//Trace((o)=>`o: ${o.firstElementChild.innerHTML}`)(curVRGrp);
+//Trace((o)=>`o: ${o.firstElementChild.innerHTML}`)(futVRGrp);
+
+
 // **********************  CUT ***********************
 
 //var direction = 1;
