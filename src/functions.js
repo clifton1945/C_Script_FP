@@ -14,22 +14,7 @@ const Trace = (fn=(obj)=>`${obj}`) => (obj) => {
     C_Both(fn(obj));
     return obj
 };
-const C_Trace = (fn) => (obj) => {
-    console.log(fn(obj));
-    return obj
-};
-const C_TraceD = (fn=(obj)=>`${obj}`) => (obj) => {
-    console.log(fn(obj));
-    return obj
-}; //C_TraceD()([1,2,3]);//>> 1,2,3
-const C_TraceS = (fn=(obj)=>`${obj}`) => (obj) => {
-    C_It(fn(obj));
-    return obj
-}; //C_TraceD()([1,2,3]);//>> 1,2,3
-const isArray = (coll) => Array.isArray(coll);
-const C_isArray = (coll) => {
-    C_It(`${coll} isArray:[${isArray(coll)}]`);
-    return coll};
+
 // ******************  FUNCTIONS
 const f_map = (fn) => (ary) => {return ary.map(fn)};
 // SOMEONE ELSES PIPELINE - to ASSEMBLE || COMPOSE functions
@@ -58,6 +43,24 @@ function pipeline() {
 // * calculates a specific verse style wt USING StyleObj.calcWt
 // * @param so: StyleObj
 // */
+
+//DEPRECATED
+const C_Trace = (fn) => (obj) => {
+    console.log(fn(obj));
+    return obj
+};
+const C_TraceD = (fn=(obj)=>`${obj}`) => (obj) => {
+    console.log(fn(obj));
+    return obj
+}; //C_TraceD()([1,2,3]);//>> 1,2,3
+const C_TraceS = (fn=(obj)=>`${obj}`) => (obj) => {
+    C_It(fn(obj));
+    return obj
+}; //C_TraceD()([1,2,3]);//>> 1,2,3
+const isArray = (coll) => Array.isArray(coll);
+const C_isArray = (coll) => {
+    C_It(`${coll} isArray:[${isArray(coll)}]`);
+    return coll};
 
 //const calcWt = (so) => (vo) => {
 //    return so.calcWt(so, vo); // return a style wt.
