@@ -10,6 +10,7 @@ const C_Both = (txt) => {
     C_It (txt);
     Doc_It (txt);
 };
+
 const Trace = (fn=(obj)=>`${obj}`) => (obj) => {
     C_Both(fn(obj));
     return obj

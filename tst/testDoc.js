@@ -6,8 +6,6 @@ let ___cut, ___srt, ___ret, ___msg, ___pipe, ___data;
 // CUT: CodeUnderTest ****************************
 //************************************************
 // RUN
-BindHandlers ();
-//SET_All_verse_Styles(StyleObj)(GET_cur_crGrps_Ary ()); // fn () <== INVOKED W/ ()
 //*****************************************************
 /**
  * THINKING

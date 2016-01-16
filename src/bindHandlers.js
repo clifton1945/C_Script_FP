@@ -1,15 +1,18 @@
 "use strict";
-/**
- * update_curEl needs to
- *  GET_All_curChptr_verses // = document.querySelectorAll('#cur_ChptrReadGrp .VerseReadGrps .vers');
- *  ,Coll2Ary
- *  ,GET_curChptr_curVerse // const _curEl = document.querySelector('#cur_VerseReadGrp .vers');
- *  ,FIND_ndx_of_curVer_IN_verses
- *  ,SET_curVers_TO_VersesNdx
- * @param curEl
- * @param direction
- * @returns {*}
- */
+
+// CUT: CodeUnderTest ****************************
+const query = (tmpl ) => node => node.querySelector(tmpl);
+const book = query('.book')(document);
+const curChptr_VRGrps = query('.ChptrReadGrps > .cur > .chptr > .VerseReadGrps')(book);
+const curVRGrp = query('.cur')(curChptr_VRGrps);
+const pstVRGrp = curVRGrp.previousElementSibling;
+const futVRGrp = curVRGrp.nextElementSibling;
+//************************************************
+// RUN
+Trace((o)=>`o: ${o.firstElementChild.innerHTML}`)(pstVRGrp);
+Trace((o)=>`o: ${o.firstElementChild.innerHTML}`)(curVRGrp);
+Trace((o)=>`o: ${o.firstElementChild.innerHTML}`)(futVRGrp);
+
 const update_curReadGrp = function (curReadGrp, direction) {
     "use strict";
     var pstReadGrp = curReadGrp.previousReadGrpementSibling;
@@ -28,14 +31,9 @@ const update_curReadGrp = function (curReadGrp, direction) {
     return curReadGrp;  //NEEDED  it's the updated curReadGrp property
 };
 // **********************  CUT ***********************
-const query = (tmpl ) => node => node.querySelector(tmpl);
-const GET_book = query('.book')(document);
-const GET_curChapter = query('.ChptrReadGrps > .cur')(GET_book());
 
-
-
-var direction = 1;
-Trace(update_curEl)(GET_Initial_curEl (), direction);
+//var direction = 1;
+//Trace(update_curEl)(GET_Initial_curEl (), direction);
 
 //var BindHandlers = function BindHandlers(book) {
 //    //C_Both('IN  BindHandlers');
