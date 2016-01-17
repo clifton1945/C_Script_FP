@@ -36,7 +36,7 @@ const UPDATE_VRGrps = (book) => (direction) => {
 // **********************  CUT ***********************
 
 var BindHandlers = function BindHandlers(book) {
-    C_Both('IN  BindHandlers');
+    //C_Both('IN  BindHandlers');
     //document.addEventListener("keydown", keysPressed, false);
     document.addEventListener("keyup", keyActions, false);
     function keyActions(e) {
@@ -68,5 +68,5 @@ var BindHandlers = function BindHandlers(book) {
             UPDATE_VRGrps(book)(1);
         }
     }
-    C_Both('OUT BindHandlers');
+    //C_Both('OUT BindHandlers');
 };
