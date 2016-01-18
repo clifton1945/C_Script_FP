@@ -14,6 +14,7 @@ const curChptr_VRGrps = query('.ChptrReadGrps > .cur > .chptr > .VerseReadGrps')
 const curVRGrp = query('.cur')(curChptr_VRGrps);
 //*****************************************************
 // TESTS
+SET_All_verse_Styles (StyleObj)([...curChptr_VRGrps.children]);
 BindHandlers(book);
 /**
  * THINKING
