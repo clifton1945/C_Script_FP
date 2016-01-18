@@ -27,7 +27,7 @@ const SET_One_Verse_Style = (sO) => (...verse) => {
     //AND FINISH with SET_verse_style_Attribute
     let v_style = vO.val.style;
     v_style.fontSize = `${wt * 100}%`;
-    v_style.textAlign = 'center';
+    //v_style.textAlign = 'center';
     //C_Both(vO.toStr())
 };
 
