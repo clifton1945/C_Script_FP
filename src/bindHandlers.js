@@ -11,7 +11,7 @@ const UPDATE_VRGrps = (book) => (direction) => {
     (book);
 
     // for use in this function
-    var curVRGrp = READ_curVRGrp ();
+    var curVRGrp = READ_curVRGrp();
     var pstVRGrp = curVRGrp.previousElementSibling;
     var futVRGrp = curVRGrp.nextElementSibling;
     if (direction > 0) {
@@ -27,7 +27,7 @@ const UPDATE_VRGrps = (book) => (direction) => {
     }
     // the curChptr_VRGrps HAVAE BEEN UPDATED SO RESTYLE ALL Verses!!
     //TODO  destructure this !!!!!!!!!!!!!!
-    SET_All_verse_Styles (StyleObj)([...curChptr_VRGrps.children]);
+    SET_All_verse_Styles(StyleObj)([...curChptr_VRGrps.children]);
     //
     //NOT SURE NEEDED  it's the updated curVRGrp property
     return curVRGrp;  //NOT SURE NEEDED  it's the updated curVRGrp property
@@ -37,6 +37,23 @@ const UPDATE_VRGrps = (book) => (direction) => {
 
 var BindHandlers = function BindHandlers(book) {
     //C_Both('IN  BindHandlers');
+
+    //$(function() {
+
+    //
+    //var text = 'before ';
+    //console.log(text);
+    //if(window.getSelection){
+    //    text = window.getSelection();
+    //}else if(document.getSelection){
+    //    text = document.getSelection();
+    //}else if(document.selection){
+    //    text = document.selection.createRange().text;
+    //}
+    //text=text.toString();
+    //console.log(text);
+
+
     //document.addEventListener("keydown", keysPressed, false);
     document.addEventListener("keyup", keyActions, false);
     function keyActions(e) {
@@ -68,5 +85,36 @@ var BindHandlers = function BindHandlers(book) {
             UPDATE_VRGrps(book)(1);
         }
     }
-    //C_Both('OUT BindHandlers');
+
+    // click event
+    //timer = setInterval(getSelectedRange, 150);
+    //});
+
+    //var timer = null;
+
+    var selectedRange = null;
+    var getSelectedRange = function () {
+        try {
+            if (window.getSelection) {
+                selectedRange = window.getSelection().getRangeAt(0);
+            } else {
+                selectedRange = document.getSelection().getRangeAt(0);
+            }
+        } catch (err) {
+        }
+        console.log('selectedRange:' + selectedRange.toString()); // TODO remove console.log
+    };
+    // add event listener to table
+    let b = document.querySelector('.book');
+    b.addEventListener("click",
+        () => {
+            getSelectedRange();
+            let el = document.querySelector('#result');
+            el.textContent= selectedRange.toString();
+            console.log(`textContent:${el.textContent}`);
+        },
+        false
+    );
+
+    C_Both('OUT BindHandlers');
 };
