@@ -1,10 +1,7 @@
 /**
  * Created by CLIF on 1/9/2016.
  */
-
 "use strict";
-
-
 // OBJECTS
 const StyleObj = {
     fut: {
