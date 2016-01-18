@@ -1,3 +1,7 @@
+document.getSelection looks good to transfer html content ( in Chrome ).
+LOOK IT UP!!
+
+
 DEALING W/ const: It binds names to expressions
 We can bind any expression. Functions are expressions, so we can bind helper functions:
 
