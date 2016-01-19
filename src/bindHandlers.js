@@ -42,9 +42,11 @@ var BindHandlers = function BindHandlers(book) {
     //document.addEventListener("keydown", keysPressed, false);
     document.addEventListener("keyup", keyActions, false);
     function keyActions(e) {
+        var curChptr_CRGrps = query(
+            '.ChptrReadGrps')(book);
         var curChptr_VRGrps = query(
-            '.ChptrReadGrps > .cur > .chptr > .VerseReadGrps')
-        (book);
+            '.cur > .chptr > .VerseReadGrps')
+        (curChptr_CRGrps);
         // read Last Chptr.
         if (e.keyCode == 37) {
             //e.stopPropagation();
