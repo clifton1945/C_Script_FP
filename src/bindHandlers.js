@@ -89,9 +89,7 @@ var BindHandlers = function BindHandlers(book) {
     // click event
     //timer = setInterval(getSelectedRange, 150);
     //});
-
     //var timer = null;
-
     var selectedRange = null;
     var getSelectedRange = function () {
         try {
@@ -112,9 +110,7 @@ var BindHandlers = function BindHandlers(book) {
             let el = document.querySelector('#result');
             el.textContent= selectedRange.toString();
             console.log(`textContent:${el.textContent}`);
-        },
-        false
+        },false
     );
-
     C_Both('OUT BindHandlers');
 };
