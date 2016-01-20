@@ -10,7 +10,8 @@ const UPDATE_VRGrps = (cur_ReadGrp) => (direction) => {
     //    '.ChptrReadGrps > .cur > .chptr > .VerseReadGrps'\\\\    //(book);
 
     // for use in this function
-    var curReadGrp = READ_cur_RGrp();
+    //var curReadGrp = READ_cur_RGrp();
+    var curReadGrp = cur_ReadGrp; //TODO  ACCEPT OR REVERT
     var pstVRGrp = curReadGrp.previousElementSibling;
     var futVRGrp = curReadGrp.nextElementSibling;
     if (direction > 0) {
@@ -40,15 +41,17 @@ var BindHandlers = function BindHandlers(book) {
     document.addEventListener("keyup", keyActions, false);
     function keyActions(e) {
         var curChptr_CRGrps = query(
-            '.ChptrReadGrps ')(book);
+            '.ChptrReadGrps > .cur')(book);
         var curChptr_VRGrps = query(
-            '.cur > .chptr > .VerseReadGrps')(curChptr_CRGrps);
+            ' .chptr > .VerseReadGrps > .cur')(curChptr_CRGrps);
 
         // read Last Chptr.
         if (e.keyCode == 37) {
             //e.stopPropagation();
             e.preventDefault();
-            //C_Both("read Last Chptr");
+            C_Both("read Last Chptr");
+            UPDATE_VRGrps(curChptr_CRGrps)(-1)
+
         }
         // read Last verse.
         if (e.keyCode == 38) {
