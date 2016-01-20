@@ -1,17 +1,9 @@
 "use strict";
 
-// CUT: CodeUnderTest ****************************
-var READ_cur_RGrp = () => query('.cur')(curChptr_VRGrps);
-
 //************************************************
-const UPDATE_VRGrps = (cur_ReadGrp) => (direction) => {
-    // for use in SET_ALL_verse_Styles
-    //var curChptr_VRGrps = query(
-    //    '.ChptrReadGrps > .cur > .chptr > .VerseReadGrps'\\\\    //(book);
-
+const UPDATE_ReadGrps = (cur_ReadGrp) => (direction) => {
     // for use in this function
-    //var curReadGrp = READ_cur_RGrp();
-    var curReadGrp = cur_ReadGrp; //TODO  ACCEPT OR REVERT
+    var curReadGrp = cur_ReadGrp;
     var pstVRGrp = curReadGrp.previousElementSibling;
     var futVRGrp = curReadGrp.nextElementSibling;
     if (direction > 0) {
@@ -25,18 +17,13 @@ const UPDATE_VRGrps = (cur_ReadGrp) => (direction) => {
             futVRGrp.insertBefore(curReadGrp.lastElementChild, futVRGrp.firstElementChild);
         }
     }
-    // the curChptr_VRGrps HAVAE BEEN UPDATED SO RESTYLE ALL Verses!!
-    //TODO  destructure this !!!!!!!!!!!!!!
-    SET_All_verse_Styles(StyleObj)([...curChptr_VRGrps.children]);
+    SET_All_verse_Styles(StyleObj)([...cur_ReadGrp.children]);
     //
     //NOT SURE NEEDED  it's the updated curReadGrp property
     return curReadGrp;  //NOT SURE NEEDED  it's the updated curReadGrp property
 };
-// TESTING
-// **********************  CUT ***********************
-
 var BindHandlers = function BindHandlers(book) {
-    //C_Both('IN  BindHandlers');
+    // KEY Events ************************
     //document.addEventListener("keydown", keysPressed, false);
     document.addEventListener("keyup", keyActions, false);
     function keyActions(e) {
@@ -50,7 +37,7 @@ var BindHandlers = function BindHandlers(book) {
             //e.stopPropagation();
             e.preventDefault();
             C_Both("read Last Chptr");
-            UPDATE_VRGrps(curChptr_CRGrps)(-1)
+            UPDATE_ReadGrps(curChptr_CRGrps)(-1)
 
         }
         // read Last verse.
@@ -58,28 +45,24 @@ var BindHandlers = function BindHandlers(book) {
             //e.stopPropagation();
             e.preventDefault();
             C_Both("read Last Verse");
-            UPDATE_VRGrps(curChptr_VRGrps)(-1)
+            UPDATE_ReadGrps(curChptr_VRGrps)(-1)
         }
         // read Next Chptr.
         if (e.keyCode == 39 || e.keyCode == 96) { // rt arrow || numpad 0
             //e.stopPropagation();
             e.preventDefault();
             C_Both("read Next Chptr ");
-            UPDATE_VRGrps(curChptr_CRGrps)(1)
+            UPDATE_ReadGrps(curChptr_CRGrps)(1)
         }
             // read Next verse.
         if (e.keyCode == 32 || e.keyCode == 40) {
             //e.stopPropagation();
             e.preventDefault();
             C_Both("read Next Verse");
-            UPDATE_VRGrps(curChptr_VRGrps)(1);
+            UPDATE_ReadGrps(curChptr_VRGrps)(1);
         }
     }
-    // click event
-
-    //timer = setInterval(getSelectedRange, 150);
-    //});
-    //var timer = null;
+    // click Events **********************
     var selectedRange = null;
     var getSelectedRange = function () {
         try {
