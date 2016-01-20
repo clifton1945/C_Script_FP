@@ -7,8 +7,7 @@ var READ_cur_RGrp = () => query('.cur')(curChptr_VRGrps);
 const UPDATE_VRGrps = (cur_ReadGrp) => (direction) => {
     // for use in SET_ALL_verse_Styles
     //var curChptr_VRGrps = query(
-    //    '.ChptrReadGrps > .cur > .chptr > .VerseReadGrps')
-    //(book);
+    //    '.ChptrReadGrps > .cur > .chptr > .VerseReadGrps'\\\\    //(book);
 
     // for use in this function
     var curReadGrp = READ_cur_RGrp();
@@ -37,16 +36,14 @@ const UPDATE_VRGrps = (cur_ReadGrp) => (direction) => {
 
 var BindHandlers = function BindHandlers(book) {
     //C_Both('IN  BindHandlers');
-
-
     //document.addEventListener("keydown", keysPressed, false);
     document.addEventListener("keyup", keyActions, false);
     function keyActions(e) {
         var curChptr_CRGrps = query(
-            '.ChptrReadGrps')(book);
+            '.ChptrReadGrps ')(book);
         var curChptr_VRGrps = query(
-            '.cur > .chptr > .VerseReadGrps')
-        (curChptr_CRGrps);
+            '.cur > .chptr > .VerseReadGrps')(curChptr_CRGrps);
+
         // read Last Chptr.
         if (e.keyCode == 37) {
             //e.stopPropagation();
@@ -64,10 +61,10 @@ var BindHandlers = function BindHandlers(book) {
         if (e.keyCode == 39 || e.keyCode == 96) { // rt arrow || numpad 0
             //e.stopPropagation();
             e.preventDefault();
-            //C_Both("read Next Chptr ");
-            //book.read_nxtChptr();
+            C_Both("read Next Chptr ");
+            UPDATE_VRGrps(curChptr_CRGrps)(1)
         }
-        // read Next verse.
+            // read Next verse.
         if (e.keyCode == 32 || e.keyCode == 40) {
             //e.stopPropagation();
             e.preventDefault();
