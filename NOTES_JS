@@ -1,4 +1,35 @@
-1TAT: 160121  UPDATE style AFTER A CALC TO UPDATE_ReadGrps
+1TAT: 160121  UPDATE style AFTER A READ Chapter key press TO UPDATE_ReadGrps
+    THINKING OUT LOUD -
+    What is function: main()
+    maybe DEFINE the Book
+        which would set two maybe global || maybe curried const:
+    CALL BindHandler (book) WHICH SHOULD  //because Events Only change
+        let curChptr_CRGrps = query(
+            '.ChptrReadGrps > .cur')
+            (book);
+        let curChptr_VRGrps = query('
+            .chptr > .VerseReadGrps > .cur')
+            (curChptr_CRGrps);
+
+        CALL: SET_All_Verse_ReadGRp_Styles //because initially there will not be an Event
+            CALL: SET_curChptr_CRGrps = function SET_curChptr_CRGrps ( book) {
+                return curChptr_CRGrps (book);
+            CALL: SET_curChptr_VRGrps = function SET_curChptr_VRGrps ( curChptr_CRGrps) {
+                return  curChptr_VRGrps (curChptr_CRGrps);
+
+        BIND Events TO UPDATE_ReadGrps(chapter OR verse Read Grps)(direction)
+            There are 2 types of Events
+                Key Presses TO READ RESET curChptr_CRGrps && || curChptr_VRGrps
+                    CALL: SET_All_Verse_ReadGRp_Styles //because curChptr_CRGrps && || curChptr_VRGrps were UPDATED.
+                Mouse events TO FIND || REPLACE regex matches
+                    CALL: SET_All_Verse_HiLite_Styles  // to be figured out
+                    CALL: SET_All_Verse_ReadGRp_Styles //because Verse CONTENT HAS BEEN ALTERED.
+
+    Hey, for now lets use the BindHandler Block to contain
+        curChptr_CRGrps && || curChptr_VRGrps
+    OR, how about contain the ReadGrp constant INSIDE SET_All_Verse_ReadGRp_Styles ???
+
+
 
 1TAT: HANDLE Word Selection AND Highlighting.
 1TAT:  LOAD chapters || books FROM data source
