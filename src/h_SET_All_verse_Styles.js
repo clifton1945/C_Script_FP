@@ -4,7 +4,7 @@
  */
 "use strict";
 
-const Coll2Array = (coll) => [...coll];
+//const Coll2Array = (coll) => [...coll];
 
 /**
  * UPDATES  the global VerseObj FOR this vers elem.

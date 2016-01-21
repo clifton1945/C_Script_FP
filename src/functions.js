@@ -26,6 +26,8 @@ const query = function query(tmpl) {
         return node.querySelector(tmpl);
     };
 };
+const Coll2Array = (coll) => [...coll];
+
 const f_map = (fn) => (ary) => {return ary.map(fn)};
 // SOMEONE ELSES PIPELINE - to ASSEMBLE || COMPOSE functions
 function runStep(intermediate, step) {
