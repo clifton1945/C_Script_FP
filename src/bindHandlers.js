@@ -1,5 +1,5 @@
 "use strict";
-
+//import {TST_StyleObj} from '..//src//modules-compiled';
 //************************************************
 const UPDATE_ReadGrps = (cur_ReadGrp) => (direction) => {
     // for use in this function
@@ -89,3 +89,7 @@ var BindHandlers = function BindHandlers(book) {
     );
     //C_Both('OUT BindHandlers');
 };
+//const main = function main (bookEl) {
+//    //C_Both(`TST_StyleObj${TST_StyleObj.cur}`); // WITHOUT  the import from objects-co.. thid breakd
+//};
+//main();

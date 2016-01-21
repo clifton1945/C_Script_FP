@@ -4,9 +4,10 @@
 "use strict";
 // Modules
 //import { testStr, C_It } from '../src/modules-compiled'; // WORKS but throw Inspection error
-//import { testStr, C_It } from '..//src//modules-compiled'; // WORKS but throws Inspection 'can't resolve
-//import { StyleObj } from '..//src//objects-compiled';
+import { testStr, C_It } from '..//src//modules-compiled'; // WORKS but throws Inspection 'can't resolve
 //import * as fn from '../src/modules-compiled.js'; // WORKS
+import { TST_StyleObj } from '..//src//objects-compiled'; //WORKS cause not using tge GLOBAL StyleObj
+//console.log( TST_StyleObj); // WORKS but commented out to not be seen
 
 //
 //// a test
