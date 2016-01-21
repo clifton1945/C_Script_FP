@@ -3,8 +3,10 @@
  */
 "use strict";
 // Modules
+//import { testStr, C_It } from '../src/modules-compiled'; // WORKS but throw Inspection error
+import { testStr, C_It } from '..//src//modules-compiled'; // WORKS but throws Inspection 'can't resolve
 
-import { C_It, testStr } from './src/modules-compiled.js';
+//import * as fn from '../src/modules-compiled.js'; // WORKS
 // a test
 C_It(testStr);
 console.assert(
