@@ -1,3 +1,7 @@
+
+IMPORTANT NOTE ON  modules.
+(1) USE // paths AND (2) remember to use the path FROM project root. that is include ..//src//...
+
 1TAT: 160121  UPDATE style AFTER A READ Chapter key press TO UPDATE_ReadGrps
     THINKING OUT LOUD -
     What is function: main( book )
