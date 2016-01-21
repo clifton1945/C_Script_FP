@@ -4,18 +4,18 @@
 "use strict";
 // Modules
 //import { testStr, C_It } from '../src/modules-compiled'; // WORKS but throw Inspection error
-import { testStr, C_It } from '..//src//modules-compiled'; // WORKS but throws Inspection 'can't resolve
-import { StyleObj } from '..//src//objects-compiled';
+//import { testStr, C_It } from '..//src//modules-compiled'; // WORKS but throws Inspection 'can't resolve
+//import { StyleObj } from '..//src//objects-compiled';
 //import * as fn from '../src/modules-compiled.js'; // WORKS
 
-
-// a test
-C_It(testStr);
-console.assert(
-    testStr.substring(0,4) == ' I a' ,
-    ' part of the testStr'
-);
-C_It( StyleObj.pst);
+//
+//// a test
+//C_It(testStr);
+//console.assert(
+//    testStr.substring(0,4) == ' I a' ,
+//    ' part of the testStr'
+//);
+//C_It( StyleObj.pst);
 //
 //var arr = [1, 2, 3];
 //var fn =  (x) => { return x * x};
