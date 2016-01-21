@@ -1,3 +1,11 @@
+1TAT: HANDLE Word Selection AND Highlighting.
+1TAT:  LOAD chapters || books FROM data source
+ .. Particularly Lectures On Faith
+1TAT: RENEW WebStorm
+
+
+
+
 document.getSelection looks good to transfer html content ( in Chrome ).
 THEN looks like use querySelector[All] to get all locations of selection
 THEN <mark> or something TO CEE them.
