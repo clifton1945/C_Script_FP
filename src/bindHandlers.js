@@ -17,6 +17,8 @@ const UPDATE_ReadGrps = (cur_ReadGrp) => (direction) => {
             futVRGrp.insertBefore(curReadGrp.lastElementChild, futVRGrp.firstElementChild);
         }
     }
+    // UPDATE this book's current curChptr_CRGrps AND cur_Chptr_VRGrps.
+
     SET_All_verse_Styles(StyleObj)([...cur_ReadGrp.children]);
     //
     //NOT SURE NEEDED  it's the updated curReadGrp property
@@ -29,9 +31,9 @@ var BindHandlers = function BindHandlers(book) {
     document.addEventListener("keyup", keyActions, false);
     function keyActions(e) {
 
-        var curChptr_CRGrps = query(
+        let curChptr_CRGrps = query(
             '.ChptrReadGrps > .cur')(book);
-        var curChptr_VRGrps = query(
+        let curChptr_VRGrps = query(
             ' .chptr > .VerseReadGrps > .cur')(curChptr_CRGrps);
 
     // read Last Chptr.
@@ -40,7 +42,6 @@ var BindHandlers = function BindHandlers(book) {
             e.preventDefault();
             C_Both("read Last Chptr");
             UPDATE_ReadGrps(curChptr_CRGrps)(-1)
-
         }
         // read Last verse.
         if (e.keyCode == 38) {
