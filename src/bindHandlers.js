@@ -24,15 +24,17 @@ const UPDATE_ReadGrps = (cur_ReadGrp) => (direction) => {
 };
 var BindHandlers = function BindHandlers(book) {
     // KEY Events ************************
+
     //document.addEventListener("keydown", keysPressed, false);
     document.addEventListener("keyup", keyActions, false);
     function keyActions(e) {
+
         var curChptr_CRGrps = query(
             '.ChptrReadGrps > .cur')(book);
         var curChptr_VRGrps = query(
             ' .chptr > .VerseReadGrps > .cur')(curChptr_CRGrps);
 
-        // read Last Chptr.
+    // read Last Chptr.
         if (e.keyCode == 37) {
             //e.stopPropagation();
             e.preventDefault();
@@ -85,5 +87,5 @@ var BindHandlers = function BindHandlers(book) {
             console.log(`textContent:${el.textContent}`);
         },false
     );
-    C_Both('OUT BindHandlers');
+    //C_Both('OUT BindHandlers');
 };
