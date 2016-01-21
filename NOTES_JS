@@ -1,16 +1,22 @@
 1TAT: 160121  UPDATE style AFTER A READ Chapter key press TO UPDATE_ReadGrps
     THINKING OUT LOUD -
-    What is function: main()
+    What is function: main( book )
+        CALL BindHandler
+            Keys Events:  CALL SET_All_Verse_ReadGRp_Styles
+            Mouse Events:  CALL SET_All_Verse_HiLite_Styles
+                           CALL SET_All_Verse_ReadGRp_Styles
+
     maybe DEFINE the Book
-        which would set two maybe global || maybe curried const:
     CALL BindHandler (book) WHICH SHOULD  //because Events Only change
+        which would set two maybe global || maybe curried const:
+
         let curChptr_CRGrps = query(
             '.ChptrReadGrps > .cur')
             (book);
         let curChptr_VRGrps = query('
             .chptr > .VerseReadGrps > .cur')
             (curChptr_CRGrps);
-
+    THEN an Event
         CALL: SET_All_Verse_ReadGRp_Styles //because initially there will not be an Event
             CALL: SET_curChptr_CRGrps = function SET_curChptr_CRGrps ( book) {
                 return curChptr_CRGrps (book);
