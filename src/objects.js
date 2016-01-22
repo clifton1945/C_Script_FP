@@ -52,7 +52,7 @@ const StyleObj = {
     fut: {
         name: 'fut'
         , smlWt: .4
-        , lrgWt: .8
+        , lrgWt: .9
         , calcWt: (sObj, vObj) => {
             //noinspection JSUnusedLocalSymbols
             let {ver, ndx, ary} = vObj;
@@ -79,8 +79,8 @@ const StyleObj = {
     },
     pst: {
         name: 'pst'
-        , smlWt: 0.3
-        , lrgWt: 0.8
+        , smlWt: 0.4
+        , lrgWt: 0.9
         , calcWt: (sObj, vObj) => {
             let {ver, ndx, ary} = vObj;
             let {smlWt, lrgWt} = sObj;
