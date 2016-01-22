@@ -47,8 +47,8 @@ const TST_StyleObj = {
     }
 };
 const StyleObj = {
-    CRGrpsTmpl:'.ChptrReadGrps > .cur',
-    VRGrpsTmpl:'.chptr > .VerseReadGrps > .cur',
+    CRGrpsTmpl:'.ChptrReadGrps >',
+    VRGrpsTmpl:'.ChptrReadGrps > .cur > .chptr > .VerseReadGrps',
     fut: {
         name: 'fut'
         , smlWt: .4

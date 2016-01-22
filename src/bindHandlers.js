@@ -21,7 +21,7 @@ const UPDATE_ReadGrps = (cur_ReadGrp) => (direction) => {
     //
     //  IS THIS THE BEST PLACE FORTHIS CALL??
     //  PASSING THE
-    SET_All_Verse_Styles(StyleObj)([...cur_ReadGrp.children]);
+    SET_All_Verse_Styles(StyleObj);
     //
     //NOT SURE NEEDED  it's the updated curReadGrp property
     return curReadGrp;  //NOT SURE NEEDED  it's the updated curReadGrp property
@@ -33,7 +33,7 @@ var BindHandlers = function BindHandlers(book) {
     document.addEventListener("keyup", keyActions, false);
     function keyActions(e) {
         //
-        // NOTE: Below, these ARE CURRENT ReadGrps:
+        // NOTE: Below, these ARE CURRENT ReadGrps  GROUPS:
         // NEEDED because I use it's Siblings in UPDATING all threeGrps
         var curChptr_CRGrps = query(
             '.ChptrReadGrps > .cur')(book);
