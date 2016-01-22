@@ -17,7 +17,7 @@ const UPDATE_ReadGrps = (cur_ReadGrp) => (direction) => {
             futVRGrp.insertBefore(curReadGrp.lastElementChild, futVRGrp.firstElementChild);
         }
     }
-    SET_All_verse_Styles(StyleObj)([...cur_ReadGrp.children]);
+    SET_All_Verse_Styles(StyleObj)([...cur_ReadGrp.children]);
     //
     //NOT SURE NEEDED  it's the updated curReadGrp property
     return curReadGrp;  //NOT SURE NEEDED  it's the updated curReadGrp property
@@ -40,7 +40,6 @@ var BindHandlers = function BindHandlers(book) {
             e.preventDefault();
             C_Both("read Last Chptr");
             UPDATE_ReadGrps(curChptr_CRGrps)(-1)
-
         }
         // read Last verse.
         if (e.keyCode == 38) {

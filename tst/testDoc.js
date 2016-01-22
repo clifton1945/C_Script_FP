@@ -10,11 +10,11 @@ let ___cut, ___srt, ___ret, ___msg, ___pipe, ___data;
 const TraceChild = (obj)=> (HAS_Child) ? `${obj.innerText}` : `${null}`;
 //
 const book = query('.book')(document);
-const curChptr_VRGrps = query('.ChptrReadGrps > .cur > .chptr > .VerseReadGrps')(book);
-const curVRGrp = query('.cur')(curChptr_VRGrps);
+var curChptr_CRGrps = query(StyleObj.CRGrpsTmpl)(book);
+var curChptr_VRGrps = query(StyleObj.VRGrpsTmpl)(curChptr_CRGrps);
 //*****************************************************
 // TESTS
-SET_All_verse_Styles (StyleObj)([...curChptr_VRGrps.children]);
+SET_All_Verse_Styles (StyleObj)([...curChptr_VRGrps.children]);
 BindHandlers(book);
 /**
  * THINKING

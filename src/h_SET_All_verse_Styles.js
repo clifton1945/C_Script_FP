@@ -36,18 +36,16 @@ const SET_One_verseGrp_Styles = (styleObj) => (vrGrp) => {
     //C_It(`_this_VerseReadGrp.len:${___data.length}`);
     f_map( ___cut ) ( ___data   );
 };  // CALLEDBY ( global StyleObj)(VerseGrp) >> just the StyleObj data for this VersereadGroup
-const SET_All_verse_Styles = (globalStyleObj) =>  (curVerseGrp) => {
-    C_TraceD()(globalStyleObj);
-    C_Trace((f)=>`fn:${f}`)(curVerseGrp);
+
+const SET_All_Verse_Styles = (globalStyleObj) =>  (DEPRECATE) => {
+    C_Trace((o)=>`StyleObj:${o}`)(globalStyleObj);
+    //C_Trace((f)=>`fn:${f}`)(DEPRECATE);
     var curChptr_CRGrps = query(
         '.ChptrReadGrps > .cur')(book);
-    Trace(()=>`CRGrps:${curChptr_CRGrps}`);
+    Trace(()=>`CRGrps:${curChptr_CRGrps.className}`);
     var curChptr_VRGrps = query(
         ' .chptr > .VerseReadGrps > .cur')(curChptr_CRGrps);
     Trace(()=>`VRGrps:${curChptr_VRGrps}`);
-
-
     // calls each of 3 VerseReadGrps
-    f_map(SET_One_verseGrp_Styles (globalStyleObj))( curVerseGrp); // TODO  KEEP OR DROP
-
+    f_map(SET_One_verseGrp_Styles (globalStyleObj))( [...curChptr_VRGrps]); // TODO  KEEP OR DROP
 };
