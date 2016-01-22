@@ -29,6 +29,8 @@ const SET_One_Verse_Style = (sO) => (...verse) => {
 };
 const SET_One_verseGrp_Styles = (styleObj) => (vrGrp) => {
     let sO = styleObj[vrGrp.className];
+    Trace((o)=>`local styleObj: ${o}`)(sO);
+    Trace((o)=>`vrGrp.name: ${o.name}`)(vrGrp);
     //BUILD callback fn: SET_Verse_Style for use in map(fn)(vrGrp.chkldren)
     ___cut = SET_One_Verse_Style(sO);           //REFACT use directly in f_map
     ___data = Coll2Array(vrGrp.children);       //REFACT use directly in f_map
@@ -37,15 +39,17 @@ const SET_One_verseGrp_Styles = (styleObj) => (vrGrp) => {
     f_map( ___cut ) ( ___data   );
 };  // CALLEDBY ( global StyleObj)(VerseGrp) >> just the StyleObj data for this VersereadGroup
 
+// this does not care if bindHandlers signaled change chptr OR verse
 const SET_All_Verse_Styles = (globalStyleObj) =>  (DEPRECATE) => {
-    C_Trace((o)=>`StyleObj:${o}`)(globalStyleObj);
-    //C_Trace((f)=>`fn:${f}`)(DEPRECATE);
+    // First UPDATE current Chptr AND Verse Grps
+    C_Trace((o)=>`StyleObj.VRGrpsTmpl:${o.VRGrpsTmpl}`)(globalStyleObj);
     var curChptr_CRGrps = query(
         '.ChptrReadGrps > .cur')(book);
-    Trace(()=>`CRGrps:${curChptr_CRGrps.className}`);
+    Trace(()=>`CRGrps:${curChptr_CRGrps.className}`)();
     var curChptr_VRGrps = query(
         ' .chptr > .VerseReadGrps > .cur')(curChptr_CRGrps);
-    Trace(()=>`VRGrps:${curChptr_VRGrps}`);
-    // calls each of 3 VerseReadGrps
-    f_map(SET_One_verseGrp_Styles (globalStyleObj))( [...curChptr_VRGrps]); // TODO  KEEP OR DROP
+    Trace(()=>`VRGrps:${curChptr_VRGrps.className}`)();
+    // NOW CALL each of 3 VerseReadGrps
+    Trace((o)=>`VRGrps:o.length: EXP 3 ${o.length}`)([...curChptr_VRGrps]);
+    f_map(SET_One_verseGrp_Styles (globalStyleObj))([...curChptr_VRGrps.children]); // TODO  KEEP OR DROP
 };

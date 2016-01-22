@@ -17,6 +17,10 @@ const UPDATE_ReadGrps = (cur_ReadGrp) => (direction) => {
             futVRGrp.insertBefore(curReadGrp.lastElementChild, futVRGrp.firstElementChild);
         }
     }
+    //
+    //
+    //  IS THIS THE BEST PLACE FORTHIS CALL??
+    //  PASSING THE
     SET_All_Verse_Styles(StyleObj)([...cur_ReadGrp.children]);
     //
     //NOT SURE NEEDED  it's the updated curReadGrp property
@@ -28,12 +32,15 @@ var BindHandlers = function BindHandlers(book) {
     //document.addEventListener("keydown", keysPressed, false);
     document.addEventListener("keyup", keyActions, false);
     function keyActions(e) {
-
+        //
+        // NOTE: Below, these ARE CURRENT ReadGrps:
+        // NEEDED because I use it's Siblings in UPDATING all threeGrps
         var curChptr_CRGrps = query(
             '.ChptrReadGrps > .cur')(book);
         var curChptr_VRGrps = query(
             ' .chptr > .VerseReadGrps > .cur')(curChptr_CRGrps);
-
+        //
+        //  I need t odecide if hereis where I set
     // read Last Chptr.
         if (e.keyCode == 37) {
             //e.stopPropagation();

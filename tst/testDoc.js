@@ -14,8 +14,8 @@ var curChptr_CRGrps = query(StyleObj.CRGrpsTmpl)(book);
 var curChptr_VRGrps = query(StyleObj.VRGrpsTmpl)(curChptr_CRGrps);
 //*****************************************************
 // TESTS
-SET_All_Verse_Styles (StyleObj)([...curChptr_VRGrps.children]);
-BindHandlers(book);
+SET_All_Verse_Styles (StyleObj)([...curChptr_VRGrps]);
+//BindHandlers(book);//TODO UNCOMMENT THIS TEST ONLY
 /**
  * THINKING
  * I'll only want to CEE the cur_ChapterReadGrp AND UPDATE Style of the VerseReadGrps.
