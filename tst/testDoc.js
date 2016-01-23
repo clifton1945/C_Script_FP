@@ -1,8 +1,6 @@
 "use strict";
 
-
 let ___cut, ___srt, ___ret, ___msg, ___pipe, ___data;
-//************************************************
 // CUT: CodeUnderTest ****************************
 /**
  *HOW MAKE && TEST functional update ReadGrps
@@ -16,15 +14,34 @@ let ___cut, ___srt, ___ret, ___msg, ___pipe, ___data;
  *          )
  *      // no return needed
  *      }
- *
  */
-
 
 //*****************************************************
 // TESTS
 const book = query('.book')(document);
-SET_All_Verse_Styles (StyleObj);
-BindHandlers(book);
+//I WILL USE chapters, instead of  Verses, FOR these test.
+//  EXPECT three div classes: pat, cur, fut
+const ChptrReadGrps = query('.ChptrReadGrps')(document);  //> div.ChptrReadGrps
+const ChptrReadGrpsChildren = query('.ChptrReadGrps')(document).children;  //> HTML Collection [3]
+const Cur_ChptrReadGrp = query('.ChptrReadGrps > .cur')(document); //> div.cur
+
+// CHANGE 1TAT TO BUILD a function filter
+//const GET_Cur_ChptrReadGrp = ( Grps ) => Grps.getElementsByClassName('cur');  //
+//const APPEND_ChildToGrp = (ToGrp) => (FrmGrp) => {
+//    return FrmGrp.getElementsByClassName('cur');
+//};
+//SET_All_Verse_Styles (StyleObj);
+//BindHandlers(book);
+
+/**
+ *HOW TEST functional ??
+ */
+// traces
+Trace((o)=> `exp element ${o}`)(ChptrReadGrps);
+Trace((o)=> `exp children[${o.length}]===[3]`)(ChptrReadGrpsChildren);
+Trace((o)=> `exp cur_ChptrReadGrp: cur==${cur_ChptrReadGrp.className}`)();
+Trace((o)=> `exp GET_curRGrp: cur==${GET_curRGrp.className}`)(ChptrReadGrpsChildren);
+
 /**
  * THINKING
  * I'll only want to CEE the cur_ChapterReadGrp AND UPDATE Style of the VerseReadGrps.
