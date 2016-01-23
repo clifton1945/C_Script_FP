@@ -40,19 +40,16 @@ const SET_One_verseGrp_Styles = (styleObj) => (vrGrp) => {
 
 // this does not care if bindHandlers signaled change chptr OR verse
 const SET_All_Verse_Styles = (globalStyleObj) => {
-    // First UPDATE current Chptr AND Verse Grps
-    C_Trace((o)=>`StyleObj.VRGrpsTmpl:${o.VRGrpsTmpl}`)(globalStyleObj);
-    //
     // BELOW ARE HardCoded query
     var curChptr_CRGrps = query(
         '.ChptrReadGrps')(book);
-    Trace((o)=>`CRGrps.className:${o.className}`)(curChptr_CRGrps);
     var curChptr_VRGrps = query(
         '.ChptrReadGrps > .cur  .chptr > .VerseReadGrps')(book);
-    Trace((o)=>`VRGrps.className:${o.className}`)(curChptr_VRGrps);
-    // TODO  FIX OR NOT
     // NOW CALL each of 3 VerseReadGrps
-    //
+    // CONSOLIDATE Traces
+    Trace((o)=>`StyleObj.VRGrpsTmpl:${o.VRGrpsTmpl}`)(globalStyleObj);
+    Trace((o)=>`CRGrps.className:${o.className}`)(curChptr_CRGrps);
+    Trace((o)=>`VRGrps.className:${o.className}`)(curChptr_VRGrps);
     Trace((o)=>`VRGrps.children.length: EXP 3 === ${o.length}`)([...curChptr_VRGrps.children]);
     f_map(SET_One_verseGrp_Styles (globalStyleObj))([...curChptr_VRGrps.children]); // TODO  KEEP OR DROP
 };

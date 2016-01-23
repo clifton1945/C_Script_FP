@@ -34,6 +34,7 @@ var BindHandlers = function BindHandlers(book) {
     function keyActions(e) {
         //
         // NOTE: Below, these ARE CURRENT ReadGrps  GROUPS:
+        // that is they include ... > .cur
         // NEEDED because I use it's Siblings in UPDATING all threeGrps
         var curChptr_CRGrps = query(
             '.ChptrReadGrps > .cur')(book);

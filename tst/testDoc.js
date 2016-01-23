@@ -4,6 +4,22 @@
 let ___cut, ___srt, ___ret, ___msg, ___pipe, ___data;
 //************************************************
 // CUT: CodeUnderTest ****************************
+/**
+ *HOW MAKE && TEST functional update ReadGrps
+ *   1TAT:  curReadGrp.appendChild(futVRGrp.firstElementChild);
+ *   become APPEND_ChildToGrp( ToGrp, FromGrp)
+ *      curry (ToGrp) =>
+ *      curry (FromGrp) =>
+ *      change x.appendChild to APPEND_Child(to, frm) => {
+ *          let firstChld = (frm)=>frm.firstElementChild
+ *          to.appendChild(firstChld)
+ *          )
+ *      // no return needed
+ *      }
+ *
+ */
+
+
 //*****************************************************
 // TESTS
 const book = query('.book')(document);
