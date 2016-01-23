@@ -10,14 +10,17 @@ const C_Both = (txt) => {
     C_It (txt);
     Doc_It (txt);
 };
-
+const C_Trace = (fn) => (obj) => {
+    console.log(fn(obj));
+    return obj
+};
 const Trace = (fn=(obj)=>`${obj}`) => (obj) => {
     C_Both(fn(obj));
     return obj
 };
-var HAS_Child = function HAS_Child(obj) {
-    return obj.firstElementChild === null;
-};
+//var HAS_Child = function HAS_Child(obj) {
+//    return obj.firstElementChild === null;
+//};
 
 // ******************  FUNCTIONS
 /// DOM
@@ -27,8 +30,8 @@ const query = function query(tmpl) {
     };
 };
 const Coll2Array = (coll) => [...coll];
-
 const f_map = (fn) => (ary) => {return ary.map(fn)};
+
 // SOMEONE ELSES PIPELINE - to ASSEMBLE || COMPOSE functions
 function runStep(intermediate, step) {
     return step(intermediate);
@@ -57,22 +60,19 @@ function pipeline() {
 // */
 
 //DEPRECATED
-const C_Trace = (fn) => (obj) => {
-    console.log(fn(obj));
-    return obj
-};
-const C_TraceD = (fn=(obj)=>`${obj}`) => (obj) => {
-    console.log(fn(obj));
-    return obj
-}; //C_TraceD()([1,2,3]);//>> 1,2,3
-const C_TraceS = (fn=(obj)=>`${obj}`) => (obj) => {
-    C_It(fn(obj));
-    return obj
-}; //C_TraceD()([1,2,3]);//>> 1,2,3
-const isArray = (coll) => Array.isArray(coll);
-const C_isArray = (coll) => {
-    C_It(`${coll} isArray:[${isArray(coll)}]`);
-    return coll};
+
+//const C_TraceD = (fn=(obj)=>`${obj}`) => (obj) => {
+//    console.log(fn(obj));
+//    return obj
+//}; //C_TraceD()([1,2,3]);//>> 1,2,3
+//const C_TraceS = (fn=(obj)=>`${obj}`) => (obj) => {
+//    C_It(fn(obj));
+//    return obj
+//}; //C_TraceD()([1,2,3]);//>> 1,2,3
+//const isArray = (coll) => Array.isArray(coll);
+//const C_isArray = (coll) => {
+//    C_It(`${coll} isArray:[${isArray(coll)}]`);
+//    return coll};
 
 //const calcWt = (so) => (vo) => {
 //    return so.calcWt(so, vo); // return a style wt.

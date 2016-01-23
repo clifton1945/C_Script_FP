@@ -4,18 +4,11 @@
 let ___cut, ___srt, ___ret, ___msg, ___pipe, ___data;
 //************************************************
 // CUT: CodeUnderTest ****************************
-// general functions
-
-//const query = (tmpl ) => node => node.querySelector(tmpl);
-const TraceChild = (obj)=> (HAS_Child) ? `${obj.innerText}` : `${null}`;
-//
-const book = query('.book')(document);
-//var curChptr_CRGrps = query(StyleObj.CRGrpsTmpl)(book);
-//var curChptr_VRGrps = query(StyleObj.VRGrpsTmpl)(curChptr_CRGrps);
 //*****************************************************
 // TESTS
+const book = query('.book')(document);
 SET_All_Verse_Styles (StyleObj);
-BindHandlers(book);//TODO UNCOMMENT THIS TEST ONLY
+BindHandlers(book);
 /**
  * THINKING
  * I'll only want to CEE the cur_ChapterReadGrp AND UPDATE Style of the VerseReadGrps.
