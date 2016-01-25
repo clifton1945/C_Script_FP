@@ -32,8 +32,27 @@ const es_tap = (value) =>
 //=> Our drink is EXP 'espresso'
 //console.assert( es_tap('espresso')() ==='espresso');
 
+/**
+ * English: Returned function can be called with many arguments,
+ * but returns the original function called with the first argument only
+ * @param fn
+ * @returns {Function}
+ */
+function unary(fn) {
+    console.assert(typeof fn === 'function');
+    return function (arg) {
+        return fn.call(null, arg);
+    };
+}
+
 // ******************  FUNCTIONS
 const GET_ = (Prop)=>(OF_El) => OF_El[Prop];   //in this case Element Child
+/**
+ *
+ * @param test_fn
+ * @param test_Obj
+ * @private
+ */
 const IS_ = (test_fn) => (testObj) => test_fn(testObj);
 
 
