@@ -18,9 +18,20 @@ const Trace = (fn=(obj)=>`${obj}`) => (obj) => {
     C_Both(fn(obj));
     return obj
 };
-//var HAS_Child = function HAS_Child(obj) {
-//    return obj.firstElementChild === null;
-//};
+// allonge.es code examples
+
+const es_tap = (value) =>
+    (fn) => (
+        // if there is a callback function, call it!
+        typeof(fn) === 'function' && fn(value),
+            value  // always return this value
+    )
+//TEST IT
+es_tap('espresso')((it) => {
+    console.log(`EXP '${it}'`)
+});
+//=> Our drink is EXP 'espresso'
+console.assert( es_tap('espresso')() ==='espresso');
 
 // ******************  FUNCTIONS
 /// DOM
@@ -31,6 +42,14 @@ const query = function query(tmpl) {
 };
 const Coll2Array = (coll) => [...coll];
 const f_map = (fn) => (ary) => {return ary.map(fn)};
+const MAP_Predicate_TO_Array = (predicate) => (ary) => {return ary.map(predicate)};
+/**
+ * returns the last, i think, predicate match
+ * @param predicate
+ * @constructor
+ * @returns last match
+ */
+const FIND_Predicate_IN_Array = (predicate) => (array)=> array.find(predicate);
 
 // SOMEONE ELSES PIPELINE - to ASSEMBLE || COMPOSE functions
 function runStep(intermediate, step) {
