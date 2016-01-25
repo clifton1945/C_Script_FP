@@ -1,6 +1,6 @@
 "use strict";
 
-let A_Cut,  ___cut, ___srt, ___ret, ___msg, ___pipe, ___data;
+let A_Cut,  ___cut, ___srt, A_Ret, ___msg, ___pipe, ___data;
 // CUT: CodeUnderTest ****************************
 /**
  *HOW MAKE && TEST functional UPDATE_ReadGrps(cur_ReadGrp)(direction)
@@ -8,7 +8,7 @@ let A_Cut,  ___cut, ___srt, ___ret, ___msg, ___pipe, ___data;
  *      WITH more Functional Style
  *   REQUIRED BASIC FUNCTIONS:
  *   const = GET_ = (Prop)(OF_El)=>el[prop]  //in this case Element Child
-*    const = IS_ = (Test) => GET_ (Prop) (OF_El)=>
+ *   const = IS_ = (Test) => GET_ (Prop) (OF_El)=>
  *   READ_Next(eg: last_curChild >> first_fut_Child : APPEND_Child(toGrp)(frGrp)
  *   READ_Last(eg; first_first_curC >> lst_pstC: INSERT_Before(frGrp)(toGrp)(
  *   becomes
@@ -27,46 +27,23 @@ let A_Cut,  ___cut, ___srt, ___ret, ___msg, ___pipe, ___data;
 
 //*****************************************************
 // TESTS
-const book = query('.book')(document);
 //I WILL USE chapters, instead of  Verses, FOR these test.
 //  EXPECT three div classes: pat, cur, fut
-
+const book = query('.book')(document);
 const ChptrReadGrps = query('.ChptrReadGrps')(document);  //> div.ChptrReadGrps
 const ChptrReadGrpsChildren = query('.ChptrReadGrps')(document).children;  //> HTML Collection [3]
 const Cur_ChptrReadGrp = query('.ChptrReadGrps > .cur')(document); //> div.cur
-// CUT
-const GET_ReadGrp = (grpNameStr) => (domCollection) => {
-    FIND_Predicate_IN_Array( // (pred)(array) >>
-        (el, ndx)=>el.className === grpNameStr
-    )  // this is the Predicate
-    ([...domCollection]);  // returns curReadGrp
-};
-// WANT EQUIVALENT=curReadGrp.appendChild(futReadGrp.firstElementChild);
-
-// CUT
-
-const APPEND_ChildToGrp = (toGrpStr, frmGrpStr) => (coll) => {
-    let toGrpColl = GET_ReadGrp(toGrpStr)(coll);
-    let frmGrpColl = GET_ReadGrp(frmGrpStr)(coll);
-    Coll2Array(toGrpColl).appendChild(frmGrpColl.firstElementChild)
-};
-A_Cut = APPEND_ChildToGrp('cur', 'fut')(ChptrReadGrpsChildren);
-
+// CUT:  GET_(property)(OF_Elem)
+A_Ret = GET_('childElementCount')(Cur_ChptrReadGrp);
+A_Cut =IS_((o)=> o.childElementCount > 0)(Cur_ChptrReadGrp);
+Trace((o)=>`${A_Cut}`)(A_Cut);
+console.assert(A_Cut,`EXP: Cur_ChptrReadGrp Count>0 [${A_Cut}]`);
 //  POSTPONE THIS CALL SET_All_Verse_Styles (StyleObj);
 //BindHandlers(book);7
 
 /**
  *HOW TEST functional ??
  */
-// traces
-Trace((o)=> `exp element ${o}`)(ChptrReadGrps);
-Trace((o)=> `exp children[${o.length}]===[3]`)(ChptrReadGrpsChildren);
-Trace((o)=> `exp cur_ChptrReadGrp: cur==${Cur_ChptrReadGrp.className}`)();
-Trace((o)=> `exp GET_curReadGrp('cur')(ChptrReadGrpsChildren)
-    cur==${o.className}`)(GET_ReadGrp('cur')(ChptrReadGrpsChildren));
-
-
-//Trace((o)=> `exp GET_curRGrp: cur==${GET_curRGrp.className}`)(ChptrReadGrpsChildren);
 
 /**
  * THINKING

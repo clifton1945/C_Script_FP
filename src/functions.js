@@ -19,7 +19,6 @@ const Trace = (fn=(obj)=>`${obj}`) => (obj) => {
     return obj
 };
 // allonge.es code examples
-
 const es_tap = (value) =>
     (fn) => (
         // if there is a callback function, call it!
@@ -27,13 +26,17 @@ const es_tap = (value) =>
             value  // always return this value
     )
 //TEST IT
-es_tap('espresso')((it) => {
-    console.log(`EXP '${it}'`)
-});
+//es_tap('espresso')((it) => {
+//    console.log(`EXP '${it}'`)
+//});
 //=> Our drink is EXP 'espresso'
-console.assert( es_tap('espresso')() ==='espresso');
+//console.assert( es_tap('espresso')() ==='espresso');
 
 // ******************  FUNCTIONS
+const GET_ = (Prop)=>(OF_El) => OF_El[Prop];   //in this case Element Child
+const IS_ = (test_fn) => (testObj) => test_fn(testObj);
+
+
 /// DOM
 const query = function query(tmpl) {
     return function (node) {
