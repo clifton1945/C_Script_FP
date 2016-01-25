@@ -4,17 +4,19 @@
 const UPDATE_ReadGrps = (cur_ReadGrp) => (direction) => {
     // for use in this function
     var curReadGrp = cur_ReadGrp;
-    var pstVRGrp = curReadGrp.previousElementSibling;
-    var futVRGrp = curReadGrp.nextElementSibling;
-    if (direction > 0) {
-        if (futVRGrp.childElementCount != 0) {
-            curReadGrp.appendChild(futVRGrp.firstElementChild);
-            pstVRGrp.appendChild(curReadGrp.firstElementChild);
+    var pstReadGrp = curReadGrp.previousElementSibling;
+    var futReadGrp = curReadGrp.nextElementSibling;
+    if (direction > 0) {  // READ_Next
+        if (futReadGrp.childElementCount != 0) {
+            // last_cur__
+            curReadGrp.appendChild(futReadGrp.firstElementChild);
+            pstReadGrp.appendChild(curReadGrp.firstElementChild);
         }
-    } else if (direction < 0) {
-        if (pstVRGrp.childElementCount != 0) {
-            curReadGrp.insertBefore(pstVRGrp.lastElementChild, curReadGrp.firstElementChild);
-            futVRGrp.insertBefore(curReadGrp.lastElementChild, futVRGrp.firstElementChild);
+    } else if (direction < 0) { // READ_Last
+        if (pstReadGrp.childElementCount != 0) {
+            // first_curChild >> last_pstChild
+            curReadGrp.insertBefore(pstReadGrp.lastElementChild, curReadGrp.firstElementChild);
+            futReadGrp.insertBefore(curReadGrp.lastElementChild, futReadGrp.firstElementChild);
         }
     }
     //
