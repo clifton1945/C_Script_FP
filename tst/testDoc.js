@@ -36,9 +36,9 @@ const Cur_ChptrReadGrp = query('.ChptrReadGrps > .cur')(document); //> div.cur
 //
 // CUT:  BUILD AND TEST:
 //  GET_Grps(curGrpTmpl) //> GrpsObj
-//  SELECT_(selector)(Direction)=> 1 of 2 READ_(Next || Last)
+//  SELECT_(selector)(Direction)=> 1 of 2 MOVE_(Next || Last)
 //  UPDATE_ReadGrps(GrpsObj) => {
-//      lets USE READ_Next() as example code
+//      lets USE MOVE_Next() as example code
 //      ALLOW = fut.childElementCount >0
 //      MOVE fut>>cur & cur>>pst
 //}
@@ -64,24 +64,53 @@ let {pst, cur, fut} = GrpsObj;
 console.assert(Object.keys(GrpsObj).length === 3
     , 'EXP 3 keys in GrpsObj.');  //> OK
 //
-// BUILD / TEST: READ_NextChild (toGrp)(frmGrp)
-const READ_NextChild = (frmGrp)=>(toGrp)=>{
+// BUILD / TEST: MOVE_NextChild (toGrp)(frmGrp)
+const MOVE_NextChild = (frmGrp)=>(toGrp)=>{
     toGrp.appendChild(frmGrp.firstElementChild);
 };
-//const READ_LastChild
+//TESTS
 let n0=cur.childElementCount;
 Trace((o)=>`cur Chptr El Count:${n0}`)(n0);
-A_Cut = READ_NextChild(fut)(cur);
+A_Cut = MOVE_NextChild(fut)(cur);
+
 let n1=cur.childElementCount;
 Trace((o)=>`cur Chptr El Count:${n1}`)(n1);
 console.assert(n1 === (n0+1)
-    , 'EXP ADDED fut TO cur');  //> OK
+    , 'EXP MOVED fut>>cur');  //> OK
 
+A_Cut = MOVE_NextChild(cur)(pst);
+let n2=cur.childElementCount;
+Trace((o)=>`cur Chptr El Count:${n2}`)(n2);
+console.assert(n2 === n0
+    , 'EXP MOVED cur>>pst'
+);  //> OK
 
-// BUILD / TEST: READ_Next( GrpsObj)=> UPDATES DOM div.ReadGrps contents
-const READ_Next = (GrpsObj)=>{
+// BUILD / TEST: MOVE_Next( GrpsObj)=> UPDATES DOM div.ReadGrps contents
+const MOVE_Next = (GrpsObj)=>{
     // will need CanMOVE, MOVE fut>>cur, MOVE cur>>pst
+    let {pst, cur, fut} = GrpsObj;
+    if( fut.childElementCount > 0 ) {
+            MOVE_NextChild(fut)(cur);
+            MOVE_NextChild(cur)(pst);
+    }
 };
+A_Cut = MOVE_Next(GrpsObj);
+let n4=pst.childElementCount;
+let n5=cur.childElementCount;
+let n6=fut.childElementCount;
+Trace((o)=>`3Chptrs:${n4}pst, ${n5}cur, ${n6}fut`)();
+console.assert(n4+n5+n6 === 3
+    , 'EXP MOVED cur>>pst, fut>>cur'
+);  //> OK
+A_Cut = MOVE_Next(GrpsObj);
+let n7=pst.childElementCount;
+let n8=cur.childElementCount;
+let n9=fut.childElementCount;
+Trace((o)=>`3Chptrs:${n4}pst, ${n5}cur, ${n6}fut`)();
+console.assert(n4===n7 && n5===n8 && n6===n9,
+    'EXP None MOVED fut.count===0'
+);  //> OK
+
 
 //  POSTPONE THIS CALL SET_All_Verse_Styles (StyleObj);
 //BindHandlers(book);
