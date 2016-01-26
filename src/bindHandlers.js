@@ -1,74 +1,73 @@
 "use strict";
 //import {TST_StyleObj} from '..//src//modules-compiled';
 //************************************************
-const UPDATE_ReadGrps = (cur_ReadGrp) => (direction) => {
-    // for use in this function
-    var curReadGrp = cur_ReadGrp;  // WHY need this change of name?
-    var pstReadGrp = curReadGrp.previousElementSibling;
-    var futReadGrp = curReadGrp.nextElementSibling;
-    //READ_Next
-    if (direction > 0) {  // READ_Next
-        if (futReadGrp.childElementCount != 0) {
-            // last_cur__
-            curReadGrp.appendChild(futReadGrp.firstElementChild);
-            pstReadGrp.appendChild(curReadGrp.firstElementChild);
-        }
-    //READ_Last
-    } else if (direction < 0) { // READ_Last
-        if (pstReadGrp.childElementCount != 0) {
-            // first_curChild >> last_pstChild
-            curReadGrp.insertBefore(pstReadGrp.lastElementChild, curReadGrp.firstElementChild);
-            futReadGrp.insertBefore(curReadGrp.lastElementChild, futReadGrp.firstElementChild);
-        }
-    }
-    SET_All_Verse_Styles(StyleObj);
-    //
-    //NOT SURE NEEDED  it's the updated curReadGrp property
-    return curReadGrp;  //NOT SURE NEEDED  it's the updated curReadGrp property
-};
+//const UPDATE_ReadGrps = (cur_ReadGrp) => (direction) => {
+//    // for use in this function
+//    var curReadGrp = cur_ReadGrp;  // WHY need this change of name?
+//    var pstReadGrp = curReadGrp.previousElementSibling;
+//    var futReadGrp = curReadGrp.nextElementSibling;
+//    //READ_Next
+//    if (direction > 0) {  // READ_Next
+//        if (futReadGrp.childElementCount != 0) {
+//            // fut>>cur, cur>>pst
+//            curReadGrp.appendChild(futReadGrp.firstElementChild);
+//            pstReadGrp.appendChild(curReadGrp.firstElementChild);
+//        }
+//    //READ_Last
+//    } else if (direction < 0) { // READ_Last
+//        if (pstReadGrp.childElementCount != 0) {
+//            // first_curChild >> last_pstChild
+//            curReadGrp.insertBefore(pstReadGrp.lastElementChild, curReadGrp.firstElementChild);
+//            futReadGrp.insertBefore(curReadGrp.lastElementChild, futReadGrp.firstElementChild);
+//        }
+//    }
+//    SET_All_Verse_Styles(StyleObj);
+//    //
+//    //NOT SURE NEEDED  it's the updated curReadGrp property
+//    return curReadGrp;  //NOT SURE NEEDED  it's the updated curReadGrp property
+//};
 var BindHandlers = function BindHandlers(book) {
     // KEY Events ************************
 
     //document.addEventListener("keydown", keysPressed, false);
     document.addEventListener("keyup", keyActions, false);
     function keyActions(e) {
-        //
-        // NOTE: Below, these ARE CURRENT ReadGrps  GROUPS:
-        // that is they include ... > .cur
-        // NEEDED because I use it's Siblings in UPDATING all threeGrps
-        var curChptr_CRGrps = query(
-            '.ChptrReadGrps > .cur')(book);
-        var curChptr_VRGrps = query(
-            ' .chptr > .VerseReadGrps > .cur')(curChptr_CRGrps);
-        //
-        //  I need t odecide if hereis where I set
+        // just past the query selectorStr on each Event
+        var curChptr_CRGrpsSelctStr = '.ChptrReadGrps > .cur';
+        var curChptr_VRGrpsSelctStr = '.ChptrReadGrps > .cur > .chptr > .VerseReadGrps > .cur';
+    //    var curChptr_CRGrps = query(
+    //        '.ChptrReadGrps > .cur')(book);
+    //    var curChptr_VRGrps = query(
+    //        ' .chptr > .VerseReadGrps > .cur')(curChptr_CRGrps);
+    //    //
+    //    //  I need to decide if hereis where I set
     // read Last Chptr.
         if (e.keyCode == 37) {
             //e.stopPropagation();
             e.preventDefault();
             C_Both("read Last Chptr");
-            UPDATE_ReadGrps(curChptr_CRGrps)(-1)
+            UPDATE_ReadGrps(curChptr_CRGrpsSelctStr)(-1)
         }
         // read Last verse.
         if (e.keyCode == 38) {
             //e.stopPropagation();
             e.preventDefault();
             C_Both("read Last Verse");
-            UPDATE_ReadGrps(curChptr_VRGrps)(-1)
+            UPDATE_ReadGrps(curChptr_VRGrpsSelctStr)(-1)
         }
         // read Next Chptr.
         if (e.keyCode == 39 || e.keyCode == 96) { // rt arrow || numpad 0
             //e.stopPropagation();
             e.preventDefault();
             C_Both("read Next Chptr ");
-            UPDATE_ReadGrps(curChptr_CRGrps)(1)
+            UPDATE_ReadGrps(curChptr_CRGrpsSelctStr)(1)
         }
             // read Next verse.
         if (e.keyCode == 32 || e.keyCode == 40) {
             //e.stopPropagation();
             e.preventDefault();
             C_Both("read Next Verse");
-            UPDATE_ReadGrps(curChptr_VRGrps)(1);
+            UPDATE_ReadGrps(curChptr_VRGrpsSelctStr)(1);
         }
     }
     // click Events **********************

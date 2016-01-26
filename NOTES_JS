@@ -53,7 +53,10 @@ document.getSelection looks good to transfer html content ( in Chrome ).
 THEN looks like use querySelector[All] to get all locations of selection
 THEN <mark> or something TO CEE them.
 
-
+CODING SHORTCUTS:
+SWITCH Tabs <> ToolWindows                  Ctrl+Tab
+NAVIGATE TO Last Edit                       Ctrl+Shft+BackSpace
+NAVIGATE TO Forward | Back                  Ctrl+Alt +Left | Right
 DEALING W/ const: It binds names to expressions
 We can bind any expression. Functions are expressions, so we can bind helper functions:
 
