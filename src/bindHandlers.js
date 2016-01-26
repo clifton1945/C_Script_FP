@@ -34,14 +34,14 @@ var BindHandlers = function BindHandlers(book) {
     function keyActions(e) {
         // just past the query selectorStr on each Event
         var curChptr_CRGrpsSelctStr = '.ChptrReadGrps > .cur';
-        var curChptr_VRGrpsSelctStr = ' .chptr > .VerseReadGrps > .cur';
+        var curChptr_VRGrpsSelctStr = '.ChptrReadGrps > .cur > .chptr > .VerseReadGrps > .cur';
     //    var curChptr_CRGrps = query(
     //        '.ChptrReadGrps > .cur')(book);
     //    var curChptr_VRGrps = query(
     //        ' .chptr > .VerseReadGrps > .cur')(curChptr_CRGrps);
     //    //
-    //    //  I need t odecide if hereis where I set
-    //// read Last Chptr.
+    //    //  I need to decide if hereis where I set
+    // read Last Chptr.
         if (e.keyCode == 37) {
             //e.stopPropagation();
             e.preventDefault();
