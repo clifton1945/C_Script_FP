@@ -35,9 +35,13 @@ const Cur_ChptrReadGrp = query('.ChptrReadGrps > .cur')(document); //> div.cur
 //console.assert(A_Cut,`EXP: Cur_ChptrReadGrp Count>0 [${A_Cut}]`);
 //
 // CUT:  BUILD AND TEST:
-//  GET_Grps(curGrpTmpl)=> {}
-//  SELECT_(selector)(Direction)
-//  UPDATE_(GrpObj)
+//  GET_Grps(curGrpTmpl) //> GrpsObj
+//  SELECT_(selector)(Direction)=> 1 of 2 READ_(Next || Last)
+//  UPDATE_ReadGrps(GrpsObj) => {
+//      lets USE READ_Next() as example code
+//      ALLOW = fut.childElementCount >0
+//      MOVE fut>>cur & cur>>pst
+//}
 
 //  TEST: GET_Grps(curGrpTmpl)
 const GET_Grps = (tmpl) => { // > Obj{pst: po, cur: co, fut:fo}
@@ -47,9 +51,16 @@ const GET_Grps = (tmpl) => { // > Obj{pst: po, cur: co, fut:fo}
     return {pstGrp, curGrp, futGrp};
 };
 let curGrpTmpl = '.ChptrReadGrps > .cur';
-Trace((o)=>`GET_Grps:${Object.keys(o)}`)(GET_Grps(curGrpTmpl));
-// TEST: UPDATE_(READ_next)
-//const UPDATE_ = ()
+let GrpsObj = GET_Grps(curGrpTmpl);
+Trace((o)=>`GET_Grps:${Object.keys(o)}`)(GrpsObj);
+console.assert(Object.keys(GrpsObj).length === 3
+    , 'EXP 3 keys in GrpsObj.');  //> OK
+//
+// BUILD / TEST:
+
+// BUILD / TEST: READ_Next( GrpsObj)=> UPDATES DOM div.ReadGrps contents
+const READ_Next = (GrpsObj)=>{
+};
 
 //  POSTPONE THIS CALL SET_All_Verse_Styles (StyleObj);
 //BindHandlers(book);
