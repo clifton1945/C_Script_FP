@@ -6,8 +6,12 @@ let A_Cut,  ___cut, ___srt, A_Ret, ___msg, ___pipe, ___data;
  *HOW MAKE && TEST functional UPDATE_ReadGrps(cur_ReadGrp)(direction)
  *   1TAT:  REPLACE UPDATE_ReadGrps(cur_ReadGrp)(direction)
  *      WITH more Functional Style
- *   UPDATE_(curReadGHrp) =>
- *   GET_(Prop)(OF_El)=>el[prop]  //in this case Element Child
+ *   UPDATE_(curReadGHrp)(Direction) =>
+ *   SELECT_(Direction) => // fn(curGrp)
+ *   *  return (IS_(greaterZero)
+ *       ?  READ_Next : READ_Last;
+ *
+ *   *   GET_(Prop)(OF_El)=>el[prop]  //in this case Element Child
  *   IS_(NotZero) => GET_(childElementCount)(ofFutRG)=>
  *   // READ_Next || READ_Last functions
  *   const Pst_
@@ -29,16 +33,23 @@ const Cur_ChptrReadGrp = query('.ChptrReadGrps > .cur')(document); //> div.cur
 //A_Cut =IS_((o)=> o.childElementCount > 0)(Cur_ChptrReadGrp);
 ////Trace((o)=>`${A_Cut}`)(A_Cut);
 //console.assert(A_Cut,`EXP: Cur_ChptrReadGrp Count>0 [${A_Cut}]`);
-// CUT:  BUILD AND TEST READ_Next()
-let curGrp = Cur_ChptrReadGrp();
-let pstGrp = GET_('previousElementSibling')(curGrp);
-let futGrp = GET_('nextElementSibling')(curGrp);
-let HAS_Next = (grp) => grp.childElementCount > 0;
+//
+// CUT:  BUILD AND TEST:
+//  GET_Grps(curGrpTmpl)=> {}
+//  SELECT_(selector)(Direction)
+//  UPDATE_(GrpObj)
 
-let READ_Next = (curGrp) =>  pipeline (
-    GET_('previousElementSibling')  //>> futGrp
-);
-
+//  TEST: GET_Grps(curGrpTmpl)
+const GET_Grps = (tmpl) => { // > Obj{pst: po, cur: co, fut:fo}
+    let curGrp = query(tmpl)(document);
+    let pstGrp = GET_('previousElementSibling')(curGrp);
+    let futGrp = GET_('nextElementSibling')(curGrp);
+    return {pstGrp, curGrp, futGrp};
+};
+let curGrpTmpl = '.ChptrReadGrps > .cur';
+Trace((o)=>`GET_Grps:${Object.keys(o)}`)(GET_Grps(curGrpTmpl));
+// TEST: UPDATE_(READ_next)
+//const UPDATE_ = ()
 
 //  POSTPONE THIS CALL SET_All_Verse_Styles (StyleObj);
 //BindHandlers(book);
