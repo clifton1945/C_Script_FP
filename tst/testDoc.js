@@ -24,7 +24,7 @@ let A_Cut,  ___cut, ___srt, A_Ret, ___msg, ___pipe, ___data;
 // TESTS
 //I WILL USE chapters, instead of  Verses, FOR these test.
 //  EXPECT three div classes: pat, cur, fut
-//const book = query('.book')(document);
+const book = query('.book')(document);
 //const ChptrReadGrps = query('.ChptrReadGrps')(document);  //> div.ChptrReadGrps
 //const ChptrReadGrpsChildren = query('.ChptrReadGrps')(document).children;  //> HTML Collection [3]
 const Cur_ChptrReadGrp = query('.ChptrReadGrps > .cur')(document); //> div.cur
@@ -146,15 +146,16 @@ const UPDATE_ReadGrps = (GrpSelectorStr)=>(Direction)=>{
     let grpsObj = GET_Grps(GrpSelectorStr);  // TODO definately ready for pipeline
     let SELECT_MOVE_ = (grpsObj)=>(Direction)=>{
         // TODO great place functional do nothing if Direction === 0
-        let x = Direction > 0 ? MOVE_Next(grpsObj) : MOVE_Last(grpsObj); // TODO WHAT IF === 0
-        return x
+        return Direction > 0 ? MOVE_Next(grpsObj) : MOVE_Last(grpsObj); // TODO WHAT IF === 0
     };
     SELECT_MOVE_(grpsObj)(Direction);
+    /// UPDATE_Styles
+    SET_All_Verse_Styles (StyleObj);
 };
 // TEST UPDATE_ReadGrps(selStr)(direction) >> performs DOM update
-let testGrpTmpl = '.ChptrReadGrps > .cur';
+//let testGrpTmpl = '.ChptrReadGrps > .cur';
 //A_Cut = UPDATE_ReadGrps(testGrpTmpl)(-1);
 
 
-//  POSTPONE THIS CALL SET_All_Verse_Styles (StyleObj);
-//BindHandlers(book);
+SET_All_Verse_Styles (StyleObj);
+BindHandlers(book);
