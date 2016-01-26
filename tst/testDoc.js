@@ -56,7 +56,7 @@ Trace((o)=>`GET_Grps:${Object.keys(o)}`)(GrpsObj);
 console.assert(Object.keys(GrpsObj).length === 3
     , 'EXP 3 keys in GrpsObj.');  //> OK
 //
-// BUILD / TEST:
+// BUILD / TEST: MOVE_NextChild (frmGrp)(toGrp)
 
 // BUILD / TEST: READ_Next( GrpsObj)=> UPDATES DOM div.ReadGrps contents
 const READ_Next = (GrpsObj)=>{
