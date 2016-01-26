@@ -32,43 +32,42 @@ var BindHandlers = function BindHandlers(book) {
     //document.addEventListener("keydown", keysPressed, false);
     document.addEventListener("keyup", keyActions, false);
     function keyActions(e) {
-        //
-        // NOTE: Below, these ARE CURRENT ReadGrps  GROUPS:
-        // that is they include ... > .cur
-        // NEEDED because I use it's Siblings in UPDATING all threeGrps
-        var curChptr_CRGrps = query(
-            '.ChptrReadGrps > .cur')(book);
-        var curChptr_VRGrps = query(
-            ' .chptr > .VerseReadGrps > .cur')(curChptr_CRGrps);
-        //
-        //  I need t odecide if hereis where I set
-    // read Last Chptr.
+        // just past the query selectorStr on each Event
+        var curChptr_CRGrpsSelctStr = '.ChptrReadGrps > .cur';
+        var curChptr_VRGrpsSelctStr = ' .chptr > .VerseReadGrps > .cur';
+    //    var curChptr_CRGrps = query(
+    //        '.ChptrReadGrps > .cur')(book);
+    //    var curChptr_VRGrps = query(
+    //        ' .chptr > .VerseReadGrps > .cur')(curChptr_CRGrps);
+    //    //
+    //    //  I need t odecide if hereis where I set
+    //// read Last Chptr.
         if (e.keyCode == 37) {
             //e.stopPropagation();
             e.preventDefault();
             C_Both("read Last Chptr");
-            UPDATE_ReadGrps(curChptr_CRGrps)(-1)
+            UPDATE_ReadGrps(curChptr_CRGrpsSelctStr)(-1)
         }
         // read Last verse.
         if (e.keyCode == 38) {
             //e.stopPropagation();
             e.preventDefault();
             C_Both("read Last Verse");
-            UPDATE_ReadGrps(curChptr_VRGrps)(-1)
+            UPDATE_ReadGrps(curChptr_VRGrpsSelctStr)(-1)
         }
         // read Next Chptr.
         if (e.keyCode == 39 || e.keyCode == 96) { // rt arrow || numpad 0
             //e.stopPropagation();
             e.preventDefault();
             C_Both("read Next Chptr ");
-            UPDATE_ReadGrps(curChptr_CRGrps)(1)
+            UPDATE_ReadGrps(curChptr_CRGrpsSelctStr)(1)
         }
             // read Next verse.
         if (e.keyCode == 32 || e.keyCode == 40) {
             //e.stopPropagation();
             e.preventDefault();
             C_Both("read Next Verse");
-            UPDATE_ReadGrps(curChptr_VRGrps)(1);
+            UPDATE_ReadGrps(curChptr_VRGrpsSelctStr)(1);
         }
     }
     // click Events **********************
