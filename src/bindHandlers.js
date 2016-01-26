@@ -19,10 +19,6 @@ const UPDATE_ReadGrps = (cur_ReadGrp) => (direction) => {
             futReadGrp.insertBefore(curReadGrp.lastElementChild, futReadGrp.firstElementChild);
         }
     }
-    //
-    //
-    //  IS THIS THE BEST PLACE FORTHIS CALL??
-    //  PASSING THE
     SET_All_Verse_Styles(StyleObj);
     //
     //NOT SURE NEEDED  it's the updated curReadGrp property

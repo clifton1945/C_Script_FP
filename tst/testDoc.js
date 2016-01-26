@@ -6,25 +6,14 @@ let A_Cut,  ___cut, ___srt, A_Ret, ___msg, ___pipe, ___data;
  *HOW MAKE && TEST functional UPDATE_ReadGrps(cur_ReadGrp)(direction)
  *   1TAT:  REPLACE UPDATE_ReadGrps(cur_ReadGrp)(direction)
  *      WITH more Functional Style
- *   // REQUIRED BASIC FUNCTIONS:
- *   const = GET_ = (Prop)(OF_El)=>el[prop]  //in this case Element Child
- *   const = IS_ = (Test) => GET_ (Prop) (OF_El)=>
+ *   UPDATE_(curReadGHrp) =>
+ *   GET_(Prop)(OF_El)=>el[prop]  //in this case Element Child
+ *   IS_(NotZero) => GET_(childElementCount)(ofFutRG)=>
  *   // READ_Next || READ_Last functions
  *   const Pst_
  *   READ_Next(eg: last_curChild >> first_fut_Child : APPEND_Child(toGrp)(frGrp)
  *   READ_Last(eg; first_first_curC >> lst_pstC: INSERT_Before(frGrp)(toGrp)(
  *   becomes
- *      let READ_Next( ToGrp)(fmGrp) => {
- *          FIND_
- *          FILTER_()(fut_RGrp)
- *      }
- *
- *      curry (ToGrp) =>
- *      curry (FromGrp) =>
- *      let READ_Next = (ToGrp )(FrmGrp) => {
- *          ToGrp.appendChild((FrmGrp)=>FrmGrp.firstElementChild);
- *          }
- *      }
  */
 
 //*****************************************************
@@ -44,14 +33,11 @@ const Cur_ChptrReadGrp = query('.ChptrReadGrps > .cur')(document); //> div.cur
 let curGrp = Cur_ChptrReadGrp();
 let pstGrp = GET_('previousElementSibling')(curGrp);
 let futGrp = GET_('nextElementSibling')(curGrp);
-IS_Next = IS_(((o)=>(o.childElementCount > 0)(futGrp)
-let READ_Next = pipeline (
-    (futGrp)=>(curGrp, pstGr) => {
+let HAS_Next = (grp) => grp.childElementCount > 0;
 
-
-
-    }
-};
+let READ_Next = (curGrp) =>  pipeline (
+    GET_('previousElementSibling')  //>> futGrp
+);
 
 
 //  POSTPONE THIS CALL SET_All_Verse_Styles (StyleObj);
