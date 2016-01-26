@@ -9,7 +9,7 @@ const UPDATE_ReadGrps = (cur_ReadGrp) => (direction) => {
     //READ_Next
     if (direction > 0) {  // READ_Next
         if (futReadGrp.childElementCount != 0) {
-            // last_cur__
+            // fut>>cur, cur>>pst
             curReadGrp.appendChild(futReadGrp.firstElementChild);
             pstReadGrp.appendChild(curReadGrp.firstElementChild);
         }
