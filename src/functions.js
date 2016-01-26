@@ -24,7 +24,7 @@ const es_tap = (value) =>
         // if there is a callback function, call it!
         typeof(fn) === 'function' && fn(value),
             value  // always return this value
-    )
+    );
 //TEST IT
 //es_tap('espresso')((it) => {
 //    console.log(`EXP '${it}'`)

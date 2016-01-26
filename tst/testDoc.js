@@ -44,22 +44,43 @@ const Cur_ChptrReadGrp = query('.ChptrReadGrps > .cur')(document); //> div.cur
 //}
 
 //  TEST: GET_Grps(curGrpTmpl)
-const GET_Grps = (tmpl) => { // > Obj{pst: po, cur: co, fut:fo}
-    let curGrp = query(tmpl)(document);
-    let pstGrp = GET_('previousElementSibling')(curGrp);
-    let futGrp = GET_('nextElementSibling')(curGrp);
-    return {pstGrp, curGrp, futGrp};
+/**
+ *
+ * @param tmplStr
+ * @returns {{pst: *, cur, fut: *}}
+ * @constructor
+ */
+const GET_Grps = (tmplStr) => { // > Obj{pst: po, cur: co, fut:fo}
+    let cur = query(tmplStr)(document);
+    let pst = GET_('previousElementSibling')(cur);
+    let fut = GET_('nextElementSibling')(cur);
+    return {pst, cur, fut};
 };
 let curGrpTmpl = '.ChptrReadGrps > .cur';
 let GrpsObj = GET_Grps(curGrpTmpl);
-Trace((o)=>`GET_Grps:${Object.keys(o)}`)(GrpsObj);
+// REMEMBER These ARE Chapters!! NOT Verses
+let {pst, cur, fut} = GrpsObj;
+//Trace((o)=>`GET_Grps:${Object.keys(o)}`)(GrpsObj);
 console.assert(Object.keys(GrpsObj).length === 3
     , 'EXP 3 keys in GrpsObj.');  //> OK
 //
-// BUILD / TEST: MOVE_NextChild (frmGrp)(toGrp)
+// BUILD / TEST: READ_NextChild (toGrp)(frmGrp)
+const READ_NextChild = (frmGrp)=>(toGrp)=>{
+    toGrp.appendChild(frmGrp.firstElementChild);
+};
+//const READ_LastChild
+let n0=cur.childElementCount;
+Trace((o)=>`cur Chptr El Count:${n0}`)(n0);
+A_Cut = READ_NextChild(fut)(cur);
+let n1=cur.childElementCount;
+Trace((o)=>`cur Chptr El Count:${n1}`)(n1);
+console.assert(n1 === (n0+1)
+    , 'EXP ADDED fut TO cur');  //> OK
+
 
 // BUILD / TEST: READ_Next( GrpsObj)=> UPDATES DOM div.ReadGrps contents
 const READ_Next = (GrpsObj)=>{
+    // will need CanMOVE, MOVE fut>>cur, MOVE cur>>pst
 };
 
 //  POSTPONE THIS CALL SET_All_Verse_Styles (StyleObj);
