@@ -2,58 +2,17 @@
 IMPORTANT NOTE ON  modules.
 (1) USE // paths AND (2) remember to use the path FROM project root. that is include ..//src//...
 
-1TAT: 160121  UPDATE style AFTER A READ Chapter key press TO UPDATE_ReadGrps
-    THINKING OUT LOUD -
-    What is function: main( book )
-        CALL BindHandler
-            Keys Events:  CALL SET_All_Verse_ReadGRp_Styles
-            Mouse Events:  CALL SET_All_Verse_HiLite_Styles
-                           CALL SET_All_Verse_ReadGRp_Styles
-
-    maybe DEFINE the Book
-    CALL BindHandler (book) WHICH SHOULD  //because Events Only change
-        which would set two maybe global || maybe curried const:
-
-        let curChptr_CRGrps = query(
-            '.ChptrReadGrps > .cur')
-            (book);
-        let curChptr_VRGrps = query('
-            .chptr > .VerseReadGrps > .cur')
-            (curChptr_CRGrps);
-    THEN an Event
-        CALL: SET_All_Verse_ReadGRp_Styles //because initially there will not be an Event
-            CALL: SET_curChptr_CRGrps = function SET_curChptr_CRGrps ( book) {
-                return curChptr_CRGrps (book);
-            CALL: SET_curChptr_VRGrps = function SET_curChptr_VRGrps ( curChptr_CRGrps) {
-                return  curChptr_VRGrps (curChptr_CRGrps);
-
-        BIND Events TO UPDATE_ReadGrps(chapter OR verse Read Grps)(direction)
-            There are 2 types of Events
-                Key Presses TO READ RESET curChptr_CRGrps && || curChptr_VRGrps
-                    CALL: SET_All_Verse_ReadGRp_Styles //because curChptr_CRGrps && || curChptr_VRGrps were UPDATED.
-                Mouse events TO FIND || REPLACE regex matches
-                    CALL: SET_All_Verse_HiLite_Styles  // to be figured out
-                    CALL: SET_All_Verse_ReadGRp_Styles //because Verse CONTENT HAS BEEN ALTERED.
-
-    Hey, for now lets use the BindHandler Block to contain
-        curChptr_CRGrps && || curChptr_VRGrps
-    OR, how about contain the ReadGrp constant INSIDE SET_All_Verse_ReadGRp_Styles ???
-
-
-
-1TAT: HANDLE Word Selection AND Highlighting.
+************** ONE THING AT A TIME ************** 1TAT ******************************
 1TAT:  LOAD chapters || books FROM data source
  .. Particularly Lectures On Faith
+1TAT: IMPROVE css
+1TAT: HANDLE Word Selection AND Highlighting.
+1TAT: USE Ramda FOR Functional Coding
+1TAT: REFACTOR currentCode TO Functional
 1TAT: RENEW WebStorm
 
 
-
-
-document.getSelection looks good to transfer html content ( in Chrome ).
-THEN looks like use querySelector[All] to get all locations of selection
-THEN <mark> or something TO CEE them.
-
-CODING SHORTCUTS:
+****************  CODING SHORTCUTS: ***********************************************
 SWITCH Tabs <> ToolWindows                  Ctrl+Tab
 NAVIGATE TO Last Edit                       Ctrl+Shft+BackSpace
 NAVIGATE TO Forward | Back                  Ctrl+Alt +Left | Right
