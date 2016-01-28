@@ -30,7 +30,7 @@ const MOVE_NextChild = (frmGrp)=>(toGrp)=>{
 // BUILD MOVE_Next( GrpsObj)=> UPDATES DOM div.ReadGrps contents
 const MOVE_Next = (GrpsObj)=>{
     // will need CanMOVE, MOVE fut>>cur, MOVE cur>>pst
-    let {pst, cur, fut} = GrpsObj;
+    let {pst, cur, fut} = GrpsObj;  //TODO R.propSatisfies
     if( fut.childElementCount > 0 ) {
         MOVE_NextChild(fut)(cur);
         MOVE_NextChild(cur)(pst);
