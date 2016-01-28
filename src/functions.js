@@ -47,6 +47,7 @@ function unary(fn) {
 
 // ******************  FUNCTIONS
 const GET_ = (Prop)=>(OF_El) => OF_El[Prop];   //in this case Element Child
+
 /**
  *
  * @param test_fn
