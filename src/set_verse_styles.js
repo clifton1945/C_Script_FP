@@ -31,11 +31,11 @@ const SET_One_verseGrp_Styles = (styleObj) => (vrGrp) => {
     let sO = styleObj[vrGrp.className];
     Trace((o)=>`local styleObj.name: ${o.name}`)(sO);
     //BUILD callback fn: SET_Verse_Style for use in map(fn)(vrGrp.chkldren)
-    ___cut = SET_One_Verse_Style(sO);           //REFACT use directly in f_map
-    ___data = Coll2Array(vrGrp.children);       //REFACT use directly in f_map
+    //___cut = SET_One_Verse_Style(sO);           //REFACT use directly in f_map
+    //___data = Coll2Array(vrGrp.children);       //REFACT use directly in f_map
     //C_It(`_this_StyleObj:${sO.name}`);
     //C_It(`_this_VerseReadGrp.len:${___data.length}`);
-    f_map( ___cut ) ( ___data   );
+    f_map( SET_One_Verse_Style(sO) ) ( Coll2Array(vrGrp.children)   );
 };  // CALLEDBY ( global StyleObj)(VerseGrp) >> just the StyleObj data for this VersereadGroup
 const SET_All_Verse_Styles = (globalStyleObj) => {
     // BELOW ARE HardCoded query
