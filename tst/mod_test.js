@@ -3,7 +3,7 @@
  */
 "use strict";
 //var R = require('ramda');
-import R from '..//node_modules//ramda';
+import * as R from '../node_modules/ramda';
 
 // Modules
 import { testStr, C_It } from '..//src//modules-compiled'; // WORKS but throws Inspection 'can't resolve
@@ -12,5 +12,5 @@ C_It(testStr);  // OK
 // Ramda style:
 var x = R.add(1,2,3); //> 3 Adds 2 numbers, not n numbers.
 x = R.add(11); //> function
-var id = R.prop('id', { id: 'foo' }); // returns 'foo'
-C_It(id); //> 'foo');
+x = R.prop('x', { id: 'foo', x: 333 }); // returns 333
+C_It(x); //> '');
