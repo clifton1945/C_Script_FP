@@ -20,10 +20,6 @@ let A_Cut,  ___cut, ___srt, A_Ret, ___msg, ___pipe, ___data;
  *   becomes
  */
 
-//*****************************************************
-// TESTS
-//I WILL USE chapters, instead of  Verses, FOR these test.
-//  EXPECT three div classes: pat, cur, fut
 const book = query('.book')(document);
 //const ChptrReadGrps = query('.ChptrReadGrps')(document);  //> div.ChptrReadGrps
 //const ChptrReadGrpsChildren = query('.ChptrReadGrps')(document).children;  //> HTML Collection [3]
