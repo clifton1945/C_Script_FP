@@ -1,12 +1,27 @@
 // BUILT
+"use strict";
+//var R = require('ramda');
+//import R from '..//node_modules//ramda';
+//import query from '..//src//functions-compiled.js';
+//import requirejs from '..//node_modules//requirejs';
+
+//var R = require('ramda');
+//import * as R  from 'node-modules/ramda';
 
 //  BUILD: GET_Grps(curGrpTmpl)
 const GET_Grps = (tmplStr) => { // > Obj{pst: po, cur: co, fut:fo}
-    let cur = query(tmplStr)(document);
+    let cur = document.querySelector(tmplStr);
     let pst = GET_('previousElementSibling')(cur);
+    //let pst = R.prop('previousElementSibling')(cur);
     let fut = GET_('nextElementSibling')(cur);
     return {pst, cur, fut};
 };
+//  TESTS GET_Grps
+let curGrpTmpl = '.ChptrReadGrps > .cur';
+let GrpsObj = GET_Grps(curGrpTmpl);
+console.log("YEAH: " + GrpsObj.pst);
+
+
 // BUILD : MOVE_NextChild (toGrp)(frmGrp)
 const MOVE_NextChild = (frmGrp)=>(toGrp)=>{
     // frm>to  e.g. fut>cur; cur>pst

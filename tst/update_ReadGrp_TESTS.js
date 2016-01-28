@@ -1,9 +1,11 @@
 // BUILD && TEST UPDATE_ReadGrps(Direction)
+//import R from '..//node_modules//ramda';
 let A_Cut, A_Ret;
 //
 const book = query('.book')(document);
-const GET_Grps = (tmplStr) => { // > Obj{pst: po, cur: co, fut:fo}
+const GET_Grps = (tmplStr) => {    // > Obj{pst: po, cur: co, fut:fo}
     let cur = query(tmplStr)(document);
+    //let pst = R.prop('previousElementSibling')(cur);
     let pst = GET_('previousElementSibling')(cur);
     let fut = GET_('nextElementSibling')(cur);
     return {pst, cur, fut};
@@ -11,6 +13,8 @@ const GET_Grps = (tmplStr) => { // > Obj{pst: po, cur: co, fut:fo}
 //  TESTS GET_Grps
 let curGrpTmpl = '.ChptrReadGrps > .cur';
 let GrpsObj = GET_Grps(curGrpTmpl);
+console.log("YEAH: " + GrpsObj.pst);
+
 
 
 let {pst, cur, fut} = GrpsObj;// REMEMBER These ARE Chapters!! NOT Verses
