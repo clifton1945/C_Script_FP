@@ -16,6 +16,10 @@ IMPORTANT NOTE ON  modules.
 SWITCH Tabs <> ToolWindows                  Ctrl+Tab
 NAVIGATE TO Last Edit                       Ctrl+Shft+BackSpace
 NAVIGATE TO Forward | Back                  Ctrl+Alt +Left | Right
+Column Selection Mode                       Alt+Shift+Insert
+
+
+
 DEALING W/ const: It binds names to expressions
 We can bind any expression. Functions are expressions, so we can bind helper functions:
 
