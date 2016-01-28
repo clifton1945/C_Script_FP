@@ -33,15 +33,9 @@ var BindHandlers = function BindHandlers(book) {
     document.addEventListener("keyup", keyActions, false);
     function keyActions(e) {
         // just past the query selectorStr on each Event
+        //todo MOVE THESE 2 TO StyleObj
         var curChptr_CRGrpsSelctStr = '.ChptrReadGrps > .cur';
         var curChptr_VRGrpsSelctStr = '.ChptrReadGrps > .cur > .chptr > .VerseReadGrps > .cur';
-    //    var curChptr_CRGrps = query(
-    //        '.ChptrReadGrps > .cur')(book);
-    //    var curChptr_VRGrps = query(
-    //        ' .chptr > .VerseReadGrps > .cur')(curChptr_CRGrps);
-    //    //
-    //    //  I need to decide if hereis where I set
-    // read Last Chptr.
         if (e.keyCode == 37) {
             //e.stopPropagation();
             e.preventDefault();

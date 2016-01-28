@@ -1,5 +1,5 @@
-
 // BUILD && TEST UPDATE_ReadGrps(Direction)
+
 const UPDATE_ReadGrps = (GrpSelectorStr)=>(Direction)=>{
     // GET_Grps
     // , SELECT_ReadDirection(Direction)>>MOVE_Next() || MOVE_Last()
