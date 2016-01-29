@@ -4,9 +4,9 @@
 "use strict";
 //var R = require('ramda');
 import * as R from '../node_modules/ramda';
+import { testStr, C_It } from '..//src//modules-compiled'; // WORKS but throws Inspection 'can't resolve
 
 // Modules
-import { testStr, C_It } from '..//src//modules-compiled'; // WORKS but throws Inspection 'can't resolve
 //import * as fn from '../src/modules-compiled.js'; // WORKS
 C_It(testStr);  // OK
 // Ramda style:
