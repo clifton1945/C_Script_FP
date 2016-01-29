@@ -1,11 +1,23 @@
 /**
  * Created by CLIF on 1/29/2016.
  */
+"use strict";
 
+// PASSES the 'requires    YEAH
 import * as R from '../node_modules/ramda';
+// CAN import TOO !!
 import { testStr, C_It } from '..//src//modules-compiled'; // WORKS but throws Inspection 'can't resolve
 C_It(testStr);
-// test interface WITH document
+
+// NOW test interface WITH document
+// OPPS  document IS NOT defined
+// HOPEFULLY BECAUSE not loaded yet !!
+// DOES IT WORK W/O the document reference ??
+//var bookDiv = document.querySelector('.book');
+//C_It(bookDiv.getElementsByTagName('id'));
+
+
+
 //let ready = function ( fn ) {
 //
 //    // Sanity check
@@ -27,9 +39,6 @@ C_It(testStr);
 //ready(function() {
 //    console.log('I AM ready!!');
 //});
-//var bookDiv = document.querySelector('.book');
-//C_It(bookDiv.getElementsByTagName('id'));
-//
 var a= R.add(11); //> 3 Adds first 2 numbers, not n numbers.
 C_It(a(9)); //> 20);
 console.assert(a(9)===20);

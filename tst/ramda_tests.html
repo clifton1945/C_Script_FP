@@ -3,6 +3,41 @@
 <head>
     <meta charset="UTF-8">
     <title>ramda tests</title>
+    <style>
+    .console {
+        position: static;
+        font-size: larger;
+        top: 0;
+        height: auto;
+        background: #333;
+        left: 0;
+        right: 0;
+        padding: 5px;
+        color: #FFF
+    }
+    .console b {
+        font-weight: bold
+    }
+    .book {
+        background-color: rgba(255, 132, 225, 0.24);
+    }
+    .ChptrReadGrps > .pst {
+        display: none;
+    }
+    .ChptrReadGrps > .fut  {
+        display: none;
+    }
+    .VerseReadGrps > .pst {
+        position: static;
+        background-color: rgba(255, 0, 0, 0.24);
+    }
+    .VerseReadGrps > .cur {
+        font-size: larger;
+    }
+    .VerseReadGrps > .fut {
+        background-color: rgba(145, 248, 29, 0.29);
+    }
+    <!--</style>
     <!--<script>-->
         <!--let ready = function ( fn ) {-->
 
@@ -27,16 +62,24 @@
     <!--</script>-->
 </head>
 <body>
+
+<div class="console">C_Both</div>
+
 SOME "body" TEXT
 <div class="book" id="book1">
     Some 'book' TEST.
+
 </div>
 <script>
 //    ready(function() {
 //        console.log('I AM ready!!');
 //    }); // CAN'T CALL unless defined somewhere
 </script>
-
+<script type="text/javascript">
+    function onLoadHandler() {
+        // your original javascript code here...
+    }
+</script>
 <script src="ramda_tests-compiled.js"></script>
 </body>
 </html>
