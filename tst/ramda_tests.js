@@ -4,10 +4,10 @@
 "use strict";
 
 // PASSES the 'requires    YEAH
-import * as R from '../node_modules/ramda';
+//import * as R from '../node_modules/ramda';
 // CAN import TOO !!
-import { testStr, C_It } from '..//src//modules-compiled'; // WORKS but throws Inspection 'can't resolve
-C_It(testStr);
+//import { testStr, C_It } from '..//src//modules-compiled'; // WORKS but throws Inspection 'can't resolve
+//C_It(testStr);
 
 // NOW test interface WITH document
 // OPPS  document IS NOT defined
@@ -39,8 +39,8 @@ C_It(testStr);
 //ready(function() {
 //    console.log('I AM ready!!');
 //});
-var a= R.add(11); //> 3 Adds first 2 numbers, not n numbers.
-C_It(a(9)); //> 20);
+var a= R.add(11); //> Adds first 2 numbers, not n numbers.
+console.log(`R.add(11)(9)>>${a(9)}`); //> 20);
 console.assert(a(9)===20);
 
-var x = R.prop('x', { id: 'foo', x: 333 }); // returns 333
+//var x = R.prop('x', { id: 'foo', x: 333 }); // returns 333
