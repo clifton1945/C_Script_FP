@@ -2,51 +2,26 @@
 
 let A_Cut,  ___cut, ___srt, A_Ret, ___msg, ___pipe, ___data;
 // CUT: CodeUnderTest ****************************
-/**
- *HOW MAKE && TEST functional UPDATE_ReadGrps(cur_ReadGrp)(direction)
- *   1TAT:  REPLACE UPDATE_ReadGrps(cur_ReadGrp)(direction)
- *      WITH more Functional Style
- *   UPDATE_(curReadGHrp)(Direction) =>
- *   SELECT_(Direction) => // fn(curGrp)
- *   *  return (IS_(greaterZero)
- *       ?  READ_Next : READ_Last;
- *
- *   *   GET_(Prop)(OF_El)=>el[prop]  //in this case Element Child
- *   IS_(NotZero) => GET_(childElementCount)(ofFutRG)=>
- *   // READ_Next || READ_Last functions
- *   const Pst_
- *   READ_Next(eg: last_curChild >> first_fut_Child : APPEND_Child(toGrp)(frGrp)
- *   READ_Last(eg; first_first_curC >> lst_pstC: INSERT_Before(frGrp)(toGrp)(
- *   becomes
- */
 
 const book = query('.book')(document);
-//const ChptrReadGrps = query('.ChptrReadGrps')(document);  //> div.ChptrReadGrps
-//const ChptrReadGrpsChildren = query('.ChptrReadGrps')(document).children;  //> HTML Collection [3]
 const Cur_ChptrReadGrp = query('.ChptrReadGrps > .cur')(document); //> div.cur
 
-//  BUILD: GET_Grps(curGrpTmpl)
-/**
- *
- * @param tmplStr
- * @returns {{pst: *, cur, fut: *}}
- * @constructor
- */
-const GET_Grps = (tmplStr) => { // > Obj{pst: po, cur: co, fut:fo}
-    let cur = query(tmplStr)(document);
-    let pst = GET_('previousElementSibling')(cur);
-    let fut = GET_('nextElementSibling')(cur);
-    return {pst, cur, fut};
-};
+
+//const GET_Grps = (tmplStr) => { // > Obj{pst: po, cur: co, fut:fo}
+//    let cur = query(tmplStr)(document);
+//    let pst = GET_('previousElementSibling')(cur);
+//    let fut = GET_('nextElementSibling')(cur);
+//    return {pst, cur, fut};
+//};
 //  TESTS GET_Grps
 let curGrpTmpl = '.ChptrReadGrps > .cur';
 let GrpsObj = GET_Grps(curGrpTmpl);
 
-// REMEMBER These ARE Chapters!! NOT Verses
-let {pst, cur, fut} = GrpsObj;
-//Trace((o)=>`GET_Grps:${Object.keys(o)}`)(GrpsObj);
-console.assert(Object.keys(GrpsObj).length === 3
-    , 'EXP 3 keys in GrpsObj.');  //> OK
+//// REMEMBER These ARE Chapters!! NOT Verses
+//let {pst, cur, fut} = GrpsObj;
+////Trace((o)=>`GET_Grps:${Object.keys(o)}`)(GrpsObj);
+//console.assert(Object.keys(GrpsObj).length === 3
+//    , 'EXP 3 keys in GrpsObj.');  //> OK
 //
 //
 //// BUILD / TEST: MOVE_NextChild (toGrp)(frmGrp)
@@ -152,6 +127,6 @@ console.assert(Object.keys(GrpsObj).length === 3
 ////let testGrpTmpl = '.ChptrReadGrps > .cur';
 ////A_Cut = UPDATE_ReadGrps(testGrpTmpl)(-1);
 
-
-SET_All_Verse_Styles (StyleObj);
-BindHandlers(book);
+// SHORTEN TESTING W/O THESE
+//SET_All_Verse_Styles (StyleObj);
+//BindHandlers(book);
