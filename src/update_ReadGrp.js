@@ -22,7 +22,6 @@ let curGrpTmpl = '.ChptrReadGrps > .cur';
 let GrpsObj = GET_Grps(curGrpTmpl);
 console.log("IN update_ReadGrp.js:fut_N: " + GrpsObj.fut.childElementCount);
 
-
 // BUILD : MOVE_NextChild (toGrp)(frmGrp)
 const MOVE_NextChild = (frmGrp)=>(toGrp)=>{
     // frm>to  e.g. fut>cur; cur>pst
