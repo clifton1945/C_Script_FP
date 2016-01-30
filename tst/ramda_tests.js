@@ -2,13 +2,15 @@
  * Created by CLIF on 1/29/2016.
  */
 "use strict";
-
+// 160130  1TAT WILL USE Ramda ON existing Code to LEARN it.
+//     will work in html: <script src="../node_modules/ramda/dist/ramda.min.js"></script>
+//
+// WILL WORK W/ HTML WITHOUT import , DECIDED NOT TO USE ALTERNATIVE  test.js WITH/ import. CAN NOT COMBINE
 // PASSES the 'requires    YEAH
-import * as R from '../node_modules/ramda';
+//import * as R from '../node_modules/ramda';
 // CAN import TOO !!
-import { testStr, C_It } from '..//src//modules-compiled'; // WORKS but throws Inspection 'can't resolve
-C_It(testStr);
-
+//import { testStr, C_It } from '..//src//modules-compiled.js'; // WORKS but throws Inspection 'can't resolve
+//C_It(testStr);
 // NOW test interface WITH document
 // OPPS  document IS NOT defined
 // HOPEFULLY BECAUSE not loaded yet !!
@@ -17,28 +19,6 @@ C_It(testStr);
 //C_It(bookDiv.getElementsByTagName('id'));
 
 
-
-//let ready = function ( fn ) {
-//
-//    // Sanity check
-//    if ( typeof fn !== 'function' ) return;
-//
-//    // If document is already loaded, run method
-//    if ( document.readyState === 'complete'  ) {
-//        return fn();
-//    }
-//
-//    // Otherwise, wait until document is loaded
-//    // The document has finished loading and the document has been parsed but sub-resources such as images, stylesheets and frames are still loading. The state indicates that the DOMContentLoaded event has been fired.
-//    document.addEventListener( 'interactive', fn, false );
-//
-//    // Alternative: The document and all sub-resources have finished loading. The state indicates that the load event has been fired.
-//    // document.addEventListener( 'complete', fn, false );
-//};
-
-//ready(function() {
-//    console.log('I AM ready!!');
-//});
 var a= R.add(11); //> Adds first 2 numbers, not n numbers.
 console.log(`R.add(11)(9)>>${a(9)}`); //> 20);
 console.assert(a(9)===20);
