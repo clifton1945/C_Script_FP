@@ -4,10 +4,10 @@
 "use strict";
 
 // PASSES the 'requires    YEAH
-//import * as R from '../node_modules/ramda';
+import * as R from '../node_modules/ramda';
 // CAN import TOO !!
-//import { testStr, C_It } from '..//src//modules-compiled'; // WORKS but throws Inspection 'can't resolve
-//C_It(testStr);
+import { testStr, C_It } from '..//src//modules-compiled'; // WORKS but throws Inspection 'can't resolve
+C_It(testStr);
 
 // NOW test interface WITH document
 // OPPS  document IS NOT defined
