@@ -1,4 +1,8 @@
-// BUILT
+// 20160201
+// STRUCTURE: MOVING All Code and Tests to one - this - File.
+// keep it all in one place.
+// STRUCTURE: FORGET struggling WITH import and require
+// JUST USE <script src sources
 "use strict";
 //import * as R from '../node_modules/ramda';
 //var R = require('ramda');
@@ -11,7 +15,6 @@
 
 var cut;
 
-
 //  BUILD: GET_Grps(curGrpTmpl) .. the 3 current groups
 const GET_Grps = (tmplStr) => { // > Obj{pst: po, cur: co, fut:fo}
     let cur = (document.querySelector(tmplStr));
@@ -19,6 +22,11 @@ const GET_Grps = (tmplStr) => { // > Obj{pst: po, cur: co, fut:fo}
     let fut = R.prop('nextElementSibling')(cur);    //NOTE: R.prop param BOTH (a,b) AND (a)(b)
     return {pst, cur, fut};
 };
+//  TESTS GET_Grps
+let curGrpTmpl = '.ChptrReadGrps > .cur';
+let GrpsObj = GET_Grps(curGrpTmpl);
+C_Both(GrpsObj.cur.className);
+
 // HOW ABOUT FIGURE HOW TO GIW??
 //const grpsObj = {pst:{}, cur:{}, fut:{}};
 //var tmplStr =  '.ChptrReadGrps > .cur';

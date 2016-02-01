@@ -14,8 +14,8 @@ const Cur_ChptrReadGrp = query('.ChptrReadGrps > .cur')(document); //> div.cur
 //    return {pst, cur, fut};
 //};
 //  TESTS GET_Grps
-let curGrpTmpl = '.ChptrReadGrps > .cur';
-let GrpsObj = GET_Grps(curGrpTmpl);
+//let curGrpTmpl = '.ChptrReadGrps > .cur';
+//let GrpsObj = GET_Grps(curGrpTmpl);
 
 //// REMEMBER These ARE Chapters!! NOT Verses
 //let {pst, cur, fut} = GrpsObj;
@@ -128,5 +128,5 @@ let GrpsObj = GET_Grps(curGrpTmpl);
 ////A_Cut = UPDATE_ReadGrps(testGrpTmpl)(-1);
 
 // SHORTEN TESTING W/O THESE
-//SET_All_Verse_Styles (StyleObj);
-//BindHandlers(book);
+SET_All_Verse_Styles (StyleObj);
+BindHandlers(book);
