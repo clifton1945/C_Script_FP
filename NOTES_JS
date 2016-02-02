@@ -19,6 +19,18 @@ NAVIGATE TO Forward | Back                  Ctrl+Alt +Left | Right
 Column Selection Mode                       Alt+Shift+Insert
 
 
+**************** CONCEPTS  ********
+[1, 2, 3].map(plus1)   ==>> [2, 3, 4]
+And map is a functor!
+
+A functor is a function, given a value and a function, does the right thing.
+
+To be more specific.
+A functor is a function, given a value and a function, unwraps the values to get to its inner value(s), calls the given function with the inner value(s), wraps the returned values in a new structure, and returns the new structure.
+
+Thing to note here is that depending on the "Type" of the value, the unwrapping may lead to a value or a set of values.
+*************************
+
 
 DEALING W/ const: It binds names to expressions
 We can bind any expression. Functions are expressions, so we can bind helper functions:
