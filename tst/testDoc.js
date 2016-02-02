@@ -1,21 +1,33 @@
 "use strict";
 
-let A_Cut,  ___cut, ___srt, A_Ret, ___msg, ___pipe, ___data;
+let A_Cut,  ___cut, ___srt, A_Ret, C_Msg, ___pipe, ___data;
 // CUT: CodeUnderTest ****************************
 
 const book = query('.book')(document);
 const Cur_ChptrReadGrp = query('.ChptrReadGrps > .cur')(document); //> div.cur
+var tmplStr = '.ChptrReadGrps > .cur';
+//  GET_Grps AS IT STANDS TODAY.
+const GET_Grps = (tmplStr) => { // > Obj{pst: po, cur: co, fut:fo}
+    let cur = query(tmplStr)(document);
+    let pst = GET_('previousElementSibling')(cur);
+    let fut = GET_('nextElementSibling')(cur);
+    return {pst, cur, fut};
+};
+// TESTS GET_Grps
 
+//TESTING
+var get_cur = str => document.querySelector(tmplStr);
+var curElem = get_cur(tmplStr);
+//get_cur = (str) => R.prop(document.querySelector(str), document);
+C_Msg = `tmplStr:${tmplStr}`;
+// WRAP UP TESTS
+C_Msg += `\n more stuff/`;
+C_Both(C_Msg);
+const get_pst = cur =>  R.prop('previousElementSibling', cur);
+//
 
-//const GET_Grps = (tmplStr) => { // > Obj{pst: po, cur: co, fut:fo}
-//    let cur = query(tmplStr)(document);
-//    let pst = GET_('previousElementSibling')(cur);
-//    let fut = GET_('nextElementSibling')(cur);
-//    return {pst, cur, fut};
-//};
-//  TESTS GET_Grps
-//let curGrpTmpl = '.ChptrReadGrps > .cur';
-//let GrpsObj = GET_Grps(curGrpTmpl);
+let curGrpTmpl = '.ChptrReadGrps > .cur';
+let GrpsObj = GET_Grps(curGrpTmpl);
 
 //// REMEMBER These ARE Chapters!! NOT Verses
 //let {pst, cur, fut} = GrpsObj;
