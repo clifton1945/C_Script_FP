@@ -25,9 +25,9 @@ C_Both(C_Msg);
 let tst = Pst.className==='pst' && Cur.className==='cur' && Fut.className==='fut';
 console.assert(tst);
 //
-
-let curGrpTmpl = '.ChptrReadGrps > .cur';
-let GrpsObj = GET_Grps(curGrpTmpl);
+//
+//let curGrpTmpl = '.ChptrReadGrps > .cur';
+//let GrpsObj = GET_Grps(curGrpTmpl);
 
 //// REMEMBER These ARE Chapters!! NOT Verses
 //let {pst, cur, fut} = GrpsObj;
