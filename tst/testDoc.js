@@ -1,29 +1,29 @@
 "use strict";
 
-let A_Cut,  ___cut, ___srt, A_Ret, C_Msg, ___pipe, ___data;
+let C_Cut, C_Ret, C_Msg;
 // CUT: CodeUnderTest ****************************
 
 const book = query('.book')(document);
 const Cur_ChptrReadGrp = query('.ChptrReadGrps > .cur')(document); //> div.cur
 var tmplStr = '.ChptrReadGrps > .cur';
-//  GET_Grps AS IT STANDS TODAY.
-const GET_Grps = (tmplStr) => { // > Obj{pst: po, cur: co, fut:fo}
-    let cur = query(tmplStr)(document);
-    let pst = GET_('previousElementSibling')(cur);
-    let fut = GET_('nextElementSibling')(cur);
-    return {pst, cur, fut};
-};
-// TESTS GET_Grps
+C_Msg = "tst:USE FP GET_xxxGrp:\n";
+const GET_cur = (str)=>document.querySelector(str); //(str)->htmlElemObj
+const GET_grp = (str, obj) => R.prop(str, obj);// GET_::obj, str ->obj
+let Cur = GET_cur(tmplStr);
+//let Pst = R.curry(GET_grp)('previousElementSibling');
+const GET_Pst = R.curry(GET_grp)('previousElementSibling');
+const GET_Fut = R.curry(GET_grp)('nextElementSibling');
+// TESTS GET_
+let Pst = GET_Pst(Cur);
+let Fut = GET_Fut(Cur);
+C_Msg += ` EXP:pst===${Pst.className}, \n`;
+C_Msg += ` EXP:cur===${Cur.className}, \n`;
+C_Msg += ` EXP:fut===${Fut.className}, \n`;
 
-//TESTING
-var get_cur = str => document.querySelector(tmplStr);
-var curElem = get_cur(tmplStr);
-//get_cur = (str) => R.prop(document.querySelector(str), document);
-C_Msg = `tmplStr:${tmplStr}`;
 // WRAP UP TESTS
-C_Msg += `\n more stuff/`;
 C_Both(C_Msg);
-const get_pst = cur =>  R.prop('previousElementSibling', cur);
+let tst = Pst.className==='pst' && Cur.className==='cur' && Fut.className==='fut';
+console.assert(tst);
 //
 
 let curGrpTmpl = '.ChptrReadGrps > .cur';
@@ -46,14 +46,14 @@ let GrpsObj = GET_Grps(curGrpTmpl);
 //////TEST MOVE_NextChild()
 ////let n0=cur.childElementCount;
 ////Trace((o)=>`cur Chptr El Count:${n0}`)(n0);
-////A_Cut = MOVE_NextChild(fut)(cur);
+////C_Cut = MOVE_NextChild(fut)(cur);
 ////
 ////let n1=cur.childElementCount;
 ////Trace((o)=>`cur Chptr El Count:${n1}`)(n1);
 ////console.assert(n1 === (n0+1)
 ////    , 'EXP MOVED fut>>cur');  //> OK
 ////
-////A_Cut = MOVE_NextChild(cur)(pst);
+////C_Cut = MOVE_NextChild(cur)(pst);
 ////let n2=cur.childElementCount;
 ////Trace((o)=>`cur Chptr El Count:${n2}`)(n2);
 ////console.assert(n2 === n0
@@ -75,7 +75,7 @@ let GrpsObj = GET_Grps(curGrpTmpl);
 //let n3=fut.childElementCount;
 //Trace((o)=>`Before Move_Next():${n1} pst, ${n2} cur, ${n3} fut`)();
 //
-//A_Cut = MOVE_Next(GrpsObj);
+//C_Cut = MOVE_Next(GrpsObj);
 //let n4=pst.childElementCount;
 //let n5=cur.childElementCount;
 //let n6=fut.childElementCount;
@@ -83,7 +83,7 @@ let GrpsObj = GET_Grps(curGrpTmpl);
 //console.assert(n4+n5+n6 === 3
 //    , '  1st MOVE_Next() EXP cur>>pst, fut>>cur'
 //);  //> OK
-//A_Cut = MOVE_Next(GrpsObj);
+//C_Cut = MOVE_Next(GrpsObj);
 //let n7=pst.childElementCount;
 //let n8=cur.childElementCount;
 //let n9=fut.childElementCount;
@@ -112,7 +112,7 @@ let GrpsObj = GET_Grps(curGrpTmpl);
 //    n3=fut.childElementCount;
 //Trace((o)=>`Before Move_Last():${n1} pst, ${n2} cur, ${n3} fut`)();
 //
-//A_Cut = MOVE_Last(GrpsObj);
+//C_Cut = MOVE_Last(GrpsObj);
 //    n4=pst.childElementCount;
 //    n5=cur.childElementCount;
 //    n6=fut.childElementCount;
@@ -137,7 +137,7 @@ let GrpsObj = GET_Grps(curGrpTmpl);
 //};
 //// TEST UPDATE_ReadGrps(selStr)(direction) >> performs DOM update
 ////let testGrpTmpl = '.ChptrReadGrps > .cur';
-////A_Cut = UPDATE_ReadGrps(testGrpTmpl)(-1);
+////C_Cut = UPDATE_ReadGrps(testGrpTmpl)(-1);
 
 // SHORTEN TESTING W/O THESE
 SET_All_Verse_Styles (StyleObj);

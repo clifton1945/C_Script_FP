@@ -23,7 +23,12 @@ var GET_Grps = function GET_Grps(tmplStr) { //=> Obj{pst: po, cur: co, fut:fo}
 
 // BUILD MOVE_Next( GrpsObj)=> UPDATES DOM div.ReadGrps contents
     const MOVE_Next = (GrpsObj)=> {
-        // will need CanMOVE, MOVE fut>>cur, MOVE cur>>pst
+        // this funcion will ALWAYS need the current Grp element
+        //  inorder TO CREATE the pst and cut elements
+        // CanMOVE, MOVE fut>>cur, MOVE cur>>pst.
+        // THINKING
+        // SO just CALL each grp as needed, skip the GrpsObj
+        //
         let {pst, cur, fut} = GrpsObj;  //TODO R.propSatisfies
         if (fut.childElementCount > 0) {
             MOVE_NextChild(fut)(cur);
