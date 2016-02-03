@@ -4,24 +4,27 @@ let C_Cut, C_Ret, C_Msg;
 // CUT: CodeUnderTest ****************************
 
 const book = query('.book')(document);
-const Cur_ChptrReadGrp = query('.ChptrReadGrps > .cur')(document); //> div.cur
+//const Cur_ChptrReadGrp = query('.ChptrReadGrps > .cur')(document); //> div.cur
+//
+
 var tmplStr = '.ChptrReadGrps > .cur';
-C_Msg = "tst:USE FP GET_xxxGrp:\n";
-const GET_cur = (str)=>document.querySelector(str); //(str)->htmlElemObj
+const GET_cur = (str, obj) => R.prop(str, obj); //(str)->htmlElemObj
 const GET_grp = (str, obj) => R.prop(str, obj);// GET_::obj, str ->obj
-let Cur = GET_cur(tmplStr);
-//let Pst = R.curry(GET_grp)('previousElementSibling');
-const GET_Pst = R.curry(GET_grp)('previousElementSibling');
-const GET_Fut = R.curry(GET_grp)('nextElementSibling');
+
+const GET_Cur = R.curry(GET_cur) (`querySelector(${tmplStr})`);
+const GET_Pst = R.curry(GET_grp) ('previousElementSibling');
+const GET_Fut = R.curry(GET_grp) ('nextElementSibling');
+
 // TESTS GET_
+let Cur = GET_Cur(book);
 let Pst = GET_Pst(Cur);
 let Fut = GET_Fut(Cur);
+C_Msg = "tst:USE FP GET_xxxGrp:\n";
 C_Msg += ` EXP:pst===${Pst.className}, \n`;
 C_Msg += ` EXP:cur===${Cur.className}, \n`;
-C_Msg += ` EXP:fut===${Fut.className}, \n`;
-
-// WRAP UP TESTS
+C_Msg += ` EXP:fut===${Fut.className}`;
 C_Both(C_Msg);
+// WRAP UP TESTS
 let tst = Pst.className==='pst' && Cur.className==='cur' && Fut.className==='fut';
 console.assert(tst);
 //
