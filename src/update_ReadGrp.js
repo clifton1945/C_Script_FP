@@ -8,7 +8,7 @@ var CUT;
 // HOW ABOUT FIGURE HOW TO GIW??
 
 //  BUILD: GET_Grps(curGrpTmpl) .. the 3 current groups
-var GET_Grps = function GET_Grps(tmplStr) { //=> Obj{pst: po, cur: co, fut:fo}
+    const GET_Grps = function GET_Grps(tmplStr) { //=> Obj{pst: po, cur: co, fut:fo}
     let grpsObj = {pst: {}, cur: {}, fut: {}};
     grpsObj.cur = document.querySelector(tmplStr);
     grpsObj.pst = R.prop('previousElementSibling', grpsObj.cur);
