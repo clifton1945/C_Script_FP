@@ -10,6 +10,9 @@ const V_Grp_Tmpl = '.VerseReadGrps > div';
 // CodeUnderTest: NodeListObject
 const C_Grp_NL = book.querySelectorAll(C_Grp_Tmpl); // NL:: 3 div.classes: pst, cur, fut
 var CUT = C_Grp_NL;
+var C_Grp_O = {"pst":{}, "cur":{}, "fut":{}};
+
+
 
 /**
  * TESTS READ_...(querySelectorAll_Tmpl) -> ModifiedDOM {
