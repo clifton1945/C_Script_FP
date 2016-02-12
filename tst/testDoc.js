@@ -9,10 +9,17 @@ const V_Grp_Tmpl = '.VerseReadGrps > div';
 // AND PASSED TO the appropriate READ_Last() || READ_First()
 // CodeUnderTest: NodeListObject
 const C_Grp_NL = book.querySelectorAll(C_Grp_Tmpl); // NL:: 3 div.classes: pst, cur, fut
-var CUT = C_Grp_NL;
-var C_Grp_O = {"pst":{}, "cur":{}, "fut":{}};
+const PST = Symbol();
+const CUR = Symbol();
+const FUT = Symbol();
+C_Grp_NL[PST] = C_Grp_NL[0];
+C_Grp_NL[CUR] = C_Grp_NL[1];
+C_Grp_NL[FUT] = C_Grp_NL[2];
+// FUNCTIONS
 
-
+const GET_childCount = (SYM) => R.prop('childElementCount',C_Grp_NL[SYM]);
+const GET_firstChild = (SYM) => R.prop('firstElementChild',C_Grp_NL[SYM]);
+const GET_lastChild = (SYM) => R.prop('lastElementChild',C_Grp_NL[SYM]);
 
 /**
  * TESTS READ_...(querySelectorAll_Tmpl) -> ModifiedDOM {
@@ -25,14 +32,15 @@ var C_Grp_O = {"pst":{}, "cur":{}, "fut":{}};
  */
 C_Msg = "tst:READ_ Grp Next && Last:\n";
 //TESTS GET_Grp_NLO:: Str -> NodeList obj
-C_Msg += ` EXP:pst===${CUT[0].className}, \n`;
-C_Msg += ` EXP:cur===${CUT[1].className}, \n`;
-C_Msg += ` EXP:fut===${CUT[2].className}`;
+const GET_className = (SYM) => R.prop('className',C_Grp_NL[SYM]);
+C_Msg += ` EXP:pst===${GET_className(PST)}, \n`;
+C_Msg += ` EXP:cur===${GET_className(CUR)}, \n`;
+C_Msg += ` EXP:fut===${GET_className(FUT)}`;
 C_Both(C_Msg);
 // WRAP UP TESTS: GET_Grp_NLO
-let tst = CUT[0].className==='pst' && CUT[1].className==='cur' && CUT[2].className==='fut';
+let tst = GET_className(PST)==='pst' && GET_className(CUR)==='cur' && GET_className(FUT)==='fut';
 console.assert(tst);
-// TESTS
+// TESTS: READ_Next
 
 // SHORTEN TESTING W/O THESE
 SET_All_Verse_Styles (StyleObj);
