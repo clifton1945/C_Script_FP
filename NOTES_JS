@@ -1,16 +1,31 @@
+160212.1100 Notes ON allong.es
+IN https://github.com/raganwald/allong.es
+OR https://leanpub.com/javascriptallongesix/read
+LOOKUP: fluent AS maker of Objects
+github >> var fluent = require('allong.es').allong.es.fluent;
+
+   Role = function () {}
+   Role.prototype.set = fluent( function (property, name) {
+     this[property] = name
+   })
+   var doomed = new Role()
+     .set('name', "Fredo")
+     .set('relationship', 'brother')
+     .set('parts', ['I', 'II'])
+
 160121 1723
 IMPORTANT NOTE ON  modules.
 (1) USE // paths AND (2) remember to use the path FROM project root. that is include ..//src//...
 
-************** ONE THING AT A TIME ************** 1TAT ******************************
-1TAT: REFACTOR currentCode TO Functional
-1TAT: HANDLE Word Selection AND Highlighting.
-1TAT:  LOAD chapters || books FROM data source
+************** ONE THING AT A TIME ************** 1TAAT ******************************
+1TAAT: REFACTOR currentCode TO Functional
+1TAAT: HANDLE Word Selection AND Highlighting.
+1TAAT:  LOAD chapters || books FROM data source
  .. Particularly Lectures On Faith
-1TAT: IMPROVE css
-1TAT: RENEW WebStorm
+1TAAT: IMPROVE css
+1TAAT: RENEW WebStorm
 **************** DONE *************************************************************
-20160130    1TAT: USE Ramda FOR Functional Coding: can Code w/ ramda. Will use html <style ref
+20160130    1TAAT: USE Ramda FOR Functional Coding: can Code w/ ramda. Will use html <style ref
 
 ****************  CODING SHORTCUTS: ***********************************************
 SWITCH Tabs <> ToolWindows                  Ctrl+Tab
