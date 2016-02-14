@@ -44,10 +44,11 @@ const MOVE_LastChild = function MOVE_LastChild(frmGrp, toGrp) {
     // eg toGrp.insert (frmGrp.last..)INFRONT_OF(toGrp.first..)e.g pst>cur; cur>fut
     toGrp.insertBefore(R.prop('lastElementChild', frmGrp), R.prop('firsElementChild',toGrp));
 };
-// CUT:     READ_NextChild
-const MOVE_NextChild = function MOVE_NextChild(frmGrp, toGrp) {
+const APPEND_NextChild = function APPEND_NextChild(frmGrp, toGrp) {
     // frm>to  e.g. fut>cur; cur>pst
-    toGrp.appendChild(frmGrp.firstElementChild);
+    // FP
+    toGrp.appendChild(R.prop('firstElementChild', frmGrp));
+    //toGrp.appendChild(frmGrp.firstElementChild);
 };
 // TESTS:   READ_Next
 C_Msg = "tst:READ_Last  \n";
@@ -56,13 +57,13 @@ C_Msg = "tst:READ_Last  \n";
 var G = V_Grp_NL;
 C_Msg = "tst:READ_Last  \n";
 C_Msg += '  EXP:curCount:' + G[CUR].childElementCount + '=== 1, \n';
-MOVE_NextChild(G[FUT], G[CUR]);
+APPEND_NextChild(G[FUT], G[CUR]);
 C_Msg += '  EXP:curCount:' + G[CUR].childElementCount + '=== 2, \n';
-MOVE_NextChild(G[CUR], G[PST]);
+APPEND_NextChild(G[CUR], G[PST]);
 C_Msg += '  EXP:curCount:' + G[CUR].childElementCount + '=== 1, \n';
 C_Both(C_Msg);
-MOVE_NextChild(G[FUT], G[CUR]);
-MOVE_NextChild(G[CUR], G[PST]);
+APPEND_NextChild(G[FUT], G[CUR]);
+APPEND_NextChild(G[CUR], G[PST]);
 MOVE_LastChild(G[CUR], G[FUT]);
 MOVE_LastChild(G[PST], G[CUR]);
 MOVE_LastChild(G[CUR], G[FUT]);
