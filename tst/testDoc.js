@@ -10,39 +10,27 @@ const V_Grp_NL = book.querySelectorAll(V_Grp_Tmpl); // NL:: 3 div.classes: pst, 
 const PST = 0;
 const CUR = 1;
 const FUT = 2;
-
-// TODO  WILL the two _Grp_NL NEED TO BE REQUERIED EACH ReadEvent ??????
-// AND PASSED TO the appropriate READ_Last() || READ_First()
-// CodeUnderTest: NodeListObject
-/**
- * TESTS READ_...(querySelectorAll_Tmpl) -> ModifiedDOM {
-    transform:: str -> NLO;
-    READ_Next::
-    maybe:: CAN_READ(frm: fut) (
-        READ_1_Grp (to: cur, frm: fut);
-        READ_1_Grp (to: pst, frm: cur);
-    }
- */
-C_Msg = "tst:Grp NodeList \n";
-//TESTS GET_Grp_NLO:: Str -> NodeList obj
-const GET_className = (SYM) => R.prop('className',C_Grp_NL[SYM]);
-//C_Msg += ` EXP:pst===${GET_className(PST)}, \n`;
-//C_Msg += ` EXP:cur===${GET_className(CUR)}, \n`;
-//C_Msg += ` EXP:fut===${GET_className(FUT)}`;
-// WRAP UP TESTS: GET_Grp_NLO
-C_Both(C_Msg);
-let tst = GET_className(PST)==='pst' && GET_className(CUR)==='cur' && GET_className(FUT)==='fut';
-console.assert(tst);
-//
-// Functions
-// TODO ADD TEST: CAN_READ_Next || CAN_READ_Last
-//const CAN_MOVE = R.propSatisfies(GET_childCount(frmSYM);  // maybe use R.isEmpty:: a->Bool
+const childCnt = R.curry(R.prop('childElementCount'));
 
 // CUT:     READ_LastChild
-//const CAN_MOVE = R.propSatisfies(GET_childCount(frmSYM);  // maybe use R.isEmpty:: a->Bool
 const INSERT_LastChild = function INSERT_LastChild(frmGrp, toGrp) {
     // eg toGrp.insert (frmGrp.last..)INFRONT_OF(toGrp.first..)e.g pst>cur; cur>fut
-    toGrp.insertBefore(R.prop('lastElementChild', frmGrp), R.prop('firsElementChild',toGrp));
+    toGrp.insertBefore(R.prop('lastElementChild', frmGrp), R.prop('firsElementChild', toGrp));
+};
+const READ_Last = function READ_Last(col) {
+    const tapChildCnt = R.tap(function (col) {
+        return console.log(
+            `  READ_Next PST.Cnt:${childCnt(col[PST])}`);
+    }, col);
+    tapChildCnt;
+    if (R.gte( childCnt(col[PST]), 1)
+    ) {
+        R.pipe(
+            tapChildCnt,
+            R.call(INSERT_LastChild, col[PST], col[CUR]),
+            R.call(INSERT_LastChild, col[CUR], col[FUT])
+        )
+    }
 };
 const APPEND_NextChild = function APPEND_NextChild(frmGrp, toGrp) {
     // frm>to  e.g. fut>cur; cur>pst
@@ -50,23 +38,71 @@ const APPEND_NextChild = function APPEND_NextChild(frmGrp, toGrp) {
     toGrp.appendChild(R.prop('firstElementChild', frmGrp));
     //toGrp.appendChild(frmGrp.firstElementChild);
 };
+const READ_Next = function READ_Next(col) {
+    const tapChildCnt = R.tap(function (col) {
+        return console.log(
+            `  READ_Next FUT.Cnt:${childCnt(col[FUT])}`);
+    }, col);
+    tapChildCnt;
+    if (R.gt(childCnt(col[FUT]), 0)) {
+        R.pipe(
+            tapChildCnt,
+            R.call(APPEND_NextChild, col[FUT], col[CUR]),
+            R.call(APPEND_NextChild, col[CUR], col[PST])
+        )
+    }
+};
+// TESTS:
+var C = C_Grp_NL;
 // TESTS:   READ_Next
-C_Msg = "tst:READ_Last  \n";
+var tstREAD_Next = function tst(coll) {
+    var Cnt = function Cnt(coll) {
+            return coll[PST].childElementCount;
+        },
+        Cnt0,
+        exp,
+        ret;
+    Cnt0 = Cnt(coll);
+    READ_Next(coll);
+    READ_Next(coll);
+    READ_Next(coll);
+    ret = Cnt(coll) - Cnt0;
+    exp = 1;
+    console.assert(ret === exp, `tst:READ_Next
+        assert:col[PST] deltaCount: ${ret},  NOT ${exp}`);
+};
+tstREAD_Next(C);
 
-// TESTS:   READ_Next
-var G = V_Grp_NL;
-C_Msg = "tst:READ_Last  \n";
-C_Msg += '  EXP:curCount:' + G[CUR].childElementCount + '=== 1, \n';
-APPEND_NextChild(G[FUT], G[CUR]);
-C_Msg += '  EXP:curCount:' + G[CUR].childElementCount + '=== 2, \n';
-APPEND_NextChild(G[CUR], G[PST]);
-C_Msg += '  EXP:curCount:' + G[CUR].childElementCount + '=== 1, \n';
-C_Both(C_Msg);
-APPEND_NextChild(G[FUT], G[CUR]);
-APPEND_NextChild(G[CUR], G[PST]);
-INSERT_LastChild(G[CUR], G[FUT]);
-INSERT_LastChild(G[PST], G[CUR]);
+/**
+ * tstREAD_Last
+ *   tst CAN READ_ an existing last verse
+ *   tst gracefully does not read a non existant verse
+ * @param tstColl
+ */
+var tstREAD_Last = function tst(tstColl) {
+    var Cnt0,
+        exp,
+        cut,
+        ret,
+        C_Msg = "tst:READ_Last";
+    cut = R.prop('childElementCount');
+    READ_Last(tstColl);
+    READ_Last(tstColl);
+    READ_Last(tstColl);
+    READ_Last(tstColl);
+    READ_Last(tstColl);
+    READ_Last(tstColl);
+    //READ_Last(tstColl);
+    ret = cut(tstColl[FUT]);
+    exp = 1;
+    console.assert(R.gte(ret, exp,
+            `  ${C_Msg}:
+        assert:ChptNL.coll[FUT]: ${ret} >= ${exp}`)
+    );
+};
+tstREAD_Last(C);
+
 
 // SHORTEN TESTING W/O THESE
-SET_All_Verse_Styles (StyleObj);
+SET_All_Verse_Styles(StyleObj);
 BindHandlers(book);

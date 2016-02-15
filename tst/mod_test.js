@@ -2,8 +2,8 @@
  * Created by CLIF on 12/30/2015.
  */
 "use strict";
-//var R = require('ramda');
-import * as R from '../node_modules/ramda';
+var R = require('ramda');
+//import * as R from '../node_modules/ramda';
 import { testStr, C_It } from '..//src//modules-compiled'; // WORKS but throws Inspection 'can't resolve
 
 // Modules
