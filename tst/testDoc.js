@@ -36,6 +36,7 @@ const APPEND_NextChild = function APPEND_NextChild(frmNdx, toNdx, col) {
     // frm>to  e.g. fut>cur; cur>pst
     // FP
     col[toNdx].appendChild(R.prop('firstElementChild', col[frmNdx]));
+    return col
     //toNdx.appendChild(frmNdx.firstElementChild);
 };
 const READ_Next = function READ_Next(col) {
@@ -46,9 +47,9 @@ const READ_Next = function READ_Next(col) {
     //tapChildCnt;
     if (R.gt(childCnt(col[FUT]), 0)) {
         R.pipe(
-            //tapChildCnt,
-            R.call(APPEND_NextChild, FUT, CUR, col),
-            R.call(APPEND_NextChild, CUR, PST, col)
+            tapChildCnt,
+            R.call(APPEND_NextChild, FUT, CUR),
+            R.call(APPEND_NextChild, CUR, PST)
         )
     }
 };
