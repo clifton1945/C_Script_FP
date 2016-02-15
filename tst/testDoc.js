@@ -7,13 +7,13 @@ const C_Grp_Tmpl = '.ChptrReadGrps > div';
 const V_Grp_Tmpl = '.ChptrReadGrps > .cur .VerseReadGrps > div';
 const C_Grp_NL = book.querySelectorAll(C_Grp_Tmpl); // NL:: 3 div.classes: pst, cur, fut
 const V_Grp_NL = book.querySelectorAll(V_Grp_Tmpl); // NL:: 3 div.classes: pst, cur, fut
+const PST = 0;
+const CUR = 1;
+const FUT = 2;
 
 // TODO  WILL the two _Grp_NL NEED TO BE REQUERIED EACH ReadEvent ??????
 // AND PASSED TO the appropriate READ_Last() || READ_First()
 // CodeUnderTest: NodeListObject
-const PST = 0;
-const CUR = 1;
-const FUT = 2;
 /**
  * TESTS READ_...(querySelectorAll_Tmpl) -> ModifiedDOM {
     transform:: str -> NLO;
@@ -26,11 +26,11 @@ const FUT = 2;
 C_Msg = "tst:Grp NodeList \n";
 //TESTS GET_Grp_NLO:: Str -> NodeList obj
 const GET_className = (SYM) => R.prop('className',C_Grp_NL[SYM]);
-C_Msg += ` EXP:pst===${GET_className(PST)}, \n`;
-C_Msg += ` EXP:cur===${GET_className(CUR)}, \n`;
-C_Msg += ` EXP:fut===${GET_className(FUT)}`;
-C_Both(C_Msg);
+//C_Msg += ` EXP:pst===${GET_className(PST)}, \n`;
+//C_Msg += ` EXP:cur===${GET_className(CUR)}, \n`;
+//C_Msg += ` EXP:fut===${GET_className(FUT)}`;
 // WRAP UP TESTS: GET_Grp_NLO
+C_Both(C_Msg);
 let tst = GET_className(PST)==='pst' && GET_className(CUR)==='cur' && GET_className(FUT)==='fut';
 console.assert(tst);
 //
@@ -40,7 +40,7 @@ console.assert(tst);
 
 // CUT:     READ_LastChild
 //const CAN_MOVE = R.propSatisfies(GET_childCount(frmSYM);  // maybe use R.isEmpty:: a->Bool
-const MOVE_LastChild = function MOVE_LastChild(frmGrp, toGrp) {
+const INSERT_LastChild = function INSERT_LastChild(frmGrp, toGrp) {
     // eg toGrp.insert (frmGrp.last..)INFRONT_OF(toGrp.first..)e.g pst>cur; cur>fut
     toGrp.insertBefore(R.prop('lastElementChild', frmGrp), R.prop('firsElementChild',toGrp));
 };
@@ -64,13 +64,8 @@ C_Msg += '  EXP:curCount:' + G[CUR].childElementCount + '=== 1, \n';
 C_Both(C_Msg);
 APPEND_NextChild(G[FUT], G[CUR]);
 APPEND_NextChild(G[CUR], G[PST]);
-MOVE_LastChild(G[CUR], G[FUT]);
-MOVE_LastChild(G[PST], G[CUR]);
-MOVE_LastChild(G[CUR], G[FUT]);
-MOVE_LastChild(G[PST], G[CUR]);
-
-//
-
+INSERT_LastChild(G[CUR], G[FUT]);
+INSERT_LastChild(G[PST], G[CUR]);
 
 // SHORTEN TESTING W/O THESE
 SET_All_Verse_Styles (StyleObj);
