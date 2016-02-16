@@ -16,6 +16,7 @@ const childCnt = R.curry(R.prop('childElementCount'));
 const INSERT_LastChild = function INSERT_LastChild(frmNdx, toNdx, col) {
     // eg toNdx.insert (frmNdx.last..)INFRONT_OF(toNdx.first..)e.g pst>cur; cur>fut
     col[toNdx].insertBefore(R.prop('lastElementChild', col[frmNdx]), R.prop('firsElementChild', col[toNdx]));
+    return col
 };
 const READ_Last = function READ_Last(col) {
     const tapChildCnt = R.tap(function (col) {
@@ -37,7 +38,6 @@ const APPEND_NextChild = function APPEND_NextChild(frmNdx, toNdx, col) {
     // FP
     col[toNdx].appendChild(R.prop('firstElementChild', col[frmNdx]));
     return col
-    //toNdx.appendChild(frmNdx.firstElementChild);
 };
 const READ_Next = function READ_Next(col) {
     const tapChildCnt = R.tap(function (col) {
@@ -48,8 +48,8 @@ const READ_Next = function READ_Next(col) {
     if (R.gt(childCnt(col[FUT]), 0)) {
         R.pipe(
             tapChildCnt,
-            R.call(APPEND_NextChild, FUT, CUR),
-            R.call(APPEND_NextChild, CUR, PST)
+            R.call(APPEND_NextChild, FUT, CUR, col),
+            R.call(APPEND_NextChild, CUR, PST, col)
         )
     }
 };
