@@ -11,7 +11,7 @@ const PST = 0;
 const CUR = 1;
 const FUT = 2;
 const childCnt = R.curry(R.prop('childElementCount'));
-// CODE UNDER TEST 
+// CODE UNDER TEST
 const INSERT_LastChild = function INSERT_LastChild(frmNdx, toNdx, col) {
     // eg toNdx.insert (frmNdx.last..)INFRONT_OF(toNdx.first..)e.g pst>cur; cur>fut
     col[toNdx].insertBefore(R.prop('lastElementChild', col[frmNdx]), R.prop('firsElementChild', col[toNdx]));
@@ -42,23 +42,22 @@ const READ_Next = function READ_Next(col) {
 };
 // TESTS:
 var C = C_Grp_NL;
+var V = V_Grp_NL;
 // TESTS:   READ_Next
 var tstREAD_Next = function tst(coll) {
-    var Cnt = function Cnt(coll)
-        {
-            return coll[PST].childElementCount;
-        },
-        Cnt0,
-        exp,
-        ret;
-    Cnt0 = Cnt(coll);
-    READ_Next(coll);
-    READ_Next(coll);
-    READ_Next(coll);
-    ret = Cnt(coll) - Cnt0;
-    exp = 1;
+    var cut, exp, ret;
+    var Cnt = (NDX, coll) => R.prop('childElementCount', coll[NDX]);
+    var deltaCnt = (NDX, coll) => {
+        var c0 = Cnt(NDX,coll);
+        return c0
+    };
+    //READ_Next(coll);
+    //READ_Next(coll);
+    //READ_Next(coll);
+    exp = 111;
+    ret = deltaCnt(PST, coll);
     console.assert(ret === exp, `tst:READ_Next
-        assert:col[PST] deltaCount: ${ret},  NOT ${exp}`);
+    EXP:deltaChildCount[${exp}] NOT [${ret}]`);
 };
 tstREAD_Next(C);
 
