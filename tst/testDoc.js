@@ -15,12 +15,12 @@ const childCnt = R.curry(R.prop('childElementCount'));  // USED IN tstREAD()
 // NEW CODE ***********************
 
 const CAN_READ = R.curry(function _CAN_READ (NDX, col) {
-        return R.gt(
-            R.prop(
-                'childElementCount', col[NDX]
-            ), 0
-        )
-    });
+    return R.gt(
+        R.prop(
+            'childElementCount', col[NDX]
+        ), 0
+    )
+});
 
 // READ_Last
 const INSERT_LastChild = function INSERT_LastChild(frmNdx, toNdx, col) {
@@ -29,11 +29,11 @@ const INSERT_LastChild = function INSERT_LastChild(frmNdx, toNdx, col) {
     return col
 };
 const READ_Last = R.when(CAN_READ(PST),function MOVE_Last (col) {
-        R.pipe(
-            R.call(INSERT_LastChild, PST, CUR, col),
-            R.call(INSERT_LastChild, CUR, FUT, col)
-        )
-    });
+    R.pipe(
+        R.call(INSERT_LastChild, PST, CUR, col),
+        R.call(INSERT_LastChild, CUR, FUT, col)
+    )
+});
 // READ_Next
 const APPEND_NextChild = function APPEND_NextChild(frmNdx, toNdx, col) {
     // frm>to  e.g. fut>cur; cur>pst
