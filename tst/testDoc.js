@@ -12,6 +12,15 @@ const CUR = 1;
 const FUT = 2;
 const childCnt = R.curry(R.prop('childElementCount'));
 // CODE UNDER TEST
+const _CAN_READ = function _CAN_READ (NDX, col) {
+    return R.gt(
+        R.prop(
+            'childElementCount', col[NDX]
+        ), 0
+    )
+}; // coll -> Bool
+const CAN_READ = R.curry(_CAN_READ);
+
 const INSERT_LastChild = function INSERT_LastChild(frmNdx, toNdx, col) {
     // eg toNdx.insert (frmNdx.last..)INFRONT_OF(toNdx.first..)e.g pst>cur; cur>fut
     col[toNdx].insertBefore(R.prop('lastElementChild', col[frmNdx]), R.prop('firsElementChild', col[toNdx]));
@@ -26,13 +35,14 @@ const READ_Last = function READ_Last(col) {
         )
     }
 };
+
 const APPEND_NextChild = function APPEND_NextChild(frmNdx, toNdx, col) {
     // frm>to  e.g. fut>cur; cur>pst
     // FP
     col[toNdx].appendChild(R.prop('firstElementChild', col[frmNdx]));
     return col
 };
-const READ_Next = function READ_Next(col) {
+const DEPR_READ_Next = function DEPR_READ_Next(col) {
     if (R.gt(childCnt(col[FUT]), 0)) {
         R.pipe(
             R.call(APPEND_NextChild, FUT, CUR, col),
@@ -41,25 +51,16 @@ const READ_Next = function READ_Next(col) {
     }
 };
 //      TESTING NEW READ_Next
-//const CAN_READ = R.propSatisfies(R.gt(R.__, 0), 'length'); // coll -> Bool
-const MOVE_ = function MOVE_ (col) {  //
+const MOVE_Next = function MOVE_Next (col) {  //
     R.pipe(
         R.call(APPEND_NextChild, FUT, CUR, col),
         R.call(APPEND_NextChild, CUR, PST, col)
     )
 };
 //
-const CAN_READ = function CAN_READ (NDX, col) {
-    return R.gt(
-        R.prop(
-            'childElementCount', col[NDX]
-        ), 0
-    )
-}; // coll -> Bool
-const curryCAN_READ = R.curry(CAN_READ);
-//C_Ret = curreyCAN_READ(FUT, C_Grp_NL);
 
-const TST_READ_Next = R.when(curryCAN_READ(FUT),MOVE_);
+//C_Ret = curreyCAN_READ(FUT, C_Grp_NL);
+const READ_Next = R.when(CAN_READ(FUT),MOVE_Next);
 //C_Ret = TST_READ_Next(C_Grp_NL);
 
 
@@ -100,7 +101,7 @@ var tstREAD_ = function tst(coll) {
     exp = -1;
     console.assert(ret === exp, 'tst:READ_Last\n    EXP:deltaChildCount[' + exp + '] NOT [' + ret + ']');
 };
-tstREAD_(C_Grp_NL);  // todo TEST CRIPPLED
+tstREAD_(C_Grp_NL);
 
 // SHORTEN TESTING W/O THESE
 SET_All_Verse_Styles(StyleObj);
