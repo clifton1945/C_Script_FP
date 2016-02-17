@@ -35,18 +35,21 @@ const READ_Last = R.when(CAN_READ(PST),function MOVE_Last (col) {
     )
 });
 // READ_Next
-const APPEND_NextChild = function APPEND_NextChild(frmNdx, toNdx, col) {
+// looking to FP APPEND_: maybe .bind && .map
+const APPEND_NextChild = R.curry(function APPEND_NextChild(frmNdx, toNdx, col) {
     // frm>to  e.g. fut>cur; cur>pst
-    // FP
     col[toNdx].appendChild(R.prop('firstElementChild', col[frmNdx]));
     return col
-};
+});
 const MOVE_Next = function MOVE_Next (col){  //
-    R.pipe(
-        R.call(APPEND_NextChild, FUT, CUR, col),
-        R.call(APPEND_NextChild, CUR, PST, col)
-    )
+    var _f2c = R.partial(APPEND_NextChild, [FUT, CUR]);
+    //C_Both(_f2c);
+    var _c2p = R.partial(APPEND_NextChild, [CUR, PST]);
+    //C_Both(_c2p);
+        R.call(_f2c, col);
+        R.call(_c2p, col);
 };
+
 const READ_Next = R.when(CAN_READ(FUT),MOVE_Next);
 // TESTS:
 var tstREAD_ = function tst(coll) {
