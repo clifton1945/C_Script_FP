@@ -41,19 +41,29 @@ const READ_Next = function READ_Next(col) {
     }
 };
 //      TESTING NEW READ_Next
-//const CAN_READ = R.propSatisfies(R.gt(col[FUT], 0), 'length'); // coll -> Bool
-//const MOVE_ = function MOVE_ (col) {  //
-//    R.pipe(
-//        R.call(APPEND_NextChild, FUT, CUR, col),
-//        R.call(APPEND_NextChild, CUR, PST, col)
-//    )
-//};
-//const HOLD_READ_Next = R.when(CAN_READ,MOVE_);  // in need of a div.class
+//const CAN_READ = R.propSatisfies(R.gt(R.__, 0), 'length'); // coll -> Bool
+const MOVE_ = function MOVE_ (col) {  //
+    R.pipe(
+        R.call(APPEND_NextChild, FUT, CUR, col),
+        R.call(APPEND_NextChild, CUR, PST, col)
+    )
+};
+//
+const CAN_READ = function CAN_READ (NDX, col) {
+    return R.gt(
+        R.prop(
+            'childElementCount', col[NDX]
+        ), 0
+    )
+}; // coll -> Bool
+const curryCAN_READ = R.curry(CAN_READ);
+//C_Ret = curreyCAN_READ(FUT, C_Grp_NL);
+
+const TST_READ_Next = R.when(curryCAN_READ(FUT),MOVE_);
+//C_Ret = TST_READ_Next(C_Grp_NL);
 
 
 // TESTS:
-//var C = C_Grp_NL;
-var V = V_Grp_NL;
 // TESTS:   READ_Next
 var tstREAD_ = function tst(coll) {
     var cut, exp, ret, fn;
@@ -90,7 +100,7 @@ var tstREAD_ = function tst(coll) {
     exp = -1;
     console.assert(ret === exp, 'tst:READ_Last\n    EXP:deltaChildCount[' + exp + '] NOT [' + ret + ']');
 };
-tstREAD_(C_Grp_NL);
+//tstREAD_(C_Grp_NL);  // todo TEST CRIPPLED
 
 // SHORTEN TESTING W/O THESE
 SET_All_Verse_Styles(StyleObj);
