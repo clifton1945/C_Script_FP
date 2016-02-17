@@ -11,15 +11,15 @@ const PST = 0;
 const CUR = 1;
 const FUT = 2;
 const childCnt = R.curry(R.prop('childElementCount'));
-// CODE UNDER TEST
-const _CAN_READ = function _CAN_READ (NDX, col) {
-    return R.gt(
-        R.prop(
-            'childElementCount', col[NDX]
-        ), 0
-    )
-}; // coll -> Bool
-const CAN_READ = R.curry(_CAN_READ);
+const CAN_READ = R.curry(
+    function _CAN_READ (NDX, col) {
+        return R.gt(
+            R.prop(
+                'childElementCount', col[NDX]
+            ), 0
+        )
+    }
+);
 
 const INSERT_LastChild = function INSERT_LastChild(frmNdx, toNdx, col) {
     // eg toNdx.insert (frmNdx.last..)INFRONT_OF(toNdx.first..)e.g pst>cur; cur>fut
