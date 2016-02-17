@@ -18,7 +18,7 @@ const INSERT_LastChild = function INSERT_LastChild(frmNdx, toNdx, col) {
     return col
 };
 const READ_Last = function READ_Last(col) {
-    if (R.gte( childCnt(col[PST]), 1)
+    if (R.gte(childCnt(col[PST]), 1)
     ) {
         R.pipe(
             R.call(INSERT_LastChild, PST, CUR, col),
@@ -40,56 +40,57 @@ const READ_Next = function READ_Next(col) {
         )
     }
 };
+//      TESTING NEW READ_Next
+//const CAN_READ = R.propSatisfies(R.gt(col[FUT], 0), 'length'); // coll -> Bool
+//const MOVE_ = function MOVE_ (col) {  //
+//    R.pipe(
+//        R.call(APPEND_NextChild, FUT, CUR, col),
+//        R.call(APPEND_NextChild, CUR, PST, col)
+//    )
+//};
+//const HOLD_READ_Next = R.when(CAN_READ,MOVE_);  // in need of a div.class
+
+
 // TESTS:
-var C = C_Grp_NL;
+//var C = C_Grp_NL;
 var V = V_Grp_NL;
 // TESTS:   READ_Next
-var tstREAD_Next = function tst(coll) {
-    var cut, exp, ret;
-    var Cnt = (NDX, coll) => R.prop('childElementCount', coll[NDX]);
-    var deltaCnt = (NDX, coll) => {
-        var c0 = Cnt(NDX,coll);
-        return c0
-    };
-    //READ_Next(coll);
-    //READ_Next(coll);
-    //READ_Next(coll);
-    exp = 111;
-    ret = deltaCnt(PST, coll);
-    console.assert(ret === exp, `tst:READ_Next
-    EXP:deltaChildCount[${exp}] NOT [${ret}]`);
-};
-tstREAD_Next(C);
-
-/**
- * tstREAD_Last
- *   tst CAN READ_ an existing last verse
- *   tst gracefully does not read a non existant verse
- * @param tstColl
- */
-var tstREAD_Last = function tst(tstColl) {
-    var Cnt0,
-        exp,
-        cut,
-        ret,
-        C_Msg = "tst:READ_Last";
-    cut = R.prop('childElementCount');
-    READ_Last(tstColl);
-    READ_Last(tstColl);
-    READ_Last(tstColl);
-    READ_Last(tstColl);
-    READ_Last(tstColl);
-    READ_Last(tstColl);
-    //READ_Last(tstColl);
-    ret = cut(tstColl[FUT]);
+var tstREAD_ = function tst(coll) {
+    var cut, exp, ret, fn;
+    var Cnt = R.curry(function (NDX, coll) {
+        return R.prop('childElementCount', coll[NDX]);
+    });
+    var deltaCnt = R.curry(function deltaCnt(NDX, fn, coll) {
+        var childCnt = Cnt(NDX);
+        var cC0 = childCnt(coll);
+        fn(coll);
+        var cC1 = childCnt(coll);
+        return cC1 - cC0;
+    });
+    var deltaCnt_PST = deltaCnt(PST);
+    // ********** TESTS ****************
+    //test1: NO CHANGE TO COLLCTION
+    fn = c => c;
+    ret = deltaCnt_PST(fn, coll);
+    exp = 0;
+    console.assert(ret === exp, 'tst:READ_Next\n    EXP:deltaChildCount[' + exp + '] NOT [' + ret + ']');
+    //test2 READ_Next
+    fn = READ_Next;
+    ret = deltaCnt_PST(fn, coll);
     exp = 1;
-    console.assert(R.gte(ret, exp,
-            `  ${C_Msg}:
-        assert:ChptNL.coll[FUT]: ${ret} >= ${exp}`)
-    );
+    console.assert(ret === exp, 'tst:READ_Next\n    EXP:deltaChildCount[' + exp + '] NOT [' + ret + ']');
+    //test3 READ_Next AGAIN
+    fn = READ_Next;
+    ret = deltaCnt_PST(fn, coll);
+    exp = 0;
+    console.assert(ret === exp, 'tst:READ_Next\n    EXP:deltaChildCount[' + exp + '] NOT [' + ret + ']');
+    //test3 READ_Last
+    fn = READ_Last;
+    ret = deltaCnt_PST(fn, coll);
+    exp = -1;
+    console.assert(ret === exp, 'tst:READ_Last\n    EXP:deltaChildCount[' + exp + '] NOT [' + ret + ']');
 };
-tstREAD_Last(C);
-
+tstREAD_(C_Grp_NL);
 
 // SHORTEN TESTING W/O THESE
 SET_All_Verse_Styles(StyleObj);
