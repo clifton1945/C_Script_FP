@@ -36,6 +36,7 @@ var BindHandlers = function BindHandlers(book) {
         //todo MOVE THESE 2 TO StyleObj
         var curChptr_CRGrpsSelctStr = '.ChptrReadGrps > .cur';
         var curChptr_VRGrpsSelctStr = '.ChptrReadGrps > .cur > .chptr > .VerseReadGrps > .cur';
+        // read Last Chapter
         if (e.keyCode == 37) {
             //e.stopPropagation();
             e.preventDefault();
