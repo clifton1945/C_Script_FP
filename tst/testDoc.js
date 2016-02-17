@@ -100,8 +100,8 @@ var tstREAD_ = function tst(coll) {
     exp = -1;
     console.assert(ret === exp, 'tst:READ_Last\n    EXP:deltaChildCount[' + exp + '] NOT [' + ret + ']');
 };
-//tstREAD_(C_Grp_NL);  // todo TEST CRIPPLED
+tstREAD_(C_Grp_NL);  // todo TEST CRIPPLED
 
 // SHORTEN TESTING W/O THESE
 SET_All_Verse_Styles(StyleObj);
-BindHandlers(book);
+//BindHandlers(book);
