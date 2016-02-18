@@ -1,31 +1,5 @@
 "use strict";
-//import {TST_StyleObj} from '..//src//modules-compiled';
-//************************************************
-//const UPDATE_ReadGrps = (cur_ReadGrp) => (direction) => {
-//    // for use in this function
-//    var curReadGrp = cur_ReadGrp;  // WHY need this change of name?
-//    var pstReadGrp = curReadGrp.previousElementSibling;
-//    var futReadGrp = curReadGrp.nextElementSibling;
-//    //READ_Next
-//    if (direction > 0) {  // READ_Next
-//        if (futReadGrp.childElementCount != 0) {
-//            // fut>>cur, cur>>pst
-//            curReadGrp.appendChild(futReadGrp.firstElementChild);
-//            pstReadGrp.appendChild(curReadGrp.firstElementChild);
-//        }
-//    //READ_Last
-//    } else if (direction < 0) { // READ_Last
-//        if (pstReadGrp.childElementCount != 0) {
-//            // first_curChild >> last_pstChild
-//            curReadGrp.insertBefore(pstReadGrp.lastElementChild, curReadGrp.firstElementChild);
-//            futReadGrp.insertBefore(curReadGrp.lastElementChild, futReadGrp.firstElementChild);
-//        }
-//    }
-//    SET_All_Verse_Styles(StyleObj);
-//    //
-//    //NOT SURE NEEDED  it's the updated curReadGrp property
-//    return curReadGrp;  //NOT SURE NEEDED  it's the updated curReadGrp property
-//};
+
 var BindHandlers = function BindHandlers(book) {
     const C_Grp_Tmpl = '.ChptrReadGrps > div';
     const V_Grp_Tmpl = '.ChptrReadGrps > .cur .VerseReadGrps > div';

@@ -14,6 +14,7 @@ const main = function () {
 
     SET_All_Verse_Styles(StyleObj);
     BindHandlers(book);
+    SET_All_Verse_Styles(StyleObj);
 };
 main();
 
