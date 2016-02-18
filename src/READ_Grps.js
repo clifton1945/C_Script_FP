@@ -24,7 +24,7 @@ const CAN_READ = R.curry(function _CAN_READ (NDX, col) {
 const INSERT_LastChild = function INSERT_LastChild(frmNdx, toNdx, col) {
 // READ_Last
     // eg toNdx.insert (frmNdx.last..)INFRONT_OF(toNdx.first..)e.g pst>cur; cur>fut
-    col[toNdx].insertBefore(R.prop('lastElementChild', col[frmNdx]), R.prop('firsElementChild', col[toNdx]));
+    col[toNdx].insertBefore(R.prop('lastElementChild', col[frmNdx]), R.prop('firstElementChild', col[toNdx]));
     return col
 };
 const PST_to_CUR = R.partial(INSERT_LastChild, [PST, CUR]);
