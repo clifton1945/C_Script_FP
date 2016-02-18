@@ -27,42 +27,43 @@
 //    return curReadGrp;  //NOT SURE NEEDED  it's the updated curReadGrp property
 //};
 var BindHandlers = function BindHandlers(book) {
+    const C_Grp_Tmpl = '.ChptrReadGrps > div';
+    const V_Grp_Tmpl = '.ChptrReadGrps > .cur .VerseReadGrps > div';
+    const C_Grp_NL = book.querySelectorAll(C_Grp_Tmpl); // NL:: 3 div.classes: pst, cur, fut
+    const V_Grp_NL = book.querySelectorAll(V_Grp_Tmpl); // NL:: 3 div.classes: pst, cur, fut
+
     // KEY Events ************************
 
     //document.addEventListener("keydown", keysPressed, false);
     document.addEventListener("keyup", keyActions, false);
     function keyActions(e) {
-        // just past the query selectorStr on each Event
-        //todo MOVE THESE 2 TO StyleObj
-        var curChptr_CRGrpsSelctStr = '.ChptrReadGrps > .cur';
-        var curChptr_VRGrpsSelctStr = '.ChptrReadGrps > .cur > .chptr > .VerseReadGrps > .cur';
         // read Last Chapter
         if (e.keyCode == 37) {
             //e.stopPropagation();
             e.preventDefault();
             C_Both("read Last Chptr");
-            UPDATE_ReadGrps(curChptr_CRGrpsSelctStr)(-1)
+            READ_Last(C_Grp_NL);
         }
         // read Last verse.
         if (e.keyCode == 38) {
             //e.stopPropagation();
             e.preventDefault();
             C_Both("read Last Verse");
-            UPDATE_ReadGrps(curChptr_VRGrpsSelctStr)(-1)
+            READ_Last(V_Grp_NL);
         }
         // read Next Chptr.
         if (e.keyCode == 39 || e.keyCode == 96) { // rt arrow || numpad 0
             //e.stopPropagation();
             e.preventDefault();
             C_Both("read Next Chptr ");
-            UPDATE_ReadGrps(curChptr_CRGrpsSelctStr)(1)
+            READ_Next(C_Grp_NL);
         }
             // read Next verse.
         if (e.keyCode == 32 || e.keyCode == 40) {
             //e.stopPropagation();
             e.preventDefault();
             C_Both("read Next Verse");
-            UPDATE_ReadGrps(curChptr_VRGrpsSelctStr)(1);
+            READ_Next(V_Grp_NL);
         }
     }
     // click Events **********************
@@ -88,9 +89,4 @@ var BindHandlers = function BindHandlers(book) {
             console.log(`textContent:${el.textContent}`);
         },false
     );
-    //C_Both('OUT BindHandlers');
 };
-//const main = function main (bookEl) {
-//    //C_Both(`TST_StyleObj${TST_StyleObj.cur}`); // WITHOUT  the import from objects-co.. thid breakd
-//};
-//main();

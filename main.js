@@ -2,8 +2,7 @@
  * Created by CLIF on 2/18/2016.
  */
 
-
-main = function () {
+const main = function () {
     const book = document.querySelector('.book');
     const C_Grp_Tmpl = '.ChptrReadGrps > div';
     const V_Grp_Tmpl = '.ChptrReadGrps > .cur .VerseReadGrps > div';
@@ -13,8 +12,8 @@ main = function () {
     const CUR = 1;
     const FUT = 2;
 
-
     SET_All_Verse_Styles(StyleObj);
-    //BindHandlers(book);
+    BindHandlers(book);
 };
+main();
 
