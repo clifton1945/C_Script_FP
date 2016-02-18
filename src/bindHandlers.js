@@ -2,7 +2,7 @@
 
 var BindHandlers = function BindHandlers(book) {
     const C_Grp_Tmpl = '.ChptrReadGrps > div';
-    const V_Grp_Tmpl = '.ChptrReadGrps > .cur .VerseReadGrps > div';
+    const V_Grp_Tmpl = '.ChptrReadGrps > .cur > .VerseReadGrps > div';
     const C_Grp_NL = book.querySelectorAll(C_Grp_Tmpl); // NL:: 3 div.classes: pst, cur, fut
     const V_Grp_NL = book.querySelectorAll(V_Grp_Tmpl); // NL:: 3 div.classes: pst, cur, fut
 

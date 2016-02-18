@@ -37,6 +37,7 @@ const SET_One_verseGrp_Styles = (styleObj) => (vrGrp) => {
     //C_It(`_this_VerseReadGrp.len:${___data.length}`);
     f_map( SET_One_Verse_Style(sO) ) ( Coll2Array(vrGrp.children)   );
 };  // CALLEDBY ( global StyleObj)(VerseGrp) >> just the StyleObj data for this VersereadGroup
+
 const SET_All_Verse_Styles = (globalStyleObj) => {
     // BELOW ARE HardCoded query
     var curChptr_CRGrps = query(
@@ -49,5 +50,9 @@ const SET_All_Verse_Styles = (globalStyleObj) => {
     //Trace((o)=>`CRGrps.className:${o.className}`)(curChptr_CRGrps);
     //Trace((o)=>`VRGrps.className:${o.className}`)(curChptr_VRGrps);
     //Trace((o)=>`VRGrps.children.length: EXP 3 === ${o.length}`)([...curChptr_VRGrps.children]);
-    f_map(SET_One_verseGrp_Styles (globalStyleObj))([...curChptr_VRGrps.children]); // TODO  KEEP OR DROP
+    f_map(
+        SET_One_verseGrp_Styles (globalStyleObj)
+        ) (
+        [...curChptr_VRGrps.children]
+        );
 };
