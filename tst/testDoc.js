@@ -14,6 +14,7 @@ const childCnt = R.curry(R.prop('childElementCount'));  // USED IN tstREAD()
 
 // NEW CODE ***********************
 
+// HELPER CODE
 const CAN_READ = R.curry(function _CAN_READ (NDX, col) {
     return R.gt(
         R.prop(
@@ -21,35 +22,40 @@ const CAN_READ = R.curry(function _CAN_READ (NDX, col) {
         ), 0
     )
 });
-
-// READ_Last
+// READ_Last CODE
 const INSERT_LastChild = function INSERT_LastChild(frmNdx, toNdx, col) {
+// READ_Last
     // eg toNdx.insert (frmNdx.last..)INFRONT_OF(toNdx.first..)e.g pst>cur; cur>fut
     col[toNdx].insertBefore(R.prop('lastElementChild', col[frmNdx]), R.prop('firsElementChild', col[toNdx]));
     return col
 };
-const READ_Last = R.when(CAN_READ(PST),function MOVE_Last (col) {
+const PST_to_CUR = R.partial(INSERT_LastChild, [PST, CUR]);
+const CUR_to_FUT = R.partial(INSERT_LastChild, [CUR, FUT]);
+const MOVE_Last = function MOVE_Last (col){
+    //C_Both(FUT_to_CUR);
+    //C_Both(CUR_to_PST);
     R.pipe(
-        R.call(INSERT_LastChild, PST, CUR, col),
-        R.call(INSERT_LastChild, CUR, FUT, col)
-    )
-});
-// READ_Next
-// looking to FP APPEND_: maybe .bind && .map
+        R.call(PST_to_CUR, col),
+        R.call(CUR_to_FUT, col)
+    );
+};
+const READ_Last = R.when(CAN_READ(PST),MOVE_Last);
+// READ_Next CODE
 const APPEND_NextChild = R.curry(function APPEND_NextChild(frmNdx, toNdx, col) {
     // frm>to  e.g. fut>cur; cur>pst
     col[toNdx].appendChild(R.prop('firstElementChild', col[frmNdx]));
     return col
 });
+const FUT_to_CUR = R.partial(APPEND_NextChild, [FUT, CUR]);
+const CUR_to_PST = R.partial(APPEND_NextChild, [CUR, PST]);
 const MOVE_Next = function MOVE_Next (col){  //
-    var _f2c = R.partial(APPEND_NextChild, [FUT, CUR]);
-    //C_Both(_f2c);
-    var _c2p = R.partial(APPEND_NextChild, [CUR, PST]);
-    //C_Both(_c2p);
-        R.call(_f2c, col);
-        R.call(_c2p, col);
+    //C_Both(FUT_to_CUR);
+    //C_Both(CUR_to_PST);
+    R.pipe(
+        R.call(FUT_to_CUR, col),
+        R.call(CUR_to_PST, col)
+    );
 };
-
 const READ_Next = R.when(CAN_READ(FUT),MOVE_Next);
 // TESTS:
 var tstREAD_ = function tst(coll) {
