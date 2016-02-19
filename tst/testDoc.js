@@ -20,7 +20,7 @@ var V_Grp_NL = book.querySelectorAll(V_Grp_Tmpl); // NL:: 3 div.classes: pst, cu
 //    C_Both(`stateCnt:p,c,f [${Cnt([PST], coll)},${Cnt([CUR], coll)},${Cnt([FUT], coll)}]`);
 //    return coll
 //};
-var C_GrpStateCnt = C_GrpStateCnt('ChptrNL');  // shadows const in functions.js
+//var C_GrpStateCnt = C_GrpStateCnt('ChptrNL');  // shadows const in functions.js
 
 var tstREAD_ = function tst(coll) {
     var cut, exp, ret, fn;
@@ -28,13 +28,10 @@ var tstREAD_ = function tst(coll) {
         var cC0 = Cnt(NDX, coll);
         fn(coll);
         var cC1 = Cnt(NDX, coll);
-        C_GrpStateCnt(coll);  // TRACER
+        //C_GrpStateCnt(coll);  // TRACER
         return cC1 - cC0;
     });
     var deltaCnt_PST = deltaCnt(PST);
-    //var deltaCntFailMsg_PST = function deltaCntFailMsg_PST (ret, exp){
-    //    return `tst:READ_ FAIL\n    EXP:[PST].deltaChild_Cnt[' + exp + '] NOT [' + ret + ']')
-    //}
 
     // ********** TESTS ****************
 
