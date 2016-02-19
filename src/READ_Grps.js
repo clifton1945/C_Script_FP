@@ -8,7 +8,7 @@ const V_Grp_NL = book.querySelectorAll(V_Grp_Tmpl); // NL:: 3 div.classes: pst, 
 const PST = 0;
 const CUR = 1;
 const FUT = 2;
-const childCnt = R.curry(R.prop('childElementCount'));  // USED IN tstREAD()
+//const childCnt = R.curry(R.prop('childElementCount'));  // USED IN tstREAD()
 
 // NEW CODE ***********************
 

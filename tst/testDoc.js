@@ -9,17 +9,18 @@ const CUR = 1;
 const FUT = 2;
 var C_Grp_NL = book.querySelectorAll(C_Grp_Tmpl); // NL:: 3 div.classes: pst, cur, fut
 var V_Grp_NL = book.querySelectorAll(V_Grp_Tmpl); // NL:: 3 div.classes: pst, cur, fut
+
 //const grpStateTmpl = `state-p:${coll[PST]}`;
-const Cnt = R.curry(function (NDX, coll) {
-    return R.prop('childElementCount', coll[NDX]);
-});
+//const Cnt = R.curry(function (NDX, coll) {
+//    return R.prop('childElementCount', coll[NDX]);
+//});
 
 // TESTS:
-const C_GrpStateCnt = function (coll) {
-    C_Both(`stateCnt:p,c,f [${Cnt([PST], coll)},${Cnt([CUR], coll)},${Cnt([FUT], coll)}]`);
-    return coll
-};
-//C_GrpStateCnt(C_Grp_NL);
+//const C_GrpStateCnt = function (coll) {
+//    C_Both(`stateCnt:p,c,f [${Cnt([PST], coll)},${Cnt([CUR], coll)},${Cnt([FUT], coll)}]`);
+//    return coll
+//};
+C_GrpStateCnt(C_Grp_NL);
 
 var tstREAD_ = function tst(coll) {
     var cut, exp, ret, fn;

@@ -3,7 +3,15 @@
  */
 "use strict";
 // *********** TRACE HELPERS
+const Cnt = R.curry(function (NDX, coll) {
+    return R.prop('childElementCount', coll[NDX]);
+});
+const C_GrpStateCnt = function (coll) {
+    C_Both(`stateCnt:p,c,f [${Cnt([PST], coll)},${Cnt([CUR], coll)},${Cnt([FUT], coll)}]`);
+    return coll
+};
 
+// OLDER
 const Doc_It = (txt) => document.querySelector(".console").textContent = txt;
 const C_It = (txt) => console.log(txt);
 const C_Both = (txt) => {
