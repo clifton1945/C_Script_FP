@@ -1,9 +1,9 @@
 "use strict";
 
-let C_Cut, C_Ret, C_Msg;
+//let C_Cut, C_Ret, C_Msg;
 const book = document.querySelector('.book');
 const C_Grp_Tmpl = '.ChptrReadGrps > div';
-const V_Grp_Tmpl = '.ChptrReadGrps  .VerseReadGrps > div';
+const V_Grp_Tmpl = '.ChptrReadGrps .cur  .VerseReadGrps > div';
 const PST = 0;
 const CUR = 1;
 const FUT = 2;
@@ -59,6 +59,6 @@ var tstREAD_ = function tst(coll) {
 //tstREAD_(C_Grp_NL);
 //tstREAD_(V_Grp_NL);  // NOTE this works. BUT the exp===0 fail IN Test 4 does not work for verses
 
-// SHORTEN TESTING W/O THESE
+ //SHORTEN TESTING W/O THESE
 //SET_All_Verse_Styles(StyleObj);
 BindHandlers(book);
