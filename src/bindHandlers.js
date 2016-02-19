@@ -52,7 +52,7 @@ var BindHandlers = function BindHandlers(book) {
             }
         } catch (err) {
         }
-        console.log('selectedRange:' + selectedRange.toString()); // TODO remove console.log
+        //console.log('selectedRange:' + selectedRange.toString()); // TODO remove console.log
     };
     // add event listener to table
     let b = document.querySelector('.book');

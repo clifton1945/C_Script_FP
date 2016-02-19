@@ -27,6 +27,7 @@ const INSERT_LastChild = function INSERT_LastChild(frmNdx, toNdx, col) {
     col[toNdx].insertBefore(R.prop('lastElementChild', col[frmNdx]), R.prop('firstElementChild', col[toNdx]));
     return col
 };
+// TODO AFTER 1TAAT: COMPOSE all 4 XXX_to_YYY BY PASSING the Function.
 const PST_to_CUR = R.partial(INSERT_LastChild, [PST, CUR]);
 const CUR_to_FUT = R.partial(INSERT_LastChild, [CUR, FUT]);
 const MOVE_Last = function MOVE_Last (col){
