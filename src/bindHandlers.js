@@ -1,8 +1,9 @@
 "use strict";
 
-var BindHandlers = function BindHandlers(book) {
+var BindHandlers = function BindHandlers(book)
+{
     const C_Grp_Tmpl = '.ChptrReadGrps > div';
-    const V_Grp_Tmpl = '.ChptrReadGrps > .cur > .VerseReadGrps > div';
+    const V_Grp_Tmpl = '.ChptrReadGrps .VerseReadGrps > div';
     var C_Grp_NL = book.querySelectorAll(C_Grp_Tmpl); // NL:: 3 div.classes: pst, cur, fut
     var V_Grp_NL = book.querySelectorAll(V_Grp_Tmpl); // NL:: 3 div.classes: pst, cur, fut
     const GET_V_Grp_NL = (book) =>  book.querySelectorAll(V_Grp_Tmpl);
@@ -24,6 +25,7 @@ var BindHandlers = function BindHandlers(book) {
             //e.stopPropagation();
             e.preventDefault();
             C_Both("read Last Verse");
+            V_Grp_NL = GET_V_Grp_NL(book);
             READ_Last(V_Grp_NL);
         }
         // read Next Chptr.
@@ -38,6 +40,7 @@ var BindHandlers = function BindHandlers(book) {
             //e.stopPropagation();
             e.preventDefault();
             C_Both("read Next Verse");
+            V_Grp_NL = GET_V_Grp_NL(book);
             READ_Next(V_Grp_NL);
         }
     }
