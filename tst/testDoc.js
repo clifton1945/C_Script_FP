@@ -20,7 +20,7 @@ var V_Grp_NL = book.querySelectorAll(V_Grp_Tmpl); // NL:: 3 div.classes: pst, cu
 //    C_Both(`stateCnt:p,c,f [${Cnt([PST], coll)},${Cnt([CUR], coll)},${Cnt([FUT], coll)}]`);
 //    return coll
 //};
-C_GrpStateCnt(C_Grp_NL);
+var C_GrpStateCnt = C_GrpStateCnt('ChptrNL');  // shadows const in functions.js
 
 var tstREAD_ = function tst(coll) {
     var cut, exp, ret, fn;

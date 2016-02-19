@@ -6,10 +6,11 @@
 const Cnt = R.curry(function (NDX, coll) {
     return R.prop('childElementCount', coll[NDX]);
 });
-const C_GrpStateCnt = function (coll) {
-    C_Both(`stateCnt:p,c,f [${Cnt([PST], coll)},${Cnt([CUR], coll)},${Cnt([FUT], coll)}]`);
+const C_GrpStateCnt = R.curry(
+    function C_GrpStateCnt (nameStr, coll) {
+    C_Both(`${nameStr}.stateCnt:p,c,f [${Cnt([PST], coll)},${Cnt([CUR], coll)},${Cnt([FUT], coll)}]`);
     return coll
-};
+});
 
 // OLDER
 const Doc_It = (txt) => document.querySelector(".console").textContent = txt;
