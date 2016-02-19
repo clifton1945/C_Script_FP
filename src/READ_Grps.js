@@ -36,6 +36,7 @@ const MOVE_Last = function MOVE_Last (col){
         R.call(PST_to_CUR, col),
         R.call(CUR_to_FUT, col)
     );
+    //V_Grp_NL = GET_V_Grp_NL(book);
 };
 const READ_Last = R.when(CAN_READ(PST),MOVE_Last);
 // READ_Next CODE
@@ -53,6 +54,7 @@ const MOVE_Next = function MOVE_Next (col){  //
         R.call(FUT_to_CUR, col),
         R.call(CUR_to_PST, col)
     );
+    //V_Grp_NL = GET_V_Grp_NL(book);
 };
 const READ_Next = R.when(CAN_READ(FUT),MOVE_Next);
 // TESTS:

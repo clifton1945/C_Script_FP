@@ -4,22 +4,23 @@ let C_Cut, C_Ret, C_Msg;
 const book = document.querySelector('.book');
 const C_Grp_Tmpl = '.ChptrReadGrps > div';
 const V_Grp_Tmpl = '.ChptrReadGrps  .VerseReadGrps > div';
-const C_Grp_NL = book.querySelectorAll(C_Grp_Tmpl); // NL:: 3 div.classes: pst, cur, fut
-const V_Grp_NL = book.querySelectorAll(V_Grp_Tmpl); // NL:: 3 div.classes: pst, cur, fut
 const PST = 0;
 const CUR = 1;
 const FUT = 2;
+var C_Grp_NL = book.querySelectorAll(C_Grp_Tmpl); // NL:: 3 div.classes: pst, cur, fut
+var V_Grp_NL = book.querySelectorAll(V_Grp_Tmpl); // NL:: 3 div.classes: pst, cur, fut
 //const grpStateTmpl = `state-p:${coll[PST]}`;
-var Cnt = R.curry(function (NDX, coll) {
+const Cnt = R.curry(function (NDX, coll) {
     return R.prop('childElementCount', coll[NDX]);
 });
 
 // TESTS:
-var C_GrpStateCnt = function (coll) {
+const C_GrpStateCnt = function (coll) {
     C_Both(`stateCnt:p,c,f [${Cnt([PST], coll)},${Cnt([CUR], coll)},${Cnt([FUT], coll)}]`);
     return coll
 };
-C_GrpStateCnt(C_Grp_NL);
+//C_GrpStateCnt(C_Grp_NL);
+
 var tstREAD_ = function tst(coll) {
     var cut, exp, ret, fn;
     var deltaCnt = R.curry(function deltaCnt(NDX, fn, coll) {
@@ -67,8 +68,8 @@ var tstREAD_ = function tst(coll) {
     exp = 0;
     console.assert(ret === exp, 'tst:READ_Last\n    EXP: coll[PST].deltaChild_N[' + exp + '] NOT [' + ret + ']');
 };
-//tstREAD_(C_Grp_NL);
-tstREAD_(V_Grp_NL);  // NOTE this works. BUT the exp===0 fail with so many verses.
+tstREAD_(C_Grp_NL);
+//tstREAD_(V_Grp_NL);  // NOTE this works. BUT the exp===0 fail IN Test 4 does not work for verses
 
 // SHORTEN TESTING W/O THESE
 //SET_All_Verse_Styles(StyleObj);
