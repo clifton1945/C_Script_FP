@@ -13,12 +13,18 @@ const C_GrpStateCnt = R.curry(
         return coll
     });
 // ***********  CODE DOM && DATA REFERENCE
+const bookTmpl = '.book';
 const C_Grp_Tmpl = '.ChptrReadGrps > div';
 const V_Grp_Tmpl = '.ChptrReadGrps .cur  .VerseReadGrps > div';
-const book = document.querySelector('.book');
-var C_Grp_NL = book.querySelectorAll(C_Grp_Tmpl); // NL:: 3 div.classes: pst, cur, fut
-var V_Grp_NL = book.querySelectorAll(V_Grp_Tmpl); // NL:: 3 div.classes: pst, cur, fut
-const GET_V_Grp_NL = (book) =>  book.querySelectorAll(V_Grp_Tmpl);
+
+//var C_Grp_NL = book.querySelectorAll(C_Grp_Tmpl); // NL:: 3 div.classes: pst, cur, fut
+//var V_Grp_NL = book.querySelectorAll(V_Grp_Tmpl); // NL:: 3 div.classes: pst, cur, fut
+const GET_book =
+    function GET_book () { return document.querySelector(bookTmpl)};
+const GET_C_Grp_NL =
+    function GET_C_Grp_NL (book) {return book.querySelectorAll(C_Grp_Tmpl)};
+const GET_V_Grp_NL =
+    function GET_C_Grp_NL (book) {return book.querySelectorAll(V_Grp_Tmpl)};
 
 // *********** OLD BUT STILL IN USE
 const Doc_It = (txt) => document.querySelector(".console").textContent = txt;

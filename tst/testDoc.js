@@ -1,4 +1,8 @@
 "use strict";
+
+
+var book = GET_book();
+
 // ***  TESTS FOR READ_Grps()
 var tstREAD_ = function tst(coll) {
     var cut, exp, ret, fn;
@@ -52,5 +56,5 @@ var tstREAD_ = function tst(coll) {
 //SET_All_Verse_Styles(StyleObj);
 
 // *** TESTING just testDoc.html Events
-SET_All_Verse_Styles(V_Grp_NL);
+SET_All_Verse_Styles(GET_V_Grp_NL());
 BindHandlers(book);
