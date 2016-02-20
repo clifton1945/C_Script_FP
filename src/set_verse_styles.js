@@ -26,15 +26,16 @@ const SET_One_Verse_Style = (sO) => (...verse) => {
     //v_style.textAlign = 'center';
     //C_Both(vO.toStr())
 };
-const SET_One_verseGrp_Styles = (styleObj) => (vrGrp) => {
+const SET_One_verseGrp_Styles = R.curry(
+    function SET_One_verseGrp_Styles (styleObj, vrGrp) {
     let sO = styleObj[vrGrp.className];
     f_map( SET_One_Verse_Style(sO) ) ( Coll2Array(vrGrp.children)   );
-};  // CALLEDBY ( global StyleObj)(VerseGrp) >> just the StyleObj data for this VersereadGroup
-
+    }  // CALLEDBY ( global StyleObj)(VerseGrp) >> just the StyleObj data for this VersereadGroup
+);
 //const SET_All_Verse_Styles = (globalStyleObj, coll) => {
 const SET_All_Verse_Styles = function SET_All_Verse_Styles (coll) {
     C_GrpStateCnt('style', coll);
     //coll = [...coll];
-    var fn = function fn (val) {return C_Both(R.prop('className',val))};
+    var fn = SET_One_verseGrp_Styles(coll);
     R.map(fn , coll);
 };
