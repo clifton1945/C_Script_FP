@@ -9,7 +9,7 @@ const Cnt = R.curry(
 });
 const C_GrpStateCnt = R.curry(
     function (nameStr, coll) {
-        C_Both(`${nameStr}.stateCnt:p,c,f [${Cnt([PST], coll)},${Cnt([CUR], coll)},${Cnt([FUT], coll)}]`);
+        C_Both(`${nameStr}.div.class Cnt:p,c,f [${Cnt([PST], coll)},${Cnt([CUR], coll)},${Cnt([FUT], coll)}]`);
         return coll
     });
 // ***********  CODE DOM && DATA REFERENCE

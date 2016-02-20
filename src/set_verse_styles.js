@@ -3,6 +3,9 @@
  * Created by CLIF on 01//2016
  */
 "use strict";
+// ***** GLOBAL FOR THIS file
+var TRACE_C_Both = C_Both;
+var TRACE_C_GrpStateCnt = C_GrpStateCnt
 
 /**
  * UPDATES  the global VerseObj FOR this vers elem.
@@ -15,10 +18,12 @@ const UPDATE_VerseObject = (vO) => (vers) => {
     vO.ary = vers[2];
     return vO
 };
-const SET_One_Verse_Style = (sO) => (...verse) => {
-    let vO = UPDATE_VerseObject (VerseObj) (verse) ;
-    // so now HAVE both styleObj && verseObj
-    let wt = sO.calcWt(sO, vO);
+
+const SET_1_Verse_Style = function SET_1_Verse_Style (stylObj, verse) {
+    return -1
+    let vO = UPDATE_VerseObject(VerseObj)(verse);
+    // stylObj now HAVE both styleObj && verseObj
+    let wt = stylObj.calcWt(stylObj, vO);
     //C_Both(`wt:${wt}`);
     //AND FINISH with SET_verse_style_Attribute
     let v_style = vO.val.style;
@@ -26,16 +31,22 @@ const SET_One_Verse_Style = (sO) => (...verse) => {
     //v_style.textAlign = 'center';
     //C_Both(vO.toStr())
 };
-const SET_One_verseGrp_Styles = R.curry(
-    function SET_One_verseGrp_Styles (styleObj, vrGrp) {
-    let sO = styleObj[vrGrp.className];
-    f_map( SET_One_Verse_Style(sO) ) ( Coll2Array(vrGrp.children)   );
-    }  // CALLEDBY ( global StyleObj)(VerseGrp) >> just the StyleObj data for this VersereadGroup
-);
-//const SET_All_Verse_Styles = (globalStyleObj, coll) => {
-const SET_All_Verse_Styles = function SET_All_Verse_Styles (coll) {
-    C_GrpStateCnt('style', coll);
-    //coll = [...coll];
-    var fn = SET_One_verseGrp_Styles(coll);
-    R.map(fn , coll);
+const SET_1_VerseGrp_Styles =
+    // TODO THE ESSENCE OF THIS fn is the Map just DO THID in the set_all
+    function SET_One_verseGrp_Styles(styleObj, vrGrp) {
+        var TRACE_sObj = R.prop(R.prop('className', vrGrp), styleObj);
+        TRACE_C_Both(`    SET_One_VerseGrp_Styles: thisVrsGrp:${TRACE_sObj}`);
+        R.map(SET_1_Verse_Style(styleObj, vrGrp));
+    };
+const SET_All_Verse_Styles = function SET_All_Verse_Styles(vGrpsNL) {
+    var fn = function fn(val, ndx, arr) {
+        // children IS one VGrp HTMLCollection of Verses.
+        var children = R.prop('children', val); // could have used arr[ndx]
+        TRACE_C_Both('thisVGrp HTMLCollection HAS ' + R.prop('length', children) + ' children');
+        // styleObj IS the Styles ASSOCIATED WITH this verse Grp children
+        var styleObj = TST_StyleObj[ndx]; // now styles of One div.class
+        SET_1_VerseGrp_Styles(styleObj, children);
+    };
+    TRACE_C_GrpStateCnt('SET_All_Verse_Styles', vGrpsNL); // TRACE exp 3 div.class
+    R.mapObjIndexed(fn, vGrpsNL);
 };
