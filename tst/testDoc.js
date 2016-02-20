@@ -1,5 +1,6 @@
 "use strict";
 
+
 //let C_Cut, C_Ret, C_Msg;
 const book = document.querySelector('.book');
 const C_Grp_Tmpl = '.ChptrReadGrps > div';
