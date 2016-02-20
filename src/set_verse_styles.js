@@ -20,7 +20,6 @@ const UPDATE_VerseObject = (vO) => (vers) => {
 };
 
 const SET_1_Verse_Style = function SET_1_Verse_Style (stylObj, verse) {
-    return -1
     let vO = UPDATE_VerseObject(VerseObj)(verse);
     // stylObj now HAVE both styleObj && verseObj
     let wt = stylObj.calcWt(stylObj, vO);
@@ -33,10 +32,10 @@ const SET_1_Verse_Style = function SET_1_Verse_Style (stylObj, verse) {
 };
 const SET_1_VerseGrp_Styles =
     // TODO THE ESSENCE OF THIS fn is the Map just DO THIS in the set_all
-    function SET_One_verseGrp_Styles(styleObj, vrGrp) {
-        var TRACE_sObj = R.prop('name', styleObj);
-        TRACE_C_Both(`    SET_One_VerseGrp_Styles: thisVrsGrp:${TRACE_sObj(vrGrp)}`);
-        R.map(SET_1_Verse_Style(styleObj, vrGrp));
+    function SET_1_verseGrp_Styles(styleObj, vrGrp) {
+        let TRACE_sObj = R.prop('name', styleObj);
+        TRACE_C_Both(`    SET_One_VerseGrp_Styles: thisVrsGrp:${TRACE_sObj}`);
+        R.map(SET_1_Verse_Style(styleObj, vrGrp));  // returns style for all verse in this Grp.
     };
 const SET_All_Verse_Styles = function SET_All_Verse_Styles(vGrpsNL) {
     var fn = function fn(val, ndx, arr) {
