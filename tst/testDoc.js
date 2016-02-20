@@ -1,5 +1,5 @@
 "use strict";
-
+// ***  TESTS FOR READ_Grps()
 var tstREAD_ = function tst(coll) {
     var cut, exp, ret, fn;
     var deltaCnt = R.curry(function deltaCnt(NDX, fn, coll) {
@@ -47,6 +47,10 @@ var tstREAD_ = function tst(coll) {
 //tstREAD_(C_Grp_NL);
 //tstREAD_(V_Grp_NL);  // NOTE this works. BUT the exp===0 fail IN Test 4 does not work for verses
 
- //SHORTEN TESTING W/O THESE
+// *** TESTS FOR Verse Styles
+
 //SET_All_Verse_Styles(StyleObj);
+
+// *** TESTING just testDoc.html Events
+SET_All_Verse_Styles(V_Grp_NL);
 BindHandlers(book);
