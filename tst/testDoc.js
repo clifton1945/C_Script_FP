@@ -1,18 +1,5 @@
 "use strict";
 
-
-//let C_Cut, C_Ret, C_Msg;
-const book = document.querySelector('.book');
-const C_Grp_Tmpl = '.ChptrReadGrps > div';
-const V_Grp_Tmpl = '.ChptrReadGrps .cur  .VerseReadGrps > div';
-//const PST = 0;
-//const CUR = 1;
-//const FUT = 2;
-var C_Grp_NL = book.querySelectorAll(C_Grp_Tmpl); // NL:: 3 div.classes: pst, cur, fut
-var V_Grp_NL = book.querySelectorAll(V_Grp_Tmpl); // NL:: 3 div.classes: pst, cur, fut
-const GET_V_Grp_NL = (book) =>  book.querySelectorAll(V_Grp_Tmpl);
-
-
 var tstREAD_ = function tst(coll) {
     var cut, exp, ret, fn;
     var deltaCnt = R.curry(function deltaCnt(NDX, fn, coll) {
