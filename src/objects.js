@@ -4,7 +4,7 @@
 "use strict";
 // OBJECTS
 const TST_StyleObj = {
-    0: {
+    2: {
         name: 'fut'
         , smlWt: .4
         , lrgWt: .8
@@ -32,7 +32,7 @@ const TST_StyleObj = {
                 : lrgWt;  // always lrgWt
         }
     },
-    2: {
+    0: {
         name: 'pst'
         , smlWt: 0.3
         , lrgWt: 0.8

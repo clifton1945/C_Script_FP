@@ -8,6 +8,7 @@ const Cnt = R.curry(
     return R.prop('childElementCount', coll[NDX]);
 });
 const C_GrpStateCnt = R.curry(
+    // NOTE: this function requires indexs:PST, CUR, FUT as 0,1,2 repectively.
     function (nameStr, coll) {
         C_Both(`${nameStr}.div.class Cnt:p,c,f [${Cnt([PST], coll)},${Cnt([CUR], coll)},${Cnt([FUT], coll)}]`);
         return coll

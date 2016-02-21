@@ -5,7 +5,7 @@
 "use strict";
 // ***** GLOBAL FOR THIS file
 var TRACE_C_Both = C_Both;
-var TRACE_C_GrpStateCnt = C_GrpStateCnt
+var TRACE_C_GrpStateCnt = C_GrpStateCnt;
 
 /**
  * UPDATES  the global VerseObj FOR this vers elem.
@@ -18,11 +18,12 @@ const UPDATE_VerseObject = (vO) => (vers) => {
     vO.ary = vers[2];
     return vO
 };
-
-const SET_1_Verse_Style = function SET_1_Verse_Style (stylObj, verse) {
+// returns after each verse has it's style updated.
+//  using
+const SET_1_Verse_Style = function SET_1_Verse_Style (styleObj, verse) {
     let vO = UPDATE_VerseObject(VerseObj)(verse);
-    // stylObj now HAVE both styleObj && verseObj
-    let wt = stylObj.calcWt(stylObj, vO);
+    // styleObj now HAVE both styleObj && verseObj
+    let wt = styleObj.calcWt(styleObj, vO);
     //C_Both(`wt:${wt}`);
     //AND FINISH with SET_verse_style_Attribute
     let v_style = vO.val.style;
@@ -30,13 +31,14 @@ const SET_1_Verse_Style = function SET_1_Verse_Style (stylObj, verse) {
     //v_style.textAlign = 'center';
     //C_Both(vO.toStr())
 };
+// returns style for all n verse in this Grp.
 const SET_1_VerseGrp_Styles =
-    // TODO THE ESSENCE OF THIS fn is the Map just DO THIS in the set_all
     function SET_1_verseGrp_Styles(styleObj, vrGrp) {
         let TRACE_sObj = R.prop('name', styleObj);
         TRACE_C_Both(`    SET_One_VerseGrp_Styles: thisVrsGrp:${TRACE_sObj}`);
-        R.map(SET_1_Verse_Style(styleObj, vrGrp));  // returns style for all verse in this Grp.
+        R.map(SET_1_Verse_Style(styleObj, vrGrp));  // returns style for all n verse in this Grp.
     };
+// returns all verses with updated styles.
 const SET_All_Verse_Styles = function SET_All_Verse_Styles(vGrpsNL) {
     var fn = function fn(val, ndx, arr) {
         // children IS one VGrp HTMLCollection of Verses.
