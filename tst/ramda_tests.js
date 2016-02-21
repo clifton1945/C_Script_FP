@@ -10,14 +10,19 @@ var C_Cut, C_Ret, C_Exp, C_NL, C_Arr, C_Msg;
 var book = GET_book();
 C_NL = GET_V_Grp_NL(GET_book());
 C_Exp = C_NL[1];
+
 const GET_NodeNdx = function (node, nodelist) {
-    return R.indexOf(node, nodelist);
+    return R.toString(R.indexOf(node, nodelist));
 };
-C_Both(`GET_NodeNdx->${GET_NodeNdx(C_Exp, C_NL)}`);
-const PICK_ = (styleobj, key) => R.curry(
-    R.pick(key, styleobj));
+C_Both(`GET_NodeNdx-> ${GET_NodeNdx(C_Exp, C_NL)}`);
+
+const PICK_ = R.curry(
+    function PICK_(styleobj, key) {
+        return R.pick(key, styleobj)
+    }
+);
 const PICK_myStyleObj = PICK_(StyleObj);
-C_Both(`myStyle->${PICK_myStyleObj(C_Exp, C_NL)}`);
+C_Both(`myStyle-> ${PICK_myStyleObj(GET_NodeNdx(C_Exp, C_NL)).name}`);
 
 
 // LEARNING R.when()
