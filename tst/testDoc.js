@@ -10,9 +10,13 @@ var V_Grp_NL = GET_V_Grp_NL(book);
 // get one Verse grp NL - use FUT for now
 var V_FUT_Tmpl = '.ChptrReadGrps .cur  .VerseReadGrps > .fut div';
 var V_Fut_NL = [...book.querySelectorAll(V_FUT_Tmpl)];
+var fTRACE_Tmpl = (v,n,a)=> `[v.style,n,a.len]: ${ v.style.fontSize}, ${n}, ${a.length}`;
 // map fn_setStyle(v,n,a)
-var MOD_verse = function (v, n, a) {
-    TRACE_Both("v.cls,n,a.len: " + v.className + "," + n + "," + a.length), V_Fut_NL;
+var MOD_verse = function MOD_verse(v, n, a) {
+    var wt = .6;
+    TRACE_Both(fTRACE_Tmpl(v,n,a));
+    v.style.fontSize = `${wt * 100}%`;
+    TRACE_Both(fTRACE_Tmpl(v,n,a)), V_Fut_NL;
 };
 var verseArr = R.mapObjIndexed(MOD_verse, V_Fut_NL);
 //  TEST
