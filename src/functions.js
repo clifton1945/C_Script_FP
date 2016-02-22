@@ -34,4 +34,5 @@ const C_Both = (txt) => {
     C_It (txt);
     Doc_It (txt);
 };
+const TRACE_Both = C_Both;
 
