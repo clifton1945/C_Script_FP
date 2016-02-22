@@ -17,8 +17,9 @@ var MOD_1_verse = function MOD_1_verse(v, n, a) {
         var lrgWt = .9;
         var smlWt = .5;
         let len = arr.length - 1;
+        // TODO compare with PST to consoledate!
         return (len > 0)
-            ? ((lrgWt - smlWt) / len * ndx + smlWt)
+            ? (-(lrgWt - smlWt) / len * ndx + lrgWt)
             : lrgWt;  // start small grow larger.
     };
     var wt = fWt(v, n, a);
@@ -26,6 +27,7 @@ var MOD_1_verse = function MOD_1_verse(v, n, a) {
     v.style.fontSize = `${wt * 100}%`;
     TRACE_Both(fTRACE_Tmpl(v, n, a)), V_Fut_NL;
 };
+//var MAP_
 var VerseArr = R.mapObjIndexed(MOD_1_verse, V_Fut_NL);
 //  TEST
 
