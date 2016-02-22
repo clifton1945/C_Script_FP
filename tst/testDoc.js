@@ -10,15 +10,23 @@ var V_Grp_NL = GET_V_Grp_NL(book);
 // get one Verse grp NL - use FUT for now
 var V_FUT_Tmpl = '.ChptrReadGrps .cur  .VerseReadGrps > .fut div';
 var V_Fut_NL = [...book.querySelectorAll(V_FUT_Tmpl)];
-var fTRACE_Tmpl = (v,n,a)=> `[v.style,n,a.len]: ${ v.style.fontSize}, ${n}, ${a.length}`;
+var fTRACE_Tmpl = (v, n, a)=> `[v.style,n,a.len]: ${ v.style.fontSize}, ${n}, ${a.length}`;
 // map fn_setStyle(v,n,a)
-var MOD_verse = function MOD_verse(v, n, a) {
-    var wt = .6;
-    TRACE_Both(fTRACE_Tmpl(v,n,a));
+var MOD_1_verse = function MOD_1_verse(v, n, a) {
+    var fWt = (val, ndx, arr)=> {
+        var lrgWt = .9;
+        var smlWt = .5;
+        let len = arr.length - 1;
+        return (len > 0)
+            ? ((lrgWt - smlWt) / len * ndx + smlWt)
+            : lrgWt;  // start small grow larger.
+    };
+    var wt = fWt(v, n, a);
+    TRACE_Both(fTRACE_Tmpl(v, n, a));
     v.style.fontSize = `${wt * 100}%`;
-    TRACE_Both(fTRACE_Tmpl(v,n,a)), V_Fut_NL;
+    TRACE_Both(fTRACE_Tmpl(v, n, a)), V_Fut_NL;
 };
-var verseArr = R.mapObjIndexed(MOD_verse, V_Fut_NL);
+var VerseArr = R.mapObjIndexed(MOD_1_verse, V_Fut_NL);
 //  TEST
 
 
