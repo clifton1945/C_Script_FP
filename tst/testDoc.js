@@ -13,7 +13,7 @@ var V_Fut_NL = [...book.querySelectorAll(V_FUT_Tmpl)];
 var fTRACE_Tmpl = (v, n, a)=> `[v.style,n,a.len]: ${ v.style.fontSize}, ${n}, ${a.length}`;
 // map fn_setStyle(v,n,a)
 var MOD_1_verse = function MOD_1_verse(v, n, a) {
-    var fWt = (val, ndx, arr)=> {
+    var fCALC_Wt = (val, ndx, arr)=> {
         var lrgWt = .9;
         var smlWt = .5;
         let len = arr.length - 1;
@@ -22,14 +22,14 @@ var MOD_1_verse = function MOD_1_verse(v, n, a) {
             ? (-(lrgWt - smlWt) / len * ndx + lrgWt)
             : lrgWt;  // start small grow larger.
     };
-    var wt = fWt(v, n, a);
-    TRACE_Both(fTRACE_Tmpl(v, n, a));
+    var wt = fCALC_Wt(v, n, a);
+    TRACE_Both("gfhjhj" + fTRACE_Tmpl(v, n, a));
     v.style.fontSize = `${wt * 100}%`;
     TRACE_Both(fTRACE_Tmpl(v, n, a)), V_Fut_NL;
     return v
 };
 //var MAP_
-var VerseArr = R.mapObjIndexed(MOD_1_verse, V_Fut_NL);
+var VerseArr = R.mapObjIndexed(MOD_1_verse, V_Fut_NL); // DO NOT REALL NEED ->array
 //  TEST
 
 
