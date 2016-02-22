@@ -26,6 +26,7 @@ var MOD_1_verse = function MOD_1_verse(v, n, a) {
     TRACE_Both(fTRACE_Tmpl(v, n, a));
     v.style.fontSize = `${wt * 100}%`;
     TRACE_Both(fTRACE_Tmpl(v, n, a)), V_Fut_NL;
+    return v
 };
 //var MAP_
 var VerseArr = R.mapObjIndexed(MOD_1_verse, V_Fut_NL);
