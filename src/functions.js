@@ -1,12 +1,13 @@
 /**
  * Created by CLIF on 2/19/2016.
  */
+
 "use strict";
-// *********** TRACE HELPERS
+// *********** TEST HELPERS
 const Cnt = R.curry(
     function (NDX, coll) {
-    return R.prop('childElementCount', coll[NDX]);
-});
+        return R.prop('childElementCount', coll[NDX]);
+    });
 const C_GrpStateCnt = R.curry(
     // NOTE: this function requires indexs:PST, CUR, FUT as 0,1,2 repectively.
     function (nameStr, coll) {

@@ -4,7 +4,6 @@
  */
 "use strict";
 // ***** GLOBAL FOR THIS file
-var TRACE_C_Both = C_Both;
 var TRACE_C_GrpStateCnt = C_GrpStateCnt;
 
 /**
@@ -35,7 +34,7 @@ const SET_1_Verse_Style = function SET_1_Verse_Style (styleObj, verse) {
 const SET_1_VerseGrp_Styles =
     function SET_1_verseGrp_Styles(styleObj, vrGrp) {
         let TRACE_sObj = R.prop('name', styleObj);
-        TRACE_C_Both(`    SET_One_VerseGrp_Styles: thisVrsGrp:${TRACE_sObj}`);
+        TRACE_Both(`    SET_One_VerseGrp_Styles: thisVrsGrp:${TRACE_sObj}`);
         R.map(SET_1_Verse_Style(styleObj, vrGrp));  // returns style for all n verse in this Grp.
     };
 // returns all verses with updated styles.
@@ -43,7 +42,7 @@ const SET_All_Verse_Styles = function SET_All_Verse_Styles(vGrpsNL) {
     var fn = function fn(val, ndx, arr) {
         // children IS one VGrp HTMLCollection of Verses.
         var children = R.prop('children', val); // could have used arr[ndx]
-        TRACE_C_Both('thisVGrp HTMLCollection HAS ' + R.prop('length', children) + ' children');
+        TRACE_Both('thisVGrp HTMLCollection HAS ' + R.prop('length', children) + ' children');
         // styleObj IS the Styles ASSOCIATED WITH this verse Grp children
         var styleObj = TST_StyleObj[ndx]; // now styles of One div.class
         SET_1_VerseGrp_Styles(styleObj, children);
