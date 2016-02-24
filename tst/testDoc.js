@@ -3,14 +3,15 @@
 var book = GET_book();
 var C_Grp_NL = GET_C_Grp_NL(book);
 var V_Grp_NL = GET_V_Grp_NL(book);
-
+    
 // *** TESTS FOR Verse Styles
 // start at the end with FP
 // get one Verse grp NL - use FUT for now
 var V_FUT_Tmpl = '.ChptrReadGrps .cur  .VerseReadGrps > .fut div';
-var V_PST_Tmpl = '.ChptrReadGrps .cur  .VerseReadGrps > .pst div';
-var V_Fut_NL = book.querySelectorAll(V_FUT_Tmpl);
-var V_Fut_Ar = [...book.querySelectorAll(V_FUT_Tmpl)];
+var V_FUT_NL = book.querySelectorAll(V_FUT_Tmpl);
+var V_FUT_Ar = [...book.querySelectorAll(V_FUT_Tmpl)];
+
+var V_PST_NL = book.querySelectorAll(V_PST_Tmpl);
 var V_PST_NL = book.querySelectorAll(V_PST_Tmpl);
 var V_PST_Ar = [...book.querySelectorAll(V_PST_Tmpl)];
 var fTRACE_Tmpl = (v, n, a)=>
@@ -64,7 +65,7 @@ var MOD_1_verse = function MOD_1_verse(vNode, ndx, arr) {
 }; // -> UPDATED vNode.style
 //
 //*** var MAP_
-var VerseArr = R.mapObjIndexed(MOD_1_verse, V_Fut_NL); // fn, NL->NL
+var VerseArr = R.mapObjIndexed(MOD_1_verse, V_FUT_NL); // fn, NL->NL
 //  TEST
 
 // *********** TESTS ********************
@@ -73,7 +74,7 @@ var nl_gt_1 = function nl_gt_1 (coll) {
         return R.lt(2, TRACE((x)=>x)(R.dec(R.prop('length', coll ))))
 };
 // TEST: nl_gt_1(nodelist)
-console.assert( nl_gt_1(V_Fut_Ar) && R.not(nl_gt_1(V_PST_Ar))
+console.assert( nl_gt_1(V_FUT_Ar) && R.not(nl_gt_1(V_PST_Ar))
     , "FUT:true && PST:false");
 
 var Style_Wt = function StyleWt (nl) {
@@ -84,6 +85,7 @@ var Style_Wt = function StyleWt (nl) {
     //    , ()=> "lte 1"
     //)
 };
+
 /**
  * a FP_STYLE TEST: V_FUT_NL :: nodelist -> Str: targetNode.style.fontSize >>
  * style_fontSizefNode:: targetNode->fontSize>>
@@ -99,9 +101,9 @@ RET = ((NL) => {
             R.prop('length', NL)
             - 1]
         ));
-})(V_Fut_NL);
+})(V_FUT_NL);
 EXP = "50%";
-console.assert(RET === EXP, `EXP:lastVerse.fontSize:${EXP} NOT ${RET}'`);
+console.assert(RET === EXP, `lastVerse.fontSize-EXP:${EXP}, NOT ${RET}'`);
 // *** TESTING just testDoc.html Events
 //SET_All_Verse_Styles(V_Grp_NL);
 BindHandlers(book);
