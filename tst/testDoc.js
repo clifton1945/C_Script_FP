@@ -3,7 +3,7 @@
 var book = GET_book();
 var C_Grp_NL = GET_C_Grp_NL(book);
 var V_Grp_NL = GET_V_Grp_NL(book);
-    
+
 // *** TESTS FOR Verse Styles
 // start at the end with FP
 // get one Verse grp NL - use FUT for now
@@ -22,17 +22,17 @@ var fCALC_Wt = (ndx, arr)=> {
     var lrgWt = .9;
     var smlWt = .5;
     let delta = lrgWt - smlWt;
-    let len = arr.length;  // OR nl.childElementCount
+    let len = arr.length - 1;  // OR nl.childElementCount
     return (len > 1)
         // below is code for CUR|FUT>>fut:start large grow smaller.
         ? lrgWt - delta / len * ndx
         : lrgWt;  // ALWAYS lrgWt:
-        // below is code for CUR|CUR>>CUR:
-        //? smlWt + delta / len * ndx
-        //: lrgWt;  // ALWAYS lrgWt:
-        // below is code for pst>>PST|CUR. start small grow larger..
-        //? smlWt + delta / len * ndx
-        //: lrgWt;  // ALWAYS lrgWt:
+    // below is code for CUR|CUR>>CUR:
+    //? smlWt + delta / len * ndx
+    //: lrgWt;  // ALWAYS lrgWt:
+    // below is code for pst>>PST|CUR. start small grow larger..
+    //? smlWt + delta / len * ndx
+    //: lrgWt;  // ALWAYS lrgWt:
 
 }; // -> wt Int
 //
@@ -63,21 +63,25 @@ var MOD_1_verse = function MOD_1_verse(vNode, ndx, arr) {
     //TRACE_Both(' after ' + fTRACE_Tmpl(vNode, ndx, arr));
     return vNode;
 }; // -> UPDATED vNode.style
-//
 //*** var MAP_
+//
 var VerseArr = R.mapObjIndexed(MOD_1_verse, V_FUT_NL); // fn, NL->NL
 //  TEST
 
 // *********** TESTS ********************
 var RET, EXP;
-var nl_gt_1 = function nl_gt_1 (coll) {
-        return R.lt(2, TRACE((x)=>x)(R.dec(R.prop('length', coll ))))
+var nl_gt_1 = function nl_gt_1(coll) {
+    return R.lt(2, TRACE((x)=>x)(R.dec(R.prop('length', coll))))
 };
+
+//var nl_gt_1 = function nl_gt_1 (coll) {
+//        return R.lt(2, TRACE((x)=>x)(R.dec(R.prop('length', coll ))))
+//};
 // TEST: nl_gt_1(nodelist)
-console.assert( nl_gt_1(V_FUT_Ar) && R.not(nl_gt_1(V_PST_Ar))
+console.assert(nl_gt_1(V_FUT_Ar) && R.not(nl_gt_1(V_PST_Ar))
     , "FUT:true && PST:false");
 
-var Style_Wt = function StyleWt (nl) {
+var Style_Wt = function StyleWt(nl) {
     // thisStyleConstants: lrgWt, smlWt, calcCode OR thisStyleObj
     // thisNode vars: node, nodeNdx, nodeList
     //R.if(nl_gt_1(nl)
@@ -96,10 +100,7 @@ var Style_Wt = function StyleWt (nl) {
  */
 RET = ((NL) => {
     return R.prop('fontSize'
-        , R.prop('style', NL
-                [
-            R.prop('length', NL)
-            - 1]
+        , R.prop('style', NL[R.prop('length', NL) - 1]
         ));
 })(V_FUT_NL);
 EXP = "50%";
