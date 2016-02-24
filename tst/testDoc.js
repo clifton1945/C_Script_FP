@@ -11,7 +11,7 @@ var V_FUT_Tmpl = '.ChptrReadGrps .cur  .VerseReadGrps > .fut div';
 var V_FUT_NL = book.querySelectorAll(V_FUT_Tmpl);
 var V_FUT_Ar = [...book.querySelectorAll(V_FUT_Tmpl)];
 
-var V_PST_NL = book.querySelectorAll(V_PST_Tmpl);
+var V_PST_Tmpl = '.ChptrReadGrps .cur  .VerseReadGrps > .pst div';
 var V_PST_NL = book.querySelectorAll(V_PST_Tmpl);
 var V_PST_Ar = [...book.querySelectorAll(V_PST_Tmpl)];
 var fTRACE_Tmpl = (v, n, a)=>
