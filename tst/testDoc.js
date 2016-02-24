@@ -70,19 +70,9 @@ var VerseArr = R.mapObjIndexed(MOD_1_verse, V_FUT_NL); // fn, NL->NL
 
 // *********** TESTS ********************
 var RET, EXP;
-// TODO   USE R.pipe
-//var nl_gt_1 = function nl_gt_1(coll) {
-//    return R.lt(
-//        2, TRACE(
-//            (x) => `len-1:${x}`)(
-//            R.dec(
-//                R.prop(
-//                    'length', coll))))
-//};
 
+// THIS WORKS
 var nl_gt_1 = function nl_gt_1(coll) {
-    var x = R.prop('length');
-    var y = R.lt(2);
     var f =  R.pipe(
         R.prop('length'),
         R.dec,
@@ -91,6 +81,16 @@ var nl_gt_1 = function nl_gt_1(coll) {
     );
     return f(coll)
 };
+
+//THIS DOES NOT !! TODO FIGURE THIS OUT
+//var nl_gt_1 = function nl_gt_1(coll) {
+//    return R.pipe(
+//        R.prop('length', coll),
+//        R.dec,
+//        R.lt(2),
+//        TRACE(x=>x)
+//    )
+//};
 
 // TEST: nl_gt_1(nodelist)
 console.assert(nl_gt_1(V_FUT_NL) && R.not(nl_gt_1(V_PST_NL))
