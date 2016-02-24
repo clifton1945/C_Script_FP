@@ -3,6 +3,7 @@
  */
 
 "use strict";
+//VERBS: MODIFY, UPDATE, APPLY,ADMINISTER,COMPLETE,FULFILL,AFFECT,ALTER
 // *********** TEST HELPERS
 const Cnt = R.curry(
     function (NDX, coll) {

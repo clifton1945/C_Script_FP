@@ -48,24 +48,22 @@ var fSET_Style_Str = function fSET_style_Str(nodeNdx, NL) {
 }; // [Str] style string
 
 /**
- * :: Node, vNdx, NL -> vNode-UPDATED
+ * :: Node, vNdx, NL -> RESTYLED vNode
  * @param vNode
  * @param ndx
  * @param arr
  * @returns {*}
  * @constructor
  */
-var MOD_1_verse = function MOD_1_verse(vNode, ndx, arr) {
-    //:: vNode, ndx, arr -> UPDATED vNode.style.
+var RESTYLE_1_verse = function RESTYLE_1_verse(vNode, ndx, arr) {
     //TRACE_Both('before ' + fTRACE_Tmpl(vNode, ndx, arr));
-    // this is THE PRIME CODE::
     vNode.style.fontSize = fSET_Style_Str(ndx, arr);
     //TRACE_Both(' after ' + fTRACE_Tmpl(vNode, ndx, arr));
     return vNode;
 }; // -> UPDATED vNode.style
 //*** var MAP_
 //
-var VerseArr = R.mapObjIndexed(MOD_1_verse, V_FUT_NL); // fn, NL->NL
+var VerseArr = R.mapObjIndexed(RESTYLE_1_verse, V_FUT_NL); // fn, NL->NL
 //  TEST
 
 // *********** TESTS ********************
