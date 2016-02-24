@@ -70,14 +70,32 @@ var VerseArr = R.mapObjIndexed(MOD_1_verse, V_FUT_NL); // fn, NL->NL
 
 // *********** TESTS ********************
 var RET, EXP;
+// TODO   USE R.pipe
+//var nl_gt_1 = function nl_gt_1(coll) {
+//    return R.lt(
+//        2, TRACE(
+//            (x) => `len-1:${x}`)(
+//            R.dec(
+//                R.prop(
+//                    'length', coll))))
+//};
+
 var nl_gt_1 = function nl_gt_1(coll) {
-    return R.lt(2, TRACE((x)=>x)(R.dec(R.prop('length', coll))))
+    var x = R.prop('length');
+    var y = R.lt(2);
+    var f =  R.pipe(
+        R.prop('length'),
+        R.dec,
+        R.lt(2),
+        TRACE(x=>x)
+    );
+    return f(coll)
 };
 
-//var nl_gt_1 = function nl_gt_1 (coll) {
-//        return R.lt(2, TRACE((x)=>x)(R.dec(R.prop('length', coll ))))
-//};
 // TEST: nl_gt_1(nodelist)
+console.assert(nl_gt_1(V_FUT_NL) && R.not(nl_gt_1(V_PST_NL))
+    , "FUT:true && PST:false");
+// TEST: nl_gt_1(Array of nodes)
 console.assert(nl_gt_1(V_FUT_Ar) && R.not(nl_gt_1(V_PST_Ar))
     , "FUT:true && PST:false");
 
