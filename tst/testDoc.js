@@ -69,24 +69,20 @@ var VerseArr = R.mapObjIndexed(MOD_1_verse, V_Fut_NL); // fn, NL->NL
 
 // *********** TESTS ********************
 var RET, EXP;
-var nl_gt_1 = function nl_gt_1 (nodeList) {
-    R.pipe(
-        R.prop('childElementCount', nodeList) // Num
-        , R.dec // Num
-        , R.lt(2)
-    )
+var nl_gt_1 = function nl_gt_1 (coll) {
+        return R.lt(2, TRACE((x)=>x)(R.dec(R.prop('length', coll ))))
 };
 // TEST: nl_gt_1(nodelist)
-console.assert( nl_gt_1(V_Fut_NL) && R.not(nl_gt_1(V_PST_NL))
+console.assert( nl_gt_1(V_Fut_Ar) && R.not(nl_gt_1(V_PST_Ar))
     , "FUT:true && PST:false");
 
 var Style_Wt = function StyleWt (nl) {
     // thisStyleConstants: lrgWt, smlWt, calcCode OR thisStyleObj
     // thisNode vars: node, nodeNdx, nodeList
-    R.if(nl_gt_1(nl)
-        , ()=>{"gt 1"}
-        , ()=>{"lte 1"}
-    )
+    //R.if(nl_gt_1(nl)
+    //    , ()=> "gt 1"
+    //    , ()=> "lte 1"
+    //)
 };
 /**
  * a FP_STYLE TEST: V_FUT_NL :: nodelist -> Str: targetNode.style.fontSize >>
