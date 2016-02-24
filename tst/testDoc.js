@@ -4,19 +4,23 @@ var book = GET_book();
 var C_Grp_NL = GET_C_Grp_NL(book);
 var V_Grp_NL = GET_V_Grp_NL(book);
 
-// *** TESTS FOR Verse Styles
-// start at the end with FP
-// get one Verse grp NL - use FUT for now
+/**
+ * TEST DATA FOR Verse Styles
+ * */
 var V_FUT_Tmpl = '.ChptrReadGrps .cur  .VerseReadGrps > .fut div';
 var V_FUT_NL = book.querySelectorAll(V_FUT_Tmpl);
 var V_FUT_Ar = [...book.querySelectorAll(V_FUT_Tmpl)];
-
+//
 var V_PST_Tmpl = '.ChptrReadGrps .cur  .VerseReadGrps > .pst div';
 var V_PST_NL = book.querySelectorAll(V_PST_Tmpl);
 var V_PST_Ar = [...book.querySelectorAll(V_PST_Tmpl)];
+// *** TEST FUNCTIONS
 var fTRACE_Tmpl = (v, n, a)=>
     `[v.style,n,a.len]: ${ v.style.fontSize}, ${n}, ${a.length}`;
-//
+
+/**
+ * *** CODE FOR STYLING Verses
+ */
 var fCALC_Wt = (ndx, arr)=> {
     //:: nodeNdx, NL -> wt Int
     var lrgWt = .9;
@@ -66,41 +70,37 @@ var RESTYLE_1_verse = function RESTYLE_1_verse(vNode, ndx, arr) {
 var VerseArr = R.mapObjIndexed(RESTYLE_1_verse, V_FUT_NL); // fn, NL->NL
 //  TEST
 
-// *********** TESTS ********************
+/**
+ * ********* TESTS *******************
+ * */
 var RET, EXP;
 
-// THIS WORKS
-var nl_gt_1 = function nl_gt_1(coll) {
+/**
+ * :: collection -> Bool: t | f
+ * @param coll
+ * @returns {*}
+ */
+const coll_len_gt_1 = function coll_len_gt_1(coll) {
     var f =  R.pipe(
-        R.prop('length'),
-        R.dec,
-        R.lt(2),
-        TRACE(x=>x)
+        R.prop('length')
+        ,R.dec
+        ,R.lt(2)
+        //TRACE(x=>x)
     );
     return f(coll)
 };
-
-//THIS DOES NOT !! TODO FIGURE THIS OUT
-//var nl_gt_1 = function nl_gt_1(coll) {
-//    return R.pipe(
-//        R.prop('length', coll),
-//        R.dec,
-//        R.lt(2),
-//        TRACE(x=>x)
-//    )
-//};
-
-// TEST: nl_gt_1(nodelist)
-console.assert(nl_gt_1(V_FUT_NL) && R.not(nl_gt_1(V_PST_NL))
+// TEST: coll_len_gt_1(nodelist)
+console.assert(coll_len_gt_1(V_FUT_NL) && R.not(coll_len_gt_1(V_PST_NL))
     , "FUT:true && PST:false");
-// TEST: nl_gt_1(Array of nodes)
-console.assert(nl_gt_1(V_FUT_Ar) && R.not(nl_gt_1(V_PST_Ar))
+// TEST: coll_len_gt_1(Array of nodes)
+console.assert(coll_len_gt_1(V_FUT_Ar) && R.not(coll_len_gt_1(V_PST_Ar))
     , "FUT:true && PST:false");
-
+// ****************************
+//
 var Style_Wt = function StyleWt(nl) {
     // thisStyleConstants: lrgWt, smlWt, calcCode OR thisStyleObj
     // thisNode vars: node, nodeNdx, nodeList
-    //R.if(nl_gt_1(nl)
+    //R.if(coll_len_gt_1(nl)
     //    , ()=> "gt 1"
     //    , ()=> "lte 1"
     //)
@@ -121,6 +121,10 @@ RET = ((NL) => {
 })(V_FUT_NL);
 EXP = "50%";
 console.assert(RET === EXP, `lastVerse.fontSize-EXP:${EXP}, NOT ${RET}'`);
-// *** TESTING just testDoc.html Events
+
+
+/**
+ * *** TESTING just testDoc.html Events
+ */
 //SET_All_Verse_Styles(V_Grp_NL);
 BindHandlers(book);
