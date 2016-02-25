@@ -27,10 +27,12 @@ function main() {
  *    first:TRY R.forEach, R.addIndex
  */
 var tst_passing_strTmpl = function (tst = false) {
-    var cut = (x, n, c)=>C_Both(
-        R.prop('className', x)
+    var className_ = R.curry(R.prop('className'));
+    var tstTmpl_ = ( val, ndx, col ) => `className:${className_( val )}`;
+    // CUT
+    var cut = (val, ndx, col) => C_Both(
+        tstTmpl_(val, ndx, col)
     );
-    //var R_forEachIndexed = R.addIndex(R.forEach);
     var fn = ()=> {
         R_forEachIndexed(
             cut,
