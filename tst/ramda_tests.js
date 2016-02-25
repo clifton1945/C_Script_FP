@@ -26,6 +26,7 @@ function main() {
  *
  *    first:TRY R.forEach, R.addIndex
  */
+// TODO NEXT ONE_TAAT -> PASS arg to StyleTmpl THRU
 var tst_passing_strTmpl = function (tst = false) {
     var className_ = R.curry(R.prop('className'));
     var tstTmpl_ = ( val, ndx, col ) => `className:${className_( val )} ndx:${ndx}}`;
