@@ -4,6 +4,12 @@
 
 "use strict";
 //VERBS: MODIFY, UPDATE, APPLY,ADMINISTER,COMPLETE,FULFILL,AFFECT,ALTER
+
+/**
+ * Ramda Combinations
+ */
+const R_forEachIndexed = R.addIndex(R.forEach);
+
 // *********** TEST HELPERS
 const Cnt = R.curry(
     function (NDX, coll) {
