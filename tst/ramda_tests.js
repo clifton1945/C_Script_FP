@@ -28,7 +28,7 @@ function main() {
  */
 var tst_passing_strTmpl = function (tst = false) {
     var className_ = R.curry(R.prop('className'));
-    var tstTmpl_ = ( val, ndx, col ) => `className:${className_( val )}`;
+    var tstTmpl_ = ( val, ndx, col ) => `className:${className_( val )} ndx:${ndx}}`;
     // CUT
     var cut = (val, ndx, col) => C_Both(
         tstTmpl_(val, ndx, col)
