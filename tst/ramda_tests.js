@@ -28,11 +28,13 @@ function main() {
  *    first:TRY R.forEach, R.addIndex
  */
 var tst_passing_strTmpl = function (tst = false) {
-    var fn = ()=> {
-        C_Cut = R.forEach(
-            (x)=>C_Both(
-                R.prop('className', x))
-            , C_NL);
+    var fn = () => {
+        C_Cut = R.addIndex(
+            R.forEach(
+                (x,n,c)=>C_Both(
+                    R.prop('className', x))
+                , C_NL)
+        );
     };
     R.when(fn, tst);
 };
