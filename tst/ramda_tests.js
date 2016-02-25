@@ -3,7 +3,7 @@
  */
 "use strict";
 //var R = require('ramda');  //DO NOT USE OR NEED W/ TEST.HTML
-var C_Cut, C_Ret, C_Exp, C_NL, C_Arr, C_Msg, TAAT;
+var C_Cut, C_Ret, C_Exp, C_NL, C_Arr, C_Msg, One_TAAT;
 
 /**
  * GLOBAL vars
@@ -11,13 +11,12 @@ var C_Cut, C_Ret, C_Exp, C_NL, C_Arr, C_Msg, TAAT;
  * */
 var book = GET_book();
 C_NL = GET_V_Grp_NL(GET_book());
-var StyleO = TST_StyleObj;
 /**
  * ***** TEST FRAMEWORK **************
  */
 function main() {
     tst_passing_strTmpl(true);
-    tst_R_Categories();
+    tst_R_Categories(true);
     tst_R_when();
 }
 
@@ -46,7 +45,7 @@ var tst_passing_strTmpl = function (tst = false) {
  * what they ARE in the case of Category:Function
  * R.propSatisfies() -> Category.Logic
  * R.prop() ->    Category: 'Object'
- * NOTE: NEED 2 R.prop() TO GET StyleO.1.name!!
+ * NOTE: NEED 2 R.prop() TO GET TST_StyleObj.1.name!!
  * BUT
  * R.apply function TO argument WHICH can return anything
  * SO
@@ -55,12 +54,12 @@ var tst_passing_strTmpl = function (tst = false) {
 var tst_R_Categories = function (tst = false) {
 
     var fn = function () {
-        var C_Cut = R.prop('name', (R.prop(1, StyleO)));
+        var C_Cut = R.prop('name', (R.prop(1, TST_StyleObj)));
 //C_Both(C_Cut);
         C_Exp = 'cur';
-        console.assert(C_Cut === C_Exp, `EXP '${C_Exp}' GOT '${C_Cut}'`);
+        console.assert(C_Cut === C_Exp, `EXP '${C_Exp}' BUT GOT '${C_Cut}'`);
     };
-    R.when(fn, tst);
+    if (tst) fn();
 };
 
 /**
@@ -85,7 +84,7 @@ var tst_R_when = function (tst = false) {
         C_Msg += R.toString(READ__(C_Arr[2])) + ', ';
         C_Both(C_Msg);
     };
-    R.when(fn, tst)
+    if (tst) fn();
 };
 main();
 
