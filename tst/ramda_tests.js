@@ -3,7 +3,7 @@
  */
 "use strict";
 //var R = require('ramda');  //DO NOT USE OR NEED W/ TEST.HTML
-var main, C_Cut, C_Ret, C_Exp, C_NL, C_Arr, C_Msg, TAAT;
+var C_Cut, C_Ret, C_Exp, C_NL, C_Arr, C_Msg, TAAT;
 
 /**
  * GLOBAL vars
@@ -28,15 +28,15 @@ function main() {
  *    first:TRY R.forEach, R.addIndex
  */
 var tst_passing_strTmpl = function (tst = false) {
-    var fn = () => {
-        C_Cut = R.addIndex(
-            R.forEach(
-                (x,n,c)=>C_Both(
-                    R.prop('className', x))
-                , C_NL)
-        );
+    var fn = (y)=> {
+        C_Cut = R.forEach(
+            (x)=>C_Both(
+                R.prop('className', x)
+            ),
+            C_NL
+        )
     };
-    R.when(fn, tst);
+    if (tst) fn();
 };
 
 /**
