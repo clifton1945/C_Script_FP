@@ -116,11 +116,14 @@ var Style_Wt = function StyleWt(nl) {
  */
 RET = ((NL) => {
     return R.prop('fontSize'
-        , R.prop('style', NL[R.prop('length', NL) - 1]
+        , R.prop('style'
+            , NL[R.prop('length', NL) - 1]
         ));
 })(V_FUT_NL);
 EXP = "50%";
-console.assert(RET === EXP, `lastVerse.fontSize-EXP:${EXP}, NOT ${RET}'`);
+console.assert(RET === EXP
+    , `lastVerse.fontSize-EXP:${EXP}, NOT ${RET}'`
+);
 
 
 /**
