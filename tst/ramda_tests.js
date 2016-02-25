@@ -28,13 +28,15 @@ function main() {
  *    first:TRY R.forEach, R.addIndex
  */
 var tst_passing_strTmpl = function (tst = false) {
-    var fn = (y)=> {
-        C_Cut = R.forEach(
-            (x)=>C_Both(
-                R.prop('className', x)
-            ),
+    var cut = (x, n, c)=>C_Both(
+        R.prop('className', x)
+    );
+    //var R_forEachIndexed = R.addIndex(R.forEach);
+    var fn = ()=> {
+        R_forEachIndexed(
+            cut,
             C_NL
-        )
+        );
     };
     if (tst) fn();
 };
