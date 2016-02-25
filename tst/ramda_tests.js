@@ -15,7 +15,6 @@ C_NL = GET_V_Grp_NL(GET_book());
  * ***** TEST FRAMEWORK **************
  */
 function main() {
-    tst_passing_strTmpl(true);
     tst_R_Categories(true);
     tst_R_when();
 }
@@ -24,7 +23,17 @@ function main() {
  * ONE_TAAT: BUILD StyleTmpl THRU 3_Grps, 1_Grp, N_Verses
  *    START W/ V_Grp_NL -> Verse.style.font.size = StyleTmpl
  *
- *    first:TRY R.forEach, R.addIndex
+ *    3_Grps context: args: StyleObj, Verse_Grps_Coll
+ *      done TRY R.forEach, R.addIndex
+ *    1_Grp context: (args: StyleObj, )
+ *          {partial set calcWt_(verse}
+ *          (partial set styleTmplt_(styleObj[class])
+ *      -> calcWt_, styleTmplt_, verse
+ *    N_Verses context:
+ *      styleTmplt_
+ *      set calcWt(verse)
+ *      set styleTmplt( wt )
+ *      verse.style.fontSize = styleTmplt
  */
 // TODO NEXT ONE_TAAT -> PASS arg to StyleTmpl THRU
 var tst_passing_strTmpl = function (tst = false) {
