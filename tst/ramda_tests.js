@@ -26,12 +26,16 @@ C_NL = GET_V_Grp_NL(GET_book());
  *   a Dashboard for selecting tests,
  */
 function main() {
-    tst_R_Categories(true);
+    tst_CHANGE_VerseNodeStyle(true);
     tst_R_when();
+    tst_R_Categories();
+    tst_passing_strTmpl();
 }
 
 var tst_CHANGE_VerseNodeStyle = function (nde, ndx, coll) {
-    var TstFutVGN = C_NL[1].children[2];
+    // .item == property of NL; this case VersGrp_FUT
+    var Tst_DivFut_Vrs3 = C_NL.item(2).children.item(2);
+
     var getNSO = (nde) => R.prop('style', nde);
 };
 
@@ -115,4 +119,3 @@ var tst_R_when = function (tst = false) {
     if (tst) fn();
 };
 main();
-
