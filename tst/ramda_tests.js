@@ -1,4 +1,14 @@
 /**
+ * PURPOSE OF ramda_tests.js: centered on finding and testing Ramda tools.
+ * Status 2/25/2016
+ * NOW
+ *  new, workable TEST Framework FOR INVOKING individual Tests.
+ *      tst_passing_strTmpl WIP only, keep to remind me if I go back to this style
+ *      tst_R_Categories && tst_R_when Stable && Useful
+ * NEXT
+ *   start Again on my current undestanding if FP:
+ *          START WITH the Action I want FOR a Node.
+ *          In this case: START BY -- CHANGE the Style OF a VerseNode !!
  * Created by CLIF on 1/29/2016.
  */
 "use strict";
@@ -13,11 +23,17 @@ var book = GET_book();
 C_NL = GET_V_Grp_NL(GET_book());
 /**
  * ***** TEST FRAMEWORK **************
+ *   a Dashboard for selecting tests,
  */
 function main() {
     tst_R_Categories(true);
     tst_R_when();
 }
+
+var tst_CHANGE_VerseNodeStyle = function (nde, ndx, coll) {
+    var TstFutVGN = C_NL[1].children[2];
+    var getNSO = (nde) => R.prop('style', nde);
+};
 
 /**
  * ONE_TAAT: BUILD StyleTmpl THRU 3_Grps, 1_Grp, N_Verses
