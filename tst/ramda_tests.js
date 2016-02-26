@@ -31,12 +31,19 @@ function main() {
     tst_R_when();
     tst_R_Categories();
     tst_passing_strTmpl();
-}
+};
 
 /**
  * LEARN R.set()
+ * var xLens = R.lensProp('x');
+
+ R.set(xLens, 4, {x: 1, y: 2});  //=> {x: 4, y: 2}
  */
 var tst_R_set =  function (tst = false) {
+    var xLens = R.lensProp('x');
+    var o = {x: 1, y: 2};
+    var o1 = R.set(xLens, 4, o);  //=> {x: 4, y: 2}
+    C_Both(o1);
 };
 
 /**
