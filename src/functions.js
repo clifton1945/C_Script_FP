@@ -33,7 +33,7 @@ const GET_book =
 const GET_C_Grp_NL =
     function GET_C_Grp_NL (book) {return book.querySelectorAll(C_Grp_Tmpl)};
 const GET_V_Grp_NL =
-    function GET_C_Grp_NL (book) {return book.querySelectorAll(V_Grp_Tmpl)};
+    function GET_V_Grp_NL (book) {return book.querySelectorAll(V_Grp_Tmpl)};
 
 // *********** OLD BUT STILL IN USE
 const Doc_It = (txt) => document.querySelector(".console").textContent = txt;
