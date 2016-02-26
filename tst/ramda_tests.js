@@ -21,55 +21,53 @@ var C_Cut, C_Ret, C_Exp, C_Vers, C_NL, C_Arr, C_Msg, One_TAAT;
  * */
 var book = GET_book();
 C_NL = GET_V_Grp_NL(GET_book());
+var Tst_DivFut_Vrs4 = C_NL.item(2).children.item(5);
+C_Vers = Tst_DivFut_Vrs4;
+
 /**
  * ***** TEST FRAMEWORK **************
  *   a Dashboard for selecting tests,
  */
 function main() {
-    tst_R_set(true);
-    tst_CHANGE_VerseNodeStyle();
+    tst_R_set();
+    tst_CHANGE_VerseNodeStyle(true);
     tst_R_when();
     tst_R_Categories();
     tst_passing_strTmpl();
-};
+}
 
 /**
- * LEARN R.set()
- * var xLens = R.lensProp('x');
-
- R.set(xLens, 4, {x: 1, y: 2});  //=> {x: 4, y: 2}
+ * LEARN R.lens and assoc setters and getters
+ ::Object R.over( aLens, aFunction, anArray && maybe aCollection
+ ::Object R.lensProp Returns a lens whose focus is the specified property.
+ ::Objext R.
+ ::Object R.set(xLens, 4, {x: 1, y: 2});  //=> {x: 4, y: 2}
+ ::Object R.lens String k -> Returns Lens
+    Returns a lens whose focus is the specified property.
+    Returns a lens for the given getter and setter functions. The getter "gets" the value of the focus; the setter "sets" the value of the focus. The setter should not mutate the data structure.
+        See also view, set, over, lensIndex, lensProp.
  */
 var tst_R_set =  function (tst = false) {
-    var xLens = R.lensProp('x');
-    var o = {x: 1, y: 2};
-    var o1 = R.set(xLens, 4, o);  //=> {x: 4, y: 2}
-    C_Both(o1);
+    var smlWtLens = R.lensProp('smlWt');
+    var o = TST_StyleObj[2]['smlWt'];
+    //C_Both(o);
+    var o1 = R.set(smlWtLens, 0.1 , o);  //=> {x: 150, y: 2}
+    //C_Both(o1.smlWt);
+    console.assert(o1.smlWt === 0.1, `EXP smlWt: 0.1 BUT GOT ${o1.smlWt}`)
 };
 
 /**
- * HOLD OFF till LEARN R.set What Function & Arguments TO MODIFY a Verse Node Style ??
+ * What Function & Arguments TO MODIFY a Verse Node Style ??
  * @param nde
  * @param ndx
  * @param coll
  */
 var tst_CHANGE_VerseNodeStyle = function (tst = false) {
+    var futLens = R.lensProp('fut');
+    C_Both(JSON.stringify(
+        R.view(futLens, StyleObj))
+    ); // require objects.js
     function CHANGE_VerseNodeStyle (nde, ndx, coll) {
-        // .item == property of NL && HTMLCollection; this case VersGrp_FUT
-        var Tst_DivFut_Vrs4 = C_NL.item(2).children.item(5);
-        C_Vers = Tst_DivFut_Vrs4;
-        // BEGIN TESTING
-        // MAYBE these are useful: R.invoker, .useWith()
-        var TST_StyleObj_ = (nde) => R.prop('style', nde);
-        var Tst_StyleObj = TST_StyleObj_(C_Vers);
-        var Tst_color = Tst_StyleObj["color"] = "red";
-        var Tst_Style_FontSize = `200%`;
-        // RET Value NOT SET Value. R.prop && .props for array IN -> array OUT
-        // ONE_TAAT  how SET style object property ??
-        var TST_CHANGE_V_Styl = (StyleStr, StyleObj) => {
-            StyleObj.fontSize = StyleStr;
-            // NOT USING a return ...
-        };
-        TST_CHANGE_V_Styl(Tst_Style_FontSize, Tst_StyleObj);
     }
 };
 
