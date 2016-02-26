@@ -13,7 +13,7 @@
  */
 "use strict";
 //var R = require('ramda');  //DO NOT USE OR NEED W/ TEST.HTML
-var C_Cut, C_Ret, C_Exp, C_NL, C_Arr, C_Msg, One_TAAT;
+var C_Cut, C_Ret, C_Exp, C_Vers, C_NL, C_Arr, C_Msg, One_TAAT;
 
 /**
  * GLOBAL vars
@@ -32,11 +32,22 @@ function main() {
     tst_passing_strTmpl();
 }
 
+/**
+ * What Function & Arguments TO MODIFY a Verse Node Style ??
+ * @param nde
+ * @param ndx
+ * @param coll
+ */
 var tst_CHANGE_VerseNodeStyle = function (nde, ndx, coll) {
-    // .item == property of NL; this case VersGrp_FUT
-    var Tst_DivFut_Vrs3 = C_NL.item(2).children.item(2);
-
-    var getNSO = (nde) => R.prop('style', nde);
+    // .item == property of NL && HTMLCollection; this case VersGrp_FUT
+    var Tst_DivFut_Vrs4 = C_NL.item(2).children.item(5);
+    C_Vers = Tst_DivFut_Vrs4;
+    var TST_StyleObj_ = (nde) => R.prop('style', nde);
+    var Tst_StyleObj = TST_StyleObj_(C_Vers);
+    var Tst_Style_FontSize = `200%`;
+    // RET Value NOT SET Value. R.prop && .props for array IN -> array OUT
+    var TST_CHANGE_V_Styl = (StyleStr, StyleObj) => StyleObj.fontSize = StyleStr;
+    TST_CHANGE_V_Styl(Tst_Style_FontSize, Tst_StyleObj);
 };
 
 /**
@@ -55,7 +66,6 @@ var tst_CHANGE_VerseNodeStyle = function (nde, ndx, coll) {
  *      set styleTmplt( wt )
  *      verse.style.fontSize = styleTmplt
  */
-// TODO NEXT ONE_TAAT -> PASS arg to StyleTmpl THRU
 var tst_passing_strTmpl = function (tst = false) {
     var className_ = R.curry(R.prop('className'));
     var tstTmpl_ = ( val, ndx, col ) => `className:${className_( val )} ndx:${ndx}}`;
