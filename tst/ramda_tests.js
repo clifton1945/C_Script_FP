@@ -26,28 +26,44 @@ C_NL = GET_V_Grp_NL(GET_book());
  *   a Dashboard for selecting tests,
  */
 function main() {
-    tst_CHANGE_VerseNodeStyle(true);
+    tst_R_set(true);
+    tst_CHANGE_VerseNodeStyle();
     tst_R_when();
     tst_R_Categories();
     tst_passing_strTmpl();
 }
 
 /**
- * What Function & Arguments TO MODIFY a Verse Node Style ??
+ * LEARN R.set()
+ */
+var tst_R_set =  function (tst = false) {
+};
+
+/**
+ * HOLD OFF till LEARN R.set What Function & Arguments TO MODIFY a Verse Node Style ??
  * @param nde
  * @param ndx
  * @param coll
  */
-var tst_CHANGE_VerseNodeStyle = function (nde, ndx, coll) {
-    // .item == property of NL && HTMLCollection; this case VersGrp_FUT
-    var Tst_DivFut_Vrs4 = C_NL.item(2).children.item(5);
-    C_Vers = Tst_DivFut_Vrs4;
-    var TST_StyleObj_ = (nde) => R.prop('style', nde);
-    var Tst_StyleObj = TST_StyleObj_(C_Vers);
-    var Tst_Style_FontSize = `200%`;
-    // RET Value NOT SET Value. R.prop && .props for array IN -> array OUT
-    var TST_CHANGE_V_Styl = (StyleStr, StyleObj) => StyleObj.fontSize = StyleStr;
-    TST_CHANGE_V_Styl(Tst_Style_FontSize, Tst_StyleObj);
+var tst_CHANGE_VerseNodeStyle = function (tst = false) {
+    function CHANGE_VerseNodeStyle (nde, ndx, coll) {
+        // .item == property of NL && HTMLCollection; this case VersGrp_FUT
+        var Tst_DivFut_Vrs4 = C_NL.item(2).children.item(5);
+        C_Vers = Tst_DivFut_Vrs4;
+        // BEGIN TESTING
+        // MAYBE these are useful: R.invoker, .useWith()
+        var TST_StyleObj_ = (nde) => R.prop('style', nde);
+        var Tst_StyleObj = TST_StyleObj_(C_Vers);
+        var Tst_color = Tst_StyleObj["color"] = "red";
+        var Tst_Style_FontSize = `200%`;
+        // RET Value NOT SET Value. R.prop && .props for array IN -> array OUT
+        // ONE_TAAT  how SET style object property ??
+        var TST_CHANGE_V_Styl = (StyleStr, StyleObj) => {
+            StyleObj.fontSize = StyleStr;
+            // NOT USING a return ...
+        };
+        TST_CHANGE_V_Styl(Tst_Style_FontSize, Tst_StyleObj);
+    }
 };
 
 /**
