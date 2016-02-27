@@ -29,7 +29,7 @@ C_Verse = Tst_DivFut_Vrs4;
  *   a Dashboard for selecting tests,
  */
 function main() {
-    tst_CHANGE_VerseNodeStyle(true);
+    tst_CHANGE_VerseNodeStyle(true); // require set_verse_styles.js
     tst_R_set();
     tst_R_when();
     tst_R_Categories();
@@ -37,25 +37,24 @@ function main() {
 }
 
 var tst_CHANGE_VerseNodeStyle = function (tst = false) {
-    //
-    var classLens = R.lensProp('class');
-    var styleLens = R.lensProp('style');
-    var colorLens = R.lensProp('color');
-    //var futLens = R.lensProp('fut');
-    var fontSizeLens = R.lensProp('fontSize');
-    var so_ = (n) => n.style;
-    var VSO = so_(C_Verse);
+    // DID NOT USE lens
+    //var classLens = R.lensProp('class');
+    //var styleLens = R.lensProp('style');
+    //var colorLens = R.lensProp('color');
+    ////var futLens = R.lensProp('fut');
+    //var fontSizeLens = R.lensProp('fontSize');
+    //var so_ = (n) => n.style;
+    var VSO = C_Verse.style;
+    // CODE UNDER TEST
+    //function CHANGE_VerseNodeStyle(prop, val, node) {
+    //    // below CHANGES copy NOT node
+    //    //R.assoc('color', 'red', node.style);
+    //    node.style[prop] = val;
+    //    return node
+    //}
     //TEST BEFORE
     VSO.fontSize = "200%"; //FORCE fontSize
     VSO.color = "green"; //FORCE fontSize
-
-    function CHANGE_VerseNodeStyle(prop, val, node) {
-        // below CHANGES copy NOT node
-        //R.assoc('color', 'red', node.style);
-        node.style[prop] = val;
-        return node
-    }
-    //TEST BEFORE
     var b = R.prop('color', C_Verse.style);
     //C_Both("style.before " + JSON.stringify(b));
     C_Verse = CHANGE_VerseNodeStyle("color", "red", C_Verse );

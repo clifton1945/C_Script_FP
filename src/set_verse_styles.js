@@ -17,6 +17,20 @@ const UPDATE_VerseObject = (vO) => (vers) => {
     vO.ary = vers[2];
     return vO
 };
+
+/**
+ *
+ * @param prop
+ * @param val
+ * @param node
+ * @returns {*}
+ * @constructor
+ */
+const CHANGE_VerseNodeStyle = function(prop, val, node) {
+    //R.assoc('color', 'red', node.style); // CHANGES copy NOT node
+    node.style[prop] = val;
+    return node
+};
 // returns after each verse has it's style updated.
 //  using
 const SET_1_Verse_Style =
