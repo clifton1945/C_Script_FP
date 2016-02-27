@@ -41,36 +41,43 @@ var tst_CHANGE_VerseNodeStyle = function (tst = false) {
     var classLens = R.lensProp('class');
     var styleLens = R.lensProp('style');
     var colorLens = R.lensProp('color');
-    var futLens = R.lensProp('fut');
+    //var futLens = R.lensProp('fut');
     var fontSizeLens = R.lensProp('fontSize');
-    //C_Both(JSON.stringify(
-    //        R.view(futLens, StyleObj))); // require objects.js
     var so_ = (n) => n.style;
-    var SO = so_(C_Verse);
-    //BEFORE
-    SO.fontSize = "200%"; //FORCE fontSize
-    SO.color = "green"; //FORCE fontSize
+    var VSO = so_(C_Verse);
+    //TEST BEFORE
+    VSO.fontSize = "200%"; //FORCE fontSize
+    VSO.color = "green"; //FORCE fontSize
 
-    function CHANGE_VerseNodeStyle(lens, val, styleO) {
-        return R.set(lens, val, styleO)
+    function CHANGE_VerseNodeStyle(lens, val, node) {
+        // below CHANGES copy NOT node
+        //R.assoc('color', 'red', node.style);
+        node.style.color = val;
+        return node
     }
 
     C_Both("style.before " + JSON.stringify(
-            R.view(colorLens, SO)));
+            R.view(colorLens, so_(C_Verse))));
 
-    SO = CHANGE_VerseNodeStyle(colorLens, "red", SO );
+    C_Verse = CHANGE_VerseNodeStyle(colorLens, "red", C_Verse );
 
+    // TEST AFTER
     C_Both("style.after " + JSON.stringify(
-            R.view(colorLens, SO)));
+            R.view(colorLens, so_(C_Verse))));
 };
 
 
 /**
  * LEARN R.set and assoc setters and getters
+ ::Object R.set(xLens, 4, {x: 1, y: 2});  //=> {x: 4, y: 2}
+
+ ::Object R.assoc() IS SETTER TO R.prop() GETTER.
+    Makes a shallow clone of an object, setting or overriding the specified property with the given value. Note that this copies and flattens prototype properties onto the new object as well. All non-primitive properties are copied by reference.
+
+ See also dissoc
  ::Object R.over( aLens, aFunction, anArray && maybe aCollection
  ::Object R.lensProp Returns a lens whose focus is the specified property.
  ::Objext R.view see all of the object defined by lensProp
- ::Object R.set(xLens, 4, {x: 1, y: 2});  //=> {x: 4, y: 2}
  ::Object R.lens String k -> Returns Lens
  Returns a lens whose focus is the specified property.
  Returns a lens for the given getter and setter functions. The getter "gets" the value of the focus; the setter "sets" the value of the focus. The setter should not mutate the data structure.
