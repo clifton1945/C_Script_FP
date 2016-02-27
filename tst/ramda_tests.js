@@ -49,21 +49,20 @@ var tst_CHANGE_VerseNodeStyle = function (tst = false) {
     VSO.fontSize = "200%"; //FORCE fontSize
     VSO.color = "green"; //FORCE fontSize
 
-    function CHANGE_VerseNodeStyle(lens, val, node) {
+    function CHANGE_VerseNodeStyle(prop, val, node) {
         // below CHANGES copy NOT node
         //R.assoc('color', 'red', node.style);
-        node.style.color = val;
+        node.style[prop] = val;
         return node
     }
-
-    C_Both("style.before " + JSON.stringify(
-            R.view(colorLens, so_(C_Verse))));
-
-    C_Verse = CHANGE_VerseNodeStyle(colorLens, "red", C_Verse );
-
+    //TEST BEFORE
+    var b = R.prop('color', C_Verse.style);
+    //C_Both("style.before " + JSON.stringify(b));
+    C_Verse = CHANGE_VerseNodeStyle("color", "red", C_Verse );
     // TEST AFTER
-    C_Both("style.after " + JSON.stringify(
-            R.view(colorLens, so_(C_Verse))));
+    var a = R.prop('color', C_Verse.style);
+    //C_Both("style.after " + JSON.stringify(a));
+    console.assert(a === 'red' && a !== b, "EXP VerseStyle color:'red' NOT ${a}")
 };
 
 
