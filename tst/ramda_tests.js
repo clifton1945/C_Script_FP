@@ -36,36 +36,37 @@ function main() {
     tst_passing_strTmpl();
 }
 
-/**
- * What Function & Arguments TO MODIFY a Verse Node Style ??
- * @param nde
- * @param ndx
- * @param coll
- */
 var tst_CHANGE_VerseNodeStyle = function (tst = false) {
     //
-    var futLens = R.lensProp('fut');
-    //C_Both(JSON.stringify(
-    //        R.view(futLens, StyleObj)
-    //    )
-    //); // require objects.js
     var classLens = R.lensProp('class');
     var styleLens = R.lensProp('style');
     var colorLens = R.lensProp('color');
+    var futLens = R.lensProp('fut');
     var fontSizeLens = R.lensProp('fontSize');
-    var x = R.view(fontSizeLens, C_Verse.style);
-    C_Both("here" + JSON.stringify(
-            R.view(colorLens, x)
-        )
-    );
-    function CHANGE_VerseNodeStyle(nde, ndx, coll) {
+    //C_Both(JSON.stringify(
+    //        R.view(futLens, StyleObj))); // require objects.js
+    var so_ = (n) => n.style;
+    var SO = so_(C_Verse);
+    //BEFORE
+    SO.fontSize = "200%"; //FORCE fontSize
+    SO.color = "green"; //FORCE fontSize
+
+    function CHANGE_VerseNodeStyle(lens, val, styleO) {
+        return R.set(lens, val, styleO)
     }
+
+    C_Both("style.before " + JSON.stringify(
+            R.view(colorLens, SO)));
+
+    SO = CHANGE_VerseNodeStyle(colorLens, "red", SO );
+
+    C_Both("style.after " + JSON.stringify(
+            R.view(colorLens, SO)));
 };
 
 
-
 /**
- * LEARN R.lens and assoc setters and getters
+ * LEARN R.set and assoc setters and getters
  ::Object R.over( aLens, aFunction, anArray && maybe aCollection
  ::Object R.lensProp Returns a lens whose focus is the specified property.
  ::Objext R.view see all of the object defined by lensProp
@@ -76,6 +77,15 @@ var tst_CHANGE_VerseNodeStyle = function (tst = false) {
  See also view, set, over, lensIndex, lensProp.
  */
 var tst_R_set = function (tst = false) {
+
+    var xLens = R.lensProp('x');
+    var a = {x: 1, y: 2};
+    var b = R.set(xLens, 4, a);  //=> {x: 4, y: 2}
+    //C_Both(JSON.stringify(a)); // STILL Same
+    //C_Both(JSON.stringify(b)); // NEW !!
+    console.assert(R.not(R.eqProps('x', a, b))
+        , "EXP R.set() DOES NOT CHANGE the original 'a'.");
+
     var smlWtLens = R.lensProp('smlWt');
     var o = TST_StyleObj[2]['smlWt'];
     //C_Both(o);
