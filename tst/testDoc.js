@@ -19,6 +19,7 @@ var fTRACE_Tmpl = (v, n, a)=>
     `[v.style,n,a.len]: ${ v.style.fontSize}, ${n}, ${a.length}`;
 
 /**
+
  * *** CODE FOR STYLING Verses
  */
 var fCALC_Wt = (ndx, arr)=> {
@@ -69,6 +70,7 @@ var RESTYLE_1_verse = function RESTYLE_1_verse(vNode, ndx, arr) {
 //
 var VerseArr = R.mapObjIndexed(RESTYLE_1_verse, V_FUT_NL); // fn, NL->NL
 //  TEST
+
 
 /**
  * ********* TESTS *******************

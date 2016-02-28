@@ -57,6 +57,9 @@ var tst_CHANGE_VerseNodeStyle = function (tst = false) {
     VSO.color = "green"; //FORCE fontSize
     var b = R.prop('color', C_Verse.style);
     //C_Both("style.before " + JSON.stringify(b));
+    // TEST  CODE UNDER TEST
+    // REQUIRE set_verse_style.js
+    //CHANGE_VerseNodeStyle = function(prop, val, node);
     C_Verse = CHANGE_VerseNodeStyle("color", "red", C_Verse );
     // TEST AFTER
     var a = R.prop('color', C_Verse.style);
