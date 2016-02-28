@@ -34,8 +34,15 @@ var fTRACE_Tmpl = (v, n, a)=>
 /**
  *    *** CODE FOR STYLING Verses
  */
+
+/**
+ * :: nodeNdx[Int], nodeColl[collection] -> wt [Int]
+ * @param ndx
+ * @param arr
+ * @returns {number}
+ */
 var fCALC_Wt = (ndx, arr)=> {
-    //:: nodeNdx, NL -> wt Int
+
     var lrgWt = .9;
     var smlWt = .5;
     let delta = lrgWt - smlWt;
@@ -53,6 +60,7 @@ var fCALC_Wt = (ndx, arr)=> {
 
 }; // -> wt Int
 //
+
 /**
  * :: [Int] index of verse Node, [Obj]verses NodeList -> [Str]style
  * @param nodeNdx
