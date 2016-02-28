@@ -1,5 +1,5 @@
 "use strict";
-
+//  DOM  DATA    REQUIRE functions.js
 var book = GET_book();
 var C_Grp_NL = GET_C_Grp_NL(book);
 var V_Grp_NL = GET_V_Grp_NL(book);
@@ -19,8 +19,7 @@ var fTRACE_Tmpl = (v, n, a)=>
     `[v.style,n,a.len]: ${ v.style.fontSize}, ${n}, ${a.length}`;
 
 /**
-
- * *** CODE FOR STYLING Verses
+ *    *** CODE FOR STYLING Verses
  */
 var fCALC_Wt = (ndx, arr)=> {
     //:: nodeNdx, NL -> wt Int

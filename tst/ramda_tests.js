@@ -31,9 +31,8 @@ C_Verse = Tst_DivFut_Vrs4;
 function main() {
     tst_CHANGE_VerseNodeStyle(true); // require set_verse_styles.js
     tst_R_set();
+    tst_R_Categories(true);
     tst_R_when();
-    tst_R_Categories();
-    tst_passing_strTmpl();
 }
 
 var tst_CHANGE_VerseNodeStyle = function (tst = false) {
@@ -44,27 +43,31 @@ var tst_CHANGE_VerseNodeStyle = function (tst = false) {
     ////var futLens = R.lensProp('fut');
     //var fontSizeLens = R.lensProp('fontSize');
     //var so_ = (n) => n.style;
-    var VSO = C_Verse.style;
-    // CODE UNDER TEST
-    //function CHANGE_VerseNodeStyle(prop, val, node) {
-    //    // below CHANGES copy NOT node
-    //    //R.assoc('color', 'red', node.style);
-    //    node.style[prop] = val;
-    //    return node
-    //}
-    //TEST BEFORE
-    VSO.fontSize = "200%"; //FORCE fontSize
-    VSO.color = "green"; //FORCE fontSize
-    var b = R.prop('color', C_Verse.style);
-    //C_Both("style.before " + JSON.stringify(b));
-    // TEST  CODE UNDER TEST
-    // REQUIRE set_verse_style.js
-    //CHANGE_VerseNodeStyle = function(prop, val, node);
-    C_Verse = CHANGE_VerseNodeStyle("color", "red", C_Verse );
-    // TEST AFTER
-    var a = R.prop('color', C_Verse.style);
-    //C_Both("style.after " + JSON.stringify(a));
-    console.assert(a === 'red' && a !== b, "EXP VerseStyle color:'red' NOT ${a}")
+    if (tst) {
+        var VSO = C_Verse.style;
+        // CODE UNDER TEST
+        //function CHANGE_VerseNodeStyle(prop, val, node) {
+        //    // below CHANGES copy NOT node
+        //    //R.assoc('color', 'red', node.style);
+        //    node.style[prop] = val;
+        //    return node
+        //}
+        //TEST BEFORE
+        VSO.fontSize = "200%"; //FORCE fontSize
+        VSO.color = "green"; //FORCE fontSize
+        var b = R.prop('color', C_Verse.style);
+        C_Both("style.before " + JSON.stringify(b));
+        // TEST  CODE UNDER TEST
+
+        //CHANGE_VerseNodeStyle = function(prop, val, node);
+        // REQUIRE set_verse_style.js
+        C_Verse = CHANGE_VerseNodeStyle("color", "red", C_Verse);
+
+        // TEST AFTER
+        var a = R.prop('color', C_Verse.style);
+        C_Both("style.after " + JSON.stringify(a));
+        console.assert(a === 'red' && a !== b, "EXP VerseStyle color:'red' NOT ${a}")
+    }
 };
 
 
@@ -73,7 +76,7 @@ var tst_CHANGE_VerseNodeStyle = function (tst = false) {
  ::Object R.set(xLens, 4, {x: 1, y: 2});  //=> {x: 4, y: 2}
 
  ::Object R.assoc() IS SETTER TO R.prop() GETTER.
-    Makes a shallow clone of an object, setting or overriding the specified property with the given value. Note that this copies and flattens prototype properties onto the new object as well. All non-primitive properties are copied by reference.
+ Makes a shallow clone of an object, setting or overriding the specified property with the given value. Note that this copies and flattens prototype properties onto the new object as well. All non-primitive properties are copied by reference.
 
  See also dissoc
  ::Object R.over( aLens, aFunction, anArray && maybe aCollection
@@ -85,53 +88,22 @@ var tst_CHANGE_VerseNodeStyle = function (tst = false) {
  See also view, set, over, lensIndex, lensProp.
  */
 var tst_R_set = function (tst = false) {
+    if (tst) {
+        var xLens = R.lensProp('x');
+        var a = {x: 1, y: 2};
+        var b = R.set(xLens, 4, a);  //=> {x: 4, y: 2}
+        C_Both(JSON.stringify(a)); // STILL Same
+        C_Both(JSON.stringify(b)); // NEW !!
+        console.assert(R.not(R.eqProps('x', a, b))
+            , "EXP R.set() DOES NOT CHANGE the original 'a'.");
 
-    var xLens = R.lensProp('x');
-    var a = {x: 1, y: 2};
-    var b = R.set(xLens, 4, a);  //=> {x: 4, y: 2}
-    //C_Both(JSON.stringify(a)); // STILL Same
-    //C_Both(JSON.stringify(b)); // NEW !!
-    console.assert(R.not(R.eqProps('x', a, b))
-        , "EXP R.set() DOES NOT CHANGE the original 'a'.");
-
-    var smlWtLens = R.lensProp('smlWt');
-    var o = TST_StyleObj[2]['smlWt'];
-    //C_Both(o);
-    var o1 = R.set(smlWtLens, 0.1, o);  //=> {x: 150, y: 2}
-    //C_Both(o1.smlWt);
-    console.assert(o1.smlWt === 0.1, `EXP smlWt: 0.1 BUT GOT ${o1.smlWt}`)
-};
-
-/**
- * ONE_TAAT: BUILD StyleTmpl THRU 3_Grps, 1_Grp, N_Verses
- *    START W/ V_Grp_NL -> Verse.style.font.size = StyleTmpl
- *
- *    3_Grps context: args: StyleObj, Verse_Grps_Coll
- *      done TRY R.forEach, R.addIndex
- *    1_Grp context: (args: StyleObj, )
- *          {partial set calcWt_(verse}
- *          (partial set styleTmplt_(styleObj[class])
- *      -> calcWt_, styleTmplt_, verse
- *    N_Verses context:
- *      styleTmplt_
- *      set calcWt(verse)
- *      set styleTmplt( wt )
- *      verse.style.fontSize = styleTmplt
- */
-var tst_passing_strTmpl = function (tst = false) {
-    var className_ = R.curry(R.prop('className'));
-    var tstTmpl_ = (val, ndx, col) => `className:${className_(val)} ndx:${ndx}}`;
-    // CUT
-    var cut = (val, ndx, col) => C_Both(
-        tstTmpl_(val, ndx, col)
-    );
-    var fn = ()=> {
-        R_forEachIndexed(
-            cut,
-            C_NL
-        );
-    };
-    if (tst) fn();
+        var smlWtLens = R.lensProp('smlWt');
+        var o = TST_StyleObj[2]['smlWt'];
+        C_Both(o);
+        var o1 = R.set(smlWtLens, 0.1, o);  //=> {x: 150, y: 2}
+        //C_Both(o1.smlWt);
+        console.assert(o1.smlWt === 0.1, `EXP smlWt: 0.1 BUT GOT ${o1.smlWt}`)
+    }
 };
 
 /**
@@ -146,14 +118,12 @@ var tst_passing_strTmpl = function (tst = false) {
  * R type function && R.type Object
  */
 var tst_R_Categories = function (tst = false) {
-
-    var fn = function () {
+    if (tst) {
         var C_Cut = R.prop('name', (R.prop(1, TST_StyleObj)));
-//C_Both(C_Cut);
+        C_Both(C_Cut);
         C_Exp = 'cur';
         console.assert(C_Cut === C_Exp, `EXP '${C_Exp}' BUT GOT '${C_Cut}'`);
-    };
-    if (tst) fn();
+    }
 };
 
 /**
@@ -165,7 +135,7 @@ var tst_R_Categories = function (tst = false) {
  *
  */
 var tst_R_when = function (tst = false) {
-    var fn = ()=> {
+    if (tst) {
         var CAN_READ = R.propSatisfies(R.gt(R.__, 0), 'length');
         var READ_XXX = function READ_XXX(NL) { // coll ->
             return NL.length;
@@ -177,7 +147,6 @@ var tst_R_when = function (tst = false) {
         C_Msg += R.toString(READ__(C_Arr[1])) + ', ';
         C_Msg += R.toString(READ__(C_Arr[2])) + ', ';
         C_Both(C_Msg);
-    };
-    if (tst) fn();
+    }
 };
 main();
