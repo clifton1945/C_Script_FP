@@ -1,8 +1,20 @@
 "use strict";
+
+/**
+ * ***** TEST FRAMEWORK **************
+ *   a Dashboard for selecting tests,
+ */
+function main() {
+    tst_CHANGE_VerseNodeStyle(true); // require set_verse_styles.js
+    tst_coll_len_gt_1();
+}
+// **********************************
+
 //  DOM  DATA    REQUIRE functions.js
 var book = GET_book();
 var C_Grp_NL = GET_C_Grp_NL(book);
 var V_Grp_NL = GET_V_Grp_NL(book);
+var Tst_DivFut_Vrs4 = V_Grp_NL.item(2).children.item(5);
 
 /**
  * TEST DATA FOR Verse Styles
@@ -17,6 +29,7 @@ var V_PST_Ar = [...book.querySelectorAll(V_PST_Tmpl)];
 // *** TEST FUNCTIONS
 var fTRACE_Tmpl = (v, n, a)=>
     `[v.style,n,a.len]: ${ v.style.fontSize}, ${n}, ${a.length}`;
+
 
 /**
  *    *** CODE FOR STYLING Verses
@@ -76,26 +89,83 @@ var VerseArr = R.mapObjIndexed(RESTYLE_1_verse, V_FUT_NL); // fn, NL->NL
  * */
 var RET, EXP;
 
+
+/**
+ * BEGINNING, SIMPLE node:: styleProperty, styleValue, node -> node CHANGED
+ * @param prop
+ * @param val
+ * @param node
+ * @returns {*}
+ * @constructor
+ */
+const CHANGE_VerseNodeStyle = function(prop, val, node) {
+    //R.assoc('color', 'red', node.style); // CHANGES copy NOT node
+    node.style[prop] = val;
+    return node
+};
+var tst_CHANGE_VerseNodeStyle = function (tst = false) {
+    // DID NOT USE lens
+    //var classLens = R.lensProp('class');
+    //var styleLens = R.lensProp('style');
+    //var colorLens = R.lensProp('color');
+    ////var futLens = R.lensProp('fut');
+    //var fontSizeLens = R.lensProp('fontSize');
+    //var so_ = (n) => n.style;
+    if (tst) {
+        var VSO = Tst_DivFut_Vrs4.style;
+        // CODE UNDER TEST
+        //function CHANGE_VerseNodeStyle(prop, val, node) {
+        //    // below CHANGES copy NOT node
+        //    //R.assoc('color', 'red', node.style);
+        //    node.style[prop] = val;
+        //    return node
+        //}
+        //TEST BEFORE
+        VSO.fontSize = "200%"; //FORCE fontSize
+        VSO.color = "green"; //FORCE fontSize
+        var b = R.prop('color', Tst_DivFut_Vrs4.style);
+        C_Both("style.before " + JSON.stringify(b));
+        // TEST  CODE UNDER TEST
+
+        //CHANGE_VerseNodeStyle = function(prop, val, node);
+        // REQUIRE set_verse_style.js
+        Tst_DivFut_Vrs4 = CHANGE_VerseNodeStyle("color", "red", Tst_DivFut_Vrs4);
+
+        // TEST AFTER
+        var a = R.prop('color', Tst_DivFut_Vrs4.style);
+        C_Both("style.after " + JSON.stringify(a));
+        console.assert(a === 'red' && a !== b, "EXP VerseStyle color:'red' NOT ${a}")
+    }
+};
+
+
+
 /**
  * :: collection -> Bool: t | f
  * @param coll
  * @returns {*}
  */
 const coll_len_gt_1 = function coll_len_gt_1(coll) {
-    var f =  R.pipe(
+    var f = R.pipe(
         R.prop('length')
-        ,R.dec
-        ,R.lt(2)
+        , R.dec
+        , R.lt(2)
         //TRACE(x=>x)
     );
     return f(coll)
 };
-// TEST: coll_len_gt_1(nodelist)
-console.assert(coll_len_gt_1(V_FUT_NL) && R.not(coll_len_gt_1(V_PST_NL))
-    , "FUT:true && PST:false");
-// TEST: coll_len_gt_1(Array of nodes)
-console.assert(coll_len_gt_1(V_FUT_Ar) && R.not(coll_len_gt_1(V_PST_Ar))
-    , "FUT:true && PST:false");
+
+var tst_coll_len_gt_1 = function(tst = false) {
+    if (tst) {
+        C_Both('tst_coll_len_gt_1, EXP NO FAIL. ');
+        // TEST: coll_len_gt_1(nodelist)
+        console.assert(coll_len_gt_1(V_FUT_NL) && R.not(coll_len_gt_1(V_PST_NL))
+            , "FUT:true && PST:false");
+        // TEST: coll_len_gt_1(Array of nodes)
+        console.assert(coll_len_gt_1(V_FUT_Ar) && R.not(coll_len_gt_1(V_PST_Ar))
+            , "FUT:true && PST:false");
+    }
+};
 // ****************************
 //
 var Style_Wt = function StyleWt(nl) {
@@ -130,5 +200,6 @@ console.assert(RET === EXP
 /**
  * *** TESTING just testDoc.html Events
  */
+main();
 //SET_All_Verse_Styles(V_Grp_NL);
 BindHandlers(book);

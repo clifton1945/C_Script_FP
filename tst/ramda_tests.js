@@ -12,6 +12,18 @@
  * Created by CLIF on 1/29/2016.
  */
 "use strict";
+
+/**
+ * ***** TEST FRAMEWORK **************
+ *   a Dashboard for selecting tests,
+ */
+function main() {
+    tst_R_set();
+    tst_R_Categories(true);
+    tst_R_when();
+}
+// ***********************************
+
 //var R = require('ramda');  //DO NOT USE OR NEED W/ TEST.HTML
 var C_Cut, C_Ret, C_Exp, C_Verse, C_NL, C_Arr, C_Msg, One_TAAT;
 
@@ -24,52 +36,43 @@ C_NL = GET_V_Grp_NL(GET_book());
 var Tst_DivFut_Vrs4 = C_NL.item(2).children.item(5);
 C_Verse = Tst_DivFut_Vrs4;
 
-/**
- * ***** TEST FRAMEWORK **************
- *   a Dashboard for selecting tests,
- */
-function main() {
-    tst_CHANGE_VerseNodeStyle(true); // require set_verse_styles.js
-    tst_R_set();
-    tst_R_Categories(true);
-    tst_R_when();
-}
 
-var tst_CHANGE_VerseNodeStyle = function (tst = false) {
-    // DID NOT USE lens
-    //var classLens = R.lensProp('class');
-    //var styleLens = R.lensProp('style');
-    //var colorLens = R.lensProp('color');
-    ////var futLens = R.lensProp('fut');
-    //var fontSizeLens = R.lensProp('fontSize');
-    //var so_ = (n) => n.style;
-    if (tst) {
-        var VSO = C_Verse.style;
-        // CODE UNDER TEST
-        //function CHANGE_VerseNodeStyle(prop, val, node) {
-        //    // below CHANGES copy NOT node
-        //    //R.assoc('color', 'red', node.style);
-        //    node.style[prop] = val;
-        //    return node
-        //}
-        //TEST BEFORE
-        VSO.fontSize = "200%"; //FORCE fontSize
-        VSO.color = "green"; //FORCE fontSize
-        var b = R.prop('color', C_Verse.style);
-        C_Both("style.before " + JSON.stringify(b));
-        // TEST  CODE UNDER TEST
-
-        //CHANGE_VerseNodeStyle = function(prop, val, node);
-        // REQUIRE set_verse_style.js
-        C_Verse = CHANGE_VerseNodeStyle("color", "red", C_Verse);
-
-        // TEST AFTER
-        var a = R.prop('color', C_Verse.style);
-        C_Both("style.after " + JSON.stringify(a));
-        console.assert(a === 'red' && a !== b, "EXP VerseStyle color:'red' NOT ${a}")
-    }
-};
-
+//
+//var tst_CHANGE_VerseNodeStyle = function (tst = false) {
+//    // DID NOT USE lens
+//    //var classLens = R.lensProp('class');
+//    //var styleLens = R.lensProp('style');
+//    //var colorLens = R.lensProp('color');
+//    ////var futLens = R.lensProp('fut');
+//    //var fontSizeLens = R.lensProp('fontSize');
+//    //var so_ = (n) => n.style;
+//    if (tst) {
+//        var VSO = C_Verse.style;
+//        // CODE UNDER TEST
+//        //function CHANGE_VerseNodeStyle(prop, val, node) {
+//        //    // below CHANGES copy NOT node
+//        //    //R.assoc('color', 'red', node.style);
+//        //    node.style[prop] = val;
+//        //    return node
+//        //}
+//        //TEST BEFORE
+//        VSO.fontSize = "200%"; //FORCE fontSize
+//        VSO.color = "green"; //FORCE fontSize
+//        var b = R.prop('color', C_Verse.style);
+//        C_Both("style.before " + JSON.stringify(b));
+//        // TEST  CODE UNDER TEST
+//
+//        //CHANGE_VerseNodeStyle = function(prop, val, node);
+//        // REQUIRE set_verse_style.js
+//        C_Verse = CHANGE_VerseNodeStyle("color", "red", C_Verse);
+//
+//        // TEST AFTER
+//        var a = R.prop('color', C_Verse.style);
+//        C_Both("style.after " + JSON.stringify(a));
+//        console.assert(a === 'red' && a !== b, "EXP VerseStyle color:'red' NOT ${a}")
+//    }
+//};
+//
 
 /**
  * LEARN R.set and assoc setters and getters
