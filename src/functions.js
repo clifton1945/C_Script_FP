@@ -6,7 +6,11 @@
 //VERBS: MODIFY, UPDATE, APPLY,ADMINISTER,COMPLETE,FULFILL,AFFECT,ALTER
 
 /**
- * Ramda Combinations
+ * an indexed forEach function:
+ * R.forEach():: (a->*)->[a]-[a]
+ *     Iterate over an input list, calling a provided function fn for each element in the list.  fn receives one argument: (value). Returns THE ORIGINAL array!!
+ * addIndex() Returns function.
+ *      An altered list iteration function that passes (item, index, list) to its callback
  */
 const R_forEachIndexed = R.addIndex(R.forEach);
 
