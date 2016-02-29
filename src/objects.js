@@ -108,7 +108,7 @@ const StyleObj = {
 const StyleConstants = {
     CRGrpsTmpl:'.ChptrReadGrps ',
     VRGrpsTmpl:'.ChptrReadGrps > .cur > .chptr > .VerseReadGrps',
-    fut: {
+    2: {
         name: 'fut'
         , smlWt: .4
         , lrgWt: .95
@@ -122,7 +122,7 @@ const StyleConstants = {
                 : lrgWt;  // always lrgWt
         }
     },
-    cur: {
+    1: {
         name:'cur',
         smlWt: 1.0,
         lrgWt: 1.0,
@@ -136,7 +136,7 @@ const StyleConstants = {
                 : lrgWt;  // always lrgWt
         }
     },
-    pst: {
+    0: {
         name: 'pst'
         , smlWt: 0.4
         , lrgWt: 0.95
