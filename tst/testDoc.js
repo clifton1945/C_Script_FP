@@ -1,16 +1,6 @@
 "use strict";
 
-/**
- * ***** TEST FRAMEWORK **************
- *   a Dashboard for selecting tests,
- */
-function main() {
-    tst_CHANGE_VerseNodeStyle(true); // require set_verse_styles.js
-    tst_coll_len_gt_1();
-}
-// **********************************
-
-//  DOM  DATA    REQUIRE functions.js
+//  *********** DOM  DATA    REQUIRE functions.js
 var book = GET_book();
 var C_Grp_NL = GET_C_Grp_NL(book);
 var V_Grp_NL = GET_V_Grp_NL(book);
@@ -18,9 +8,8 @@ var Tst_DivFut_Vrs4 = V_Grp_NL.item(2).children.item(5);
 
 
 /**
- *    *** CODE FOR STYLING Verses
+ *    --------------- CODE FOR STYLING Verses  ------------
  */
-
 /**
  * :: nodeNdx[Int], nodeColl[collection] -> wt [Int]
  * @param ndx
@@ -46,7 +35,6 @@ var fCALC_Wt = (ndx, arr)=> {
 
 }; // -> wt Int
 //
-
 /**
  * :: [Int] index of verse Node, [Obj]verses NodeList -> [Str]style
  * @param nodeNdx
@@ -57,7 +45,6 @@ var fSET_Style_Str = function fSET_style_Str(nodeNdx, NL) {
     //:: Vndx, NL->Style Str
     return `${fCALC_Wt(nodeNdx, NL) * 100}%`
 }; // [Str] style string
-
 /**
  * :: Node, vNdx, NL -> RESTYLED vNode
  * @param vNode
@@ -67,9 +54,7 @@ var fSET_Style_Str = function fSET_style_Str(nodeNdx, NL) {
  * @constructor
  */
 var RESTYLE_1_verse = function RESTYLE_1_verse(vNode, ndx, arr) {
-    //TRACE_Both('before ' + fTRACE_Tmpl(vNode, ndx, arr));
     vNode.style.fontSize = fSET_Style_Str(ndx, arr);
-    //TRACE_Both(' after ' + fTRACE_Tmpl(vNode, ndx, arr));
     return vNode;
 }; // -> UPDATED vNode.style
 //*** var MAP_
@@ -79,42 +64,25 @@ var RESTYLE_1_verse = function RESTYLE_1_verse(vNode, ndx, arr) {
 
 
 /**
- *   ********* TESTS *******************
- * */
-// *** TEST FUNCTIONS
-var fTRACE_Tmpl = (v, n, a)=>
-    `[v.style,n,a.len]: ${ v.style.fontSize}, ${n}, ${a.length}`;
-
-var RET, EXP;
-
-
-/**
  * BEGINNING, SIMPLE node:: styleProperty, styleValue, node -> node CHANGED
- * @param prop
- * @param val
+ * @param propKey
+ * @param propVal
  * @param node
  * @returns {*}
  * @constructor
  */
-const CHANGE_VerseNodeStyle = function(prop, val, node) {
+const CHANGE_VerseNodeStyle = function(propKey, propVal, node) {
     //R.assoc('color', 'red', node.style); // CHANGES copy NOT node
-    node.style[prop] = val;
+    node.style[propKey] = propVal; // note: not FP style
     return node
 };
 var tst_CHANGE_VerseNodeStyle = function (tst = false) {
     if (tst) {
         C_Both(
-`tst_CHANGE_VerseNodeStyle
+            `tst_CHANGE_VerseNodeStyle
      EXP TO SEE changes in testDoc.html.`
         );
         var VSO = Tst_DivFut_Vrs4.style;
-        // CODE UNDER TEST
-        //function CHANGE_VerseNodeStyle(prop, val, node) {
-        //    // below CHANGES copy NOT node
-        //    //R.assoc('color', 'red', node.style);
-        //    node.style[prop] = val;
-        //    return node
-        //}
         //TEST BEFORE
         VSO.fontSize = "200%"; //FORCE fontSize
         VSO.color = "green"; //FORCE fontSize
@@ -132,6 +100,29 @@ var tst_CHANGE_VerseNodeStyle = function (tst = false) {
         console.assert(a === 'red' && a !== b, "EXP VerseStyle color:'red' NOT ${a}")
     }
 };
+
+/**
+ * :: STY: obj, NL: [node] ->
+ * @constructor
+ */
+function UPDATE_All_Verses(so = StyleObj) {
+
+}
+
+/**
+ *   -------------- TESTS --------------
+ * */
+/**
+ * ***** TEST FRAMEWORK **************
+ *   a Dashboard for selecting tests,
+ */
+function main() {
+    tst_CHANGE_VerseNodeStyle(true); // require set_verse_styles.js
+    tst_coll_len_gt_1();
+}
+//  ------------------ TEST FUNCTIONS ------------
+var RET, EXP;
+//var fTRACE_Tmpl = (v, n, a)=> `[v.style,n,a.len]: ${ v.style.fontSize}, ${n}, ${a.length}`;
 
 /**
  * :: collection -> Bool: t | f
