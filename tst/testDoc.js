@@ -60,7 +60,6 @@ var tst_CHANGE_VerseNodeStyle = function (tst = false) {
 var SELECT_StyleConstants_FOR_each_VerseGrp = R.curry(
     (SC, node, ndx, nl) => {
         var so = SC[ndx];  // NOT FP !!
-        C_Both(so.name);
         return so
     }
 );
@@ -77,8 +76,9 @@ var tstSELECT_StyleConstants_FOR_each_VerseGrp =
             , tstNL
         );
         // TEST
-        C_Both(JSON.stringify(RET)); // EXP see 3 name in Console
+        C_Both(JSON.stringify(RET)); // EXP see 3 partial style constants in tstDoc
         //ASSERT
+        console.assert(RET[0].name === 'cur', `EXP`);
     };
 
 /**
