@@ -7,6 +7,37 @@ var V_Grp_NL = GET_V_Grp_NL(book);
 var Tst_DivFut_Vrs4 = V_Grp_NL.item(2).children.item(5);
 
 /**
+ *   --------------- TEST FUNCTIONS AND TESTS --------------------------
+ * */
+
+/**
+ * coll_len_gt_1()
+ * :: collection -> Bool: t | f
+ * @param coll
+ * @returns {*}
+ */
+const coll_len_gt_1 = function coll_len_gt_1(coll) {
+    var f = R.pipe(
+        R.prop('length')
+        , R.dec
+        , R.lt(2)
+        //TRACE(x=>x)
+    );
+    return f(coll)
+};
+var tst_coll_len_gt_1 = function tst_coll_len_gt_1(tst = false) {
+    if (tst) {
+        C_Both('tst_coll_len_gt_1, EXP NO FAIL. ');
+        // TEST: coll_len_gt_1(nodelist)
+        console.assert(coll_len_gt_1(V_FUT_NL) && R.not(coll_len_gt_1(V_PST_NL))
+            , "FUT:true && PST:false");
+        // TEST: coll_len_gt_1(Array of nodes)
+        console.assert(coll_len_gt_1(V_FUT_Ar) && R.not(coll_len_gt_1(V_PST_Ar))
+            , "FUT:true && PST:false");
+    }
+};
+
+/**
  * CHANGE_VerseNodeStyle() ::
  * CODE BEGINNING, SIMPLE node:: styleProperty, styleValue, node -> node CHANGED
  * @param propKey
@@ -97,7 +128,7 @@ var tst_SELECT_StyleConstants_forEach_VerseGrp =
  *          VrsStyleWt:: (StyGrpObj, VrsObj) -> { };
  *          CHANGE_VrsNodeSty [StyUpdateArr], {VrsObj} ->
  *    , TOEACH [[StyGrpObj, VrsGrpObj], ... [SGO, VGO]])
-  *    ->[[][][]...[]]
+ *    ->[[][][]...[]]
  *
  *
  */
@@ -122,33 +153,6 @@ main();
 //SET_All_Verse_Styles(V_Grp_NL);
 BindHandlers(book);
 
-
-/**
- * coll_len_gt_1()
- * :: collection -> Bool: t | f
- * @param coll
- * @returns {*}
- */
-const coll_len_gt_1 = function coll_len_gt_1(coll) {
-    var f = R.pipe(
-        R.prop('length')
-        , R.dec
-        , R.lt(2)
-        //TRACE(x=>x)
-    );
-    return f(coll)
-};
-var tst_coll_len_gt_1 = function tst_coll_len_gt_1(tst = false) {
-    if (tst) {
-        C_Both('tst_coll_len_gt_1, EXP NO FAIL. ');
-        // TEST: coll_len_gt_1(nodelist)
-        console.assert(coll_len_gt_1(V_FUT_NL) && R.not(coll_len_gt_1(V_PST_NL))
-            , "FUT:true && PST:false");
-        // TEST: coll_len_gt_1(Array of nodes)
-        console.assert(coll_len_gt_1(V_FUT_Ar) && R.not(coll_len_gt_1(V_PST_Ar))
-            , "FUT:true && PST:false");
-    }
-};
 
 
 /**
