@@ -7,13 +7,14 @@ var V_Grp_NL = GET_V_Grp_NL(book);
 var Tst_DivFut_Vrs4 = V_Grp_NL.item(2).children.item(5);
 
 /**
- * CHANGE_VerseNodeStyle()
- * BEGINNING, SIMPLE node:: styleProperty, styleValue, node -> node CHANGED
+ * CHANGE_VerseNodeStyle() ::
+ * CODE BEGINNING, SIMPLE node:: styleProperty, styleValue, node -> node CHANGED
  * @param propKey
  * @param propVal
  * @param node
  * @returns {*}
  * @constructor
+ * TODO REFACT to CHANGE a list of style updates,
  */
 const CHANGE_VerseNodeStyle = function (propKey, propVal, node) {
     //R.assoc('color', 'red', node.style); // CHANGES copy NOT node
@@ -81,6 +82,48 @@ var tst_SELECT_StyleConstants_forEach_VerseGrp =
     };
 
 /**
+ *  CODE STRUCTURE
+ *
+ *    APPLY_fn_({StyGrpsObj},val, ndx, arr )=>{
+ *          VrsGrpObj = fn(val, ndx, arr);
+ *          StyGrpObj = fn{StyGrpsObj}, [VrsGrpObj])
+ *          => [StyGrpObj, VrsGrpObj]}
+ *    }
+ *    , TOEACH_ [VrsGrpsNL]
+ *    , RETURN -> [[StyGrpObj, VrsGrpObj], ... [SGO, VGO]]
+ *
+ *
+ *    APPLY_fn_([SGO}, VGO]=>{
+ *          VrsStyleWt:: (StyGrpObj, VrsObj) -> { };
+ *          CHANGE_VrsNodeSty [StyUpdateArr], {VrsObj} ->
+ *    , TOEACH [[StyGrpObj, VrsGrpObj], ... [SGO, VGO]])
+  *    ->[[][][]...[]]
+ *
+ *
+ */
+
+/**
+ *   ---------------------------TESTS -------------------------------
+ * */
+/**
+ * ***** TEST FRAMEWORK **************
+ *   a Dashboard for selecting tests,
+ */
+function main() {
+    tst_SELECT_StyleConstants_forEach_VerseGrp(true);
+    tst_CHANGE_VerseNodeStyle(); // require set_verse_styles.js
+    tst_coll_len_gt_1();
+}
+//  ------------------ TEST FUNCTIONS ------------
+/**
+ * *** TESTING just testDoc.html Events
+ */
+main();
+//SET_All_Verse_Styles(V_Grp_NL);
+BindHandlers(book);
+
+
+/**
  * coll_len_gt_1()
  * :: collection -> Bool: t | f
  * @param coll
@@ -106,38 +149,6 @@ var tst_coll_len_gt_1 = function tst_coll_len_gt_1(tst = false) {
             , "FUT:true && PST:false");
     }
 };
-
-/**
- * TODAYS CODE
- * @param SC
- * @param node
- * @param ndx
- * @param nl
- * @returns {*}
- * @private
- */
-
-/**
- *   -------------- TESTS --------------
- * */
-/**
- * ***** TEST FRAMEWORK **************
- *   a Dashboard for selecting tests,
- */
-function main() {
-    tst_SELECT_StyleConstants_forEach_VerseGrp(true);
-    tst_CHANGE_VerseNodeStyle(); // require set_verse_styles.js
-    tst_coll_len_gt_1();
-}
-//  ------------------ TEST FUNCTIONS ------------
-
-// ***********   OLD CODE FOR Styles  *****************
-/**
- * *** TESTING just testDoc.html Events
- */
-main();
-//SET_All_Verse_Styles(V_Grp_NL);
-BindHandlers(book);
 
 
 /**
