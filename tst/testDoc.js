@@ -3,8 +3,8 @@
 //  *********** DOM  DATA    REQUIRE functions.js
 var book = GET_book();
 var C_Grp_NL = GET_C_Grp_NL(book);
-var V_Grp_NL = GET_V_Grp_NL(book);
-var Tst_DivFut_Vrs4 = V_Grp_NL.item(2).children.item(5);
+var V_Grp_NL_ = GET_V_Grp_NL(book);
+var Tst_DivFut_Vrs4 = V_Grp_NL_.item(2).children.item(5);
 
 /**
  *   --------------- TEST FUNCTIONS AND TESTS --------------------------
@@ -83,34 +83,62 @@ var tst_CHANGE_VerseNodeStyle = function (tst = false) {
  */
 const SELECT_StyleConstants_FOR_each_VerseGrp =
     R.curry(function SELECT_StyleConstants_FOR_each_VerseGrp
-        (SC, node, ndx, nl) {
+            (SC, node, ndx, nl) {
             //var so = R.prop(`${ndx}`, SC);
             return R.prop('name', R.prop(`${ndx}`, SC));
         }
     );
 var tst_SELECT_StyleConstants_forEach_VerseGrp =
     function tst_SELECT_StyleConstants_forEach_VerseGrp(tst = false) {
-        C_Both("tst_SELECT_StyleConstants_forEach_VerseGrp");
-        // require objects.js StyleConstants
-        var tstNL = GET_V_Grp_NL(book);
-        var tstStyConst = StyleConstants;
-        // CODE UNDER TEST
-        var cut = SELECT_StyleConstants_FOR_each_VerseGrp;
-        cut = cut(tstStyConst);
-        var RET, EXP;
-        RET = R.mapObjIndexed(
-            cut
-            , tstNL
-        );
-        // TEST
-        // EXP see 3 partial style constants in tstDoc
-        C_Both('  ' + JSON.stringify(RET));
-        //ASSERT
-        RET = R.prop('2', RET);
-        EXP = "fut";
-        console.assert(RET === EXP
-            , `EXP ${EXP} NOT ${RET}`);
+        if (tst) {
+            C_Both("tst_SELECT_StyleConstants_forEach_VerseGrp");
+            // require objects.js StyleConstants
+            var tstNL = GET_V_Grp_NL(book);
+            var tstStyConst = StyleConstants;
+            // CODE UNDER TEST
+            var cut = SELECT_StyleConstants_FOR_each_VerseGrp;
+            cut = cut(tstStyConst);
+            var RET, EXP;
+            RET = R.mapObjIndexed(
+                cut
+                , tstNL
+            );
+            // TEST
+            // EXP see 3 partial style constants in tstDoc
+            C_Both('  ' + JSON.stringify(RET));
+            //ASSERT
+            RET = R.prop('2', RET);
+            EXP = "fut";
+            console.assert(RET === EXP
+                , `EXP ${EXP} NOT ${RET}`);
+        }
     };
+
+var tst_R_MapObjIndex_AND_R_forEachIndexed = function (tst = false) {
+    var V_GrpsNL = GET_V_Grp_NL(book);
+    var V_GrpsAr = [...GET_V_Grp_NL(book)];
+    function fn(StyleConstants, V_GrpsNL) {
+        var a = R.mapObjIndexed(
+            SELECT_StyleConstants_FOR_each_VerseGrp
+            , V_GrpsAr
+        );
+        var b = R_forEachIndexed(
+            SELECT_StyleConstants_FOR_each_VerseGrp
+            , V_GrpsAr
+        );
+        C_Both(b);
+        console.assert(R.isArray(a, b, `EXP ${a} === ${b}`));
+        console.assert(R.equals(a, b, `EXP ${a} === ${b}`));
+        return a
+    }
+};
+// --------------------- QUICK R_zipWith TEST --------------------------
+var f = (x, y) => {
+    C_Both(`Str:${x}, ${y}`);
+};
+R.zipWith(f, [1, 2, 3], ['a', 'b', 'c']);
+//=> [f(1, 'a'), f(2, 'b'), f(3, 'c')]
+
 
 /**
  *  CODE STRUCTURE
@@ -141,7 +169,8 @@ var tst_SELECT_StyleConstants_forEach_VerseGrp =
  *   a Dashboard for selecting tests,
  */
 function main() {
-    tst_SELECT_StyleConstants_forEach_VerseGrp(true);
+    tst_R_MapObjIndex_AND_R_forEachIndexed();
+    tst_SELECT_StyleConstants_forEach_VerseGrp();
     tst_CHANGE_VerseNodeStyle(); // require set_verse_styles.js
     tst_coll_len_gt_1();
 }
@@ -150,9 +179,8 @@ function main() {
  * *** TESTING just testDoc.html Events
  */
 main();
-//SET_All_Verse_Styles(V_Grp_NL);
+//SET_All_Verse_Styles(V_Grp_NL_);
 BindHandlers(book);
-
 
 
 /**
