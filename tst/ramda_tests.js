@@ -35,66 +35,57 @@ var book = GET_book();
 C_NL = GET_V_Grp_NL(GET_book());
 var Tst_DivFut_Vrs4 = C_NL.item(2).children.item(5);
 C_Verse = Tst_DivFut_Vrs4;
-
-
-//
-//var tst_CHANGE_VerseNodeStyle = function (tst = false) {
-//    // DID NOT USE lens
-//    //var classLens = R.lensProp('class');
-//    //var styleLens = R.lensProp('style');
-//    //var colorLens = R.lensProp('color');
-//    ////var futLens = R.lensProp('fut');
-//    //var fontSizeLens = R.lensProp('fontSize');
-//    //var so_ = (n) => n.style;
-//    if (tst) {
-//        var VSO = C_Verse.style;
-//        // CODE UNDER TEST
-//        //function CHANGE_VerseNodeStyle(prop, val, node) {
-//        //    // below CHANGES copy NOT node
-//        //    //R.assoc('color', 'red', node.style);
-//        //    node.style[prop] = val;
-//        //    return node
-//        //}
-//        //TEST BEFORE
-//        VSO.fontSize = "200%"; //FORCE fontSize
-//        VSO.color = "green"; //FORCE fontSize
-//        var b = R.prop('color', C_Verse.style);
-//        C_Both("style.before " + JSON.stringify(b));
-//        // TEST  CODE UNDER TEST
-//
-//        //CHANGE_VerseNodeStyle = function(prop, val, node);
-//        // REQUIRE set_verse_style.js
-//        C_Verse = CHANGE_VerseNodeStyle("color", "red", C_Verse);
-//
-//        // TEST AFTER
-//        var a = R.prop('color', C_Verse.style);
-//        C_Both("style.after " + JSON.stringify(a));
-//        console.assert(a === 'red' && a !== b, "EXP VerseStyle color:'red' NOT ${a}")
-//    }
-//};
-//
-// --------------------- QUICK R_zipWith TEST --------------------------
-var f = (x, y) => {
-    C_Both(`Str:${x}, ${y}`);
-};
-R.zipWith(f, [1, 2, 3], ['a', 'b', 'c']);
-//=> [f(1, 'a'), f(2, 'b'), f(3, 'c')]
+var MSG;
 
 /**
- * LEARN R.set and assoc setters and getters
- ::Object R.set(xLens, 4, {x: 1, y: 2});  //=> {x: 4, y: 2}
+ * ----- LEARN R.tst_R_zip_Obj_With -----
+ * zip:[a]->[b]->[[a,b]]
+ * zipObj:: [String]->[*] -> [String:*]
+ * zipWith:: (a,b -> c)->[a]->[b]->[c]
+ * @param x
+ * @param y
+ */
+var tst_R_zip_Obj_With = function (tst = false) {
+    var f, ret, exp;
+    if (tst) {
 
- ::Object R.assoc() IS SETTER TO R.prop() GETTER.
- Makes a shallow clone of an object, setting or overriding the specified property with the given value. Note that this copies and flattens prototype properties onto the new object as well. All non-primitive properties are copied by reference.
+        MSG = `..tst_R_zip::`;
+        ret = R.zip([1, 2, 3], ['a', 'b', 'c']);
+        //..tst_R_zip:: -> [[1,"a"],[2,"b"],[3,"c"]],
+        MSG += ` -> ${JSON.stringify(ret)}, `;
 
- See also dissoc
- ::Object R.over( aLens, aFunction, anArray && maybe aCollection
- ::Object R.lensProp Returns a lens whose focus is the specified property.
- ::Objext R.view see all of the object defined by lensProp
- ::Object R.lens String k -> Returns Lens
- Returns a lens whose focus is the specified property.
- Returns a lens for the given getter and setter functions. The getter "gets" the value of the focus; the setter "sets" the value of the focus. The setter should not mutate the data structure.
- See also view, set, over, lensIndex, lensProp.
+        MSG += `\n..${'tst_R_Obj::'}`;
+        ret = R.zipObj(['a', 'b', 'c'], [1, 2, 3]);
+        //..tst_R_Obj:: -> {"a":1,"b":2,"c":3},
+        MSG += ` -> ${JSON.stringify(ret)}, `;
+
+        MSG += `\n..${'tst_R_zip_With::'}`;
+        f = (a, b) => {
+            return [R.add(a, 10), R.toUpper(b)]
+        };
+        ret = R.zipWith(f, [1, 2, 3], ['a', 'b', 'c']);
+        //..tst_R_zip_Obj_With:: -> [[11,"A"],[12,"B"],[13,"C"]],
+        MSG += ` -> ${JSON.stringify(ret)}, `;
+
+        MSG += `\n..${'tst_R_zip_With::'}`;
+        f = (aObj, bObj) => {
+            return [R.prop('big', R.prop('ndx'))]
+        };
+        var aLst = [{1:{big: .5}}, {2:{big:1.25}}, {3:{big:.75}}];
+        var bLst = [{0:{name:'pst'}}, {1:{name:'cur'}},{2:{name:'fut'}}];
+        var cLst = [{v:{}, ndx:0, arr:[]}, {v:{}, ndx:1, arr:[]}, {v:{}, ndx:2, arr:[]}];
+        ret = R.zipWith(f, bLst, cLst);
+        //..tst_R_zip_Obj_With:: ->
+        MSG += ` -> ${JSON.stringify(ret)}, `;
+
+        C_Both(MSG);
+    }
+};
+
+
+/**
+ * ----- LEARNING R_set:: Lens s a-> a->s ->s -----
+ * @param tst
  */
 var tst_R_set = function (tst = false) {
     if (tst) {
@@ -158,4 +149,16 @@ var tst_R_when = function (tst = false) {
         C_Both(C_Msg);
     }
 };
+
+/**
+ * ***** TEST FRAMEWORK **************
+ *   a Dashboard for selecting tests,
+ */
+function main() {
+    tst_R_zip_Obj_With(true);
+    tst_R_set();
+    tst_R_Categories();
+    tst_R_when();
+}
 main();
+
