@@ -73,6 +73,12 @@ C_Verse = Tst_DivFut_Vrs4;
 //    }
 //};
 //
+// --------------------- QUICK R_zipWith TEST --------------------------
+var f = (x, y) => {
+    C_Both(`Str:${x}, ${y}`);
+};
+R.zipWith(f, [1, 2, 3], ['a', 'b', 'c']);
+//=> [f(1, 'a'), f(2, 'b'), f(3, 'c')]
 
 /**
  * LEARN R.set and assoc setters and getters
