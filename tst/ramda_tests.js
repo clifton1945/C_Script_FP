@@ -38,27 +38,36 @@ var VG_NL = GET_V_Grp_NL(GET_book());
 var VG_AR = [...VG_NL];
 var Tst_DivFut_Vrs4 = VG_NL.item(2).children.item(5);
 C_Verse = Tst_DivFut_Vrs4;
-const R_node2Obj = function(val, key, arr) {
+const R_node2Obj = function (val, key, arr) {
     var vl = [val, key, arr];
     var vlStr = ["val", "key", "arr"];
     var x = R.zipObj(vlStr, vl);
     return x
 }; // TODO ADD TO functions.js
 
+/**
+ * tst_R_map_AND_forEach_derivatives
+ * @param tst
+ */
 var tst_R_map_AND_forEach_derivatives = function (tst = false) {
     var f, ret, exp, MSG;
     if (tst) {
-        MSG = 'tst_R_zip_With::([StyObj,,],[VG_NL,,]';
-        var f_ = (nod, ndx, arr) => [val[ndx]] ; //->
+        MSG = 'tst_R_mapObjIndexed::(f_, StyleConstants)-> ';
+        var f_ = function f_(val, ndx, arr) {
+            return [val[ndx]]
+        }; //{} -> {[{}]
         ret = R.mapObjIndexed(f_, StyleConstants);
         //..tst_R_zip_With::([StyObj,,],[VerObj,,] ->
         MSG += ` -> ${JSON.stringify(ret)}, `;
+        MSG += 'FAILED: THIS DOES NOT PRODUCE Lists.\n' +
+            'WILL TRY R.zipWith which -> []';
 
         C_Both(MSG);
     }
 };
 
 /**
+ * tst_R_zip_AND_derivatives
  * R.zip::[a] -> [b] -> [[a,b],....[]]  // combines
  * R.ZipObj:: [Str] -> [*] -> [[a,b],...] // makes list of combined object
  * R.zipWith(a,b->c)->[a]->[b]->[c] // List OF func(a,b)-> applied to a,b PAIRS
@@ -71,11 +80,11 @@ var tst_R_map_AND_forEach_derivatives = function (tst = false) {
 var tst_R_zip_AND_derivatives = function (tst = false) {
     var f, ret, exp, MSG;
     if (tst) {
-        var Lst0 = [{big: .5}, {big:1.25}, {big:.75}];
-        var Lst2 = [{name:'pst'}, {name:'cur'}, {name:'fut'}];
+        var Lst0 = [{big: .5}, {big: 1.25}, {big: .75}];
+        var Lst2 = [{name: 'pst'}, {name: 'cur'}, {name: 'fut'}];
 
-        var Lst1 = [{0:{big: .5, name:'pst'}}, {1:{big:1.25, name:'cur'}}, {2:{big:.75, name:'fut'}}];
-        var Lst3 = [{v:{}, ndx:0, arr:[]}, {v:{}, ndx:1, arr:[]}, {v:{}, ndx:2, arr:[]}];
+        var Lst1 = [{0: {big: .5, name: 'pst'}}, {1: {big: 1.25, name: 'cur'}}, {2: {big: .75, name: 'fut'}}];
+        var Lst3 = [{v: {}, ndx: 0, arr: []}, {v: {}, ndx: 1, arr: []}, {v: {}, ndx: 2, arr: []}];
 
         MSG = `\n..tst_R_zip/Cat.List::[a]->[b]->[[a,b],]`;
         ret = R.zip([1, 2, 3], ['a', 'b', 'c']);
@@ -92,7 +101,7 @@ var tst_R_zip_AND_derivatives = function (tst = false) {
         //..tst_R_zipObj:: -> {"a":1,"b":2,"c":3},
         MSG += ` -> ${JSON.stringify(ret)}, `;
 
-        MSG += `\n\n..${'tst_R_zip_With::'}`;
+        MSG += `\n\n..${'tst_R_zip_With:: simple data'}`;
         f = (a, b) => {
             return [R.add(a, 10), R.toUpper(b)]
         };
@@ -100,11 +109,27 @@ var tst_R_zip_AND_derivatives = function (tst = false) {
         //..tst_R_zipWith:: -> [[11,"A"],[12,"B"],[13,"C"]],
         MSG += ` -> ${JSON.stringify(ret)}, `;
 
+        MSG += `\n\n..${'tst_R_zip_With:: styles and vGrps'}`;
+        // first: need VGrp_Stys List {}->[{}]
+        //  MAYBE USE Array.from
+        // like
+        // let spans = document.querySelectorAll('span.name');
+        // let names2 = Array.from(spans, s => s.textContent);
+        let ret = Array.from(StyleConstants, s => s['1']);
+        // MAYBE USE R.toPairs || .toPairsIn
+        // StyleConstants:  [ SC[0], SC[1], SC[2]]
+        // and need VGrp_Vers List
+        //f = (a, b) => {
+        //    return [R.add(a, 10), R.toUpper(b)]
+        //};
+        //ret = R.zipWith(f, [1, 2, 3], ['a', 'b', 'c']);
+        //..tst_R_zipWith:: -> [[11,"A"],[12,"B"],[13,"C"]],
+        MSG += ` -> ${JSON.stringify(ret)}, `;
+
         // TRACE MSG
         C_Both(MSG);
     }
 };
-
 /**
  *
  * @param sObj
@@ -118,10 +143,10 @@ var tst_R_zip_AND_derivatives = function (tst = false) {
 //    let so = sObj[ndx];
 //    let el_cls = R.prop('class', ??????????????????);
 //    return [so, VG_NL]; // ACTUAL RETURN VALUE
-    //let name = R.prop('name', so);
-    //let clss = R.prop('class', vo.el);
-    //var r = {name, clss};
-    //return  r     // TEST RETURN
+//let name = R.prop('name', so);
+//let clss = R.prop('class', vo.el);
+//var r = {name, clss};
+//return  r     // TEST RETURN
 //}
 
 /**
