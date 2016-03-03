@@ -106,8 +106,6 @@ const StyleObj = {
  * @type {{CRGrpsTmpl: string, VRGrpsTmpl: string, fut: {name: string, smlWt: number, lrgWt: number, calcWt: Function}, cur: {name: string, smlWt: number, lrgWt: number, calcWt: Function}, pst: {name: string, smlWt: number, lrgWt: number, calcWt: Function}}}
  */
 const StyleConstants = {
-    CRGrpsTmpl:'.ChptrReadGrps ',
-    VRGrpsTmpl:'.ChptrReadGrps > .cur > .chptr > .VerseReadGrps',
     2: {
         name: 'fut'
         , smlWt: .4

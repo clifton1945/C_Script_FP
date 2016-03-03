@@ -18,8 +18,8 @@
  *   a Dashboard for selecting tests,
  */
 function main() {
-    tst_R_mapObjIndex(true);
-    tst_R_zip_Obj_With();
+    tst_R_map_AND_forEach_derivatives();
+    tst_R_zip_AND_derivatives(true);
     tst_R_set();
     tst_R_Categories();
     tst_R_when();
@@ -27,43 +27,48 @@ function main() {
 // ***********************************
 
 //var R = require('ramda');  //DO NOT USE OR NEED W/ TEST.HTML
-var C_Cut, C_Ret, C_Exp, C_Verse, C_NL, C_Arr, C_Msg, One_TAAT;
+var C_Cut, C_Ret, C_Exp, C_Verse, C_Arr, MSG;
 
 /**
  * GLOBAL vars
  * require functions-compiled.js, objects-compiled.js
  * */
 var book = GET_book();
-C_NL = GET_V_Grp_NL(GET_book());
-var Tst_DivFut_Vrs4 = C_NL.item(2).children.item(5);
+var VG_NL = GET_V_Grp_NL(GET_book());
+var VG_AR = [...VG_NL];
+var Tst_DivFut_Vrs4 = VG_NL.item(2).children.item(5);
 C_Verse = Tst_DivFut_Vrs4;
-var MSG;
+const R_node2Obj = function(val, key, arr) {
+    var vl = [val, key, arr];
+    var vlStr = ["val", "key", "arr"];
+    var x = R.zipObj(vlStr, vl);
+    return x
+}; // TODO ADD TO functions.js
 
-var tst_R_mapObjIndex = function (tst=false){
+var tst_R_map_AND_forEach_derivatives = function (tst = false) {
     var f, ret, exp, MSG;
-    var ChptNL = GET_V_Grp_NL(book);
-    let R_toObj = (val,key,arr)=> {val,key,arr};
-    var chptNodes_ = (val,key,arr)=>{
-        MSG += (` node.cls:${JSON.stringify(val.className)}, nodeKey:${JSON.stringify(key)}`);
-        return  R_toObj(val, key, arr);
-    };
-    if(tst){
-        MSG = 'tst_R_mapObjIndex';
-       ret = R.mapObjIndexed(chptNodes_, ChptNL);
+    if (tst) {
+        MSG = 'tst_R_zip_With::([StyObj,,],[VG_NL,,]';
+        var f_ = (nod, ndx, arr) => [val[ndx]] ; //->
+        ret = R.mapObjIndexed(f_, StyleConstants);
+        //..tst_R_zip_With::([StyObj,,],[VerObj,,] ->
+        MSG += ` -> ${JSON.stringify(ret)}, `;
 
         C_Both(MSG);
     }
 };
 
 /**
- * ----- LEARN R.tst_R_zip_Obj_With -----
- * zip:[a]->[b]->[[a,b]]
- * zipObj:: [String]->[*] -> [String:*]
- * zipWith:: (a,b -> c)->[a]->[b]->[c]
- * @param x
- * @param y
+ * R.zip::[a] -> [b] -> [[a,b],....[]]  // combines
+ * R.ZipObj:: [Str] -> [*] -> [[a,b],...] // makes list of combined object
+ * R.zipWith(a,b->c)->[a]->[b]->[c] // List OF func(a,b)-> applied to a,b PAIRS
+ * WITH R_forEachIndexed->Obj:: ??//Obj
+ * WITH R.mapObjIndexed->Obj::((*.Str, Obj)->*)->Obj->Obj //Obj
+ *
+ * NOTE:R.xprod( [1,2], [a, b]]->[[1,a], [1,b], [2,a], [2,b]]  NG for this
+ * @param tst
  */
-var tst_R_zip_Obj_With = function (tst = false) {
+var tst_R_zip_AND_derivatives = function (tst = false) {
     var f, ret, exp, MSG;
     if (tst) {
         var Lst0 = [{big: .5}, {big:1.25}, {big:.75}];
@@ -72,23 +77,22 @@ var tst_R_zip_Obj_With = function (tst = false) {
         var Lst1 = [{0:{big: .5, name:'pst'}}, {1:{big:1.25, name:'cur'}}, {2:{big:.75, name:'fut'}}];
         var Lst3 = [{v:{}, ndx:0, arr:[]}, {v:{}, ndx:1, arr:[]}, {v:{}, ndx:2, arr:[]}];
 
-
-        MSG = `..tst_R_zip::`;
+        MSG = `\n..tst_R_zip/Cat.List::[a]->[b]->[[a,b],]`;
         ret = R.zip([1, 2, 3], ['a', 'b', 'c']);
         //..tst_R_zip:: -> [[1,"a"],[2,"b"],[3,"c"]],
         MSG += ` -> ${JSON.stringify(ret)}, `;
 
-        MSG += `\n..${'tst_R_zipObj::'}`;
-        ret = R.zipObj(['a', 'b', 'c'], [1, 2, 3]);
-        //..tst_R_zipObj:: -> {"a":1,"b":2,"c":3},
-        MSG += ` -> ${JSON.stringify(ret)}, `;
-
-        MSG += `\n..${'tst_R_zip::->[[],[],[]]'}`;
+        MSG += `\n\n..${'tst_R_zipCat.List::[a]->[b]->[[a,b],]'}`;
         ret = R.zip(Lst0, Lst2);
         //..tst_R_zip::-> [[{"big":0.5},{"name":"pst"}],[{"big":1.25},{"name":"cur"}],[{"big":0.75},{"name":"fut"}]]
         MSG += ` -> ${JSON.stringify(ret)}, `;
 
-        MSG += `\n..${'tst_R_zip_With::'}`;
+        MSG += `\n\n..${'tst_R_zipObj/Cat.List:: [Str:k] -> [*] -> {k:b,} Object!'}`;
+        ret = R.zipObj(['a', 'b', 'c'], [1, 2, 3]);
+        //..tst_R_zipObj:: -> {"a":1,"b":2,"c":3},
+        MSG += ` -> ${JSON.stringify(ret)}, `;
+
+        MSG += `\n\n..${'tst_R_zip_With::'}`;
         f = (a, b) => {
             return [R.add(a, 10), R.toUpper(b)]
         };
@@ -96,19 +100,29 @@ var tst_R_zip_Obj_With = function (tst = false) {
         //..tst_R_zipWith:: -> [[11,"A"],[12,"B"],[13,"C"]],
         MSG += ` -> ${JSON.stringify(ret)}, `;
 
-        MSG += `\n..${'tst_R_zip_With::([StyObj,,],[VerObj,,]'}`;
-        f = (sObj, vObj) => {
-            var n = R.prop('ndx', vObj);
-            var o = R.prop(n, sObj);
-            return [o, vObj];
-        };
-        ret = R.zipWith(f, Lst1, Lst3);
-        //..tst_R_zip_Obj_With:: ->
-        MSG += ` -> ${JSON.stringify(ret)}, `;
-
+        // TRACE MSG
         C_Both(MSG);
     }
 };
+
+/**
+ *
+ * @param sObj
+ * @param el
+ * @param ndx
+ * @param arr
+ * @returns {*[]}
+ */
+//function f(sObj, el, ndx, arr)  {
+//    let vo = {el, ndx, arr};
+//    let so = sObj[ndx];
+//    let el_cls = R.prop('class', ??????????????????);
+//    return [so, VG_NL]; // ACTUAL RETURN VALUE
+    //let name = R.prop('name', so);
+    //let clss = R.prop('class', vo.el);
+    //var r = {name, clss};
+    //return  r     // TEST RETURN
+//}
 
 /**
  * ----- LEARNING R_set:: Lens s a-> a->s ->s -----
@@ -169,11 +183,11 @@ var tst_R_when = function (tst = false) {
         };
         C_Arr = [[], [2, 2, 2], [3]];
         var READ__ = R.when(CAN_READ, READ_XXX);
-        C_Msg = 'READ_ = R.when(CAN_READ, READ_XXX) -> ';
-        C_Msg += R.toString(READ__(C_Arr[0])) + ', ';
-        C_Msg += R.toString(READ__(C_Arr[1])) + ', ';
-        C_Msg += R.toString(READ__(C_Arr[2])) + ', ';
-        C_Both(C_Msg);
+        MSG = 'READ_ = R.when(CAN_READ, READ_XXX) -> ';
+        MSG += R.toString(READ__(C_Arr[0])) + ', ';
+        MSG += R.toString(READ__(C_Arr[1])) + ', ';
+        MSG += R.toString(READ__(C_Arr[2])) + ', ';
+        C_Both(MSG);
     }
 };
 main();
