@@ -40,12 +40,19 @@ C_Verse = Tst_DivFut_Vrs4;
 var MSG;
 
 var tst_R_mapObjIndex = function (tst=false){
-    var f, ret, exp;
+    var f, ret, exp, MSG;
+    var ChptNL = GET_V_Grp_NL(book);
+    let R_toObj = (val,key,arr)=> {val,key,arr};
+    var chptNodes_ = (val,key,arr)=>{
+        MSG += (` node.cls:${JSON.stringify(val.className)}, nodeKey:${JSON.stringify(key)}`);
+        return  R_toObj(val, key, arr);
+    };
     if(tst){
         MSG = 'tst_R_mapObjIndex';
+       ret = R.mapObjIndexed(chptNodes_, ChptNL);
 
+        C_Both(MSG);
     }
-    C_Both(MSG);
 };
 
 /**
