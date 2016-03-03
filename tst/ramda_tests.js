@@ -18,8 +18,10 @@
  *   a Dashboard for selecting tests,
  */
 function main() {
+    tst_R_mapObjIndex(true);
+    tst_R_zip_Obj_With();
     tst_R_set();
-    tst_R_Categories(true);
+    tst_R_Categories();
     tst_R_when();
 }
 // ***********************************
@@ -37,6 +39,15 @@ var Tst_DivFut_Vrs4 = C_NL.item(2).children.item(5);
 C_Verse = Tst_DivFut_Vrs4;
 var MSG;
 
+var tst_R_mapObjIndex = function (tst=false){
+    var f, ret, exp;
+    if(tst){
+        MSG = 'tst_R_mapObjIndex';
+
+    }
+    C_Both(MSG);
+};
+
 /**
  * ----- LEARN R.tst_R_zip_Obj_With -----
  * zip:[a]->[b]->[[a,b]]
@@ -46,17 +57,28 @@ var MSG;
  * @param y
  */
 var tst_R_zip_Obj_With = function (tst = false) {
-    var f, ret, exp;
+    var f, ret, exp, MSG;
     if (tst) {
+        var Lst0 = [{big: .5}, {big:1.25}, {big:.75}];
+        var Lst2 = [{name:'pst'}, {name:'cur'}, {name:'fut'}];
+
+        var Lst1 = [{0:{big: .5, name:'pst'}}, {1:{big:1.25, name:'cur'}}, {2:{big:.75, name:'fut'}}];
+        var Lst3 = [{v:{}, ndx:0, arr:[]}, {v:{}, ndx:1, arr:[]}, {v:{}, ndx:2, arr:[]}];
+
 
         MSG = `..tst_R_zip::`;
         ret = R.zip([1, 2, 3], ['a', 'b', 'c']);
         //..tst_R_zip:: -> [[1,"a"],[2,"b"],[3,"c"]],
         MSG += ` -> ${JSON.stringify(ret)}, `;
 
-        MSG += `\n..${'tst_R_Obj::'}`;
+        MSG += `\n..${'tst_R_zipObj::'}`;
         ret = R.zipObj(['a', 'b', 'c'], [1, 2, 3]);
-        //..tst_R_Obj:: -> {"a":1,"b":2,"c":3},
+        //..tst_R_zipObj:: -> {"a":1,"b":2,"c":3},
+        MSG += ` -> ${JSON.stringify(ret)}, `;
+
+        MSG += `\n..${'tst_R_zip::->[[],[],[]]'}`;
+        ret = R.zip(Lst0, Lst2);
+        //..tst_R_zip::-> [[{"big":0.5},{"name":"pst"}],[{"big":1.25},{"name":"cur"}],[{"big":0.75},{"name":"fut"}]]
         MSG += ` -> ${JSON.stringify(ret)}, `;
 
         MSG += `\n..${'tst_R_zip_With::'}`;
@@ -64,24 +86,22 @@ var tst_R_zip_Obj_With = function (tst = false) {
             return [R.add(a, 10), R.toUpper(b)]
         };
         ret = R.zipWith(f, [1, 2, 3], ['a', 'b', 'c']);
-        //..tst_R_zip_Obj_With:: -> [[11,"A"],[12,"B"],[13,"C"]],
+        //..tst_R_zipWith:: -> [[11,"A"],[12,"B"],[13,"C"]],
         MSG += ` -> ${JSON.stringify(ret)}, `;
 
-        MSG += `\n..${'tst_R_zip_With::'}`;
-        f = (aObj, bObj) => {
-            return [R.prop('big', R.prop('ndx'))]
+        MSG += `\n..${'tst_R_zip_With::([StyObj,,],[VerObj,,]'}`;
+        f = (sObj, vObj) => {
+            var n = R.prop('ndx', vObj);
+            var o = R.prop(n, sObj);
+            return [o, vObj];
         };
-        var aLst = [{1:{big: .5}}, {2:{big:1.25}}, {3:{big:.75}}];
-        var bLst = [{0:{name:'pst'}}, {1:{name:'cur'}},{2:{name:'fut'}}];
-        var cLst = [{v:{}, ndx:0, arr:[]}, {v:{}, ndx:1, arr:[]}, {v:{}, ndx:2, arr:[]}];
-        ret = R.zipWith(f, bLst, cLst);
+        ret = R.zipWith(f, Lst1, Lst3);
         //..tst_R_zip_Obj_With:: ->
         MSG += ` -> ${JSON.stringify(ret)}, `;
 
         C_Both(MSG);
     }
 };
-
 
 /**
  * ----- LEARNING R_set:: Lens s a-> a->s ->s -----
@@ -149,16 +169,5 @@ var tst_R_when = function (tst = false) {
         C_Both(C_Msg);
     }
 };
-
-/**
- * ***** TEST FRAMEWORK **************
- *   a Dashboard for selecting tests,
- */
-function main() {
-    tst_R_zip_Obj_With(true);
-    tst_R_set();
-    tst_R_Categories();
-    tst_R_when();
-}
 main();
 
