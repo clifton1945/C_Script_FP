@@ -18,7 +18,7 @@
  *   a Dashboard for selecting tests,
  */
 function main() {
-    let all = false;
+    let all = true;
     tst_SEPARATE_StyleConst_BY_VGrpClass_INTO_List(true);
     tst_R_zip_AND_derivatives(all);
     tst_R_map_AND_forEach_derivatives(all);
@@ -29,7 +29,7 @@ function main() {
 // ***********************************
 
 //var R = require('ramda');  //DO NOT USE OR NEED W/ TEST.HTML
-var C_Cut, C_Ret, C_Exp, C_Verse, C_Arr, MSG;
+var C_Cut, C_Ret, C_Exp, MSG;
 
 /**
  * GLOBAL vars
@@ -39,7 +39,6 @@ var book = GET_book();
 var VG_NL = GET_V_Grp_NL(GET_book());
 var VG_AR = [...VG_NL];
 //var Tst_DivFut_Vrs4 = VG_NL.item(2).children.item(5);
-//C_Verse = Tst_DivFut_Vrs4;
 const R_node2Obj = function (val, key, arr) {
     var vl = [val, key, arr];
     var vlStr = ["val", "key", "arr"];
@@ -218,7 +217,7 @@ var tst_R_when = function (tst = false) {
         var READ_XXX = function READ_XXX(NL) { // coll ->
             return NL.length;
         };
-        C_Arr = [[], [2, 2, 2], [3]];
+        var C_Arr = [[], [2, 2, 2], [3]];
         var READ__ = R.when(CAN_READ, READ_XXX);
         MSG = 'READ_ = R.when(CAN_READ, READ_XXX) -> ';
         MSG += R.toString(READ__(C_Arr[0])) + ', ';
