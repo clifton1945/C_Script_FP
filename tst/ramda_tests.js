@@ -48,11 +48,15 @@ const R_node2Obj = function (val, key, arr) {
 }; // TODO ADD TO functions.js
 // ------------------- TESTS -------------------
 var tst_SEPARATE_VrsClassesINTO_List = function (tst = false) {
-    var code, ret, exp, MSG;
+    var f_, code, ret, exp, MSG;
     if (tst) {
         code = function () {
-            MSG = `\n..tst_R_zip/Cat.List::[a]->[b]->[[a,b],]`;
-            ret = R.zip([1, 2, 3], ['a', 'b', 'c']);
+            MSG = `\n..tst_SEPARATE_StyleConstantsINTOList`;
+            f_ = (n)=> {
+                var x = StyleConstants[n];
+                return x
+            }                    ;
+            ret = R.map(f_, [0,1,2] );
             //..tst_R_zip:: -> [[1,"a"],[2,"b"],[3,"c"]],
             MSG += ` -> ${JSON.stringify(ret)}, `;
             return MSG
@@ -132,7 +136,7 @@ var tst_SEPARATE_VrsClassesINTO_List = function (tst = false) {
             // like
             // let spans = document.querySelectorAll('span.name');
             // let names2 = Array.from(spans, s => s.textContent);
-            let ret = Array.from(StyleConstants, s => s['1']);
+            ret = Array.from(StyleConstants, s => s['1']);
             // MAYBE USE R.toPairs || .toPairsIn
             // StyleConstants:  [ SC[0], SC[1], SC[2]]
             // and need VGrp_Vers List
