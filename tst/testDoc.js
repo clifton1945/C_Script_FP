@@ -7,7 +7,8 @@
  */
 function main() {
     let all = false;
-    tst_SEPARATE_StyleConst_BY_VGrpClass_INTO_List(true);
+    tst_COMBINE_VGrp_Style_List_AND_VGrp_Verse_List_INTO_List(true);
+    tst_SEPARATE_StyleConst_BY_VGrpClass_INTO_List(all);
     tst_R_MapObjIndex_AND_R_forEachIndexed(true);
     tst_SELECT_StyleConstants_forEach_VerseGrp(all);
     tst_CHANGE_VerseNodeStyle(all); // require set_verse_styles.js
@@ -15,6 +16,7 @@ function main() {
 
 
 }
+
 /**
  * GLOBAL vars
  * require functions-compiled.js, objects-compiled.js
@@ -28,7 +30,7 @@ var V_Grp_NL_ = GET_V_Grp_NL(book);
 var Tst_DivFut_Vrs4 = V_Grp_NL_.item(2).children.item(5);
 
 /**
- *   --------------- TEST FUNCTIONS AND TESTS --------------------------
+ *   --------------- TEST FUNCTIONS  --------------------------
  * */
 const SEPARATE_StyleConst_BY_VGrpClass_INTO_List = function () {
     var PST = 0, CUR = 1, FUT = 2;
@@ -37,22 +39,44 @@ const SEPARATE_StyleConst_BY_VGrpClass_INTO_List = function () {
     };
     return R.map(f_, [PST, CUR, FUT]);
 };
+const COMBINE_VGrp_Style_List_AND_VGrp_Verse_List_INTO_List = function () {
+    // TRACING
+    //var so = SEPARATE_StyleConst_BY_VGrpClass_INTO_List();
+    //var vo = VG_AR;
+    //var ret = R.zip(so, vo);
+    //MSG += `   styleGrp:${
+    //    R.prop('name', R.prop('2', so))
+    //    }, verseGrp:${
+    //    R.prop('className', R.prop('2', vo))
+    //    }`;
+    //  PRODUCTION
+    return R.zip(
+        SEPARATE_StyleConst_BY_VGrpClass_INTO_List()
+        , VG_AR
+    );
+};
 
-var tst_COMBINE_VGrp_Style_List_AND_VGrp_Verse_List_INTO_List = function(tst=false){
+/**
+ *   --------------- TESTS --------------------------
+ * */
+
+
+/**
+ * tst_COMBINE_VGrp_Style_List_AND_VGrp_Verse_List_INTO_List
+ * @param tst
+ */
+var tst_COMBINE_VGrp_Style_List_AND_VGrp_Verse_List_INTO_List = function (tst = false) {
     if (tst) {
         var f_, tstCode, ret, exp
-            , MSG = 'tst_COMBINE_VGrp_Style_List_AND_VGrp_Verse_List_INTO_List' ;
+            , MSG = 'tst_COMBINE_VGrp_Style_List_AND_VGrp_Verse_List_INTO_List';
 
         tstCode = function () {
-            const COMBINE_VGrp_Style_List_AND_VGrp_Verse_List_INTO_List = function () {
-                var PST = 0, CUR = 1, FUT = 2;
-                f_ = (n)=> {
-                    return StyleConstants[n]
-                };
-                return R.map(f_, [PST, CUR, FUT]);
-            };
             ret = COMBINE_VGrp_Style_List_AND_VGrp_Verse_List_INTO_List();
-            MSG += ` -> ${JSON.stringify(ret)}, `;
+            var a = R.isArrayLike(ret);
+            var b = R.length(ret);
+            console.assert(a && b === 3
+                , `EXP isArrayLike[${a}] && length[${b}]== 3:almost impossible to fail this.`);
+            //MSG += ` -> ${JSON.stringify(ret)}, `;
             return MSG
         };
         // TRACE MSG
@@ -195,6 +219,7 @@ var tst_SELECT_StyleConstants_forEach_VerseGrp =
 var tst_R_MapObjIndex_AND_R_forEachIndexed = function (tst = false) {
     var V_GrpsNL = GET_V_Grp_NL(book);
     var V_GrpsAr = [...GET_V_Grp_NL(book)];
+
     function fn(StyleConstants, V_GrpsNL) {
         var a = R.mapObjIndexed(
             SELECT_StyleConstants_FOR_each_VerseGrp
