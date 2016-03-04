@@ -18,8 +18,9 @@
  *   a Dashboard for selecting tests,
  */
 function main() {
+    tst_SEPARATE_VrsClassesINTO_List(true);
+    tst_R_zip_AND_derivatives();
     tst_R_map_AND_forEach_derivatives();
-    tst_R_zip_AND_derivatives(true);
     tst_R_set();
     tst_R_Categories();
     tst_R_when();
@@ -45,6 +46,21 @@ const R_node2Obj = function (val, key, arr) {
     return x
 }; // TODO ADD TO functions.js
 
+var tst_SEPARATE_VrsClassesINTO_List = function (tst = false) {
+    var f, ret, exp, MSG;
+    if (tst) {
+
+        MSG = `\n..tst_R_zip/Cat.List::[a]->[b]->[[a,b],]`;
+        ret = R.zip([1, 2, 3], ['a', 'b', 'c']);
+        //..tst_R_zip:: -> [[1,"a"],[2,"b"],[3,"c"]],
+        MSG += ` -> ${JSON.stringify(ret)}, `;
+
+
+        // TRACE MSG
+        C_Both(MSG);
+    }
+};
+
 /**
  * tst_R_map_AND_forEach_derivatives
  * @param tst
@@ -67,7 +83,7 @@ var tst_R_map_AND_forEach_derivatives = function (tst = false) {
 };
 
 /**
- * tst_R_zip_AND_derivatives
+ * R_zip_AND_derivatives
  * R.zip::[a] -> [b] -> [[a,b],....[]]  // combines
  * R.ZipObj:: [Str] -> [*] -> [[a,b],...] // makes list of combined object
  * R.zipWith(a,b->c)->[a]->[b]->[c] // List OF func(a,b)-> applied to a,b PAIRS
@@ -130,24 +146,6 @@ var tst_R_zip_AND_derivatives = function (tst = false) {
         C_Both(MSG);
     }
 };
-/**
- *
- * @param sObj
- * @param el
- * @param ndx
- * @param arr
- * @returns {*[]}
- */
-//function f(sObj, el, ndx, arr)  {
-//    let vo = {el, ndx, arr};
-//    let so = sObj[ndx];
-//    let el_cls = R.prop('class', ??????????????????);
-//    return [so, VG_NL]; // ACTUAL RETURN VALUE
-//let name = R.prop('name', so);
-//let clss = R.prop('class', vo.el);
-//var r = {name, clss};
-//return  r     // TEST RETURN
-//}
 
 /**
  * ----- LEARNING R_set:: Lens s a-> a->s ->s -----
