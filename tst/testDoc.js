@@ -1,7 +1,28 @@
 "use strict";
 
+
+/**
+ * ***** TEST FRAMEWORK **************
+ *   a Dashboard for selecting tests,
+ */
+function main() {
+    let all = false;
+    tst_SEPARATE_StyleConst_BY_VGrpClass_INTO_List(true);
+    tst_R_MapObjIndex_AND_R_forEachIndexed(true);
+    tst_SELECT_StyleConstants_forEach_VerseGrp(all);
+    tst_CHANGE_VerseNodeStyle(all); // require set_verse_styles.js
+    tst_coll_len_gt_1(all);
+
+
+}
+/**
+ * GLOBAL vars
+ * require functions-compiled.js, objects-compiled.js
+ * */
 //  *********** DOM  DATA    REQUIRE functions.js
 var book = GET_book();
+var VG_NL = GET_V_Grp_NL(GET_book());
+var VG_AR = [...VG_NL];
 var C_Grp_NL = GET_C_Grp_NL(book);
 var V_Grp_NL_ = GET_V_Grp_NL(book);
 var Tst_DivFut_Vrs4 = V_Grp_NL_.item(2).children.item(5);
@@ -9,6 +30,63 @@ var Tst_DivFut_Vrs4 = V_Grp_NL_.item(2).children.item(5);
 /**
  *   --------------- TEST FUNCTIONS AND TESTS --------------------------
  * */
+const SEPARATE_StyleConst_BY_VGrpClass_INTO_List = function () {
+    var PST = 0, CUR = 1, FUT = 2;
+    let f_ = (n)=> {
+        return StyleConstants[n]
+    };
+    return R.map(f_, [PST, CUR, FUT]);
+};
+
+var tst_COMBINE_VGrp_Style_List_AND_VGrp_Verse_List_INTO_List = function(tst=false){
+    if (tst) {
+        var f_, tstCode, ret, exp
+            , MSG = 'tst_COMBINE_VGrp_Style_List_AND_VGrp_Verse_List_INTO_List' ;
+
+        tstCode = function () {
+            const COMBINE_VGrp_Style_List_AND_VGrp_Verse_List_INTO_List = function () {
+                var PST = 0, CUR = 1, FUT = 2;
+                f_ = (n)=> {
+                    return StyleConstants[n]
+                };
+                return R.map(f_, [PST, CUR, FUT]);
+            };
+            ret = COMBINE_VGrp_Style_List_AND_VGrp_Verse_List_INTO_List();
+            MSG += ` -> ${JSON.stringify(ret)}, `;
+            return MSG
+        };
+        // TRACE MSG
+        C_Both(tstCode());
+        // tst_COMBINE_VGrp_Style_List_AND_VGrp_Verse_List_INTO_List->
+    }
+};
+
+/**
+ * tst_SEPARATE_StyleConst_BY_VGrpClass_INTO_List
+ * @param tst
+ */
+var tst_SEPARATE_StyleConst_BY_VGrpClass_INTO_List = function (tst = false) {
+    var f_, tstCode, ret, exp, MSG;
+    if (tst) {
+        tstCode = function () {
+            MSG = `\n..tst_SEPARATE_StyleConst_BY_VGrpClass_INTO_List`;
+            //const SEPARATE_StyleConst_BY_VGrpClass_INTO_List = function () {
+            //    var PST = 0, CUR = 1, FUT = 2;
+            //    f_ = (n)=> {
+            //        return StyleConstants[n]
+            //    };
+            //    return R.map(f_, [PST, CUR, FUT]);
+            //};
+            ret = SEPARATE_StyleConst_BY_VGrpClass_INTO_List();
+            //..tst_R_zip:: -> [[1,"a"],[2,"b"],[3,"c"]],
+            MSG += ` -> ${JSON.stringify(ret)}, `;
+            return MSG
+        };
+        // TRACE MSG
+        C_Both(tstCode());
+        // ....tst_SEPARATE_StyleConst_BY_VGrpClass_INTO_List-> [{"name":"pst","smlWt":0.4,"lrgWt":0.95}, ....]
+    }
+};
 
 /**
  * coll_len_gt_1()
@@ -132,47 +210,7 @@ var tst_R_MapObjIndex_AND_R_forEachIndexed = function (tst = false) {
         return a
     }
 };
-
-
-
-/**
- *  CODE STRUCTURE
- *
- *    APPLY_fn_({StyGrpsObj},val, ndx, arr )=>{
- *          VrsGrpObj = fn(val, ndx, arr);
- *          StyGrpObj = fn{StyGrpsObj}, [VrsGrpObj])
- *          => [StyGrpObj, VrsGrpObj]}
- *    }
- *    , TOEACH_ [VrsGrpsNL]
- *    , RETURN -> [[StyGrpObj, VrsGrpObj], ... [SGO, VGO]]
- *
- *
- *    APPLY_fn_([SGO}, VGO]=>{
- *          VrsStyleWt:: (StyGrpObj, VrsObj) -> { };
- *          CHANGE_VrsNodeSty [StyUpdateArr], {VrsObj} ->
- *    , TOEACH [[StyGrpObj, VrsGrpObj], ... [SGO, VGO]])
- *    ->[[][][]...[]]
- *
- *
- */
-
-/**
- *   ---------------------------TESTS -------------------------------
- * */
-/**
- * ***** TEST FRAMEWORK **************
- *   a Dashboard for selecting tests,
- */
-function main() {
-    tst_R_MapObjIndex_AND_R_forEachIndexed();
-    tst_SELECT_StyleConstants_forEach_VerseGrp();
-    tst_CHANGE_VerseNodeStyle(); // require set_verse_styles.js
-    tst_coll_len_gt_1();
-}
-//  ------------------ TEST FUNCTIONS ------------
-/**
- * *** TESTING just testDoc.html Events
- */
+//  ------------------ INVOLE TEST ------------
 main();
 //SET_All_Verse_Styles(V_Grp_NL_);
 BindHandlers(book);

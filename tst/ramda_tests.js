@@ -46,33 +46,34 @@ const R_node2Obj = function (val, key, arr) {
     return x
 }; // TODO ADD TO functions.js
 // ------------------- TESTS -------------------
-/**
- * tst_SEPARATE_StyleConst_BY_VGrpClass_INTO_List
- * @param tst
- */
-var tst_SEPARATE_StyleConst_BY_VGrpClass_INTO_List = function (tst = false) {
-    var f_, tstCode, ret, exp, MSG;
-
-    if (tst) {
-        tstCode = function () {
-            MSG = `\n..tst_SEPARATE_StyleConst_BY_VGrpClass_INTO_List`;
-            const SEPARATE_StyleConst_BY_VGrpClass_INTO_List = function () {
-                var PST = 0, CUR = 1, FUT = 2;
-                f_ = (n)=> {
-                    return StyleConstants[n]
-                };
-                return R.map(f_, [PST, CUR, FUT]);
-            };
-            ret = SEPARATE_StyleConst_BY_VGrpClass_INTO_List();
-            //..tst_R_zip:: -> [[1,"a"],[2,"b"],[3,"c"]],
-            MSG += ` -> ${JSON.stringify(ret)}, `;
-            return MSG
-        };
-        // TRACE MSG
-        C_Both(tstCode());
-        // ....tst_SEPARATE_StyleConst_BY_VGrpClass_INTO_List-> [{"name":"pst","smlWt":0.4,"lrgWt":0.95}, ....]
-    }
-};
+//
+///**
+// * tst_SEPARATE_StyleConst_BY_VGrpClass_INTO_List
+// * @param tst
+// */
+//var tst_SEPARATE_StyleConst_BY_VGrpClass_INTO_List = function (tst = false) {
+//    var f_, tstCode, ret, exp, MSG;
+//
+//    if (tst) {
+//        tstCode = function () {
+//            MSG = `\n..tst_SEPARATE_StyleConst_BY_VGrpClass_INTO_List`;
+//            const SEPARATE_StyleConst_BY_VGrpClass_INTO_List = function () {
+//                var PST = 0, CUR = 1, FUT = 2;
+//                f_ = (n)=> {
+//                    return StyleConstants[n]
+//                };
+//                return R.map(f_, [PST, CUR, FUT]);
+//            };
+//            ret = SEPARATE_StyleConst_BY_VGrpClass_INTO_List();
+//            //..tst_R_zip:: -> [[1,"a"],[2,"b"],[3,"c"]],
+//            MSG += ` -> ${JSON.stringify(ret)}, `;
+//            return MSG
+//        };
+//        // TRACE MSG
+//        C_Both(tstCode());
+//        // ....tst_SEPARATE_StyleConst_BY_VGrpClass_INTO_List-> [{"name":"pst","smlWt":0.4,"lrgWt":0.95}, ....]
+//    }
+//};
 
 /**
  * tst_R_map_AND_forEach_derivatives
