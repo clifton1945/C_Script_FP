@@ -7,14 +7,13 @@
  */
 function main() {
     let all = false;
-    tst_COMBINE_VGrp_Style_List_AND_VGrp_Verse_List_INTO_List(true);
+    tst_UNPACK_VGrp_Style_List_AND_VGrp_Verse_List_FROM_VGrp_List(true);
+    tst_COMBINE_VGrp_Style_List_AND_VGrp_Verse_List_INTO_VGrp_List(all);
     tst_SEPARATE_StyleConst_BY_VGrpClass_INTO_List(all);
     tst_R_MapObjIndex_AND_R_forEachIndexed(true);
     tst_SELECT_StyleConstants_forEach_VerseGrp(all);
     tst_CHANGE_VerseNodeStyle(all); // require set_verse_styles.js
     tst_coll_len_gt_1(all);
-
-
 }
 
 /**
@@ -39,7 +38,7 @@ const SEPARATE_StyleConst_BY_VGrpClass_INTO_List = function () {
     };
     return R.map(f_, [PST, CUR, FUT]);
 };
-const COMBINE_VGrp_Style_List_AND_VGrp_Verse_List_INTO_List = function () {
+const COMBINE_VGrp_Style_List_AND_VGrp_Verse_List_INTO_VGrp_List = function () {
     // TRACING
     //var so = SEPARATE_StyleConst_BY_VGrpClass_INTO_List();
     //var vo = VG_AR;
@@ -60,18 +59,50 @@ const COMBINE_VGrp_Style_List_AND_VGrp_Verse_List_INTO_List = function () {
  *   --------------- TESTS --------------------------
  * */
 
-
 /**
- * tst_COMBINE_VGrp_Style_List_AND_VGrp_Verse_List_INTO_List
+ * tst_UNPACK_VGrp_Style_List_AND_VGrp_Verse_List_FROM_VGrp_List
+ * NOTE: IN js, UNPACKING IS CALLED Destructuring
  * @param tst
  */
-var tst_COMBINE_VGrp_Style_List_AND_VGrp_Verse_List_INTO_List = function (tst = false) {
+var tst_UNPACK_VGrp_Style_List_AND_VGrp_Verse_List_FROM_VGrp_List = function (tst = false) {
     if (tst) {
         var f_, tstCode, ret, exp
-            , MSG = 'tst_COMBINE_VGrp_Style_List_AND_VGrp_Verse_List_INTO_List';
+            , MSG = 'tst_UNPACK_VGrp_Style_List_AND_VGrp_Verse_List_FROM_VGrp_List';
+        var tstVGrp_List = COMBINE_VGrp_Style_List_AND_VGrp_Verse_List_INTO_VGrp_List(
+            StyleConstants, VG_AR
+        );
+        var MAP_eachVGrp_ = (list) => {
+            var [VGrp_SO, VGrp_V] = list; // UNPACK both VGrps: style and verses
+
+            /**
+             * APPLY code TO each VGrp Verse
+             * @param SO
+             * @param VO
+             */
+            f_ = function (so, nod, ndx, col) {
+                MSG += ` -> S:${R.prop('name', so)}, V[${ndx}]:${ndx}`;
+                tstCode = f_(VGrp_SO);
+                ret = R.mapObjIndexed(tstCode, nod, ndx, col);
+                return ret
+            };
+            ret = MAP_eachVGrp_(tstVGrp_List);
+            // TRACE MSG
+            C_Both(MSG);
+        }
+    }
+};
+
+/**
+ * tst_COMBINE_VGrp_Style_List_AND_VGrp_Verse_List_INTO_VGrp_List
+ * @param tst
+ */
+var tst_COMBINE_VGrp_Style_List_AND_VGrp_Verse_List_INTO_VGrp_List = function (tst = false) {
+    if (tst) {
+        var f_, tstCode, ret, exp
+            , MSG = 'tst_COMBINE_VGrp_Style_List_AND_VGrp_Verse_List_INTO_VGrp_List';
 
         tstCode = function () {
-            ret = COMBINE_VGrp_Style_List_AND_VGrp_Verse_List_INTO_List();
+            ret = COMBINE_VGrp_Style_List_AND_VGrp_Verse_List_INTO_VGrp_List();
             var a = R.isArrayLike(ret);
             var b = R.length(ret);
             console.assert(a && b === 3
@@ -81,7 +112,7 @@ var tst_COMBINE_VGrp_Style_List_AND_VGrp_Verse_List_INTO_List = function (tst = 
         };
         // TRACE MSG
         C_Both(tstCode());
-        // tst_COMBINE_VGrp_Style_List_AND_VGrp_Verse_List_INTO_List->
+        // tst_COMBINE_VGrp_Style_List_AND_VGrp_Verse_List_INTO_VGrp_List->
     }
 };
 
