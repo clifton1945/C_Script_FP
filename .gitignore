@@ -1,7 +1,10 @@
 #untracked files
 [...]
 /node_modules
-/.idea
+
 *-compiled.js
 *-compiled.js.map
+
+**/.idea/workspace.xml
+**/.idea/tasks.xml
 
