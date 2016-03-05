@@ -65,35 +65,44 @@ const COMBINE_VGrp_Style_List_AND_VGrp_Verse_List_INTO_VGrp_List = function () {
  */
 var tst_UNPACK_VGrp_Style_List_AND_VGrp_Verse_List_FROM_VGrp_List = function (tst = false) {
     if (tst) {
-        var tstCode, ret, exp, TRACE = 'tst_UNPACK_....\n';
+        var tstCode, ret, exp, TRACE = 'tst_UNPACK_....';
         var tstVGrp_List = COMBINE_VGrp_Style_List_AND_VGrp_Verse_List_INTO_VGrp_List(
             StyleConstants, VG_AR);
 
 
         /**
          * TRACE_each_VerseNode
-         * @param SO
-         * @param VO
+         * @param nod
+         * @param ndx
+         * @param col
+         * @return {*}
          */
         var TRACE_each_VerseNode_ = function (nod, ndx, col) {
             TRACE += ` -> V[${ndx}]:${ndx}`;
             return nod
         };
-        var TRACE_eachOf_3_VGrps_ = function ( list ) {
+        var UNPACK_eachOf_3_VGrps_ = function (list) {
             var [VGrp_SO, VGrp_V] = list; // UNPACK both style and verses VGrps.
-            var tmpl = ` SO:[${R.prop('name',VGrp_SO)}], VO:[${R.prop('className', VGrp_V)}}]`;
-            TRACE += `-> ${tmpl}, , ... `;
+            var tmpl = ` SO:[${R.prop('name', VGrp_SO)}], VO:[${R.prop('className', VGrp_V)}}]`;
+            TRACE += `\n-> ${tmpl}, , ... `;
+            var f = (v) => {
+                TRACE += "\n ___" + JSON.stringify(v.innerHTML);
+                return v
+            };
+            ret = R.forEach(f, VGrp_V.children); //HEY, .children MAKES A LIST, FINALLY
+            return ret
         };
         tstCode = (list) => {
-            return R_forEachIndexed(TRACE_eachOf_3_VGrps_, list);
+            return R_forEachIndexed(UNPACK_eachOf_3_VGrps_, list); //-> orig list
         };
         //INVOKE tstCode
-        tstCode(tstVGrp_List);
+        ret = tstCode(tstVGrp_List);
         // TRACE TRACE
         C_Both(TRACE);
 
     }
 };
+
 
 /**
  * tst_COMBINE_VGrp_Style_List_AND_VGrp_Verse_List_INTO_VGrp_List
@@ -325,7 +334,4 @@ var RESTYLE_1_verse = function RESTYLE_1_verse(vNode, ndx, arr) {
     vNode.style.fontSize = fSET_Style_Str(ndx, arr);
     return vNode;
 }; // -> UPDATED vNode.style
-//*** var MAP_
-//
-//var VerseArr = R.mapObjIndexed(RESTYLE_1_verse, V_FUT_NL); // fn, NL->NL
-////  TEST
+
