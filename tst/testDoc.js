@@ -6,7 +6,7 @@
  */
 function main() {
     var all = false;
-    tst_UNPACK_VGrp_Style_List_AND_VGrp_Verse_List_FROM_VGrp_List(true);
+    tst_fn_FOR_VGrp_Style_List_AND_VGrp_Verse_List_FROM_VGrp_List(true);
     tst_COMBINE_VGrp_Style_List_AND_VGrp_Verse_List_INTO_VGrp_List(all);
     tst_SEPARATE_StyleConst_BY_VGrpClass_INTO_List(all);
     tst_R_MapObjIndex_AND_R_forEachIndexed(true);
@@ -59,11 +59,11 @@ const COMBINE_VGrp_Style_List_AND_VGrp_Verse_List_INTO_VGrp_List = function () {
  *   --------------- TESTS --------------------------
  * */
 /**
- * tst_UNPACK_VGrp_Style_List_AND_VGrp_Verse_List_FROM_VGrp_List
+ * tst_fn_FOR_VGrp_Style_List_AND_VGrp_Verse_List_FROM_VGrp_List
  * NOTE: IN js, UNPACKING IS CALLED Destructuring
  * @param tst
  */
-var tst_UNPACK_VGrp_Style_List_AND_VGrp_Verse_List_FROM_VGrp_List = function (tst = false) {
+var tst_fn_FOR_VGrp_Style_List_AND_VGrp_Verse_List_FROM_VGrp_List = function (tst = false) {
     if (tst) {
         var tstCode, tmpl, ret, exp, TRACE = 'tst_UNPACK_....';
         var tstVGrp_List = COMBINE_VGrp_Style_List_AND_VGrp_Verse_List_INTO_VGrp_List(
@@ -96,9 +96,10 @@ var tst_UNPACK_VGrp_Style_List_AND_VGrp_Verse_List_FROM_VGrp_List = function (ts
             tmpl = ` SO:[${R.prop('name', VGrp_SO)}], VO:[${R.prop('className', VrsList)}]`;
             TRACE += `\n-> ${tmpl}, , ... `;
             ret = R_forEachIndexed(TRACE_each_VGrp_StyObj_, VGrp_SO);
-            ret = R_forEachIndexed(TRACE_each_VGrp_VrsObj_, VrsList); //HEY, .children MAKES A LIST, FINALLY
+            ret = R_forEachIndexed(TRACE_each_VGrp_VrsObj_, VrsList);
             return ret
         };
+        // ---------------  tstCode
         tstCode = (list) => {
             return R_forEachIndexed(TRACE_eachOf_3_VGrps_, list); //-> orig list
         };
