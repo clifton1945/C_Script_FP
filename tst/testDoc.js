@@ -78,18 +78,15 @@ var tst_UNPACK_VGrp_Style_List_AND_VGrp_Verse_List_FROM_VGrp_List = function (ts
          * @return {*}
          */
         var TRACE_each_VerseNode_ = function (nod, ndx, col) {
-            TRACE += ` -> V[${ndx}]:${ndx}`;
+            var tmpl = `\n-> V[${ndx}]:${JSON.stringify(nod.innerHTML)}`;
+            TRACE += tmpl;
             return nod
         };
         var UNPACK_eachOf_3_VGrps_ = function (list) {
             var [VGrp_SO, VGrp_V] = list; // UNPACK both style and verses VGrps.
             var tmpl = ` SO:[${R.prop('name', VGrp_SO)}], VO:[${R.prop('className', VGrp_V)}}]`;
             TRACE += `\n-> ${tmpl}, , ... `;
-            var f = (v) => {
-                TRACE += "\n ___" + JSON.stringify(v.innerHTML);
-                return v
-            };
-            ret = R.forEach(f, VGrp_V.children); //HEY, .children MAKES A LIST, FINALLY
+            ret = R_forEachIndexed(TRACE_each_VerseNode_, R.prop('children',VGrp_V)); //HEY, .children MAKES A LIST, FINALLY
             return ret
         };
         tstCode = (list) => {

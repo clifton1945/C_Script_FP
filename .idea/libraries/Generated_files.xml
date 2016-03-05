@@ -3,10 +3,12 @@
     <properties>
       <sourceFilesUrls>
         <item url="file://$PROJECT_DIR$/tst/testDoc-compiled.js" />
+        <item url="file://$PROJECT_DIR$/tst/ramda_tests-compiled.js" />
       </sourceFilesUrls>
     </properties>
     <CLASSES>
       <root url="file://$PROJECT_DIR$/tst/testDoc-compiled.js" />
+      <root url="file://$PROJECT_DIR$/tst/ramda_tests-compiled.js" />
     </CLASSES>
     <SOURCES />
   </library>
