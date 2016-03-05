@@ -1,12 +1,11 @@
 "use strict";
 
-
 /**
  * ***** TEST FRAMEWORK **************
  *   a Dashboard for selecting tests,
  */
 function main() {
-    let all = false;
+    var all = false;
     tst_UNPACK_VGrp_Style_List_AND_VGrp_Verse_List_FROM_VGrp_List(true);
     tst_COMBINE_VGrp_Style_List_AND_VGrp_Verse_List_INTO_VGrp_List(all);
     tst_SEPARATE_StyleConst_BY_VGrpClass_INTO_List(all);
@@ -27,6 +26,7 @@ var VG_AR = [...VG_NL];
 var C_Grp_NL = GET_C_Grp_NL(book);
 var V_Grp_NL_ = GET_V_Grp_NL(book);
 var Tst_DivFut_Vrs4 = V_Grp_NL_.item(2).children.item(5);
+var TRACE = '';
 
 /**
  *   --------------- TEST FUNCTIONS  --------------------------
@@ -58,7 +58,6 @@ const COMBINE_VGrp_Style_List_AND_VGrp_Verse_List_INTO_VGrp_List = function () {
 /**
  *   --------------- TESTS --------------------------
  * */
-
 /**
  * tst_UNPACK_VGrp_Style_List_AND_VGrp_Verse_List_FROM_VGrp_List
  * NOTE: IN js, UNPACKING IS CALLED Destructuring
@@ -66,29 +65,33 @@ const COMBINE_VGrp_Style_List_AND_VGrp_Verse_List_INTO_VGrp_List = function () {
  */
 var tst_UNPACK_VGrp_Style_List_AND_VGrp_Verse_List_FROM_VGrp_List = function (tst = false) {
     if (tst) {
-        var f_, tstCode, ret, exp
-            , MSG = 'tst_UNPACK_VGrp_Style_List_AND_VGrp_Verse_List_FROM_VGrp_List';
+        var tstCode, ret, exp, TRACE = 'tst_UNPACK_....\n';
         var tstVGrp_List = COMBINE_VGrp_Style_List_AND_VGrp_Verse_List_INTO_VGrp_List(
-            StyleConstants, VG_AR
-        );
-        var MAP_eachVGrp_ = (list) => {
-            var [VGrp_SO, VGrp_V] = list; // UNPACK both VGrps: style and verses
+            StyleConstants, VG_AR);
 
-            /**
-             * APPLY code TO each VGrp Verse
-             * @param SO
-             * @param VO
-             */
-            f_ = function (so, nod, ndx, col) {
-                MSG += ` -> S:${R.prop('name', so)}, V[${ndx}]:${ndx}`;
-                tstCode = f_(VGrp_SO);
-                ret = R.mapObjIndexed(tstCode, nod, ndx, col);
-                return ret
-            };
-            ret = MAP_eachVGrp_(tstVGrp_List);
-            // TRACE MSG
-            C_Both(MSG);
-        }
+
+        /**
+         * TRACE_each_VerseNode
+         * @param SO
+         * @param VO
+         */
+        var TRACE_each_VerseNode_ = function (nod, ndx, col) {
+            TRACE += ` -> V[${ndx}]:${ndx}`;
+            return nod
+        };
+        var TRACE_eachOf_3_VGrps_ = function ( list ) {
+            var [VGrp_SO, VGrp_V] = list; // UNPACK both style and verses VGrps.
+            var tmpl = ` SO:[${R.prop('name',VGrp_SO)}], VO:[${R.prop('className', VGrp_V)}}]`;
+            TRACE += `-> ${tmpl}, , ... `;
+        };
+        tstCode = (list) => {
+            return R_forEachIndexed(TRACE_eachOf_3_VGrps_, list);
+        };
+        //INVOKE tstCode
+        tstCode(tstVGrp_List);
+        // TRACE TRACE
+        C_Both(TRACE);
+
     }
 };
 
@@ -99,7 +102,7 @@ var tst_UNPACK_VGrp_Style_List_AND_VGrp_Verse_List_FROM_VGrp_List = function (ts
 var tst_COMBINE_VGrp_Style_List_AND_VGrp_Verse_List_INTO_VGrp_List = function (tst = false) {
     if (tst) {
         var f_, tstCode, ret, exp
-            , MSG = 'tst_COMBINE_VGrp_Style_List_AND_VGrp_Verse_List_INTO_VGrp_List';
+            , TRACE = 'tst_COMBINE_VGrp_Style_List_AND_VGrp_Verse_List_INTO_VGrp_List';
 
         tstCode = function () {
             ret = COMBINE_VGrp_Style_List_AND_VGrp_Verse_List_INTO_VGrp_List();
@@ -107,10 +110,10 @@ var tst_COMBINE_VGrp_Style_List_AND_VGrp_Verse_List_INTO_VGrp_List = function (t
             var b = R.length(ret);
             console.assert(a && b === 3
                 , `EXP isArrayLike[${a}] && length[${b}]== 3:almost impossible to fail this.`);
-            //MSG += ` -> ${JSON.stringify(ret)}, `;
-            return MSG
+            //TRACE += ` -> ${JSON.stringify(ret)}, `;
+            return TRACE
         };
-        // TRACE MSG
+        // TRACE TRACE
         C_Both(tstCode());
         // tst_COMBINE_VGrp_Style_List_AND_VGrp_Verse_List_INTO_VGrp_List->
     }
@@ -121,10 +124,10 @@ var tst_COMBINE_VGrp_Style_List_AND_VGrp_Verse_List_INTO_VGrp_List = function (t
  * @param tst
  */
 var tst_SEPARATE_StyleConst_BY_VGrpClass_INTO_List = function (tst = false) {
-    var f_, tstCode, ret, exp, MSG;
+    var f_, tstCode, ret, exp;
     if (tst) {
         tstCode = function () {
-            MSG = `\n..tst_SEPARATE_StyleConst_BY_VGrpClass_INTO_List`;
+            TRACE = `\n..tst_SEPARATE_StyleConst_BY_VGrpClass_INTO_List`;
             //const SEPARATE_StyleConst_BY_VGrpClass_INTO_List = function () {
             //    var PST = 0, CUR = 1, FUT = 2;
             //    f_ = (n)=> {
@@ -134,8 +137,8 @@ var tst_SEPARATE_StyleConst_BY_VGrpClass_INTO_List = function (tst = false) {
             //};
             ret = SEPARATE_StyleConst_BY_VGrpClass_INTO_List();
             //..tst_R_zip:: -> [[1,"a"],[2,"b"],[3,"c"]],
-            MSG += ` -> ${JSON.stringify(ret)}, `;
-            return MSG
+            TRACE += ` -> ${JSON.stringify(ret)}, `;
+            return TRACE
         };
         // TRACE MSG
         C_Both(tstCode());
