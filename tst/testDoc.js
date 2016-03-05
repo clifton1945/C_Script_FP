@@ -72,25 +72,31 @@ var tst_UNPACK_VGrp_Style_List_AND_VGrp_Verse_List_FROM_VGrp_List = function (ts
 
         /**
          * TRACE_each_VerseNode
-         * @param nod
+         * @param obj
          * @param ndx
          * @param col
          * @return {*}
          */
-        var TRACE_each_VerseNode_ = function (nod, ndx, col) {
-            var tmpl = `\n-> V[${ndx}]:${JSON.stringify(nod.innerHTML)}`;
+        var TRACE_each_VGrp_VrsObj_ = function (obj, ndx, col) {
+            var tmpl = `\n-> V[${ndx}]:${JSON.stringify(obj.innerHTML)}`;
             TRACE += tmpl;
-            return nod
+            return obj
         };
-        var UNPACK_eachOf_3_VGrps_ = function (list) {
+        var TRACE_each_VGrp_StyObj_ = function (obj, ndx, col) {
+            var tmpl = `\n-> S[${ndx}]:${JSON.stringify(R.prop('name', obj))}`;
+            TRACE += tmpl;
+            return obj
+        };
+        var TRACE_eachOf_3_VGrps_ = function (list) {
             var [VGrp_SO, VGrp_V] = list; // UNPACK both style and verses VGrps.
             var tmpl = ` SO:[${R.prop('name', VGrp_SO)}], VO:[${R.prop('className', VGrp_V)}}]`;
             TRACE += `\n-> ${tmpl}, , ... `;
-            ret = R_forEachIndexed(TRACE_each_VerseNode_, R.prop('children',VGrp_V)); //HEY, .children MAKES A LIST, FINALLY
+            ret = R_forEachIndexed(TRACE_each_VGrp_StyObj_, VGrp_SO);
+            ret = R_forEachIndexed(TRACE_each_VGrp_VrsObj_, R.prop('children',VGrp_V)); //HEY, .children MAKES A LIST, FINALLY
             return ret
         };
         tstCode = (list) => {
-            return R_forEachIndexed(UNPACK_eachOf_3_VGrps_, list); //-> orig list
+            return R_forEachIndexed(TRACE_eachOf_3_VGrps_, list); //-> orig list
         };
         //INVOKE tstCode
         ret = tstCode(tstVGrp_List);
