@@ -87,14 +87,13 @@ var tst_UNPACK_VGrp_Style_List_AND_VGrp_Verse_List_FROM_VGrp_List = function (ts
             TRACE += tmpl;
             return obj
         };
-        var CONVERT_VGrps_List_TO_StyObj_List_AND_VrsObj_List_ = function (list) {
-            var [VGrp_SO, VGrp_V] = list; // UNPACK both style and verses VGrps.
-            return [ VGrp_SO, R.prop('children', VGrp_V)]
+        var CONVERT_VGrp_Vrs_TO_Vrs_ = function (grp_obj) {
+            return R.prop('children', grp_obj)
         };
         var TRACE_eachOf_3_VGrps_ = function (list) {
             var [VGrp_SO, VGrp_V] = list; // UNPACK both style and verses VGrps.
-            var VrsList = R.prop('children', VGrp_V);
-            tmpl = ` SO:[${R.prop('name', VGrp_SO)}], VO:[${R.prop('className', VGrp_V)}}]`;
+            var VrsList = CONVERT_VGrp_Vrs_TO_Vrs_(VGrp_V);
+            tmpl = ` SO:[${R.prop('name', VGrp_SO)}], VO:[${R.prop('className', VrsList)}]`;
             TRACE += `\n-> ${tmpl}, , ... `;
             ret = R_forEachIndexed(TRACE_each_VGrp_StyObj_, VGrp_SO);
             ret = R_forEachIndexed(TRACE_each_VGrp_VrsObj_, VrsList); //HEY, .children MAKES A LIST, FINALLY
