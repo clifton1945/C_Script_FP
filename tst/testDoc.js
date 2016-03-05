@@ -65,7 +65,7 @@ const COMBINE_VGrp_Style_List_AND_VGrp_Verse_List_INTO_VGrp_List = function () {
  */
 var tst_UNPACK_VGrp_Style_List_AND_VGrp_Verse_List_FROM_VGrp_List = function (tst = false) {
     if (tst) {
-        var tstCode, ret, exp, TRACE = 'tst_UNPACK_....';
+        var tstCode, tmpl, ret, exp, TRACE = 'tst_UNPACK_....';
         var tstVGrp_List = COMBINE_VGrp_Style_List_AND_VGrp_Verse_List_INTO_VGrp_List(
             StyleConstants, VG_AR);
 
@@ -78,21 +78,26 @@ var tst_UNPACK_VGrp_Style_List_AND_VGrp_Verse_List_FROM_VGrp_List = function (ts
          * @return {*}
          */
         var TRACE_each_VGrp_VrsObj_ = function (obj, ndx, col) {
-            var tmpl = `\n-> V[${ndx}]:${JSON.stringify(obj.innerHTML)}`;
+            tmpl = `\n    V[${ndx}]:${JSON.stringify(obj.innerHTML)}`;
             TRACE += tmpl;
             return obj
         };
         var TRACE_each_VGrp_StyObj_ = function (obj, ndx, col) {
-            var tmpl = `\n-> S[${ndx}]:${JSON.stringify(R.prop('name', obj))}`;
+            tmpl = `\n-> S[${ndx}]:${JSON.stringify(R.prop('name', obj))}`;
             TRACE += tmpl;
             return obj
         };
+        var CONVERT_VGrps_List_TO_StyObj_List_AND_VrsObj_List_ = function (list) {
+            var [VGrp_SO, VGrp_V] = list; // UNPACK both style and verses VGrps.
+            return [ VGrp_SO, R.prop('children', VGrp_V)]
+        };
         var TRACE_eachOf_3_VGrps_ = function (list) {
             var [VGrp_SO, VGrp_V] = list; // UNPACK both style and verses VGrps.
-            var tmpl = ` SO:[${R.prop('name', VGrp_SO)}], VO:[${R.prop('className', VGrp_V)}}]`;
+            var VrsList = R.prop('children', VGrp_V);
+            tmpl = ` SO:[${R.prop('name', VGrp_SO)}], VO:[${R.prop('className', VGrp_V)}}]`;
             TRACE += `\n-> ${tmpl}, , ... `;
             ret = R_forEachIndexed(TRACE_each_VGrp_StyObj_, VGrp_SO);
-            ret = R_forEachIndexed(TRACE_each_VGrp_VrsObj_, R.prop('children',VGrp_V)); //HEY, .children MAKES A LIST, FINALLY
+            ret = R_forEachIndexed(TRACE_each_VGrp_VrsObj_, VrsList); //HEY, .children MAKES A LIST, FINALLY
             return ret
         };
         tstCode = (list) => {
