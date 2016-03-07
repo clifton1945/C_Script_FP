@@ -7,11 +7,11 @@
 function main() {
     var all = false;
     tst_fn_FOR_VGrp_Style_List_AND_VGrp_Verse_List_FROM_VGrp_List(true);
-    tst_COMBINE_VGrp_Style_List_AND_VGrp_Verse_List_INTO_VGrp_List(all);
-    tst_SEPARATE_StyleConst_BY_VGrpClass_INTO_List(all);
-    tst_SELECT_StyleConstants_forEach_VerseGrp(all);
-    tst_CHANGE_VerseNodeStyle(all); // require STYLE_Verses.js
-    //tst_coll_len_gt_1(all);
+    //tst_COMBINE_VGrp_Style_List_AND_VGrp_Verse_List_INTO_VGrp_List(all);
+    //tst_SEPARATE_StyleConst_BY_VGrpClass_INTO_List(all);
+    //tst_SELECT_StyleConstants_forEach_VerseGrp(all);
+    //tst_CHANGE_VerseNodeStyle(all); // require STYLE_Verses.js
+    ////tst_coll_len_gt_1(all);
 }
 
 /**
@@ -113,133 +113,133 @@ var tst_fn_FOR_VGrp_Style_List_AND_VGrp_Verse_List_FROM_VGrp_List = function (ts
 /**
  *   --------------- TESTS --------------------------
  * */
-/**
- * tst_COMBINE_VGrp_Style_List_AND_VGrp_Verse_List_INTO_VGrp_List
- * @param tst
- */
-var tst_COMBINE_VGrp_Style_List_AND_VGrp_Verse_List_INTO_VGrp_List = function (tst = false) {
-    if (tst) {
-        var f_, tstCode, ret, exp
-            , TRACE = 'tst_COMBINE_VGrp_Style_List_AND_VGrp_Verse_List_INTO_VGrp_List';
+///**
+// * tst_COMBINE_VGrp_Style_List_AND_VGrp_Verse_List_INTO_VGrp_List
+// * @param tst
+// */
+//var tst_COMBINE_VGrp_Style_List_AND_VGrp_Verse_List_INTO_VGrp_List = function (tst = false) {
+//    if (tst) {
+//        var f_, tstCode, ret, exp
+//            , TRACE = 'tst_COMBINE_VGrp_Style_List_AND_VGrp_Verse_List_INTO_VGrp_List';
+//
+//        tstCode = function () {
+//            ret = COMBINE_VGrp_Style_List_AND_VGrp_Verse_List_INTO_VGrp_List();
+//            var a = R.isArrayLike(ret);
+//            var b = R.length(ret);
+//            console.assert(a && b === 3
+//                , `_____EXP isArrayLike[${a}] && length[${b}]== 3:almost impossible to fail this.`);
+//            //TRACE += ` -> ${JSON.stringify(ret)}, `;
+//            return TRACE
+//        };
+//        // TRACE TRACE
+//        C_Both(tstCode());
+//        // tst_COMBINE_VGrp_Style_List_AND_VGrp_Verse_List_INTO_VGrp_List->
+//    }
+//};
 
-        tstCode = function () {
-            ret = COMBINE_VGrp_Style_List_AND_VGrp_Verse_List_INTO_VGrp_List();
-            var a = R.isArrayLike(ret);
-            var b = R.length(ret);
-            console.assert(a && b === 3
-                , `_____EXP isArrayLike[${a}] && length[${b}]== 3:almost impossible to fail this.`);
-            //TRACE += ` -> ${JSON.stringify(ret)}, `;
-            return TRACE
-        };
-        // TRACE TRACE
-        C_Both(tstCode());
-        // tst_COMBINE_VGrp_Style_List_AND_VGrp_Verse_List_INTO_VGrp_List->
-    }
-};
-
-/**
- * tst_SEPARATE_StyleConst_BY_VGrpClass_INTO_List
- * @param tst
- */
-var tst_SEPARATE_StyleConst_BY_VGrpClass_INTO_List = function (tst = false) {
-    var f_, tstCode, ret, exp;
-    if (tst) {
-        tstCode = function () {
-            TRACE = `\n..tst_SEPARATE_StyleConst_BY_VGrpClass_INTO_List`;
-            //const SEPARATE_StyleConst_BY_VGrpClass_INTO_List = function () {
-            //    var PST = 0, CUR = 1, FUT = 2;
-            //    f_ = (n)=> {
-            //        return StyleConstants[n]
-            //    };
-            //    return R.map(f_, [PST, CUR, FUT]);
-            //};
-            ret = SEPARATE_StyleConst_BY_VGrpClass_INTO_List();
-            //..tst_R_zip:: -> [[1,"a"],[2,"b"],[3,"c"]],
-            TRACE += ` -> ${JSON.stringify(ret)}, `;
-            return TRACE
-        };
-        // TRACE MSG
-        C_Both(tstCode());
-        // ....tst_SEPARATE_StyleConst_BY_VGrpClass_INTO_List-> [{"name":"pst","smlWt":0.4,"lrgWt":0.95}, ....]
-    }
-};
-
-/**
- * CHANGE_VerseNodeStyle() ::
- * CODE BEGINNING, SIMPLE node:: styleProperty, styleValue, node -> node CHANGED
- * @param propKey
- * @param propVal
- * @param node
- * @returns {*}
- * @constructor
- * TODO REFACT to CHANGE a list of style updates,
- */
-const CHANGE_VerseNodeStyle = function (propKey, propVal, node) {
-    //R.assoc('color', 'red', node.style); // CHANGES copy NOT node
-    node.style[propKey] = propVal; // note: not FP style
-    return node
-};
-var tst_CHANGE_VerseNodeStyle = function (tst = false) {
-    if (tst) {
-        C_Both(
-            `tst_CHANGE_VerseNodeStyle
-     EXP TO SEE changes in testDoc.html.`
-        );
-        var VSO = Tst_DivFut_Vrs4.style;
-        //TEST BEFORE
-        VSO.fontSize = "200%"; //FORCE fontSize
-        VSO.color = "green"; //FORCE fontSize
-        var b = R.prop('color', Tst_DivFut_Vrs4.style);
-        C_Both("style.before IS " + JSON.stringify(b));
-        // TEST  CODE UNDER TEST
-
-        //CHANGE_VerseNodeStyle = function(prop, val, node);
-        // REQUIRE set_verse_style.js
-        Tst_DivFut_Vrs4 = CHANGE_VerseNodeStyle("color", "red", Tst_DivFut_Vrs4);
-
-        // TEST AFTER
-        var a = R.prop('color', Tst_DivFut_Vrs4.style);
-        C_Both("style.after IS " + JSON.stringify(a));
-        console.assert(a === 'red' && a !== b, "EXP VerseStyle color:'red' NOT ${a}")
-    }
-};
-
-/**
- * SELECT_StyleConstants_FOR_each_VerseGrp
- * sObj, node, num, NL:[node] -> sObj
- */
-const SELECT_StyleConstants_FOR_each_VerseGrp =
-    R.curry(function SELECT_StyleConstants_FOR_each_VerseGrp
-            (SC, node, ndx, nl) {
-            //var so = R.prop(`${ndx}`, SC);
-            return R.prop('name', R.prop(`${ndx}`, SC));
-        }
-    );
-var tst_SELECT_StyleConstants_forEach_VerseGrp =
-    function tst_SELECT_StyleConstants_forEach_VerseGrp(tst = false) {
-        if (tst) {
-            C_Both("tst_SELECT_StyleConstants_forEach_VerseGrp");
-            // require objects.js StyleConstants
-            var tstNL = GET_V_Grp_NL(book);
-            var tstStyConst = StyleConstants;
-            // CODE UNDER TEST
-            var cut = SELECT_StyleConstants_FOR_each_VerseGrp;
-            cut = cut(tstStyConst);
-            var RET, EXP;
-            RET = R.mapObjIndexed(
-                cut
-                , tstNL
-            );
-            // TEST
-            // EXP see 3 partial style constants in tstDoc
-            C_Both('  ' + JSON.stringify(RET));
-            //ASSERT
-            RET = R.prop('2', RET);
-            EXP = "fut";
-            console.assert(RET === EXP
-                , `EXP ${EXP} NOT ${RET}`);
-        }
-    };
+///**
+// * tst_SEPARATE_StyleConst_BY_VGrpClass_INTO_List
+// * @param tst
+// */
+//var tst_SEPARATE_StyleConst_BY_VGrpClass_INTO_List = function (tst = false) {
+//    var f_, tstCode, ret, exp;
+//    if (tst) {
+//        tstCode = function () {
+//            TRACE = `\n..tst_SEPARATE_StyleConst_BY_VGrpClass_INTO_List`;
+//            //const SEPARATE_StyleConst_BY_VGrpClass_INTO_List = function () {
+//            //    var PST = 0, CUR = 1, FUT = 2;
+//            //    f_ = (n)=> {
+//            //        return StyleConstants[n]
+//            //    };
+//            //    return R.map(f_, [PST, CUR, FUT]);
+//            //};
+//            ret = SEPARATE_StyleConst_BY_VGrpClass_INTO_List();
+//            //..tst_R_zip:: -> [[1,"a"],[2,"b"],[3,"c"]],
+//            TRACE += ` -> ${JSON.stringify(ret)}, `;
+//            return TRACE
+//        };
+//        // TRACE MSG
+//        C_Both(tstCode());
+//        // ....tst_SEPARATE_StyleConst_BY_VGrpClass_INTO_List-> [{"name":"pst","smlWt":0.4,"lrgWt":0.95}, ....]
+//    }
+//};
+//
+///**
+// * CHANGE_VerseNodeStyle() ::
+// * CODE BEGINNING, SIMPLE node:: styleProperty, styleValue, node -> node CHANGED
+// * @param propKey
+// * @param propVal
+// * @param node
+// * @returns {*}
+// * @constructor
+// * TODO REFACT to CHANGE a list of style updates,
+// */
+//const CHANGE_VerseNodeStyle = function (propKey, propVal, node) {
+//    //R.assoc('color', 'red', node.style); // CHANGES copy NOT node
+//    node.style[propKey] = propVal; // note: not FP style
+//    return node
+//};
+//var tst_CHANGE_VerseNodeStyle = function (tst = false) {
+//    if (tst) {
+//        C_Both(
+//            `tst_CHANGE_VerseNodeStyle
+//     EXP TO SEE changes in testDoc.html.`
+//        );
+//        var VSO = Tst_DivFut_Vrs4.style;
+//        //TEST BEFORE
+//        VSO.fontSize = "200%"; //FORCE fontSize
+//        VSO.color = "green"; //FORCE fontSize
+//        var b = R.prop('color', Tst_DivFut_Vrs4.style);
+//        C_Both("style.before IS " + JSON.stringify(b));
+//        // TEST  CODE UNDER TEST
+//
+//        //CHANGE_VerseNodeStyle = function(prop, val, node);
+//        // REQUIRE set_verse_style.js
+//        Tst_DivFut_Vrs4 = CHANGE_VerseNodeStyle("color", "red", Tst_DivFut_Vrs4);
+//
+//        // TEST AFTER
+//        var a = R.prop('color', Tst_DivFut_Vrs4.style);
+//        C_Both("style.after IS " + JSON.stringify(a));
+//        console.assert(a === 'red' && a !== b, "EXP VerseStyle color:'red' NOT ${a}")
+//    }
+//};
+//
+///**
+// * SELECT_StyleConstants_FOR_each_VerseGrp
+// * sObj, node, num, NL:[node] -> sObj
+// */
+//const SELECT_StyleConstants_FOR_each_VerseGrp =
+//    R.curry(function SELECT_StyleConstants_FOR_each_VerseGrp
+//            (SC, node, ndx, nl) {
+//            //var so = R.prop(`${ndx}`, SC);
+//            return R.prop('name', R.prop(`${ndx}`, SC));
+//        }
+//    );
+//var tst_SELECT_StyleConstants_forEach_VerseGrp =
+//    function tst_SELECT_StyleConstants_forEach_VerseGrp(tst = false) {
+//        if (tst) {
+//            C_Both("tst_SELECT_StyleConstants_forEach_VerseGrp");
+//            // require objects.js StyleConstants
+//            var tstNL = GET_V_Grp_NL(book);
+//            var tstStyConst = StyleConstants;
+//            // CODE UNDER TEST
+//            var cut = SELECT_StyleConstants_FOR_each_VerseGrp;
+//            cut = cut(tstStyConst);
+//            var RET, EXP;
+//            RET = R.mapObjIndexed(
+//                cut
+//                , tstNL
+//            );
+//            // TEST
+//            // EXP see 3 partial style constants in tstDoc
+//            C_Both('  ' + JSON.stringify(RET));
+//            //ASSERT
+//            RET = R.prop('2', RET);
+//            EXP = "fut";
+//            console.assert(RET === EXP
+//                , `EXP ${EXP} NOT ${RET}`);
+//        }
+//    };
 
 //  ------------------ INVOkE TEST ------------
 main();
@@ -273,55 +273,55 @@ BindHandlers(book);
 //            , "FUT:true && PST:false");
 //    }
 //};
-
-/**
- *    --------------- OLD  CODE FOR STYLING Verses  ------------
- */
-/**
- * :: nodeNdx[Int], nodeColl[collection] -> wt [Int]
- * @param ndx
- * @param arr
- * @returns {number}
- */
-var fCALC_Wt = (ndx, arr)=> {
-
-    var lrgWt = .9;
-    var smlWt = .5;
-    let delta = lrgWt - smlWt;
-    let len = arr.length - 1;  // OR nl.childElementCount
-    return (len > 1)
-        // below is code for CUR|FUT>>fut:start large grow smaller.
-        ? lrgWt - delta / len * ndx
-        : lrgWt;  // ALWAYS lrgWt:
-    // below is code for CUR|CUR>>CUR:
-    //? smlWt + delta / len * ndx
-    //: lrgWt;  // ALWAYS lrgWt:
-    // below is code for pst>>PST|CUR. start small grow larger..
-    //? smlWt + delta / len * ndx
-    //: lrgWt;  // ALWAYS lrgWt:
-
-}; // -> wt Int
 //
-/**
- * :: [Int] index of verse Node, [Obj]verses NodeList -> [Str]style
- * @param nodeNdx
- * @param NL
- * @returns {*}
- */
-var fSET_Style_Str = function fSET_style_Str(nodeNdx, NL) {
-    //:: Vndx, NL->Style Str
-    return `${fCALC_Wt(nodeNdx, NL) * 100}%`
-}; // [Str] style string
-/**
- * :: Node, vNdx, NL -> RESTYLED vNode
- * @param vNode
- * @param ndx
- * @param arr
- * @returns {*}
- * @constructor
- */
-var RESTYLE_1_verse = function RESTYLE_1_verse(vNode, ndx, arr) {
-    vNode.style.fontSize = fSET_Style_Str(ndx, arr);
-    return vNode;
-}; // -> UPDATED vNode.style
-
+///**
+// *    --------------- OLD  CODE FOR STYLING Verses  ------------
+// */
+///**
+// * :: nodeNdx[Int], nodeColl[collection] -> wt [Int]
+// * @param ndx
+// * @param arr
+// * @returns {number}
+// */
+//var fCALC_Wt = (ndx, arr)=> {
+//
+//    var lrgWt = .9;
+//    var smlWt = .5;
+//    let delta = lrgWt - smlWt;
+//    let len = arr.length - 1;  // OR nl.childElementCount
+//    return (len > 1)
+//        // below is code for CUR|FUT>>fut:start large grow smaller.
+//        ? lrgWt - delta / len * ndx
+//        : lrgWt;  // ALWAYS lrgWt:
+//    // below is code for CUR|CUR>>CUR:
+//    //? smlWt + delta / len * ndx
+//    //: lrgWt;  // ALWAYS lrgWt:
+//    // below is code for pst>>PST|CUR. start small grow larger..
+//    //? smlWt + delta / len * ndx
+//    //: lrgWt;  // ALWAYS lrgWt:
+//
+//}; // -> wt Int
+////
+///**
+// * :: [Int] index of verse Node, [Obj]verses NodeList -> [Str]style
+// * @param nodeNdx
+// * @param NL
+// * @returns {*}
+// */
+//var fSET_Style_Str = function fSET_style_Str(nodeNdx, NL) {
+//    //:: Vndx, NL->Style Str
+//    return `${fCALC_Wt(nodeNdx, NL) * 100}%`
+//}; // [Str] style string
+///**
+// * :: Node, vNdx, NL -> RESTYLED vNode
+// * @param vNode
+// * @param ndx
+// * @param arr
+// * @returns {*}
+// * @constructor
+// */
+//var RESTYLE_1_verse = function RESTYLE_1_verse(vNode, ndx, arr) {
+//    vNode.style.fontSize = fSET_Style_Str(ndx, arr);
+//    return vNode;
+//}; // -> UPDATED vNode.style
+//
