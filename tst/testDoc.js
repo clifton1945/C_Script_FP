@@ -9,10 +9,9 @@ function main() {
     tst_fn_FOR_VGrp_Style_List_AND_VGrp_Verse_List_FROM_VGrp_List(true);
     tst_COMBINE_VGrp_Style_List_AND_VGrp_Verse_List_INTO_VGrp_List(all);
     tst_SEPARATE_StyleConst_BY_VGrpClass_INTO_List(all);
-    tst_R_MapObjIndex_AND_R_forEachIndexed(true);
     tst_SELECT_StyleConstants_forEach_VerseGrp(all);
     tst_CHANGE_VerseNodeStyle(all); // require set_verse_styles.js
-    tst_coll_len_gt_1(all);
+    //tst_coll_len_gt_1(all);
 }
 
 /**
@@ -65,7 +64,7 @@ const COMBINE_VGrp_Style_List_AND_VGrp_Verse_List_INTO_VGrp_List = function () {
  */
 var tst_fn_FOR_VGrp_Style_List_AND_VGrp_Verse_List_FROM_VGrp_List = function (tst = false) {
     if (tst) {
-        var tstCode, tmpl, ret, exp, TRACE = 'tst_UNPACK_....';
+        var tstCode, tmpl, ret, exp, TRACE = 'tst_fn_FOR_....';
         var tstVGrp_List = COMBINE_VGrp_Style_List_AND_VGrp_Verse_List_INTO_VGrp_List(
             StyleConstants, VG_AR);
 
@@ -93,10 +92,10 @@ var tst_fn_FOR_VGrp_Style_List_AND_VGrp_Verse_List_FROM_VGrp_List = function (ts
         var TRACE_eachOf_3_VGrps_ = function (list) {
             var [VGrp_SO, VGrp_V] = list; // UNPACK both style and verses VGrps.
             var VrsList = CONVERT_VGrp_Vrs_TO_Vrs_(VGrp_V);
-            tmpl = ` SO:[${R.prop('name', VGrp_SO)}], VO:[${R.prop('className', VrsList)}]`;
+            tmpl = ` SO:[${R.prop('name', VGrp_SO)}], VO:[${R.prop('className', VGrp_V)}]`;
             TRACE += `\n-> ${tmpl}, , ... `;
             ret = R_forEachIndexed(TRACE_each_VGrp_StyObj_, VGrp_SO);
-            ret = R_forEachIndexed(TRACE_each_VGrp_VrsObj_, VrsList);
+            ret = R_forEachIndexed(TRACE_each_VGrp_VrsObj_, VGrp_V);
             return ret
         };
         // ---------------  tstCode
@@ -126,7 +125,7 @@ var tst_COMBINE_VGrp_Style_List_AND_VGrp_Verse_List_INTO_VGrp_List = function (t
             var a = R.isArrayLike(ret);
             var b = R.length(ret);
             console.assert(a && b === 3
-                , `EXP isArrayLike[${a}] && length[${b}]== 3:almost impossible to fail this.`);
+                , `_____EXP isArrayLike[${a}] && length[${b}]== 3:almost impossible to fail this.`);
             //TRACE += ` -> ${JSON.stringify(ret)}, `;
             return TRACE
         };
@@ -163,32 +162,32 @@ var tst_SEPARATE_StyleConst_BY_VGrpClass_INTO_List = function (tst = false) {
     }
 };
 
-/**
- * coll_len_gt_1()
- * :: collection -> Bool: t | f
- * @param coll
- * @returns {*}
- */
-const coll_len_gt_1 = function coll_len_gt_1(coll) {
-    var f = R.pipe(
-        R.prop('length')
-        , R.dec
-        , R.lt(2)
-        //TRACE(x=>x)
-    );
-    return f(coll)
-};
-var tst_coll_len_gt_1 = function tst_coll_len_gt_1(tst = false) {
-    if (tst) {
-        C_Both('tst_coll_len_gt_1, EXP NO FAIL. ');
-        // TEST: coll_len_gt_1(nodelist)
-        console.assert(coll_len_gt_1(V_FUT_NL) && R.not(coll_len_gt_1(V_PST_NL))
-            , "FUT:true && PST:false");
-        // TEST: coll_len_gt_1(Array of nodes)
-        console.assert(coll_len_gt_1(V_FUT_Ar) && R.not(coll_len_gt_1(V_PST_Ar))
-            , "FUT:true && PST:false");
-    }
-};
+///**
+// * coll_len_gt_1()
+// * :: collection -> Bool: t | f
+// * @param coll
+// * @returns {*}
+// */
+//const coll_len_gt_1 = function coll_len_gt_1(coll) {
+//    var f = R.pipe(
+//        R.prop('length')
+//        , R.dec
+//        , R.lt(2)
+//        //TRACE(x=>x)
+//    );
+//    return f(coll)
+//};
+//var tst_coll_len_gt_1 = function tst_coll_len_gt_1(tst = false) {
+//    if (tst) {
+//        C_Both('\n---- tst_coll_len_gt_1, EXP NO FAIL. ');
+//        // TEST: coll_len_gt_1(nodelist)
+//        console.assert(coll_len_gt_1(V_FUT_NL) && R.not(coll_len_gt_1(V_PST_NL))
+//            , "EXPFUT:true && PST:false");
+//        // TEST: coll_len_gt_1(Array of nodes)
+//        console.assert(coll_len_gt_1(V_FUT_Ar) && R.not(coll_len_gt_1(V_PST_Ar))
+//            , "FUT:true && PST:false");
+//    }
+//};
 
 /**
  * CHANGE_VerseNodeStyle() ::
@@ -267,26 +266,7 @@ var tst_SELECT_StyleConstants_forEach_VerseGrp =
         }
     };
 
-var tst_R_MapObjIndex_AND_R_forEachIndexed = function (tst = false) {
-    var V_GrpsNL = GET_V_Grp_NL(book);
-    var V_GrpsAr = [...GET_V_Grp_NL(book)];
-
-    function fn(StyleConstants, V_GrpsNL) {
-        var a = R.mapObjIndexed(
-            SELECT_StyleConstants_FOR_each_VerseGrp
-            , V_GrpsAr
-        );
-        var b = R_forEachIndexed(
-            SELECT_StyleConstants_FOR_each_VerseGrp
-            , V_GrpsAr
-        );
-        C_Both(b);
-        console.assert(R.isArray(a, b, `EXP ${a} === ${b}`));
-        console.assert(R.equals(a, b, `EXP ${a} === ${b}`));
-        return a
-    }
-};
-//  ------------------ INVOLE TEST ------------
+//  ------------------ INVOkE TEST ------------
 main();
 //SET_All_Verse_Styles(V_Grp_NL_);
 BindHandlers(book);
