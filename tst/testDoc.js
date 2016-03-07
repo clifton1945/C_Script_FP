@@ -53,7 +53,9 @@ const COMBINE_VGrp_Style_List_AND_VGrp_Verse_List_INTO_VGrp_List = function () {
         , VG_AR
     );
 };
-
+const CONVERT_VGrp_Vrs_TO_Vrs_ = function (grp_obj) {
+    return R.prop('children', grp_obj)
+};
 /**
  *   --------------- CURRENT TEST --------------------------
  * */
@@ -64,10 +66,9 @@ const COMBINE_VGrp_Style_List_AND_VGrp_Verse_List_INTO_VGrp_List = function () {
  */
 var tst_fn_FOR_VGrp_Style_List_AND_VGrp_Verse_List_FROM_VGrp_List = function (tst = false) {
     if (tst) {
-        var tstCode, tmpl, ret, exp, TRACE = 'tst_fn_FOR_....';
+        var tstCode, tmpl, ret, TRACE = 'tst_fn_FOR_....';
         var tstVGrp_List = COMBINE_VGrp_Style_List_AND_VGrp_Verse_List_INTO_VGrp_List(
             StyleConstants, VG_AR);
-
 
         /**
          * TRACE_each_VerseNode
@@ -85,9 +86,6 @@ var tst_fn_FOR_VGrp_Style_List_AND_VGrp_Verse_List_FROM_VGrp_List = function (ts
             tmpl = `\n-> S[${ndx}]:${JSON.stringify(R.prop('name', obj))}`;
             TRACE += tmpl;
             return obj
-        };
-        var CONVERT_VGrp_Vrs_TO_Vrs_ = function (grp_obj) {
-            return R.prop('children', grp_obj)
         };
         var TRACE_eachOf_3_VGrps_ = function (list) {
             var [VGrp_SO, VGrp_V] = list; // UNPACK both style and verses VGrps.
