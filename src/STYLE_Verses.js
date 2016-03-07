@@ -1,6 +1,6 @@
 /**
- * set_verse_styles.js  was h_SET_All_verse_Styles/js
- * Created by CLIF on 01//2016
+ * STYLE_Verses.js WAS set_verse_styles.js WAS h_SET_All_verse_Styles/js
+ * Created by CLIF on 20160307
  */
 "use strict";
 // ***** GLOBAL FOR THIS file

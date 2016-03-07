@@ -1,4 +1,17 @@
 "use strict";
+/**
+ * GLOBAL vars
+ * require functions-compiled.js, objects-compiled.js
+ * */
+//  *********** DOM  DATA    REQUIRE functions.js
+var book = GET_book();
+var VG_NL = GET_V_Grp_NL(GET_book());
+var VG_AR = [...VG_NL];
+var C_Grp_NL = GET_C_Grp_NL(book);
+var V_Grp_NL_ = GET_V_Grp_NL(book);
+var Tst_DivFut_Vrs4 = V_Grp_NL_.item(2).children.item(5);
+var TRACE = '';
+
 
 /**
  * ***** TEST FRAMEWORK **************
@@ -13,19 +26,6 @@ function main() {
     tst_CHANGE_VerseNodeStyle(all); // require STYLE_Verses.js
     //tst_coll_len_gt_1(all);
 }
-
-/**
- * GLOBAL vars
- * require functions-compiled.js, objects-compiled.js
- * */
-//  *********** DOM  DATA    REQUIRE functions.js
-var book = GET_book();
-var VG_NL = GET_V_Grp_NL(GET_book());
-var VG_AR = [...VG_NL];
-var C_Grp_NL = GET_C_Grp_NL(book);
-var V_Grp_NL_ = GET_V_Grp_NL(book);
-var Tst_DivFut_Vrs4 = V_Grp_NL_.item(2).children.item(5);
-var TRACE = '';
 
 /**
  *   --------------- TEST FUNCTIONS  --------------------------
@@ -95,7 +95,7 @@ var tst_fn_FOR_VGrp_Style_List_AND_VGrp_Verse_List_FROM_VGrp_List = function (ts
             tmpl = ` SO:[${R.prop('name', VGrp_SO)}], VO:[${R.prop('className', VGrp_V)}]`;
             TRACE += `\n-> ${tmpl}, , ... `;
             ret = R_forEachIndexed(TRACE_each_VGrp_StyObj_, VGrp_SO);
-            ret = R_forEachIndexed(TRACE_each_VGrp_VrsObj_, VGrp_V);
+            ret = R_forEachIndexed(TRACE_each_VGrp_VrsObj_, VrsList);
             return ret
         };
         // ---------------  tstCode
@@ -241,9 +241,8 @@ var tst_SELECT_StyleConstants_forEach_VerseGrp =
         }
     };
 
-//  ------------------ INVOkE TEST ------------
+//  ------------------ INVOKE TEST ------------
 main();
-//SET_All_Verse_Styles(V_Grp_NL_);
 BindHandlers(book);
 
 
