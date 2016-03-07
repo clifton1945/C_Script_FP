@@ -67,8 +67,6 @@ var tst_fn_FOR_VGrp_Style_List_AND_VGrp_Verse_List_FROM_VGrp_List = function (ts
         var tstCode, tmpl, ret, exp, TRACE = 'tst_fn_FOR_....';
         var tstVGrp_List = COMBINE_VGrp_Style_List_AND_VGrp_Verse_List_INTO_VGrp_List(
             StyleConstants, VG_AR);
-
-
         /**
          * TRACE_each_VerseNode
          * @param obj
