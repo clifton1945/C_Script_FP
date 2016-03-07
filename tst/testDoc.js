@@ -30,32 +30,45 @@ var MSG = '';
 /**
  *   --------------- TEST REQUIRED FUNCTIONS  --------------------------
  * */
-const SEPARATE_StyleConst_BY_VGrpClass_INTO_List = function () {
+/**
+ * TRANSFORM_VGrp_NL_INTO_Vrs_List:: {} -> []
+ * @returns {*}
+ * @constructor
+ */
+const SEPARATE_StyleConst_BY_VGrpClass_INTO_List = function (StyObj) {
     var PST = 0, CUR = 1, FUT = 2;
     let f_ = (n)=> {
-        return StyleConstants[n]
+        return StyObj[n]
     };
-    return R.map(f_, [PST, CUR, FUT]);
+    return R.map(f_, [PST, CUR, FUT]);  // note GIVEN LIST:[INT] -> [OBJ]
 };
-const COMBINE_VGrp_Style_List_AND_VGrp_Verse_List_INTO_VGrp_List = function () {
-    // TRACING
-    //var so = SEPARATE_StyleConst_BY_VGrpClass_INTO_List();
-    //var vo = VG_AR;
-    //var ret = R.zip(so, vo);
-    //MSG += `   styleGrp:${
-    //    R.prop('name', R.prop('2', so))
-    //    }, verseGrp:${
-    //    R.prop('className', R.prop('2', vo))
-    //    }`;
-    //  PRODUCTION
-    return R.zip(
-        SEPARATE_StyleConst_BY_VGrpClass_INTO_List()
-        , VG_AR
-    );
+
+const TRANSFORM_VerseGrps_NL_INTO_Verse_HTML_Coll = function (NL) {
+    let f_ = (obj)=> NL.children;
+    return R.map(f_, NL);
 };
+
 const CONVERT_VGrp_Vrs_TO_Vrs_ = function (grp_obj) {
     return R.prop('children', grp_obj)
 };
+
+const COMBINE_VGrp_Style_List_AND_VGrp_Verse_List_INTO_VGrp_List = function () {
+    // TRACING
+    var so = TRANSFORM_VGrp_NL_INTO_Vrs_List();
+    var vo = VG_AR;
+    var ret = R.zip(so, vo);
+    MSG += `   styleGrp:${
+        R.prop('name', R.prop('2', so))
+        }, verseGrp:${
+        R.prop('className', R.prop('2', vo))
+        }`;
+    //  PRODUCTION
+    return R.zip(
+        TRANSFORM_VGrp_NL_INTO_Vrs_List()
+        , VG_AR
+    );
+};
+
 /**
  *   --------------- CURRENT TEST --------------------------
  * */
@@ -84,28 +97,33 @@ var TRACE_eachOf_3_VGrps_ = function TRACE_eachOf_3_VGrps_(VGrp_SO, VrsList) {
  */
 var tst_fn_FOR_VGrp_Style_List_AND_VGrp_Verse_List_FROM_VGrp_List = function (tst = false) {
     if (tst) {
+        //LOCAL VARS
         var tstCode, tmpl, ret;
-        MSG = 'tst_fn_FOR_....';
-        var tstVGrp_List = COMBINE_VGrp_Style_List_AND_VGrp_Verse_List_INTO_VGrp_List(
-            StyleConstants, VG_AR
-        );
-        var R_forEachVerseNode_ = function (CallBack_, list) {
-            return R_forEachIndexed(CallBack_, VrsList);
-        };
-        var R_forEachVGrp = function (list) {  //:: [] ->
-            var [VGrp_SO, VGrp_V] = list; // UNPACK both style and verses VGrps.
-            var VrsList = CONVERT_VGrp_Vrs_TO_Vrs_(VGrp_V);
-        };
-        // ---------------  tstCode
-        tstCode = (list) => {
+        //var tstVGrp_List = COMBINE_VGrp_Style_List_AND_VGrp_Verse_List_INTO_VGrp_List(
+        //    StyleConstants, VG_AR);
+        // ---------------  LOCAL TEST CODE
+        tstCode = () => { //(()->
+            MSG = 'tst_Code....';
+            // TRACE FUNCTIONS
+            var listLength_ = (l)=> {
+                MSG += `   List.len: ${l.length}, `;
+            };  // return is thrown away - so forget return
+            var curredFunction = (fn) => JSON.stringify(fn);
+            var tst_ = function tst_ (soLst, voLst) {
+                function inner(soLst, voLst) {
+                    return console.log(' inside tst func')
+                }
+            };
+            var tst = R.curry(tst_);
             return R.pipe(
-                // ::
-                COMBINE_VGrp_Style_List_AND_VGrp_Verse_List_INTO_VGrp_List(list)
-                // -> [[so, vo], [s,o], [so,vo]]
+                R.tap(listLength_
+                    , SEPARATE_StyleConst_BY_VGrpClass_INTO_List(StyleConstants)
+                )
+                , tst()
             );
         };
         //INVOKE tstCode
-        ret = tstCode(tstVGrp_List);
+        ret = tstCode();
         // TRACE TRACE
         C_Both(MSG);
 
@@ -148,14 +166,14 @@ var tst_fn_FOR_VGrp_Style_List_AND_VGrp_Verse_List_FROM_VGrp_List = function (ts
 //    if (tst) {
 //        tstCode = function () {
 //            TRACE = `\n..tst_SEPARATE_StyleConst_BY_VGrpClass_INTO_List`;
-//            //const SEPARATE_StyleConst_BY_VGrpClass_INTO_List = function () {
+//            //const TRANSFORM_VGrp_NL_INTO_Vrs_List = function () {
 //            //    var PST = 0, CUR = 1, FUT = 2;
 //            //    f_ = (n)=> {
 //            //        return StyleConstants[n]
 //            //    };
 //            //    return R.map(f_, [PST, CUR, FUT]);
 //            //};
-//            ret = SEPARATE_StyleConst_BY_VGrpClass_INTO_List();
+//            ret = TRANSFORM_VGrp_NL_INTO_Vrs_List();
 //            //..tst_R_zip:: -> [[1,"a"],[2,"b"],[3,"c"]],
 //            TRACE += ` -> ${JSON.stringify(ret)}, `;
 //            return TRACE
