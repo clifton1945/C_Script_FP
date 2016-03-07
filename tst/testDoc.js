@@ -25,7 +25,7 @@ var VG_AR = [...VG_NL];
 var C_Grp_NL = GET_C_Grp_NL(book);
 var V_Grp_NL_ = GET_V_Grp_NL(book);
 var Tst_DivFut_Vrs4 = V_Grp_NL_.item(2).children.item(5);
-var TRACE = '';
+var MSG = '';
 
 /**
  *   --------------- TEST REQUIRED FUNCTIONS  --------------------------
@@ -61,22 +61,21 @@ const CONVERT_VGrp_Vrs_TO_Vrs_ = function (grp_obj) {
  * */
 var TRACE_each_VGrp_VrsObj_ = function (obj, ndx, col) {
     var tmpl = `\n    V[${ndx}]:${JSON.stringify(obj.innerHTML)}`;
-    TRACE += tmpl;
+    MSG += tmpl;
     return obj
 };
 var TRACE_each_VGrp_StyObj_ = function (obj, ndx, col) {
     var tmpl = `\n-> S[${ndx}]:${JSON.stringify(R.prop('name', obj))}`;
-    TRACE += tmpl;
+    MSG += tmpl;
     return obj
 };
 var TRACE_eachOf_3_VGrps_ = function TRACE_eachOf_3_VGrps_(VGrp_SO, VrsList) {
     var tmpl = ` SO:[${R.prop('name', VGrp_SO)}], VO:[${R.prop('className', VrsList)}]`;
-    TRACE += `\n-> ${tmpl}, , ... `;
+    MSG += `\n-> ${tmpl}, , ... `;
     var ret = R_forEachIndexed(TRACE_each_VGrp_StyObj_, VGrp_SO);
     ret = R_forEachIndexed(TRACE_each_VGrp_VrsObj_, VrsList);
     return ret
 };
-
 
 /**
  * tst_fn_FOR_VGrp_Style_List_AND_VGrp_Verse_List_FROM_VGrp_List
@@ -86,25 +85,29 @@ var TRACE_eachOf_3_VGrps_ = function TRACE_eachOf_3_VGrps_(VGrp_SO, VrsList) {
 var tst_fn_FOR_VGrp_Style_List_AND_VGrp_Verse_List_FROM_VGrp_List = function (tst = false) {
     if (tst) {
         var tstCode, tmpl, ret;
-        TRACE = 'tst_fn_FOR_....';
+        MSG = 'tst_fn_FOR_....';
         var tstVGrp_List = COMBINE_VGrp_Style_List_AND_VGrp_Verse_List_INTO_VGrp_List(
             StyleConstants, VG_AR
         );
-        var tstCallBack_ = (list) => {
+        var R_forEachVerseNode_ = function (CallBack_, list) {
+            return R_forEachIndexed(CallBack_, VrsList);
+        };
+        var R_forEachVGrp = function (list) {  //:: [] ->
             var [VGrp_SO, VGrp_V] = list; // UNPACK both style and verses VGrps.
             var VrsList = CONVERT_VGrp_Vrs_TO_Vrs_(VGrp_V);
-            // TRACING
-            R_forEachIndexed(TRACE_each_VGrp_VrsObj_, VrsList);
-            // NEW CODE::(SO, [Vo]) -> [VO]
         };
         // ---------------  tstCode
         tstCode = (list) => {
-            return R_forEachIndexed(tstCallBack_, list); //-> orig list
+            return R.pipe(
+                // ::
+                COMBINE_VGrp_Style_List_AND_VGrp_Verse_List_INTO_VGrp_List(list)
+                // -> [[so, vo], [s,o], [so,vo]]
+            );
         };
         //INVOKE tstCode
         ret = tstCode(tstVGrp_List);
         // TRACE TRACE
-        C_Both(TRACE);
+        C_Both(MSG);
 
     }
 };
