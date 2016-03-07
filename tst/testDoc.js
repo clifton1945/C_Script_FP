@@ -164,33 +164,6 @@ var tst_SEPARATE_StyleConst_BY_VGrpClass_INTO_List = function (tst = false) {
     }
 };
 
-///**
-// * coll_len_gt_1()
-// * :: collection -> Bool: t | f
-// * @param coll
-// * @returns {*}
-// */
-//const coll_len_gt_1 = function coll_len_gt_1(coll) {
-//    var f = R.pipe(
-//        R.prop('length')
-//        , R.dec
-//        , R.lt(2)
-//        //TRACE(x=>x)
-//    );
-//    return f(coll)
-//};
-//var tst_coll_len_gt_1 = function tst_coll_len_gt_1(tst = false) {
-//    if (tst) {
-//        C_Both('\n---- tst_coll_len_gt_1, EXP NO FAIL. ');
-//        // TEST: coll_len_gt_1(nodelist)
-//        console.assert(coll_len_gt_1(V_FUT_NL) && R.not(coll_len_gt_1(V_PST_NL))
-//            , "EXPFUT:true && PST:false");
-//        // TEST: coll_len_gt_1(Array of nodes)
-//        console.assert(coll_len_gt_1(V_FUT_Ar) && R.not(coll_len_gt_1(V_PST_Ar))
-//            , "FUT:true && PST:false");
-//    }
-//};
-
 /**
  * CHANGE_VerseNodeStyle() ::
  * CODE BEGINNING, SIMPLE node:: styleProperty, styleValue, node -> node CHANGED
@@ -273,6 +246,33 @@ main();
 //SET_All_Verse_Styles(V_Grp_NL_);
 BindHandlers(book);
 
+
+/**
+ * DEPRECATED UNTIL KNOW WHY I NEEDED THIS .. coll_len_gt_1()
+ * :: collection -> Bool: t | f
+ * @param coll
+ * @returns {*}
+ */
+//const coll_len_gt_1 = function coll_len_gt_1(coll) {
+//    var f = R.pipe(
+//        R.prop('length')
+//        , R.dec
+//        , R.lt(2)
+//        //TRACE(x=>x)
+//    );
+//    return f(coll)
+//};
+//var tst_coll_len_gt_1 = function tst_coll_len_gt_1(tst = false) {
+//    if (tst) {
+//        C_Both('\n---- tst_coll_len_gt_1, EXP NO FAIL. ');
+//        // TEST: coll_len_gt_1(nodelist)
+//        console.assert(coll_len_gt_1(V_FUT_NL) && R.not(coll_len_gt_1(V_PST_NL))
+//            , "EXPFUT:true && PST:false");
+//        // TEST: coll_len_gt_1(Array of nodes)
+//        console.assert(coll_len_gt_1(V_FUT_Ar) && R.not(coll_len_gt_1(V_PST_Ar))
+//            , "FUT:true && PST:false");
+//    }
+//};
 
 /**
  *    --------------- OLD  CODE FOR STYLING Verses  ------------
