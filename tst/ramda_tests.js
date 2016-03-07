@@ -14,12 +14,14 @@
 "use strict";
 
 /**
+ * todo  broken 20160307
  * ***** TEST FRAMEWORK **************
  *   a Dashboard for selecting tests,
  */
 function main() {
-    let all = true;
-    tst_SEPARATE_StyleConst_BY_VGrpClass_INTO_List(true);
+    var all = false;
+    tst_R_MapObjIndex_AND_R_forEachIndexed(true);
+    tst_SEPARATE_StyleConst_BY_VGrpClass_INTO_List(all);
     tst_R_zip_AND_derivatives(all);
     tst_R_map_AND_forEach_derivatives(all);
     tst_R_set(all);
@@ -74,6 +76,27 @@ const R_node2Obj = function (val, key, arr) {
 //        // ....tst_SEPARATE_StyleConst_BY_VGrpClass_INTO_List-> [{"name":"pst","smlWt":0.4,"lrgWt":0.95}, ....]
 //    }
 //};
+
+
+var tst_R_MapObjIndex_AND_R_forEachIndexed = function (tst = false) {
+    var V_GrpsNL = GET_V_Grp_NL(book);
+    var V_GrpsAr = [...GET_V_Grp_NL(book)];
+
+    function fn(StyleConstants, V_GrpsNL) {
+        var a = R.mapObjIndexed(
+            SELECT_StyleConstants_FOR_each_VerseGrp
+            , V_GrpsAr
+        );
+        var b = R_forEachIndexed(
+            SELECT_StyleConstants_FOR_each_VerseGrp
+            , V_GrpsAr
+        );
+        C_Both(b);
+        console.assert(R.isArray(a, b, `EXP ${a} === ${b}`));
+        console.assert(R.equals(a, b, `EXP ${a} === ${b}`));
+        return a
+    }
+};
 
 /**
  * tst_R_map_AND_forEach_derivatives
