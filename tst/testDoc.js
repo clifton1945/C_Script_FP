@@ -55,7 +55,7 @@ const COMBINE_VGrp_Style_List_AND_VGrp_Verse_List_INTO_VGrp_List = function () {
 };
 
 /**
- *   --------------- TESTS --------------------------
+ *   --------------- CURRENT TEST --------------------------
  * */
 /**
  * tst_fn_FOR_VGrp_Style_List_AND_VGrp_Verse_List_FROM_VGrp_List
@@ -110,7 +110,9 @@ var tst_fn_FOR_VGrp_Style_List_AND_VGrp_Verse_List_FROM_VGrp_List = function (ts
     }
 };
 
-
+/**
+ *   --------------- TESTS --------------------------
+ * */
 /**
  * tst_COMBINE_VGrp_Style_List_AND_VGrp_Verse_List_INTO_VGrp_List
  * @param tst
