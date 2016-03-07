@@ -7,6 +7,7 @@ var BindHandlers = function BindHandlers(book)
     //document.addEventListener("keydown", keysPressed, false);
     document.addEventListener("keyup", keyActions, false);
     function keyActions(e) {
+        var V_Grp_NL;
         // read Last Chapter
         if (e.keyCode == 37) {
             //e.stopPropagation();

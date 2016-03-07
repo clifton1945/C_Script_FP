@@ -3,24 +3,10 @@
     <properties>
       <sourceFilesUrls>
         <item url="file://$PROJECT_DIR$/tst/testDoc-compiled.js" />
-        <item url="file://$PROJECT_DIR$/tst/READ_Grp_tests-compiled.js" />
-        <item url="file://$PROJECT_DIR$/tst/ramda_tests-compiled.js" />
-        <item url="file://$PROJECT_DIR$/tst/STYLE_Verses_TESTS-compiled.js" />
-        <item url="file://$PROJECT_DIR$/src/functions-compiled.js" />
-        <item url="file://$PROJECT_DIR$/src/objects-compiled.js" />
-        <item url="file://$PROJECT_DIR$/main-compiled.js" />
-        <item url="file://$PROJECT_DIR$/src/STYLE_Verses-compiled.js" />
       </sourceFilesUrls>
     </properties>
     <CLASSES>
       <root url="file://$PROJECT_DIR$/tst/testDoc-compiled.js" />
-      <root url="file://$PROJECT_DIR$/tst/READ_Grp_tests-compiled.js" />
-      <root url="file://$PROJECT_DIR$/tst/ramda_tests-compiled.js" />
-      <root url="file://$PROJECT_DIR$/tst/STYLE_Verses_TESTS-compiled.js" />
-      <root url="file://$PROJECT_DIR$/src/functions-compiled.js" />
-      <root url="file://$PROJECT_DIR$/src/objects-compiled.js" />
-      <root url="file://$PROJECT_DIR$/main-compiled.js" />
-      <root url="file://$PROJECT_DIR$/src/STYLE_Verses-compiled.js" />
     </CLASSES>
     <SOURCES />
   </library>
