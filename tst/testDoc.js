@@ -69,22 +69,13 @@ var TRACE_each_VGrp_StyObj_ = function (obj, ndx, col) {
     TRACE += tmpl;
     return obj
 };
-
-/**
- * TRACE_each_VerseNode
- * @param obj
- * @param ndx
- * @param col
- * @return {*}
- */
-function TRACE_eachOf_3_VGrps_extracted(VGrp_SO, VrsList) {
-    var tmpl = ` SO:[${R.prop('name', VGrp_SO)}], VO:[${R.prop('className', VGrp_V)}]`;
+var TRACE_eachOf_3_VGrps_ = function TRACE_eachOf_3_VGrps_(VGrp_SO, VrsList) {
+    var tmpl = ` SO:[${R.prop('name', VGrp_SO)}], VO:[${R.prop('className', VrsList)}]`;
     TRACE += `\n-> ${tmpl}, , ... `;
     var ret = R_forEachIndexed(TRACE_each_VGrp_StyObj_, VGrp_SO);
     ret = R_forEachIndexed(TRACE_each_VGrp_VrsObj_, VrsList);
     return ret
-}
-
+};
 
 
 /**
@@ -94,20 +85,21 @@ function TRACE_eachOf_3_VGrps_extracted(VGrp_SO, VrsList) {
  */
 var tst_fn_FOR_VGrp_Style_List_AND_VGrp_Verse_List_FROM_VGrp_List = function (tst = false) {
     if (tst) {
-        var tstCode, tmpl, ret, TRACE = 'tst_fn_FOR_....';
+        var tstCode, tmpl, ret;
+        TRACE = 'tst_fn_FOR_....';
         var tstVGrp_List = COMBINE_VGrp_Style_List_AND_VGrp_Verse_List_INTO_VGrp_List(
             StyleConstants, VG_AR
         );
-        var cut = (list) => {
+        var tstCallBack_ = (list) => {
             var [VGrp_SO, VGrp_V] = list; // UNPACK both style and verses VGrps.
             var VrsList = CONVERT_VGrp_Vrs_TO_Vrs_(VGrp_V);
             // TRACING
-            ret = R_forEachIndexed(TRACE_each_VGrp_VrsObj_, VGrp_V);
-            return ret
+            R_forEachIndexed(TRACE_each_VGrp_VrsObj_, VrsList);
+            // NEW CODE::(SO, [Vo]) -> [VO]
         };
         // ---------------  tstCode
         tstCode = (list) => {
-            return R_forEachIndexed(cut_, list); //-> orig list
+            return R_forEachIndexed(tstCallBack_, list); //-> orig list
         };
         //INVOKE tstCode
         ret = tstCode(tstVGrp_List);
