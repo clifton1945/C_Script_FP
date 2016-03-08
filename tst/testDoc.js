@@ -48,14 +48,15 @@ const TRANSFORM_VerseGrps_NL_INTO_Verse_HTML_Coll = function (NL) {
     return R.map(f_, NL);
 };
 
-const CONVERT_VGrp_Vrs_TO_Vrs_ = function (grp_obj) {
-    return R.prop('children', grp_obj)
-};
-
 const COMBINE_VGrp_Style_List_AND_VGrp_Verse_List_INTO_VGrp_List = R.curry(
     function SOL_VL_TO_L_(SO_L, VG_L) {
         return R.zip(SO_L, VG_L)
     });
+
+const CONVERT_VGrp_Vrs_TO_Vrs_ = function (grp_obj) {
+    return R.prop('children', grp_obj)
+};
+
 
 /**
  *   --------------- CURRENT TEST --------------------------
@@ -73,16 +74,19 @@ var tst_fn_FOR_VGrp_Style_List_AND_VGrp_Verse_List_FROM_VGrp_List = function (ts
         var listLength_ = (l)=> {
             MSG += `   List.len: ${l.length}, `;
         };  // return is thrown away - so forget return
-        var dLo_SO_VL_ = function (SC, NL) { // -> [[],[],[]]
-            R.tap(listLength_
-            ,COMBINE_VGrp_Style_List_AND_VGrp_Verse_List_INTO_VGrp_List(
+
+        var dLo_SO_VL_ = function dLo_SO_VL_(SC, NL) {
+            COMBINE_VGrp_Style_List_AND_VGrp_Verse_List_INTO_VGrp_List(
                 R.tap(listLength_
-                    ,SEPARATE_StyleConst_BY_VGrpClass_INTO_List(SC))));
-            return COMBINE_VGrp_Style_List_AND_VGrp_Verse_List_INTO_VGrp_List(
-                TRANSFORM_VerseGrps_NL_INTO_Verse_HTML_Coll(NL))
+                    ,SEPARATE_StyleConst_BY_VGrpClass_INTO_List(SC))
+            );
+            COMBINE_VGrp_Style_List_AND_VGrp_Verse_List_INTO_VGrp_List(
+                R.tap(listLength_
+                    , TRANSFORM_VerseGrps_NL_INTO_Verse_HTML_Coll(NL)));
+            //-> tst_Code....   List.len: 3,    List.len: 1,    List.len: 3,    List.len: 1,
         };
         //INVOKE tstCode
-        var ret = R.tap(listLength_
+        var RET = R.tap(listLength_
             , dLo_SO_VL_(StyleConstants, VG_NL));
         // TRACE TRACE
         C_Both(MSG);
