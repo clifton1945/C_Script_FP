@@ -60,6 +60,10 @@ const CONVERT_VGrp_Vrs_TO_Vrs_ = function (grp_obj) {
  *   --------------- CURRENT TEST --------------------------
  * */
 
+// TESTING
+//var curried_dLo_L_AND_L_ = R.curry(dLo_SC_L_AND_V_L_);
+
+
 /**
  * tst_fn_FOR_VGrp_Style_List_AND_VGrp_Verse_List_FROM_VGrp_List
  * NOTE: IN js, UNPACKING IS CALLED Destructuring
@@ -67,68 +71,74 @@ const CONVERT_VGrp_Vrs_TO_Vrs_ = function (grp_obj) {
  */
 var tst_fn_FOR_VGrp_Style_List_AND_VGrp_Verse_List_FROM_VGrp_List = function (tst = false) {
     if (tst) {
-        MSG = 'tst_Code....';
-        // TRACE FUNCTIONS
-        var listLength_ = (l)=> {
-            MSG += `   List.len: ${l.length}, `;
-        };  // return is thrown away - so forget return
-        // TEST DATA: GLOBALS VR_NL && StyleConstants
+        var tstCode = function () {
+            MSG = 'tst_Code....';
+            // TRACE FUNCTIONS
+            var listLength_ = (l)=> {
+                MSG += `   List.len: ${l.length}, `;
+            };  // return is thrown away - so forget return
+            // TEST DATA: GLOBALS VR_NL && StyleConstants
 
-        // TESTING
-        var curried_dLo_L_AND_L_ = R.curry(dLo_SC_L_AND_V_L_);
-        var dLo_SC_L_AND_L_ = curried_dLo_L_AND_L_(SEPARATE_StyleConst_BY_VGrpClass_INTO_List(StyleConstants));
-        var dLo_SC_L_AND_V_L_ = dLo_SC_L_AND_L_(TRANSFORM_VerseGrps_NL_INTO_Verse_HTML_Coll(VL_NL));
-        //INVOKE tstCode
-        var RET = R.tap(listLength_
-            , dLo_SC_L_AND_V_L_());
-        // TRACE TRACE
-        C_Both(MSG);
+            // TESTING
+            //var curried_dLo_L_AND_L_ = R.curry(dLo_SC_L_AND_V_L_);
+            var addFourNumbers = (a, b, c, d) => a + b + c + d;
+            var R_curriedAddFourNumbers = R.curry(addFourNumbers);
+//var dLo_SC_L_AND_L_ = curried_dLo_L_AND_L_(SEPARATE_StyleConst_BY_VGrpClass_INTO_List(StyleConstants));
+//var dLo_SC_L_AND_V_L_ = dLo_SC_L_AND_L_(TRANSFORM_VerseGrps_NL_INTO_Verse_HTML_Coll(VL_NL));
+//INVOKE tstCode
+//var RET = curried_dLo_L_AND_L_;
+            var RET = R_curriedAddFourNumbers;
+            RET = RET(2, 3, 4);
+            RET = RET(100);            // TRACE TRACE
+            C_Both(MSG);
+        };
+        tstCode();
     }
 };
 
 /**
  *   --------------- OTHER TESTS --------------------------
  * */
-var TRACE_each_VGrp_VrsObj_ = function (obj, ndx, col) {
-    var tmpl = `\n    V[${ndx}]:${JSON.stringify(obj.innerHTML)}`;
-    MSG += tmpl;
-    return obj
-};
-var TRACE_each_VGrp_StyObj_ = function (obj, ndx, col) {
-    var tmpl = `\n-> S[${ndx}]:${JSON.stringify(R.prop('name', obj))}`;
-    MSG += tmpl;
-    return obj
-};
-var TRACE_eachOf_3_VGrps_ = function TRACE_eachOf_3_VGrps_(VGrp_SO, VrsList) {
-    var tmpl = ` SO:[${R.prop('name', VGrp_SO)}], VO:[${R.prop('className', VrsList)}]`;
-    MSG += `\n-> ${tmpl}, , ... `;
-    var ret = R_forEachIndexed(TRACE_each_VGrp_StyObj_, VGrp_SO);
-    ret = R_forEachIndexed(TRACE_each_VGrp_VrsObj_, VrsList);
-    return ret
-};
-///**
-// * tst_COMBINE_VGrp_Style_List_AND_VGrp_Verse_List_INTO_VGrp_List
-// * @param tst
-// */
-//var tst_COMBINE_VGrp_Style_List_AND_VGrp_Verse_List_INTO_VGrp_List = function (tst = false) {
-//    if (tst) {
-//        var f_, tstCode, ret, exp
-//            , TRACE = 'tst_COMBINE_VGrp_Style_List_AND_VGrp_Verse_List_INTO_VGrp_List';
-//
-//        tstCode = function () {
-//            ret = COMBINE_VGrp_Style_List_AND_VGrp_Verse_List_INTO_VGrp_List();
-//            var a = R.isArrayLike(ret);
-//            var b = R.length(ret);
-//            console.assert(a && b === 3
-//                , `_____EXP isArrayLike[${a}] && length[${b}]== 3:almost impossible to fail this.`);
-//            //TRACE += ` -> ${JSON.stringify(ret)}, `;
-//            return TRACE
-//        };
-//        // TRACE TRACE
-//        C_Both(tstCode());
-//        // tst_COMBINE_VGrp_Style_List_AND_VGrp_Verse_List_INTO_VGrp_List->
-//    }
+//var TRACE_each_VGrp_VrsObj_ = function (obj, ndx, col) {
+//    var tmpl = `\n    V[${ndx}]:${JSON.stringify(obj.innerHTML)}`;
+//    MSG += tmpl;
+//    return obj
 //};
+//var TRACE_each_VGrp_StyObj_ = function (obj, ndx, col) {
+//    var tmpl = `\n-> S[${ndx}]:${JSON.stringify(R.prop('name', obj))}`;
+//    MSG += tmpl;
+//    return obj
+//};
+//var TRACE_eachOf_3_VGrps_ = function TRACE_eachOf_3_VGrps_(VGrp_SO, VrsList) {
+//    var tmpl = ` SO:[${R.prop('name', VGrp_SO)}], VO:[${R.prop('className', VrsList)}]`;
+//    MSG += `\n-> ${tmpl}, , ... `;
+//    var ret = R_forEachIndexed(TRACE_each_VGrp_StyObj_, VGrp_SO);
+//    ret = R_forEachIndexed(TRACE_each_VGrp_VrsObj_, VrsList);
+//    return ret
+//};
+/////**
+//// * tst_COMBINE_VGrp_Style_List_AND_VGrp_Verse_List_INTO_VGrp_List
+//// * @param tst
+//// */
+////var tst_COMBINE_VGrp_Style_List_AND_VGrp_Verse_List_INTO_VGrp_List = function (tst = false) {
+////    if (tst) {
+////        var f_, tstCode, ret, exp
+////            , TRACE = 'tst_COMBINE_VGrp_Style_List_AND_VGrp_Verse_List_INTO_VGrp_List';
+////
+////        tstCode = function () {
+////            ret = COMBINE_VGrp_Style_List_AND_VGrp_Verse_List_INTO_VGrp_List();
+////            var a = R.isArrayLike(ret);
+////            var b = R.length(ret);
+////            console.assert(a && b === 3
+////                , `_____EXP isArrayLike[${a}] && length[${b}]== 3:almost impossible to fail this.`);
+////            //TRACE += ` -> ${JSON.stringify(ret)}, `;
+////            return TRACE
+////        };
+////        // TRACE TRACE
+////        C_Both(tstCode());
+////        // tst_COMBINE_VGrp_Style_List_AND_VGrp_Verse_List_INTO_VGrp_List->
+////    }
+////};
 
 ///**
 // * tst_SEPARATE_StyleConst_BY_VGrpClass_INTO_List
@@ -237,7 +247,7 @@ var TRACE_eachOf_3_VGrps_ = function TRACE_eachOf_3_VGrps_(VGrp_SO, VrsList) {
 //  ------------------ INVOkE TEST ------------
 main();
 //SET_All_Verse_Styles(V_Grp_NL_);
-BindHandlers(book);
+//BindHandlers(book);
 
 
 /**
