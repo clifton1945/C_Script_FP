@@ -52,25 +52,46 @@ const CONVERT_VGrp_Vrs_TO_Vrs_ = function (grp_obj) {
     return R.prop('children', grp_obj)
 };
 
-const COMBINE_VGrp_Style_List_AND_VGrp_Verse_List_INTO_VGrp_List = function () {
-    // TRACING
-    var so = TRANSFORM_VGrp_NL_INTO_Vrs_List();
-    var vo = VG_AR;
-    var ret = R.zip(so, vo);
-    MSG += `   styleGrp:${
-        R.prop('name', R.prop('2', so))
-        }, verseGrp:${
-        R.prop('className', R.prop('2', vo))
-        }`;
-    //  PRODUCTION
-    return R.zip(
-        TRANSFORM_VGrp_NL_INTO_Vrs_List()
-        , VG_AR
-    );
-};
+const COMBINE_VGrp_Style_List_AND_VGrp_Verse_List_INTO_VGrp_List = R.curry(
+    function SOL_VL_TO_L_(SO_L, VG_L) {
+        return R.zip(SO_L, VG_L)
+    });
 
 /**
  *   --------------- CURRENT TEST --------------------------
+ * */
+
+/**
+ * tst_fn_FOR_VGrp_Style_List_AND_VGrp_Verse_List_FROM_VGrp_List
+ * NOTE: IN js, UNPACKING IS CALLED Destructuring
+ * @param tst
+ */
+var tst_fn_FOR_VGrp_Style_List_AND_VGrp_Verse_List_FROM_VGrp_List = function (tst = false) {
+    if (tst) {
+        MSG = 'tst_Code....';
+        // TRACE FUNCTIONS
+        var listLength_ = (l)=> {
+            MSG += `   List.len: ${l.length}, `;
+        };  // return is thrown away - so forget return
+        var dLo_SO_VL_ = function (SC, NL) { // -> [[],[],[]]
+            R.tap(listLength_
+            ,COMBINE_VGrp_Style_List_AND_VGrp_Verse_List_INTO_VGrp_List(
+                R.tap(listLength_
+                    ,SEPARATE_StyleConst_BY_VGrpClass_INTO_List(SC))));
+            return COMBINE_VGrp_Style_List_AND_VGrp_Verse_List_INTO_VGrp_List(
+                TRANSFORM_VerseGrps_NL_INTO_Verse_HTML_Coll(NL))
+        };
+        //INVOKE tstCode
+        var ret = R.tap(listLength_
+            , dLo_SO_VL_(StyleConstants, VG_NL));
+        // TRACE TRACE
+        C_Both(MSG);
+
+    }
+};
+
+/**
+ *   --------------- OTHER TESTS --------------------------
  * */
 var TRACE_each_VGrp_VrsObj_ = function (obj, ndx, col) {
     var tmpl = `\n    V[${ndx}]:${JSON.stringify(obj.innerHTML)}`;
@@ -89,50 +110,6 @@ var TRACE_eachOf_3_VGrps_ = function TRACE_eachOf_3_VGrps_(VGrp_SO, VrsList) {
     ret = R_forEachIndexed(TRACE_each_VGrp_VrsObj_, VrsList);
     return ret
 };
-
-/**
- * tst_fn_FOR_VGrp_Style_List_AND_VGrp_Verse_List_FROM_VGrp_List
- * NOTE: IN js, UNPACKING IS CALLED Destructuring
- * @param tst
- */
-var tst_fn_FOR_VGrp_Style_List_AND_VGrp_Verse_List_FROM_VGrp_List = function (tst = false) {
-    if (tst) {
-        //LOCAL VARS
-        var tstCode, tmpl, ret;
-        //var tstVGrp_List = COMBINE_VGrp_Style_List_AND_VGrp_Verse_List_INTO_VGrp_List(
-        //    StyleConstants, VG_AR);
-        // ---------------  LOCAL TEST CODE
-        tstCode = () => { //(()->
-            MSG = 'tst_Code....';
-            // TRACE FUNCTIONS
-            var listLength_ = (l)=> {
-                MSG += `   List.len: ${l.length}, `;
-            };  // return is thrown away - so forget return
-            var curredFunction = (fn) => JSON.stringify(fn);
-            var tst_ = function tst_ (soLst, voLst) {
-                function inner(soLst, voLst) {
-                    return console.log(' inside tst func')
-                }
-            };
-            var tst = R.curry(tst_);
-            return R.pipe(
-                R.tap(listLength_
-                    , SEPARATE_StyleConst_BY_VGrpClass_INTO_List(StyleConstants)
-                )
-                , tst()
-            );
-        };
-        //INVOKE tstCode
-        ret = tstCode();
-        // TRACE TRACE
-        C_Both(MSG);
-
-    }
-};
-
-/**
- *   --------------- OTHER TESTS --------------------------
- * */
 ///**
 // * tst_COMBINE_VGrp_Style_List_AND_VGrp_Verse_List_INTO_VGrp_List
 // * @param tst
