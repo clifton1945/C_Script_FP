@@ -44,8 +44,8 @@ const SEPARATE_StyleConst_BY_VGrpClass_INTO_List = function (StyObj) {
  * @constructor
  */
 const TRANSFORM_VGrp_NL_INTO_Vrs_List = function (NL) {
-    let f_ = (obj)=> NL.children;
-    return R.map(f_, NL);
+    let f_ = (val, key, obj)=> NL[key].children;
+    return R_forEachIndexed(f_, NL);
 };
 
 /**
@@ -68,6 +68,7 @@ var tst_fn_FOR_VGrp_Style_List_AND_VGrp_Verse_List_FROM_VGrp_List = function (ts
         };  // return is thrown away - so forget return
         // TEST DATA: GLOBALS VR_NL && StyleConstants
         // TESTING
+
         var dLo_SC_L_AND_V_L_ = function dLo_SC_L_AND_V_L_(SC_L, VG_L) {
             return R.zip(SC_L, VG_L)
         };
@@ -75,7 +76,7 @@ var tst_fn_FOR_VGrp_Style_List_AND_VGrp_Verse_List_FROM_VGrp_List = function (ts
         var RET = R_curried_dLo_L_AND_L_;
         var RET = RET(SEPARATE_StyleConst_BY_VGrpClass_INTO_List(StyleConstants));
         var RET = RET(TRANSFORM_VGrp_NL_INTO_Vrs_List(VG_NL));
-        C_Both(RET);
+        C_Both(R.tap(listLength_, RET));
         // TRACE TRACE
         C_Both(MSG);
     };
