@@ -30,11 +30,7 @@ var MSG = '';
 /**
  *   --------------- TEST REQUIRED FUNCTIONS  --------------------------
  * */
-/**
- * TRANSFORM_VGrp_NL_INTO_Vrs_List:: {} -> []
- * @returns {*}
- * @constructor
- */
+
 const SEPARATE_StyleConst_BY_VGrpClass_INTO_List = function (StyObj) {
     var PST = 0, CUR = 1, FUT = 2;
     let f_ = (n)=> {
@@ -42,7 +38,12 @@ const SEPARATE_StyleConst_BY_VGrpClass_INTO_List = function (StyObj) {
     };
     return R.map(f_, [PST, CUR, FUT]);  // note GIVEN LIST:[INT] -> [OBJ]
 };
-const TRANSFORM_VerseGrps_NL_INTO_Verse_HTML_Coll = function (NL) {
+/**
+ * TRANSFORM_VGrp_NL_INTO_Vrs_List:: {} -> []
+ * @returns {*}
+ * @constructor
+ */
+const TRANSFORM_VGrp_NL_INTO_Vrs_List = function (NL) {
     let f_ = (obj)=> NL.children;
     return R.map(f_, NL);
 };
@@ -73,7 +74,7 @@ var tst_fn_FOR_VGrp_Style_List_AND_VGrp_Verse_List_FROM_VGrp_List = function (ts
         var R_curried_dLo_L_AND_L_ = R.curry(dLo_SC_L_AND_V_L_);
         var RET = R_curried_dLo_L_AND_L_;
         var RET = RET(SEPARATE_StyleConst_BY_VGrpClass_INTO_List(StyleConstants));
-        var RET = RET(TRANSFORM_VerseGrps_NL_INTO_Verse_HTML_Coll(VG_NL));
+        var RET = RET(TRANSFORM_VGrp_NL_INTO_Vrs_List(VG_NL));
         C_Both(RET);
         // TRACE TRACE
         C_Both(MSG);
