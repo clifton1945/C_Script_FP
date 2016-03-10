@@ -58,6 +58,9 @@ const TRANSFORM_VGrp_NL_INTO_Vrs_List = function (NL) {
 /**
  *   --------------- CURRENT TEST --------------------------
  * */
+
+// TESTING
+//var curried_dLo_L_AND_L_ = R.curry(dLo_SC_L_AND_V_L_);
 /**
  * tst_MESS_WITH_DOM
  * NOTE: IN js, UNPACKING IS CALLED Destructuring
@@ -91,11 +94,12 @@ tst_MESS_WITH_DOM = function (tst = false) {
             }
         );
 
-        // Make all fut verses to light green
+        // STYLE all (cls) verses TO  light green
         var V_Grp_Tmpl = '.book .ChptrReadGrps .cur  .VerseReadGrps > .fut';
+        var SET_V_Grp_Tmpl_ = (cls) => `.book .ChptrReadGrps .cur  .VerseReadGrps > .${cls}`;
 
         R.pipe(
-            cssQuery(V_Grp_Tmpl),
+            cssQuery(SET_V_Grp_Tmpl_ ('cur')),
             R.map(setStyle(
                 {
                     backgroundColor: "rgba(145, 248, 29, 0.29)"
