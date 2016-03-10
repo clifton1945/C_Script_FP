@@ -21,17 +21,85 @@ function main() {
 //  *********** DOM  DATA    REQUIRE functions.js
 var book = GET_book();
 var V_Grp_Tmpl = '.book .ChptrReadGrps .cur  .VerseReadGrps > div';
-var VG_NL = GET_V_Grp_NL(GET_book());
-var VG_AR = [...VG_NL];
-var C_Grp_NL = GET_C_Grp_NL(book);
-var V_Grp_NL_ = GET_V_Grp_NL(book);
-var Tst_DivFut_Vrs4 = V_Grp_NL_.item(2).children.item(5);
+//var VG_NL = GET_V_Grp_NL(GET_book());
+//var VG_AR = [...VG_NL];
+//var C_Grp_NL = GET_C_Grp_NL(book);
+//var V_Grp_NL_ = GET_V_Grp_NL(book);
+//var Tst_DivFut_Vrs4 = V_Grp_NL_.item(2).children.item(5);
 var MSG = '';
 
+
 /**
- *   --------------- TEST REQUIRED FUNCTIONS  --------------------------
+ *   --------------- CURRENT TEST --------------------------
  * */
 
+// TESTING
+//var curried_dLo_L_AND_L_ = R.curry(dLo_SC_L_AND_V_L_);
+/**
+ * tst_MESS_WITH_DOM
+ * NOTE: IN js, UNPACKING IS CALLED Destructuring
+ * @param tst
+ */
+var tst_MESS_WITH_DOM;
+tst_MESS_WITH_DOM = function (tst = false) {
+    var tstCode = function () {
+        MSG = 'tst_MESS_WITH_DOM ....';
+        // TRACE FUNCTIONS
+        var listLength_ = (l)=> {
+            MSG += `   List.len: ${l.length}, `;
+        };  // return is thrown away - so forget return
+
+        // TESTING CODE SET multiple Attributes AT one time.
+        /**
+         * SET Selector Verses Class
+         * @param cls
+         * @constructor
+         * @private
+         *
+         * WAS BEFORE this function       //var V_Grp_Tmpl = '.book .ChptrReadGrps .cur  .VerseReadGrps > .fut';
+         */
+        var SET_V_Grp_Tmpl_ = (cls) => ` .cur  .VerseReadGrps > .${cls}`;
+
+        /**
+         * Get all descendants that match selector
+         * cssQuery :: String -> Node -> NodeList
+         * Note: NodeList is array-like so you can run ramda list functions on it.
+         */
+        var cssQuery = R.invoker(1, 'querySelectorAll');
+
+        /**
+         * Mutate style properties on an element
+         */
+        var setStyle = R.curry(
+            (value, node) => {
+                return Object.assign(
+                    node.style, value)
+            }
+        );
+
+        // STYLE all (cls) verses TO  light green
+        R.pipe(
+            cssQuery(SET_V_Grp_Tmpl_ ('pst')),
+            R.map(setStyle(
+                {
+                    backgroundColor: "rgba(145, 248, 29, 0.29)"
+                    , opacity: ".5"
+                    , fontSize: "50%"
+                }))
+        )(document);
+
+        C_Both(MSG);
+    };
+    tstCode();
+};
+
+
+//  ------------------ INVOkE TEST ------------
+main();
+
+/**
+ *   --------------- TEST MAYBE USEFUL FUNCTIONS LATER --------------------------
+ * */
 /**
  * SEPARATE_StyleConst_BY_VGrpClass_INTO_List
  * @param StyObj
@@ -55,64 +123,3 @@ const TRANSFORM_VGrp_NL_INTO_Vrs_List = function (NL) {
     return R_forEachIndexed(f_, NL);
 };
 
-/**
- *   --------------- CURRENT TEST --------------------------
- * */
-
-// TESTING
-//var curried_dLo_L_AND_L_ = R.curry(dLo_SC_L_AND_V_L_);
-/**
- * tst_MESS_WITH_DOM
- * NOTE: IN js, UNPACKING IS CALLED Destructuring
- * @param tst
- */
-var tst_MESS_WITH_DOM;
-tst_MESS_WITH_DOM = function (tst = false) {
-    var tstCode = function () {
-        MSG = 'tst_MESS_WITH_DOM ....';
-        // TRACE FUNCTIONS
-        var listLength_ = (l)=> {
-            MSG += `   List.len: ${l.length}, `;
-        };  // return is thrown away - so forget return
-
-        // TESTING CODE SET multiple Attributes AT one time.
-
-        /**
-         * Get all descendants that match selector
-         * cssQuery :: String -> Node -> NodeList
-         * Note: NodeList is array-like so you can run ramda list functions on it.
-         */
-        var cssQuery = R.invoker(1, 'querySelectorAll');
-
-        /**
-         * Mutate style properties on an element
-         */
-        var setStyle = R.curry(
-            (value, node) => {
-                return Object.assign(
-                    node.style, value)
-            }
-        );
-
-        // STYLE all (cls) verses TO  light green
-        var V_Grp_Tmpl = '.book .ChptrReadGrps .cur  .VerseReadGrps > .fut';
-        var SET_V_Grp_Tmpl_ = (cls) => `.book .ChptrReadGrps .cur  .VerseReadGrps > .${cls}`;
-
-        R.pipe(
-            cssQuery(SET_V_Grp_Tmpl_ ('cur')),
-            R.map(setStyle(
-                {
-                    backgroundColor: "rgba(145, 248, 29, 0.29)"
-                    , opacity: ".5"
-                    , fontSize: "50%"
-                }))
-        )(document);
-
-        C_Both(MSG);
-    };
-    tstCode();
-};
-
-
-//  ------------------ INVOkE TEST ------------
-main();
