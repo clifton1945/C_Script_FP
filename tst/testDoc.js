@@ -59,7 +59,8 @@ const TRANSFORM_VGrp_NL_INTO_Vrs_List = function (NL) {
  * NOTE: IN js, UNPACKING IS CALLED Destructuring
  * @param tst
  */
-var tst_fn_FOR_VGrp_Style_List_AND_VGrp_Verse_List_FROM_VGrp_List = function (tst = false) {
+var tst_fn_FOR_VGrp_Style_List_AND_VGrp_Verse_List_FROM_VGrp_List;
+tst_fn_FOR_VGrp_Style_List_AND_VGrp_Verse_List_FROM_VGrp_List = function (tst = false) {
     var tstCode = function () {
         MSG = 'tst_Code....';
         // TRACE FUNCTIONS
@@ -74,11 +75,12 @@ var tst_fn_FOR_VGrp_Style_List_AND_VGrp_Verse_List_FROM_VGrp_List = function (ts
         };
         var R_curried_dLo_L_AND_L_ = R.curry(dLo_SC_L_AND_V_L_);
         var RET = R_curried_dLo_L_AND_L_;
-        var RET = RET(SEPARATE_StyleConst_BY_VGrpClass_INTO_List(StyleConstants));
-        var RET = RET(TRANSFORM_VGrp_NL_INTO_Vrs_List(VG_NL));
-        C_Both(R.tap(listLength_, RET));
+        RET = RET(SEPARATE_StyleConst_BY_VGrpClass_INTO_List(StyleConstants));
+        RET = RET(TRANSFORM_VGrp_NL_INTO_Vrs_List(VG_NL));
+        //
         // TRACE TRACE
         C_Both(MSG);
+        C_Both(R.tap(listLength_, RET));
     };
     tstCode();
 };
