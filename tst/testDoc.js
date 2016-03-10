@@ -19,22 +19,15 @@ function main() {
  * require functions-compiled.js, objects-compiled.js
  * */
 //  *********** DOM  DATA    REQUIRE functions.js
-var book = GET_book();
-var V_Grp_Tmpl = '.book .ChptrReadGrps .cur  .VerseReadGrps > div';
-//var VG_NL = GET_V_Grp_NL(GET_book());
-//var VG_AR = [...VG_NL];
-//var C_Grp_NL = GET_C_Grp_NL(book);
-//var V_Grp_NL_ = GET_V_Grp_NL(book);
-//var Tst_DivFut_Vrs4 = V_Grp_NL_.item(2).children.item(5);
-var MSG = '';
+//var book = GET_book();
+// DEPRECATE var V_Grp_Tmpl = '.book .ChptrReadGrps .cur  .VerseReadGrps > div';
+//var V_Grp_Tmpl = '.cur  .VerseReadGrps > div';
 
+var MSG = '';
 
 /**
  *   --------------- CURRENT TEST --------------------------
  * */
-
-// TESTING
-//var curried_dLo_L_AND_L_ = R.curry(dLo_SC_L_AND_V_L_);
 /**
  * tst_MESS_WITH_DOM
  * NOTE: IN js, UNPACKING IS CALLED Destructuring
@@ -45,13 +38,11 @@ tst_MESS_WITH_DOM = function (tst = false) {
     var tstCode = function () {
         MSG = 'tst_MESS_WITH_DOM ....';
         // TRACE FUNCTIONS
-        var listLength_ = (l)=> {
-            MSG += `   List.len: ${l.length}, `;
-        };  // return is thrown away - so forget return
 
         // TESTING CODE SET multiple Attributes AT one time.
+
         /**
-         * SET Selector Verses Class
+         * SET Template FOR Selector Verses Class
          * @param cls
          * @constructor
          * @private
@@ -68,6 +59,23 @@ tst_MESS_WITH_DOM = function (tst = false) {
         var cssQuery = R.invoker(1, 'querySelectorAll');
 
         /**
+         * SET Template OF Style Properties FOR this Verse
+         * @param opc opacity as 0 < Int <= 1.
+         * @param fs fontSize as  0< Int.
+         * @param col color as css.
+         * @returns {{backgroundColor: *, opacity: *, fontSize: *}}
+         * @constructor
+         * @private
+         */
+        var SET_Style_Tmpl_ = (opc=1,  fs=100, col=`rgba(145, 248, 29, 0.29)`) => {
+            return {
+                backgroundColor: `${col}`
+                    , opacity: `${opc}`
+                , fontSize: `${fs}%`
+            }
+        };
+
+        /**
          * Mutate style properties on an element
          */
         var setStyle = R.curry(
@@ -77,15 +85,14 @@ tst_MESS_WITH_DOM = function (tst = false) {
             }
         );
 
-        // STYLE all (cls) verses TO  light green
+        /**
+         * STYLE all (cls) verses BY Style Template
+         */
         R.pipe(
-            cssQuery(SET_V_Grp_Tmpl_ ('pst')),
+            cssQuery(SET_V_Grp_Tmpl_ ('fut')),
             R.map(setStyle(
-                {
-                    backgroundColor: "rgba(145, 248, 29, 0.29)"
-                    , opacity: ".5"
-                    , fontSize: "50%"
-                }))
+                SET_Style_Tmpl_(.6, 125)
+                ))
         )(document);
 
         C_Both(MSG);
