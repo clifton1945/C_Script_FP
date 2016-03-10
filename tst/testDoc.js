@@ -30,19 +30,29 @@ var MSG = '';
  * */
 /**
  * tst_MESS_WITH_DOM
- * NOTE: IN js, UNPACKING IS CALLED Destructuring
+ *
  * @param tst
  */
-var tst_MESS_WITH_DOM;
-tst_MESS_WITH_DOM = function (tst = false) {
+var tst_MESS_WITH_DOM = function (tst = false) {
     var tstCode = function () {
         MSG = 'tst_MESS_WITH_DOM ....';
         // TRACE FUNCTIONS
 
         // TESTING CODE SET multiple Attributes AT one time.
-
         /**
-         * SET Template FOR Selector Verses Class
+         * the Style Weight IS unique forEach VerseClass AND VerseNode.
+         * :: (StyleObj, VerseObj) -> Int: 0 < weight   though max should be near 1
+         * @constructor
+         * @private
+         * @param VClassStyleObj
+         * @param VObj
+         */
+        var CALC_VerseNode_Weight__ = (VClassStyleObj, VObj) => {
+                return 0.75    // TODO STUB
+        };
+        /**
+         * SET Template FOR Selector Verses Cls
+         * :: Str: Cls.class -> Str
          * @param cls
          * @constructor
          * @private
@@ -86,7 +96,16 @@ tst_MESS_WITH_DOM = function (tst = false) {
         );
 
         /**
-         * STYLE all (cls) verses BY Style Template
+         * STYLE a Verse IN a Verse Class AS a function OF Verse Class AND Verse Style Weight
+         *    this INCLUDES
+         *    select a Cls.class:: Str: pst||cur||fut
+         *    set StyleObj for this cls
+         *    set forEach verse in class
+         *      create a VerseObj::{node:, ndx:, coll:}
+         *      calc the style weight:: ( styleObj, VerseObj) -> Float: weight
+         *      set the style template
+         *      set the Node.style
+         *
          */
         R.pipe(
             cssQuery(SET_V_Grp_Tmpl_ ('fut')),

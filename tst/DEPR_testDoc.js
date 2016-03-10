@@ -165,7 +165,6 @@ tst_fn_FOR_VGrp_Style_List_AND_VGrp_Verse_List_FROM_VGrp_List = function (tst = 
 // * @param node
 // * @returns {*}
 // * @constructor
-// * TODO REFACT to CHANGE a list of style updates,
 // */
 //const CHANGE_VerseNodeStyle = function (propKey, propVal, node) {
 //    //R.assoc('color', 'red', node.style); // CHANGES copy NOT node
