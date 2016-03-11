@@ -70,55 +70,34 @@ var tst_MESS_WITH_DOM = function (tst = false) {
             return 0.75;    // FIX STUB
         };
 
+
+        var SET_Style_Tmpl_ = () => { };
+        // TEST
+
         /**
-         * SET Template OF Style Properties FOR this Verse
-         * :: StyleObj, Wt ->
-         * @param opc opacity as 0 < Int <= 1.
-         * @param fs fontSize as  0< Int.
-         * @param col color as css.
-         * @returns {{backgroundColor: *, opacity: *, fontSize: *}}
+         * SET Object OF Style Properties FOR this Verse
+         * :: StyleObj, Wt -> {}
+         * @returns {{}}
          * @constructor
          * @private
+         * @param propFrmt
+         * @param propName
          */
-        var SET_Style_Tmpl_ = (opc = 1, fs = 100, col = `rgba(145, 248, 29, 0.29)`) => {
-            return {
-                backgroundColor: `${col}`   // ! f(wt)
-                , opacity: `${opc}`         // f(wt)
-                , fontSize: `${fs}%`        // f(wt)
-            }
+        var SET_a_Style_Property_ = (propName, propFrmt) => {
+            return{[propName]: propFrmt};
         };
-
-        // TEST
-        // PLAN 160311 SET_a_Style_Property -> { object} AND USE mergeAll
-        //var SET_a_Style_Property_ = (fn, propName) =>  JSON.stringify(` ${propName}:${fn} `);// []
-        var SET_a_Style_Property_ = (fn, propName) => {
-            var o1 = {[propName]: fn};
-            //return JSON.stringify(o1)
-            return o1
-        }; // FIX
         // NOTE: JS DOM Nodes ARE Objects AND HAVE Properties;
         // NOTE:    DOM Nodes PROVIDES ACCESS TO HTML attributes.
         //          Node.StyleObjects HAVE Properties
-        //var tstStyleVal = [.4, .7 * 100, 'DeepSkyBlue'];//[]
-        //var SET_Style_Obj_ = (styKeys, styVals) => R.zipObj(styKeys, styVals);//{}
+
         MSG = ' SET_Style_Properties -> ';
         var fn = (w) =>  `${w}`;
-        var ret = SET_a_Style_Property_(
-            fn(.7), "opacity");
-        MSG += ret
-        ;
         var fn1 = (w) => `${ w * 100}%`;
-        MSG += SET_a_Style_Property_(fn1(.5), 'fontSize')
-        ;
-        var LoSProps = R.merge(SET_a_Style_Property_(
-                fn(.7), "opacity")
-            , []
-        );
-        LoSProps = R.merge(SET_a_Style_Property_(fn1(.5), 'fontSize')
-            , LoSProps
-        );
-        LoSProps = R.merge(SET_a_Style_Property_(fn('DeepSkyBlue'), 'color')
-            , LoSProps
+
+        var LoSProps = R.mergeAll(
+            [SET_a_Style_Property_("opacity", fn(.7)), []
+            , SET_a_Style_Property_('fontSize', fn1(.5))
+            , SET_a_Style_Property_('background-color', fn('rgba(145, 248, 29, 0.29)'))]
         );
         MSG = '\nLoSProps->' + JSON.stringify(LoSProps);
 
@@ -146,7 +125,7 @@ var tst_MESS_WITH_DOM = function (tst = false) {
          */
         R.pipe(
             cssQuery(SET_V_Grp_Tmpl_('fut')),
-            R.map(setStyle( )) //FIX
+            R.map(setStyle(LoSProps))
         )(document);
         // TRACE
         C_Both(MSG);
@@ -172,7 +151,7 @@ const SEPARATE_StyleConst_BY_VGrpClass_INTO_List = function (StyObj) {
     let f_ = (n)=> {
         return StyObj[n]
     };
-    return R.map(f_, [PST, CUR, FUT]);  // note GIVEN LIST:[INT] -> [OBJ]
+    return map(f_, [PST, CUR, FUT]);  // note GIVEN LIST:[INT] -> [OBJ]
 };
 /**
  * TRANSFORM_VGrp_NL_INTO_Vrs_List:: {} -> []
