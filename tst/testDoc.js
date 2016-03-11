@@ -87,8 +87,15 @@ var tst_MESS_WITH_DOM = function (tst = false) {
                 , fontSize: `${fs}%`        // f(wt)
             }
         };
+
         // TEST
-        var SET_a_Style_Property_ = (fn, propName) =>  ` ${propName}:${fn} `;// []
+        // PLAN 160311 SET_a_Style_Property -> { object} AND USE mergeAll
+        //var SET_a_Style_Property_ = (fn, propName) =>  JSON.stringify(` ${propName}:${fn} `);// []
+        var SET_a_Style_Property_ = (fn, propName) => {
+            var o1 = {[propName]: fn};
+            //return JSON.stringify(o1)
+            return o1
+        }; // FIX
         // NOTE: JS DOM Nodes ARE Objects AND HAVE Properties;
         // NOTE:    DOM Nodes PROVIDES ACCESS TO HTML attributes.
         //          Node.StyleObjects HAVE Properties
@@ -96,25 +103,24 @@ var tst_MESS_WITH_DOM = function (tst = false) {
         //var SET_Style_Obj_ = (styKeys, styVals) => R.zipObj(styKeys, styVals);//{}
         MSG = ' SET_Style_Properties -> ';
         var fn = (w) =>  `${w}`;
-        MSG += JSON.stringify(
-            SET_a_Style_Property_(
+        var ret = SET_a_Style_Property_(
+            fn(.7), "opacity");
+        MSG += ret
+        ;
+        var fn1 = (w) => `${ w * 100}%`;
+        MSG += SET_a_Style_Property_(fn1(.5), 'fontSize')
+        ;
+        var LoSProps = R.merge(SET_a_Style_Property_(
                 fn(.7), "opacity")
+            , []
         );
-        var fn1 = (w) => `${ w*100}%`;
-        MSG = JSON.stringify(
-            SET_a_Style_Property_(fn1(.5), 'fontSize')
+        LoSProps = R.merge(SET_a_Style_Property_(fn1(.5), 'fontSize')
+            , LoSProps
         );
-        var LoSProps = R.append(SET_a_Style_Property_(
-                fn(.7), "opacity")
-            ,[]
+        LoSProps = R.merge(SET_a_Style_Property_(fn('DeepSkyBlue'), 'color')
+            , LoSProps
         );
-        LoSProps = R.append(SET_a_Style_Property_(fn1(.5), 'fontSize')
-            ,LoSProps
-        );
-        LoSProps = R.append(SET_a_Style_Property_(fn('DeepSkyBlue'), 'color')
-            ,LoSProps
-        );
-        MSG += JSON.stringify('LoSProps->' + LoSProps);
+        MSG = '\nLoSProps->' + JSON.stringify(LoSProps);
 
         /**
          * Mutate style properties on an element
@@ -122,7 +128,7 @@ var tst_MESS_WITH_DOM = function (tst = false) {
         var setStyle = R.curry(
             (obj, node) => {
                 return Object.assign(
-                    node.style, LoSProps)
+                    node.style, obj)
             }
         );
 
@@ -140,9 +146,7 @@ var tst_MESS_WITH_DOM = function (tst = false) {
          */
         R.pipe(
             cssQuery(SET_V_Grp_Tmpl_('fut')),
-            R.map(setStyle(
-                SET_Style_Tmpl_(.4, 125) // backgroundColor=default
-            ))
+            R.map(setStyle( )) //FIX
         )(document);
         // TRACE
         C_Both(MSG);
