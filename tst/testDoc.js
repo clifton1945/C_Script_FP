@@ -35,21 +35,11 @@ var MSG = '';
  */
 var tst_MESS_WITH_DOM = function (tst = false) {
     var tstCode = function () {
-        MSG = 'tst_MESS_WITH_DOM ....';
-        // TRACE FUNCTIONS
+        MSG = 'tst_MESS...DOM..';
+        // TRACING FUNCTIONS
 
         // TESTING CODE SET multiple Attributes AT one time.
-        /**
-         * the Style Weight IS unique forEach VerseClass AND VerseNode.
-         * :: (StyleObj, VerseObj) -> Int: 0 < weight   though max should be near 1
-         * @constructor
-         * @private
-         * @param VClassStyleObj
-         * @param VObj
-         */
-        var CALC_VerseNode_Weight__ = (VClassStyleObj, VObj) => {
-                return 0.75    // TODO STUB
-        };
+
         /**
          * SET Template FOR Selector Verses Cls
          * :: Str: Cls.class -> Str
@@ -69,7 +59,20 @@ var tst_MESS_WITH_DOM = function (tst = false) {
         var cssQuery = R.invoker(1, 'querySelectorAll');
 
         /**
+         * CALC Style Weight.It IS unique forEach VerseClass AND VerseNode.
+         * :: (StyleObj, VerseObj) -> Int: 0 < weight   though max should be near 1
+         * @constructor
+         * @private
+         * @param SObj IS VClassStyleObj
+         * @param VObj
+         */
+        var CALC_VerseNode_Weight__ = (SObj, VObj) => {
+            return 0.75;    // FIX STUB
+        };
+
+        /**
          * SET Template OF Style Properties FOR this Verse
+         * :: StyleObj, Wt ->
          * @param opc opacity as 0 < Int <= 1.
          * @param fs fontSize as  0< Int.
          * @param col color as css.
@@ -77,21 +80,49 @@ var tst_MESS_WITH_DOM = function (tst = false) {
          * @constructor
          * @private
          */
-        var SET_Style_Tmpl_ = (opc=1,  fs=100, col=`rgba(145, 248, 29, 0.29)`) => {
+        var SET_Style_Tmpl_ = (opc = 1, fs = 100, col = `rgba(145, 248, 29, 0.29)`) => {
             return {
-                backgroundColor: `${col}`
-                    , opacity: `${opc}`
-                , fontSize: `${fs}%`
+                backgroundColor: `${col}`   // ! f(wt)
+                , opacity: `${opc}`         // f(wt)
+                , fontSize: `${fs}%`        // f(wt)
             }
         };
+        // TEST
+        var SET_a_Style_Property_ = (fn, propName) =>  ` ${propName}:${fn} `;// []
+        // NOTE: JS DOM Nodes ARE Objects AND HAVE Properties;
+        // NOTE:    DOM Nodes PROVIDES ACCESS TO HTML attributes.
+        //          Node.StyleObjects HAVE Properties
+        //var tstStyleVal = [.4, .7 * 100, 'DeepSkyBlue'];//[]
+        //var SET_Style_Obj_ = (styKeys, styVals) => R.zipObj(styKeys, styVals);//{}
+        MSG = ' SET_Style_Properties -> ';
+        var fn = (w) =>  `${w}`;
+        MSG += JSON.stringify(
+            SET_a_Style_Property_(
+                fn(.7), "opacity")
+        );
+        var fn1 = (w) => `${ w*100}%`;
+        MSG = JSON.stringify(
+            SET_a_Style_Property_(fn1(.5), 'fontSize')
+        );
+        var LoSProps = R.append(SET_a_Style_Property_(
+                fn(.7), "opacity")
+            ,[]
+        );
+        LoSProps = R.append(SET_a_Style_Property_(fn1(.5), 'fontSize')
+            ,LoSProps
+        );
+        LoSProps = R.append(SET_a_Style_Property_(fn('DeepSkyBlue'), 'color')
+            ,LoSProps
+        );
+        MSG += JSON.stringify('LoSProps->' + LoSProps);
 
         /**
          * Mutate style properties on an element
          */
         var setStyle = R.curry(
-            (value, node) => {
+            (obj, node) => {
                 return Object.assign(
-                    node.style, value)
+                    node.style, LoSProps)
             }
         );
 
@@ -108,12 +139,12 @@ var tst_MESS_WITH_DOM = function (tst = false) {
          *
          */
         R.pipe(
-            cssQuery(SET_V_Grp_Tmpl_ ('fut')),
+            cssQuery(SET_V_Grp_Tmpl_('fut')),
             R.map(setStyle(
-                SET_Style_Tmpl_(.6, 125)
-                ))
+                SET_Style_Tmpl_(.4, 125) // backgroundColor=default
+            ))
         )(document);
-
+        // TRACE
         C_Both(MSG);
     };
     tstCode();
