@@ -37,6 +37,7 @@ var tst_MESS_WITH_DOM = function (tst = false) {
     var tstCode = function () {
         MSG = 'tst_MESS...DOM..';
         // TRACING FUNCTIONS
+        var TST_WT;
 
         // TESTING CODE SET multiple Attributes AT one time.
 
@@ -92,7 +93,7 @@ var tst_MESS_WITH_DOM = function (tst = false) {
         var fn = (w) =>  `${w}`;
         var fn1 = (w) => `${ w * 100}%`;
 
-        var TST_WT = .6; // TRACE
+        TST_WT = .6; // TRACE
 
         var StyleObj_opacity_ = (wt)=> a_Style_PropertyObj__('opacity', fn(wt));
         var StyleObj_fontSize_ = (wt)=> a_Style_PropertyObj__('fontSize', fn1(wt));
@@ -102,7 +103,7 @@ var tst_MESS_WITH_DOM = function (tst = false) {
          * Style_PropsObj_:: (->a) -> [a,b,c]
          */
         var Style_PropsObj_ = function Style_PropsObj_(wt) {
-            R.mergeAll(
+            return R.mergeAll(
                 [
                     StyleObj_opacity_(wt), []
                     , StyleObj_fontSize_(wt)
@@ -123,10 +124,9 @@ var tst_MESS_WITH_DOM = function (tst = false) {
         /**
          * set_Style_::  PRELOADED setStyle__(VerseWt) WAITS node
          */
-        var setStyle_ = setStyle__(Style_PropsObj_(TST_WT));
+        var setStyle_ = (Wt, obj, node)=> R.curry( setStyle__(Style_PropsObj_(Wt)));
 
-
-
+        TST_WT = 1.5;
         MSG = '\nStyle_PropsObj->' + JSON.stringify(Style_PropsObj_(TST_WT));
 
         /**
@@ -141,10 +141,12 @@ var tst_MESS_WITH_DOM = function (tst = false) {
          *      set the Node.style
          *
          */
-        R.pipe(
+        var VerseStyle_SET_ = R.pipe(
             cssQuery(SET_V_Grp_Tmpl_('fut')),
-            R.map(setStyle_())
-        )(document);
+            R.map(setStyle_(TST_WT))
+        );
+
+        MSG += VerseStyle_SET_(document);
         // TRACE
         C_Both(MSG);
     };
