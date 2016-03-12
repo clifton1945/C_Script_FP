@@ -6,12 +6,7 @@
  */
 function main() {
     var all = false;
-    tst_MESS_WITH_DOM(true);
-    //tst_COMBINE_VGrp_Style_List_AND_VGrp_Verse_List_INTO_VGrp_List(all);
-    //tst_SEPARATE_StyleConst_BY_VGrpClass_INTO_List(all);
-    //tst_SELECT_StyleConstants_forEach_VerseGrp(all);
-    //tst_CHANGE_VerseNodeStyle(all); // require STYLE_Verses.js
-    ////tst_coll_len_gt_1(all);
+    tst_DOM_Vrs_STYLED(true);
 }
 
 /**
@@ -29,11 +24,11 @@ var MSG = '';
  *   --------------- CURRENT TEST --------------------------
  * */
 /**
- * tst_MESS_WITH_DOM
+ * tst_DOM_Vrs_STYLED
  *
  * @param tst
  */
-var tst_MESS_WITH_DOM = function (tst = false) {
+var tst_DOM_Vrs_STYLED = function (tst = false) {
     var tstCode = function () {
         MSG = 'tst_MESS...DOM..';
         // TRACING FUNCTIONS
@@ -60,7 +55,7 @@ var tst_MESS_WITH_DOM = function (tst = false) {
         var VerseClassEl = R.invoker(1, 'querySelectorAll');
 
         /**
-         * CALC StyleObj_ Weight.It IS unique forEach VerseClass AND VerseNode.
+         * TODO  CALC StyleObj_ Weight.It IS unique forEach VerseClass AND VerseNode.
          * :: (StyleObj, VerseObj) -> Int: 0 < weight   though max should be near 1
          * @constructor
          * @private
@@ -110,6 +105,7 @@ var tst_MESS_WITH_DOM = function (tst = false) {
                     , StyleObj_background_color
                 ])
         };
+
         /**
          * Mutate style properties on an element
          */
@@ -146,39 +142,12 @@ var tst_MESS_WITH_DOM = function (tst = false) {
             R.map(VrsStyle_SET_BY_(TST_WT))
         );
         //
-        var CUT =VerseStyle_SET_(document);
         C_Both(MSG);
+        return VerseStyle_SET_(document);
     };
     tstCode();
 };
 
-
 //  ------------------ INVOKE TEST ------------
 main();
-
-/**
- *   --------------- TEST MAYBE USEFUL FUNCTIONS LATER --------------------------
- * */
-/**
- * SEPARATE_StyleConst_BY_VGrpClass_INTO_List
- * @param StyObj
- * @returns {*}
- * @constructor
- */
-const SEPARATE_StyleConst_BY_VGrpClass_INTO_List = function (StyObj) {
-    var PST = 0, CUR = 1, FUT = 2;
-    let f_ = (n)=> {
-        return StyObj[n]
-    };
-    return map(f_, [PST, CUR, FUT]);  // note GIVEN LIST:[INT] -> [OBJ]
-};
-/**
- * TRANSFORM_VGrp_NL_INTO_Vrs_List:: {} -> []
- * @returns {*}
- * @constructor
- */
-const TRANSFORM_VGrp_NL_INTO_Vrs_List = function (NL) {
-    let f_ = (val, key, obj)=> NL[key].children;
-    return R_forEachIndexed(f_, NL);
-};
 
