@@ -6,12 +6,7 @@
  */
 function main() {
     var all = false;
-    tst_MESS_WITH_DOM(true);
-    //tst_COMBINE_VGrp_Style_List_AND_VGrp_Verse_List_INTO_VGrp_List(all);
-    //tst_SEPARATE_StyleConst_BY_VGrpClass_INTO_List(all);
-    //tst_SELECT_StyleConstants_forEach_VerseGrp(all);
-    //tst_CHANGE_VerseNodeStyle(all); // require STYLE_Verses.js
-    ////tst_coll_len_gt_1(all);
+    tst_DOM_Vrs_STYLED(true);
 }
 
 /**
@@ -19,93 +14,140 @@ function main() {
  * require functions-compiled.js, objects-compiled.js
  * */
 //  *********** DOM  DATA    REQUIRE functions.js
-var book = GET_book();
-var V_Grp_Tmpl = '.book .ChptrReadGrps .cur  .VerseReadGrps > div';
-var VG_NL = GET_V_Grp_NL(GET_book());
-var VG_AR = [...VG_NL];
-var C_Grp_NL = GET_C_Grp_NL(book);
-var V_Grp_NL_ = GET_V_Grp_NL(book);
-var Tst_DivFut_Vrs4 = V_Grp_NL_.item(2).children.item(5);
+//var book = GET_book();
+// DEPRECATE var V_Grp_Tmpl = '.book .ChptrReadGrps .cur  .VerseReadGrps > div';
+//var V_Grp_Tmpl = '.cur  .VerseReadGrps > div';
+
 var MSG = '';
-
-/**
- *   --------------- TEST REQUIRED FUNCTIONS  --------------------------
- * */
-
-const SEPARATE_StyleConst_BY_VGrpClass_INTO_List = function (StyObj) {
-    var PST = 0, CUR = 1, FUT = 2;
-    let f_ = (n)=> {
-        return StyObj[n]
-    };
-    return R.map(f_, [PST, CUR, FUT]);  // note GIVEN LIST:[INT] -> [OBJ]
-};
-/**
- * TRANSFORM_VGrp_NL_INTO_Vrs_List:: {} -> []
- * @returns {*}
- * @constructor
- */
-const TRANSFORM_VGrp_NL_INTO_Vrs_List = function (NL) {
-    let f_ = (val, key, obj)=> NL[key].children;
-    return R_forEachIndexed(f_, NL);
-};
 
 /**
  *   --------------- CURRENT TEST --------------------------
  * */
-
-// TESTING
-//var curried_dLo_L_AND_L_ = R.curry(dLo_SC_L_AND_V_L_);
 /**
- * tst_MESS_WITH_DOM
- * NOTE: IN js, UNPACKING IS CALLED Destructuring
+ * tst_DOM_Vrs_STYLED
+ *
  * @param tst
  */
-var tst_MESS_WITH_DOM;
-tst_MESS_WITH_DOM = function (tst = false) {
+var tst_DOM_Vrs_STYLED = function (tst = false) {
     var tstCode = function () {
-        MSG = 'tst_MESS_WITH_DOM ....';
-        // TRACE FUNCTIONS
-        var listLength_ = (l)=> {
-            MSG += `   List.len: ${l.length}, `;
-        };  // return is thrown away - so forget return
+        MSG = 'tst_MESS...DOM..';
+        // TRACING FUNCTIONS
+        var TST_WT;
 
         // TESTING CODE SET multiple Attributes AT one time.
 
         /**
+         * SET Template FOR Selector Verses Cls
+         * :: Str: Cls.class -> Str
+         * @param cls
+         * @constructor
+         * @private
+         *
+         * WAS BEFORE this function       //var V_Grp_Tmpl = '.book .ChptrReadGrps .cur  .VerseReadGrps > .fut';
+         */
+        var VrsClass_SET_TO_ = (cls) => ` .cur  .VerseReadGrps > .${cls}`;
+
+        /**
          * Get all descendants that match selector
-         * cssQuery :: String -> Node -> NodeList
+         * VerseClassEl :: String -> Node -> NodeList
          * Note: NodeList is array-like so you can run ramda list functions on it.
          */
-        var cssQuery = R.invoker(1, 'querySelectorAll');
+        var VerseClassEl = R.invoker(1, 'querySelectorAll');
+
+        /**
+         * TODO  CALC StyleObj_ Weight.It IS unique forEach VerseClass AND VerseNode.
+         * :: (StyleObj, VerseObj) -> Int: 0 < weight   though max should be near 1
+         * @constructor
+         * @private
+         * @param SObj IS VClassStyleObj
+         * @param VObj
+         */
+        var CALC_VerseNode_Weight__ = (SObj, VObj) => {
+            return 0.75;    // FIX STUB
+        };
+
+        // TEST
+
+        /**
+         * SET Style Object OF a Property FOR this Verse
+         * :: StyleObj, Wt -> {Obj}
+         * @returns {Obj}
+         * @constructor
+         * @private
+         * @param propFrmt
+         * @param propName
+         */
+        var a_Style_PropertyObj__ = R.curry((propName, propFrmt) => {
+            return {[propName]: propFrmt};
+        });
+        // NOTE: JS DOM Nodes ARE Objects AND HAVE Properties;
+        // NOTE:    DOM Nodes PROVIDES ACCESS TO HTML attributes.
+        //          Node.StyleObjects HAVE Properties
+
+        MSG = ' SET_Style_Properties -> ';
+        var fn = (w) =>  `${w}`;
+        var fn1 = (w) => `${ w * 100}%`;
+
+        TST_WT = .6; // TRACE
+
+        var StyleObj_opacity_ = (wt)=> a_Style_PropertyObj__('opacity', fn(wt));
+        var StyleObj_fontSize_ = (wt)=> a_Style_PropertyObj__('fontSize', fn1(wt));
+        var StyleObj_background_color = a_Style_PropertyObj__('background-color', 'rgba(145, 248, 29, 0.29)');
+
+        /**
+         * Style_PropsObj_:: (->a) -> [a,b,c]
+         */
+        var Style_PropsObj_ = function Style_PropsObj_(wt) {
+            return R.mergeAll(
+                [
+                    StyleObj_opacity_(wt), []
+                    , StyleObj_fontSize_(wt)
+                    , StyleObj_background_color
+                ])
+        };
 
         /**
          * Mutate style properties on an element
          */
-        var setStyle = R.curry(
-            (value, node) => {
-                return Object.assign(
-                    node.style, value)
+        var setStyle_2_ = R.curry(
+            (obj, node) => {
+                var f = Object.assign(
+                    node.style, obj);
+                return f
             }
         );
 
-        // Make all fut verses to light green
-        var V_Grp_Tmpl = '.book .ChptrReadGrps .cur  .VerseReadGrps > .fut';
+        /**
+         * set_Style_::  PRELOADED setStyle_2_(VerseWt) WAITS node
+         */
+        var VrsStyle_SET_BY_ = (Wt, obj, node)=> R.curry( setStyle_2_(Style_PropsObj_(Wt)));
 
-        R.pipe(
-            cssQuery(V_Grp_Tmpl),
-            R.map(setStyle(
-                {
-                    backgroundColor: "rgba(145, 248, 29, 0.29)"
-                    , opacity: ".5"
-                    , fontSize: "50%"
-                }))
-        )(document);
+        TST_WT = 0.6;
+        MSG = '\nStyle_PropsObj->' + JSON.stringify(Style_PropsObj_(TST_WT));
 
+        /**
+         * STYLE a Verse IN a Verse Class AS a function OF Verse Class AND Verse StyleObj_ Weight
+         *    this INCLUDES
+         *    select a Cls.class:: Str: pst||cur||fut
+         *    set StyleObj for this cls
+         *    set forEach verse in class
+         *      create a VerseObj::{node:, ndx:, coll:}
+         *      calc the style weight:: ( styleObj, VerseObj) -> Float: weight
+         *      set the style template
+         *      set the Node.style
+         *
+         */
+        var VerseStyle_SET_ = R.pipe(
+            VerseClassEl(VrsClass_SET_TO_('fut')),
+            R.map(VrsStyle_SET_BY_(TST_WT))
+        );
+        //
         C_Both(MSG);
+        return VerseStyle_SET_(document);
     };
     tstCode();
 };
 
-
-//  ------------------ INVOkE TEST ------------
+//  ------------------ INVOKE TEST ------------
 main();
+

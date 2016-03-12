@@ -5,12 +5,14 @@
         <item url="file://$PROJECT_DIR$/tst/testDoc-compiled.js" />
         <item url="file://$PROJECT_DIR$/tst/DEPR_testDoc-compiled.js" />
         <item url="file://$PROJECT_DIR$/tst/STYLE_Verses_TESTS-compiled.js" />
+        <item url="file://$PROJECT_DIR$/src/objects-compiled.js" />
       </sourceFilesUrls>
     </properties>
     <CLASSES>
       <root url="file://$PROJECT_DIR$/tst/testDoc-compiled.js" />
       <root url="file://$PROJECT_DIR$/tst/DEPR_testDoc-compiled.js" />
       <root url="file://$PROJECT_DIR$/tst/STYLE_Verses_TESTS-compiled.js" />
+      <root url="file://$PROJECT_DIR$/src/objects-compiled.js" />
     </CLASSES>
     <SOURCES />
   </library>
