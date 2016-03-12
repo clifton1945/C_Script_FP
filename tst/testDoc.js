@@ -50,14 +50,14 @@ var tst_MESS_WITH_DOM = function (tst = false) {
          *
          * WAS BEFORE this function       //var V_Grp_Tmpl = '.book .ChptrReadGrps .cur  .VerseReadGrps > .fut';
          */
-        var SET_V_Grp_Tmpl_ = (cls) => ` .cur  .VerseReadGrps > .${cls}`;
+        var VrsClass_SET_TO_ = (cls) => ` .cur  .VerseReadGrps > .${cls}`;
 
         /**
          * Get all descendants that match selector
-         * cssQuery :: String -> Node -> NodeList
+         * VerseClassEl :: String -> Node -> NodeList
          * Note: NodeList is array-like so you can run ramda list functions on it.
          */
-        var cssQuery = R.invoker(1, 'querySelectorAll');
+        var VerseClassEl = R.invoker(1, 'querySelectorAll');
 
         /**
          * CALC StyleObj_ Weight.It IS unique forEach VerseClass AND VerseNode.
@@ -113,7 +113,7 @@ var tst_MESS_WITH_DOM = function (tst = false) {
         /**
          * Mutate style properties on an element
          */
-        var setStyle__ = R.curry(
+        var setStyle_2_ = R.curry(
             (obj, node) => {
                 var f = Object.assign(
                     node.style, obj);
@@ -122,11 +122,11 @@ var tst_MESS_WITH_DOM = function (tst = false) {
         );
 
         /**
-         * set_Style_::  PRELOADED setStyle__(VerseWt) WAITS node
+         * set_Style_::  PRELOADED setStyle_2_(VerseWt) WAITS node
          */
-        var setStyle_ = (Wt, obj, node)=> R.curry( setStyle__(Style_PropsObj_(Wt)));
+        var VrsStyle_SET_BY_ = (Wt, obj, node)=> R.curry( setStyle_2_(Style_PropsObj_(Wt)));
 
-        TST_WT = 1.5;
+        TST_WT = 0.6;
         MSG = '\nStyle_PropsObj->' + JSON.stringify(Style_PropsObj_(TST_WT));
 
         /**
@@ -142,19 +142,18 @@ var tst_MESS_WITH_DOM = function (tst = false) {
          *
          */
         var VerseStyle_SET_ = R.pipe(
-            cssQuery(SET_V_Grp_Tmpl_('fut')),
-            R.map(setStyle_(TST_WT))
+            VerseClassEl(VrsClass_SET_TO_('fut')),
+            R.map(VrsStyle_SET_BY_(TST_WT))
         );
-
-        MSG += VerseStyle_SET_(document);
-        // TRACE
+        //
+        var CUT =VerseStyle_SET_(document);
         C_Both(MSG);
     };
     tstCode();
 };
 
 
-//  ------------------ INVOkE TEST ------------
+//  ------------------ INVOKE TEST ------------
 main();
 
 /**
