@@ -59,7 +59,7 @@ var tst_MESS_WITH_DOM = function (tst = false) {
         var cssQuery = R.invoker(1, 'querySelectorAll');
 
         /**
-         * CALC Style Weight.It IS unique forEach VerseClass AND VerseNode.
+         * CALC StyleObj_ Weight.It IS unique forEach VerseClass AND VerseNode.
          * :: (StyleObj, VerseObj) -> Int: 0 < weight   though max should be near 1
          * @constructor
          * @private
@@ -70,22 +70,20 @@ var tst_MESS_WITH_DOM = function (tst = false) {
             return 0.75;    // FIX STUB
         };
 
-
-        var SET_Style_Tmpl_ = () => { };
         // TEST
 
         /**
-         * SET Object OF Style Properties FOR this Verse
-         * :: StyleObj, Wt -> {}
-         * @returns {{}}
+         * SET Style Object OF a Property FOR this Verse
+         * :: StyleObj, Wt -> {Obj}
+         * @returns {Obj}
          * @constructor
          * @private
          * @param propFrmt
          * @param propName
          */
-        var SET_a_Style_Property_ = (propName, propFrmt) => {
-            return{[propName]: propFrmt};
-        };
+        var a_Style_PropertyObj__ = R.curry((propName, propFrmt) => {
+            return {[propName]: propFrmt};
+        });
         // NOTE: JS DOM Nodes ARE Objects AND HAVE Properties;
         // NOTE:    DOM Nodes PROVIDES ACCESS TO HTML attributes.
         //          Node.StyleObjects HAVE Properties
@@ -94,25 +92,45 @@ var tst_MESS_WITH_DOM = function (tst = false) {
         var fn = (w) =>  `${w}`;
         var fn1 = (w) => `${ w * 100}%`;
 
-        var LoSProps = R.mergeAll(
-            [SET_a_Style_Property_("opacity", fn(.7)), []
-            , SET_a_Style_Property_('fontSize', fn1(.5))
-            , SET_a_Style_Property_('background-color', fn('rgba(145, 248, 29, 0.29)'))]
-        );
-        MSG = '\nLoSProps->' + JSON.stringify(LoSProps);
+        var TST_WT = .6; // TRACE
 
+        var StyleObj_opacity_ = (wt)=> a_Style_PropertyObj__('opacity', fn(wt));
+        var StyleObj_fontSize_ = (wt)=> a_Style_PropertyObj__('fontSize', fn1(wt));
+        var StyleObj_background_color = a_Style_PropertyObj__('background-color', 'rgba(145, 248, 29, 0.29)');
+
+        /**
+         * Style_PropsObj_:: (->a) -> [a,b,c]
+         */
+        var Style_PropsObj_ = function Style_PropsObj_(wt) {
+            R.mergeAll(
+                [
+                    StyleObj_opacity_(wt), []
+                    , StyleObj_fontSize_(wt)
+                    , StyleObj_background_color
+                ])
+        };
         /**
          * Mutate style properties on an element
          */
-        var setStyle = R.curry(
+        var setStyle__ = R.curry(
             (obj, node) => {
-                return Object.assign(
-                    node.style, obj)
+                var f = Object.assign(
+                    node.style, obj);
+                return f
             }
         );
 
         /**
-         * STYLE a Verse IN a Verse Class AS a function OF Verse Class AND Verse Style Weight
+         * set_Style_::  PRELOADED setStyle__(VerseWt) WAITS node
+         */
+        var setStyle_ = setStyle__(Style_PropsObj_(TST_WT));
+
+
+
+        MSG = '\nStyle_PropsObj->' + JSON.stringify(Style_PropsObj_(TST_WT));
+
+        /**
+         * STYLE a Verse IN a Verse Class AS a function OF Verse Class AND Verse StyleObj_ Weight
          *    this INCLUDES
          *    select a Cls.class:: Str: pst||cur||fut
          *    set StyleObj for this cls
@@ -125,7 +143,7 @@ var tst_MESS_WITH_DOM = function (tst = false) {
          */
         R.pipe(
             cssQuery(SET_V_Grp_Tmpl_('fut')),
-            R.map(setStyle(LoSProps))
+            R.map(setStyle_())
         )(document);
         // TRACE
         C_Both(MSG);
