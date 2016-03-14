@@ -13,12 +13,11 @@ function main() {
  * GLOBAL vars
  * require functions-compiled.js, objects-compiled.js
  * */
+//var MSG = '';
 //  *********** DOM  DATA    REQUIRE functions.js
 //var book = GET_book();
 // DEPRECATE var V_Grp_Tmpl = '.book .ChptrReadGrps .cur  .VerseReadGrps > div';
 //var V_Grp_Tmpl = '.cur  .VerseReadGrps > div';
-
-var MSG = '';
 
 /**
  *   --------------- CURRENT TEST --------------------------
@@ -30,9 +29,9 @@ var MSG = '';
  */
 var tst_DOM_Vrs_STYLED = function (tst = false) {
     var tstCode = function () {
-        MSG = 'tst_MESS...DOM..';
+        var MSG = 'tst_MESS...DOM..';
         // TRACING FUNCTIONS
-        var TST_WT;
+        var tstSObj_Wt;
 
         // TESTING CODE SET multiple Attributes AT one time.
 
@@ -49,22 +48,10 @@ var tst_DOM_Vrs_STYLED = function (tst = false) {
 
         /**
          * Get all descendants that match selector
-         * VerseClassEl :: String -> Node -> NodeList
+         * VerseClassElem :: String -> Node -> NodeList
          * Note: NodeList is array-like so you can run ramda list functions on it.
          */
-        var VerseClassEl = R.invoker(1, 'querySelectorAll');
-
-        /**
-         * TODO  CALC StyleObj_ Weight.It IS unique forEach VerseClass AND VerseNode.
-         * :: (StyleObj, VerseObj) -> Int: 0 < weight   though max should be near 1
-         * @constructor
-         * @private
-         * @param SObj IS VClassStyleObj
-         * @param VObj
-         */
-        var CALC_VerseNode_Weight__ = (SObj, VObj) => {
-            return 0.75;    // FIX STUB
-        };
+        var VerseClassElem = R.invoker(1, 'querySelectorAll');
 
         // TEST
 
@@ -76,19 +63,40 @@ var tst_DOM_Vrs_STYLED = function (tst = false) {
          * @private
          * @param propFrmt
          * @param propName
+         * // NOTE: JS DOM Nodes ARE Objects AND HAVE Properties;
+           // NOTE:    DOM Nodes PROVIDES ACCESS TO HTML attributes.
+           //          Node.StyleObjects HAVE Properties
          */
         var a_Style_PropertyObj__ = R.curry((propName, propFrmt) => {
             return {[propName]: propFrmt};
         });
-        // NOTE: JS DOM Nodes ARE Objects AND HAVE Properties;
-        // NOTE:    DOM Nodes PROVIDES ACCESS TO HTML attributes.
-        //          Node.StyleObjects HAVE Properties
+
+        /**
+         * CALC VerseObj_ StyleWeight. It IS unique forEach VerseClass AND VerseNode.
+         * :: (StyleObj, VerseObj) -> Int: 0 < weight   though max should be near 1
+         * @constructor
+         * @private
+         * @param SObj IS one of the three VClass_StyleObj s pst, cur, fut
+         * @param VObj IS VClass_VerseObj -> val,ndx, col
+         */
+        const calcWeight__ = R.curry(
+            (SObj, VObj) => {
+                // LOCAL TESTING   return IS STUB
+                // NOTE:  (1) CAN CHANGE lrgWt and SmlWT to closWt and farWt TO cut out sign change
+                return SObj['lrgWt'];
+            });
+        const calcWeight_StyleCls_ =
+            function calcWeight_StyleCls_(clsID) {
+                return calcWeight__(R.prop(clsID), StyleObj);
+            };
+        // TESTING  the above is a STUB: the_StyleObj WILL already BE a Class: pst || cur || fut
+        C_Both(
+            calcWeight_StyleCls_('cur', {})
+        );
 
         MSG = ' SET_Style_Properties -> ';
         var fn = (w) =>  `${w}`;
         var fn1 = (w) => `${ w * 100}%`;
-
-        TST_WT = .6; // TRACE
 
         var StyleObj_opacity_ = (wt)=> a_Style_PropertyObj__('opacity', fn(wt));
         var StyleObj_fontSize_ = (wt)=> a_Style_PropertyObj__('fontSize', fn1(wt));
@@ -120,10 +128,13 @@ var tst_DOM_Vrs_STYLED = function (tst = false) {
         /**
          * set_Style_::  PRELOADED setStyle_2_(VerseWt) WAITS node
          */
-        var VrsStyle_SET_BY_ = (Wt, obj, node)=> R.curry( setStyle_2_(Style_PropsObj_(Wt)));
+        var VrsStyle_SET_BY_ = (Wt, obj, node)=> R.curry(setStyle_2_(Style_PropsObj_(Wt)));
 
-        TST_WT = 0.6;
-        MSG = '\nStyle_PropsObj->' + JSON.stringify(Style_PropsObj_(TST_WT));
+        calcWeight_StyleCls_('fut');
+
+        MSG = '\nStyle_PropsObj->' + JSON.stringify(
+                Style_PropsObj_(calcWeight_StyleCls_({}))
+            );
 
         /**
          * STYLE a Verse IN a Verse Class AS a function OF Verse Class AND Verse StyleObj_ Weight
@@ -138,8 +149,12 @@ var tst_DOM_Vrs_STYLED = function (tst = false) {
          *
          */
         var VerseStyle_SET_ = R.pipe(
-            VerseClassEl(VrsClass_SET_TO_('fut')),
-            R.map(VrsStyle_SET_BY_(TST_WT))
+            VerseClassElem(VrsClass_SET_TO_('fut')),
+            // TEST STUB: calcWeight_StyleCls_ IS HARD CODED TO BE 'fut' AND NOT LOOK FOR VObj
+            R.map(VrsStyle_SET_BY_(
+                    calcWeight_StyleCls_({})
+                )
+            )
         );
         //
         C_Both(MSG);
