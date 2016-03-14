@@ -66,8 +66,9 @@ const StyleObj = {
             let {ver, ndx, ary} = vObj;
             let {smlWt, lrgWt} = sObj;
             let len = ary.length - 1;
+            let delta = lrgWt - smlWt;
             return (len > 0)
-                ? (-(lrgWt - smlWt) / len * ndx + lrgWt)
+                ? (-delta / len * ndx + lrgWt)
                 : lrgWt;  // always lrgWt
         }
     },
@@ -80,8 +81,9 @@ const StyleObj = {
             let {ver, ndx, ary} = vObj;
             let {smlWt, lrgWt} = sObj;
             let len = ary.length - 1;
+            let delta = lrgWt - smlWt;
             return (len > 0)
-                ? ((lrgWt - smlWt) / len * ndx + smlWt)
+                ? (delta / len * ndx + smlWt)
                 : lrgWt;  // always lrgWt
         }
     },
@@ -93,8 +95,9 @@ const StyleObj = {
             let {ver, ndx, ary} = vObj;
             let {smlWt, lrgWt} = sObj;
             let len = ary.length - 1;
+            let delta = lrgWt - smlWt;
             return (len > 0)
-                ? ((lrgWt - smlWt) / len * ndx + smlWt)
+                ? (delta / len * ndx + smlWt)
                 : lrgWt;  // start small grow larger.
         }
     }
