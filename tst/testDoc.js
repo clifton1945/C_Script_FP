@@ -20,12 +20,12 @@ function main() {
  * */
 //  *********** DOM  DATA    REQUIRE functions.js
 var book = GET_book();
-var V_Grp_Tmpl = '.book .ChptrReadGrps .cur  .VerseReadGrps > div';
-var VG_NL = GET_V_Grp_NL(GET_book());
-var VG_AR = [...VG_NL];
-var C_Grp_NL = GET_C_Grp_NL(book);
-var V_Grp_NL_ = GET_V_Grp_NL(book);
-var Tst_DivFut_Vrs4 = V_Grp_NL_.item(2).children.item(5);
+//var V_Grp_Tmpl = '.book .ChptrReadGrps .cur  .VerseReadGrps > div';
+//var VG_NL = GET_V_Grp_NL(GET_book());
+//var VG_AR = [...VG_NL];
+//var C_Grp_NL = GET_C_Grp_NL(book);
+//var V_Grp_NL_ = GET_V_Grp_NL(book);
+//var Tst_DivFut_Vrs4 = V_Grp_NL_.item(2).children.item(5);
 var MSG = '';
 
 /**
@@ -54,6 +54,21 @@ const TRANSFORM_VGrp_NL_INTO_Vrs_List = function (NL) {
     let f_ = (val, key, obj)=> NL[key].children;
     return R_forEachIndexed(f_, NL);
 };
+/**
+ * Get all descendants that match selector
+ * cssQuery :: String -> Node -> NodeList
+ * Note: NodeList is array-like so you can run ramda list functions on it.
+ */
+const cssQuery = R.invoker(1, 'querySelectorAll');
+/**
+ * Mutate style properties on an element
+ */
+const setStyle = R.curry( (value, node) => {
+        return Object.assign(
+            node.style, value)
+    });
+
+var V_Grp_Tmpl = '.book .ChptrReadGrps .cur  .VerseReadGrps > .fut ';
 
 /**
  *   --------------- CURRENT TEST --------------------------
@@ -68,36 +83,27 @@ tst_MESS_WITH_DOM = function (tst = false) {
     var tstCode = function () {
         MSG = 'tst_MESS_WITH_DOM ....';
         // TRACE FUNCTIONS
-        var listLength_ = (l)=> {
-            MSG += `   List.len: ${l.length}, `;
-        };  // return is thrown away - so forget return
+        var RET1, RET2;
+        // TESTING CODE
 
-        // TESTING CODE SET multiple Attributes AT one time.
+        var V_Grp_Tmpl = '.book .ChptrReadGrps .cur  .VerseReadGrps > .fut > .vers';
+        var anElem__ = R.curry((tmplStr, elem)=> elem.querySelector(tmplStr));
+        RET1 = anElem__(V_Grp_Tmpl, document);
 
-        /**
-         * Get all descendants that match selector
-         * cssQuery :: String -> Node -> NodeList
-         * Note: NodeList is array-like so you can run ramda list functions on it.
-         */
-        var cssQuery = R.invoker(1, 'querySelectorAll');
+        var a_Coll__ =  R.invoker(1, 'querySelectorAll');
+        RET2 = R.compose(
+            TRACE('after a_Coll'),
+            a_Coll__('.cur  .VerseReadGrps > .fut > .vers')
+        )(document);
 
-        /**
-         * Mutate style properties on an element
-         */
-        var setStyle = R.curry(
-            (value, node) => {
-                return Object.assign(
-                    node.style, value)
-            }
-        );
 
-        // Make all fut verses to light green
-        var V_Grp_Tmpl = '.book .ChptrReadGrps .cur  .VerseReadGrps > .fut';
 
-        R.pipe(
+        // lens ??
+        var clsLens = R.lens(R.prop('class'), R.assoc('class'));
+
+        var CUT = R.pipe(
             cssQuery(V_Grp_Tmpl),
-            R.map(setStyle(
-                {
+            R.map(setStyle({
                     backgroundColor: "rgba(145, 248, 29, 0.29)"
                     , opacity: ".5"
                     , fontSize: "50%"
@@ -105,6 +111,7 @@ tst_MESS_WITH_DOM = function (tst = false) {
         )(document);
 
         C_Both(MSG);
+        return CUT
     };
     tstCode();
 };
