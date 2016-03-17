@@ -46,9 +46,11 @@ const C_Both = (txt) => {
     C_It (txt);
     Doc_It (txt);
 };
-const TRACE_Both = C_Both;
-const TRACE = R.curry(function TRACE (txt, obj){
-    C_Both( `${txt}: ${obj}`);
+const TRACE = function TRACE (txt, obj) {
+    C_Both(`${txt}: ${obj}`);
     return obj
-});
+};
+const TRACE_ = function TRACE_ (fn, obj) {
+    TRACE(fn(obj))
+};
 
