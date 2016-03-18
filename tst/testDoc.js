@@ -32,6 +32,54 @@ var MSG = '';
  *   --------------- TEST REQUIRED FUNCTIONS  --------------------------
  * */
 
+
+/**
+ * Get all descendants that match selector
+ * cssQuery :: String -> Node -> NodeList
+ * Note: NodeList is array-like so you can run ramda list functions on it.
+ */
+var cssQuery = R.invoker(1, 'querySelectorAll');
+/**
+ * Mutate style properties on an element
+ */
+var setStyle = R.curry( (value, node) => {
+        return Object.assign(
+            node.style, value)
+    });
+var V_Grp_Tmpl = '.book .ChptrReadGrps .cur  .VerseReadGrps > .fut .vers';
+
+/**
+ *   --------------- CURRENT TEST --------------------------
+ * */
+/**
+ * tst_DOM_NL
+ * NOTE: IN js, UNPACKING IS CALLED Destructuring
+ * @param tst
+ */
+var tst_DOM_NL = function (tst = false) {
+    var tstCode = function () {
+        MSG = 'tst_DOM_NL-> ';
+        var CUT = R.pipe(
+            cssQuery(V_Grp_Tmpl),
+            R.map(setStyle(
+                {
+                    backgroundColor: "rgba(145, 248, 29, 0.29)"
+                    , opacity: ".5"
+                    , fontSize: "50%"
+                }
+            ))
+        )(document);
+        CUT();
+        C_Both(MSG);
+    };
+    tstCode();
+};
+
+
+//  ------------------ INVOkE TEST ------------
+main();
+
+
 /**
  * SEPARATE_StyleConst_BY_VGrpClass_INTO_List
  * @param StyObj
@@ -54,47 +102,3 @@ var TRANSFORM_VGrp_NL_INTO_Vrs_List = function (NL) {
     var f_ = (val, key, obj)=> NL[key].children;
     return R_forEachIndexed(f_, NL);
 };
-/**
- * Get all descendants that match selector
- * cssQuery :: String -> Node -> NodeList
- * Note: NodeList is array-like so you can run ramda list functions on it.
- */
-var cssQuery = R.invoker(1, 'querySelectorAll');
-/**
- * Mutate style properties on an element
- */
-var setStyle = R.curry( (value, node) => {
-        return Object.assign(
-            node.style, value)
-    });
-
-var V_Grp_Tmpl = '.book .ChptrReadGrps .cur  .VerseReadGrps > .fut .vers';
-
-/**
- *   --------------- CURRENT TEST --------------------------
- * */
-/**
- * tst_DOM_NL
- * NOTE: IN js, UNPACKING IS CALLED Destructuring
- * @param tst
- */
-var tst_DOM_NL = function (tst = false) {
-    var tstCode = function () {
-        MSG = 'tst_DOM_NL-> ';
-        var CUT = R.pipe(
-            cssQuery(V_Grp_Tmpl),
-            R.map(setStyle({
-                    backgroundColor: "rgba(145, 248, 29, 0.29)"
-                    , opacity: ".5"
-                    , fontSize: "50%"
-                }))
-        )(document);
-        CUT();
-        C_Both(MSG);
-    };
-    tstCode();
-};
-
-
-//  ------------------ INVOkE TEST ------------
-main();
