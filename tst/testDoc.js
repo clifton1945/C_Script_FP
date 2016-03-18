@@ -6,7 +6,7 @@
  */
 function main() {
     var all = false;
-    tst_MESS_WITH_DOM(true);
+    tst_DOM_NL(true);
     //tst_COMBINE_VGrp_Style_List_AND_VGrp_Verse_List_INTO_VGrp_List(all);
     //tst_SEPARATE_StyleConst_BY_VGrpClass_INTO_List(all);
     //tst_SELECT_StyleConstants_forEach_VerseGrp(all);
@@ -38,9 +38,9 @@ var MSG = '';
  * @returns {*}
  * @constructor
  */
-const SEPARATE_StyleConst_BY_VGrpClass_INTO_List = function (StyObj) {
+var SEPARATE_StyleConst_BY_VGrpClass_INTO_List = function (StyObj) {
     var PST = 0, CUR = 1, FUT = 2;
-    let f_ = (n)=> {
+    var f_ = (n)=> {
         return StyObj[n]
     };
     return R.map(f_, [PST, CUR, FUT]);  // note GIVEN LIST:[INT] -> [OBJ]
@@ -50,8 +50,8 @@ const SEPARATE_StyleConst_BY_VGrpClass_INTO_List = function (StyObj) {
  * @returns {*}
  * @constructor
  */
-const TRANSFORM_VGrp_NL_INTO_Vrs_List = function (NL) {
-    let f_ = (val, key, obj)=> NL[key].children;
+var TRANSFORM_VGrp_NL_INTO_Vrs_List = function (NL) {
+    var f_ = (val, key, obj)=> NL[key].children;
     return R_forEachIndexed(f_, NL);
 };
 /**
@@ -59,48 +59,28 @@ const TRANSFORM_VGrp_NL_INTO_Vrs_List = function (NL) {
  * cssQuery :: String -> Node -> NodeList
  * Note: NodeList is array-like so you can run ramda list functions on it.
  */
-const cssQuery = R.invoker(1, 'querySelectorAll');
+var cssQuery = R.invoker(1, 'querySelectorAll');
 /**
  * Mutate style properties on an element
  */
-const setStyle = R.curry( (value, node) => {
+var setStyle = R.curry( (value, node) => {
         return Object.assign(
             node.style, value)
     });
 
-var V_Grp_Tmpl = '.book .ChptrReadGrps .cur  .VerseReadGrps > .fut ';
+var V_Grp_Tmpl = '.book .ChptrReadGrps .cur  .VerseReadGrps > .fut .vers';
 
 /**
  *   --------------- CURRENT TEST --------------------------
  * */
 /**
- * tst_MESS_WITH_DOM
+ * tst_DOM_NL
  * NOTE: IN js, UNPACKING IS CALLED Destructuring
  * @param tst
  */
-var tst_MESS_WITH_DOM;
-tst_MESS_WITH_DOM = function (tst = false) {
+var tst_DOM_NL = function (tst = false) {
     var tstCode = function () {
-        MSG = 'tst_MESS_WITH_DOM ....';
-        // TRACE FUNCTIONS
-        var RET1, RET2;
-        // TESTING CODE
-
-        var V_Grp_Tmpl = '.book .ChptrReadGrps .cur  .VerseReadGrps > .fut > .vers';
-        var anElem__ = R.curry((tmplStr, elem)=> elem.querySelector(tmplStr));
-        RET1 = anElem__(V_Grp_Tmpl, document);
-
-        var a_Coll__ =  R.invoker(1, 'querySelectorAll');
-        RET2 = R.compose(
-            TRACE('after a_Coll'),
-            a_Coll__('.cur  .VerseReadGrps > .fut > .vers')
-        )(document);
-
-
-
-        // lens ??
-        var clsLens = R.lens(R.prop('class'), R.assoc('class'));
-
+        MSG = 'tst_DOM_NL-> ';
         var CUT = R.pipe(
             cssQuery(V_Grp_Tmpl),
             R.map(setStyle({
@@ -109,9 +89,8 @@ tst_MESS_WITH_DOM = function (tst = false) {
                     , fontSize: "50%"
                 }))
         )(document);
-
+        CUT();
         C_Both(MSG);
-        return CUT
     };
     tstCode();
 };
