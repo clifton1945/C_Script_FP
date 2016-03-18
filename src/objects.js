@@ -23,7 +23,7 @@ const TST_StyleObj = {
         }
     },
     1: {
-        name:'cur',
+        name: 'cur',
         smlWt: 1.0,
         lrgWt: 1.0,
         calcWt: (sObj, vObj) => {
@@ -55,8 +55,8 @@ const TST_StyleObj = {
  * @type {{CRGrpsTmpl: string, VRGrpsTmpl: string, fut: {name: string, smlWt: number, lrgWt: number, calcWt: Function}, cur: {name: string, smlWt: number, lrgWt: number, calcWt: Function}, pst: {name: string, smlWt: number, lrgWt: number, calcWt: Function}}}
  */
 const StyleObj = {
-    CRGrpsTmpl:'.ChptrReadGrps ',
-    VRGrpsTmpl:'.ChptrReadGrps > .cur > .chptr > .VerseReadGrps',
+    CRGrpsTmpl: '.ChptrReadGrps ',
+    VRGrpsTmpl: '.ChptrReadGrps > .cur > .chptr > .VerseReadGrps',
     fut: {
         name: 'fut'
         , smlWt: .4
@@ -73,7 +73,7 @@ const StyleObj = {
         }
     },
     cur: {
-        name:'cur',
+        name: 'cur',
         smlWt: 1.0,
         lrgWt: 1.0,
         calcWt: (sObj, vObj) => {
@@ -111,7 +111,7 @@ const StyleObj = {
 const StyleConstants = {
     2: {
         name: 'fut'
-        , smlWt: .4
+        ,smlWt: .4
         , lrgWt: .95
         , calcWt: (sObj, vObj) => {
             //noinspection JSUnusedLocalSymbols
@@ -122,9 +122,14 @@ const StyleConstants = {
                 ? (-(lrgWt - smlWt) / len * ndx + lrgWt)
                 : lrgWt;  // always lrgWt
         }
+        , styleTmpl: {
+            backgroundColor: "rgba(145, 248, 29, 0.29)"
+            , opacity: ".75"
+            , fontSize: "75%"
+        }
     },
     1: {
-        name:'cur',
+        name: 'cur',
         smlWt: 1.0,
         lrgWt: 1.0,
         calcWt: (sObj, vObj) => {
@@ -153,9 +158,9 @@ const StyleConstants = {
 };
 
 const VerseObj = {
-    val:{}
-    , ndx:0
-    , ary:[]
+    val: {}
+    , ndx: 0
+    , ary: []
     , toStr: () => `Trace>VerseObj.ndx:${VerseObj.ndx},.ary.length:${VerseObj.ary.length},
         outerHTML  ${VerseObj.val.outerHTML}`
 };
