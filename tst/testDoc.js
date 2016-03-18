@@ -4,6 +4,12 @@
  * ***** TEST FRAMEWORK **************
  *   a Dashboard for selecting tests,
  */
+/**
+ * tst_DOM_NL
+ * NOTE: IN js, UNPACKING IS CALLED Destructuring
+ * @param tst
+ */
+var tst_DOM_NL = function (tst = false) { tstCode();};
 function main() {
     var all = false;
     tst_DOM_NL(true);
@@ -31,8 +37,6 @@ var MSG = '';
 /**
  *   --------------- TEST REQUIRED FUNCTIONS  --------------------------
  * */
-
-
 /**
  * Get all descendants that match selector
  * cssQuery :: String -> Node -> NodeList
@@ -46,38 +50,55 @@ var setStyle = R.curry( (value, node) => {
         return Object.assign(
             node.style, value)
     });
+/**
+ * V_Grp_Tmpl:: template Str FOR document.cssQuery
+ *
+ * @type {Function|*}
+ * @private
+ */
 var V_Grp_Tmpl = '.book .ChptrReadGrps .cur  .VerseReadGrps > .fut .vers';
+/**
+ * styleTmpl_() :: hardCoded Style Template FROM typically StyleConstants
+ * @type {Function|*}
+ * @private
+ */
 var styleTmpl_ = R.compose(R.prop('styleTmpl'),  R.prop('2'));
 
 /**
  *   --------------- CURRENT TEST --------------------------
  * */
-/**
- * tst_DOM_NL
- * NOTE: IN js, UNPACKING IS CALLED Destructuring
- * @param tst
- */
-var tst_DOM_NL = function (tst = false) {
-    var tstCode = function () {
-        MSG = 'tst_DOM_NL-> ';
-        var thisStyle = styleTmpl_(StyleConstants);
-        var CUT = R.pipe(
-            cssQuery(V_Grp_Tmpl),
-            R.map(setStyle(
-                thisStyle)
-            )
-        )(document);
-        C_Both(JSON.stringify(thisStyle));
-    };
+var tstCode = function () {
+    MSG = 'tst_DOM_NL-> ';
+    var tstStyleConst = {    2: {
+        name: 'fut'
+        , smlWt: .4
+        , lrgWt: .8
+        , calcWt: (sObj, vObj) => {
+            //noinspection JSUnusedLocalSymbols
+            let {ver, ndx, ary} = vObj;
+            let {smlWt, lrgWt} = sObj;
+            let len = ary.length - 1;
+            return (len > 0)
+                ? (-(lrgWt - smlWt) / len * ndx + lrgWt)
+                : lrgWt;  // always lrgWt
+        }
+    }};
 
-    tstCode();
+    var thisStyle = styleTmpl_(StyleConstants);
+    var CUT = R.pipe(
+        cssQuery(V_Grp_Tmpl),
+        R.map(setStyle(
+                thisStyle)
+        )
+    )(document);
+    C_Both(JSON.stringify(thisStyle));
 };
 
 
 //  ------------------ INVOkE TEST ------------
+
 main();
-
-
+//  ------------------ old MAYBE USEFUL -------
 /**
  * SEPARATE_StyleConst_BY_VGrpClass_INTO_List
  * @param StyObj
