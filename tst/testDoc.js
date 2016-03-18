@@ -82,9 +82,14 @@ var tstCode = function () {
                 ? (-(lrgWt - smlWt) / len * ndx + lrgWt)
                 : lrgWt;  // always lrgWt
         }
+        , styleTmpl: {
+            backgroundColor: "rgba(145, 248, 29, 0.29)"
+            , opacity: ".75"
+            , fontSize: "75%"
+        }
     }};
 
-    var thisStyle = styleTmpl_(StyleConstants);
+    var thisStyle = styleTmpl_(tstStyleConst);
     var CUT = R.pipe(
         cssQuery(V_Grp_Tmpl),
         R.map(setStyle(
