@@ -9,7 +9,9 @@
  * NOTE: IN js, UNPACKING IS CALLED Destructuring
  * @param tst
  */
-var tst_DOM_NL = function (tst = false) { tstCode();};
+var tst_DOM_NL = function (tst = false) {
+    tstCode();
+};
 function main() {
     var all = false;
     tst_DOM_NL(true);
@@ -39,20 +41,21 @@ var MSG = '';
  * */
 /**
  *          Get all descendants that match selector
- * cssQuery :: String -> Node -> NodeList
+ * cssQuery_ :: String -> Node -> NodeList
  * Note: NodeList is array-like so you can run ramda list functions on it.
  */
-var cssQuery = R.invoker(1, 'querySelectorAll');
+var cssQuery_ = R.invoker(1, 'querySelectorAll');
 /**
  *          Mutate style properties on an element
  */
-var setStyle = R.curry( (value, node) => {
-        return Object.assign(
-            node.style, value)
-    });
+var setStyle = R.curry((value, node) => {
+    return Object.assign(
+        node.style, value)
+});
 //   my Names
 /**
- *          styleTmpl_() :: hardCoded Style Template FROM typically StyleConstants
+ *          styleTmpl_() :: hardCoded Style Template FROM an object
+ *              , typically, StyleConstants, BUT also tstStyleConstants
  * @type {Function|*}
  * @private
  */
@@ -61,58 +64,59 @@ var styleTmpl_ = R.pipe(R.prop('2'), R.prop('styleTmpl'));
  *          A subset, IN this case 'fut' OF objects/StyleConstants
  * @type {{2: {name: string, smlWt: number, lrgWt: number, calcWt: Function, styleTmpl: {backgroundColor: string, opacity: string, fontSize: string}}}}
  */
-var tstStyleConst = {    2: {
-    name: 'fut'
-    , smlWt: .4
-    , lrgWt: .8
-    , calcWt: (sObj, vObj) => {
-        //noinspection JSUnusedLocalSymbols
-        let {ver, ndx, ary} = vObj;
-        let {smlWt, lrgWt} = sObj;
-        let len = ary.length - 1;
-        return (len > 0)
-            ? (-(lrgWt - smlWt) / len * ndx + lrgWt)
-            : lrgWt;  // always lrgWt
+var tstStyleConstants = {
+    2: {
+        name: 'fut'
+        , smlWt: .4
+        , lrgWt: .8
+        , calcWt: (sObj, vObj) => {
+            //noinspection JSUnusedLocalSymbols
+            let {ver, ndx, ary} = vObj;
+            let {smlWt, lrgWt} = sObj;
+            let len = ary.length - 1;
+            return (len > 0)
+                ? (-(lrgWt - smlWt) / len * ndx + lrgWt)
+                : lrgWt;  // always lrgWt
+        }
+        , styleTmpl: {
+            backgroundColor: "rgba(145, 248, 29, 0.29)"
+            , opacity: ".75"
+            , fontSize: "75%"
+        }
     }
-    , styleTmpl: {
-        backgroundColor: "rgba(145, 248, 29, 0.29)"
-        , opacity: ".75"
-        , fontSize: "75%"
-    }
-}};
+};
 /**
- *          NodeListTmpl:: template Str FOR document.cssQuery
+ *          NodeListTmpl:: template Str FOR document.cssQuery_
  *
  * @type {Function|*}
  * @private
  */
-var NodeListTmpl = '.book .ChptrReadGrps .cur  .VerseReadGrps > .fut .vers';
-var NodeList_Query_ = cssQuery;
-var thisStyle = styleTmpl_(tstStyleConst);
+var NodeList_Tmpl = '.book .ChptrReadGrps .cur  .VerseReadGrps > .fut .vers';
+var NodeList_ = R.flip(cssQuery_)(document); //
+/**
+ * VerseStyle:: Obj -> Obj
+ */
+var VerseStyle = styleTmpl_(tstStyleConstants);
 
 /**
  *   --------------- CURRENT --------------------------
  * */
 var tstCode = function () {
-    MSG = 'tst_DOM_NL.CREATE_StyleTmpl->\n --- ';
-    var CREATE_StyleTmpl_ = () => {return thisStyle };
-    var MUTATE_Style__ = R.curry( (value, node, ndx, coll) => {
-        return Object.assign(
-            node.style, value)
-    });
-    var tstMUTATE_ = MUTATE_Style__(thisStyle);
-
-    R.pipe(
-        NodeList_Query_(NodeListTmpl),
-        R.mapObjIndexed(tstMUTATE_)
-    )(document);
-    MSG += JSON.stringify(CREATE_StyleTmpl_());
-    C_Both(MSG);
-};
-
-
+        MSG = 'tst_DOM_NL.CREATE_StyleTmpl->\n --- ';
+        var Verses_ = R.curry(
+            function Verses_(value, node, ndx, coll) {
+                C_Both(`nds:${ndx}, ${value}`);
+                return Object.assign(
+                    node.style, value)
+            });
+        R.mapObjIndexed(
+            Verses_({backgroundColor: "rgba(145, 248, 29, 0.29)"})
+            , NodeList_(NodeList_Tmpl)
+        );
+        //C_Both(MSG);
+    }
+    ;
 //  ------------------ INVOkE TEST ------------
-
 main();
 //  ------------------ old MAYBE USEFUL -------
 /**
