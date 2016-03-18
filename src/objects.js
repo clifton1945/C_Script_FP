@@ -108,7 +108,7 @@ const StyleObj = {
 const StyleConstants = {
     2: {
         name: 'fut'
-        smlWt: .4
+        ,smlWt: .4
         , lrgWt: .95
         , calcWt: (sObj, vObj) => {
             //noinspection JSUnusedLocalSymbols

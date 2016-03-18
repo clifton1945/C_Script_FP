@@ -47,6 +47,7 @@ var setStyle = R.curry( (value, node) => {
             node.style, value)
     });
 var V_Grp_Tmpl = '.book .ChptrReadGrps .cur  .VerseReadGrps > .fut .vers';
+var styleTmpl_ = R.compose(R.prop('styleTmpl'),  R.prop('2'));
 
 /**
  *   --------------- CURRENT TEST --------------------------
@@ -59,19 +60,16 @@ var V_Grp_Tmpl = '.book .ChptrReadGrps .cur  .VerseReadGrps > .fut .vers';
 var tst_DOM_NL = function (tst = false) {
     var tstCode = function () {
         MSG = 'tst_DOM_NL-> ';
+        var thisStyle = styleTmpl_(StyleConstants);
         var CUT = R.pipe(
             cssQuery(V_Grp_Tmpl),
             R.map(setStyle(
-                {
-                    backgroundColor: "rgba(145, 248, 29, 0.29)"
-                    , opacity: ".5"
-                    , fontSize: "50%"
-                }
-            ))
+                thisStyle)
+            )
         )(document);
-        CUT();
-        C_Both(MSG);
+        C_Both(JSON.stringify(thisStyle));
     };
+
     tstCode();
 };
 
