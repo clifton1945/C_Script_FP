@@ -38,60 +38,68 @@ var MSG = '';
  *   --------------- TEST REQUIRED FUNCTIONS  --------------------------
  * */
 /**
- * Get all descendants that match selector
+ *          Get all descendants that match selector
  * cssQuery :: String -> Node -> NodeList
  * Note: NodeList is array-like so you can run ramda list functions on it.
  */
 var cssQuery = R.invoker(1, 'querySelectorAll');
 /**
- * Mutate style properties on an element
+ *          Mutate style properties on an element
  */
 var setStyle = R.curry( (value, node) => {
         return Object.assign(
             node.style, value)
     });
 /**
- * V_Grp_Tmpl:: template Str FOR document.cssQuery
+ *          V_Grp_Tmpl:: template Str FOR document.cssQuery
  *
  * @type {Function|*}
  * @private
  */
 var V_Grp_Tmpl = '.book .ChptrReadGrps .cur  .VerseReadGrps > .fut .vers';
 /**
- * styleTmpl_() :: hardCoded Style Template FROM typically StyleConstants
+ *          styleTmpl_() :: hardCoded Style Template FROM typically StyleConstants
  * @type {Function|*}
  * @private
  */
-var styleTmpl_ = R.compose(R.prop('styleTmpl'),  R.prop('2'));
-
+var styleTmpl_ = R.pipe(R.prop('2'), R.prop('styleTmpl'));
 /**
- *   --------------- CURRENT TEST --------------------------
+ *          A subset, IN this case 'fut' OF objects/StyleConstants
+ * @type {{2: {name: string, smlWt: number, lrgWt: number, calcWt: Function, styleTmpl: {backgroundColor: string, opacity: string, fontSize: string}}}}
+ */
+var tstStyleConst = {    2: {
+    name: 'fut'
+    , smlWt: .4
+    , lrgWt: .8
+    , calcWt: (sObj, vObj) => {
+        //noinspection JSUnusedLocalSymbols
+        let {ver, ndx, ary} = vObj;
+        let {smlWt, lrgWt} = sObj;
+        let len = ary.length - 1;
+        return (len > 0)
+            ? (-(lrgWt - smlWt) / len * ndx + lrgWt)
+            : lrgWt;  // always lrgWt
+    }
+    , styleTmpl: {
+        backgroundColor: "rgba(145, 248, 29, 0.29)"
+        , opacity: ".75"
+        , fontSize: "75%"
+    }
+}};
+/**
+ *   --------------- CURRENT --------------------------
  * */
 var tstCode = function () {
-    MSG = 'tst_DOM_NL-> ';
-    var tstStyleConst = {    2: {
-        name: 'fut'
-        , smlWt: .4
-        , lrgWt: .8
-        , calcWt: (sObj, vObj) => {
-            //noinspection JSUnusedLocalSymbols
-            let {ver, ndx, ary} = vObj;
-            let {smlWt, lrgWt} = sObj;
-            let len = ary.length - 1;
-            return (len > 0)
-                ? (-(lrgWt - smlWt) / len * ndx + lrgWt)
-                : lrgWt;  // always lrgWt
-        }
-    }};
-
-    var thisStyle = styleTmpl_(StyleConstants);
+    MSG = 'tst_DOM_NL->\n --- ';
+    var thisStyle = styleTmpl_(tstStyleConst);
     var CUT = R.pipe(
         cssQuery(V_Grp_Tmpl),
         R.map(setStyle(
                 thisStyle)
         )
     )(document);
-    C_Both(JSON.stringify(thisStyle));
+    MSG += JSON.stringify(thisStyle);
+    C_Both(MSG);
 };
 
 
