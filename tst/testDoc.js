@@ -26,7 +26,7 @@ function main() {
  * */
 //  *********** DOM  DATA    REQUIRE functions.js
 var book = GET_book();
-//var V_Grp_Tmpl = '.book .ChptrReadGrps .cur  .VerseReadGrps > div';
+//var NodeListTmpl = '.book .ChptrReadGrps .cur  .VerseReadGrps > div';
 //var VG_NL = GET_V_Grp_NL(GET_book());
 //var VG_AR = [...VG_NL];
 //var C_Grp_NL = GET_C_Grp_NL(book);
@@ -50,13 +50,7 @@ var setStyle = R.curry( (value, node) => {
         return Object.assign(
             node.style, value)
     });
-/**
- *          V_Grp_Tmpl:: template Str FOR document.cssQuery
- *
- * @type {Function|*}
- * @private
- */
-var V_Grp_Tmpl = '.book .ChptrReadGrps .cur  .VerseReadGrps > .fut .vers';
+//   my Names
 /**
  *          styleTmpl_() :: hardCoded Style Template FROM typically StyleConstants
  * @type {Function|*}
@@ -87,18 +81,32 @@ var tstStyleConst = {    2: {
     }
 }};
 /**
+ *          NodeListTmpl:: template Str FOR document.cssQuery
+ *
+ * @type {Function|*}
+ * @private
+ */
+var NodeListTmpl = '.book .ChptrReadGrps .cur  .VerseReadGrps > .fut .vers';
+var NodeList_Query_ = cssQuery;
+var thisStyle = styleTmpl_(tstStyleConst);
+
+/**
  *   --------------- CURRENT --------------------------
  * */
 var tstCode = function () {
-    MSG = 'tst_DOM_NL->\n --- ';
-    var thisStyle = styleTmpl_(tstStyleConst);
-    var CUT = R.pipe(
-        cssQuery(V_Grp_Tmpl),
-        R.map(setStyle(
-                thisStyle)
-        )
+    MSG = 'tst_DOM_NL.CREATE_StyleTmpl->\n --- ';
+    var CREATE_StyleTmpl_ = () => {return thisStyle };
+    var MUTATE_Style__ = R.curry( (value, node, ndx, coll) => {
+        return Object.assign(
+            node.style, value)
+    });
+    var tstMUTATE_ = MUTATE_Style__(thisStyle);
+
+    R.pipe(
+        NodeList_Query_(NodeListTmpl),
+        R.mapObjIndexed(tstMUTATE_)
     )(document);
-    MSG += JSON.stringify(thisStyle);
+    MSG += JSON.stringify(CREATE_StyleTmpl_());
     C_Both(MSG);
 };
 
