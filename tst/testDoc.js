@@ -26,7 +26,7 @@ function main() {
  * */
 //  *********** DOM  DATA    REQUIRE functions.js
 var book = GET_book();
-//var V_Grp_Tmpl = '.book .ChptrReadGrps .cur  .VerseReadGrps > div';
+//var NodeListTmpl = '.book .ChptrReadGrps .cur  .VerseReadGrps > div';
 //var VG_NL = GET_V_Grp_NL(GET_book());
 //var VG_AR = [...VG_NL];
 //var C_Grp_NL = GET_C_Grp_NL(book);
@@ -38,65 +38,76 @@ var MSG = '';
  *   --------------- TEST REQUIRED FUNCTIONS  --------------------------
  * */
 /**
- * Get all descendants that match selector
+ *          Get all descendants that match selector
  * cssQuery :: String -> Node -> NodeList
  * Note: NodeList is array-like so you can run ramda list functions on it.
  */
 var cssQuery = R.invoker(1, 'querySelectorAll');
 /**
- * Mutate style properties on an element
+ *          Mutate style properties on an element
  */
 var setStyle = R.curry( (value, node) => {
         return Object.assign(
             node.style, value)
     });
+//   my Names
 /**
- * V_Grp_Tmpl:: template Str FOR document.cssQuery
+ *          styleTmpl_() :: hardCoded Style Template FROM typically StyleConstants
+ * @type {Function|*}
+ * @private
+ */
+var styleTmpl_ = R.pipe(R.prop('2'), R.prop('styleTmpl'));
+/**
+ *          A subset, IN this case 'fut' OF objects/StyleConstants
+ * @type {{2: {name: string, smlWt: number, lrgWt: number, calcWt: Function, styleTmpl: {backgroundColor: string, opacity: string, fontSize: string}}}}
+ */
+var tstStyleConst = {    2: {
+    name: 'fut'
+    , smlWt: .4
+    , lrgWt: .8
+    , calcWt: (sObj, vObj) => {
+        //noinspection JSUnusedLocalSymbols
+        let {ver, ndx, ary} = vObj;
+        let {smlWt, lrgWt} = sObj;
+        let len = ary.length - 1;
+        return (len > 0)
+            ? (-(lrgWt - smlWt) / len * ndx + lrgWt)
+            : lrgWt;  // always lrgWt
+    }
+    , styleTmpl: {
+        backgroundColor: "rgba(145, 248, 29, 0.29)"
+        , opacity: ".75"
+        , fontSize: "75%"
+    }
+}};
+/**
+ *          NodeListTmpl:: template Str FOR document.cssQuery
  *
  * @type {Function|*}
  * @private
  */
-var V_Grp_Tmpl = '.book .ChptrReadGrps .cur  .VerseReadGrps > .fut .vers';
-/**
- * styleTmpl_() :: hardCoded Style Template FROM typically StyleConstants
- * @type {Function|*}
- * @private
- */
-var styleTmpl_ = R.compose(R.prop('styleTmpl'),  R.prop('2'));
+var NodeListTmpl = '.book .ChptrReadGrps .cur  .VerseReadGrps > .fut .vers';
+var NodeList_Query_ = cssQuery;
+var thisStyle = styleTmpl_(tstStyleConst);
 
 /**
- *   --------------- CURRENT TEST --------------------------
+ *   --------------- CURRENT --------------------------
  * */
 var tstCode = function () {
-    MSG = 'tst_DOM_NL-> ';
-    var tstStyleConst = {    2: {
-        name: 'fut'
-        , smlWt: .4
-        , lrgWt: .8
-        , calcWt: (sObj, vObj) => {
-            //noinspection JSUnusedLocalSymbols
-            let {ver, ndx, ary} = vObj;
-            let {smlWt, lrgWt} = sObj;
-            let len = ary.length - 1;
-            return (len > 0)
-                ? (-(lrgWt - smlWt) / len * ndx + lrgWt)
-                : lrgWt;  // always lrgWt
-        }
-        , styleTmpl: {
-            backgroundColor: "rgba(145, 248, 29, 0.29)"
-            , opacity: ".75"
-            , fontSize: "75%"
-        }
-    }};
+    MSG = 'tst_DOM_NL.CREATE_StyleTmpl->\n --- ';
+    var CREATE_StyleTmpl_ = () => {return thisStyle };
+    var MUTATE_Style__ = R.curry( (value, node, ndx, coll) => {
+        return Object.assign(
+            node.style, value)
+    });
+    var tstMUTATE_ = MUTATE_Style__(thisStyle);
 
-    var thisStyle = styleTmpl_(tstStyleConst);
-    var CUT = R.pipe(
-        cssQuery(V_Grp_Tmpl),
-        R.map(setStyle(
-                thisStyle)
-        )
+    R.pipe(
+        NodeList_Query_(NodeListTmpl),
+        R.mapObjIndexed(tstMUTATE_)
     )(document);
-    C_Both(JSON.stringify(thisStyle));
+    MSG += JSON.stringify(CREATE_StyleTmpl_());
+    C_Both(MSG);
 };
 
 
