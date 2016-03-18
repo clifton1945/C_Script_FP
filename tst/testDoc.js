@@ -104,13 +104,18 @@ var VerseStyle = styleTmpl_(tstStyleConstants);
 var tstCode = function () {
         MSG = 'tst_DOM_NL.CREATE_StyleTmpl->\n --- ';
         var Verses_ = R.curry(
-            function Verses_(value, node, ndx, coll) {
-                C_Both(`nds:${ndx}, ${value}`);
+            function Verses_(StyleCons, node, ndx, coll) {
+                var value = R.pipe(
+                    R.prop('2')
+                    , R.prop('styleTmpl')
+                )((StyleCons));
+
+                C_Both(`nds:${ndx}, ${JSON.stringify(value)}`);
                 return Object.assign(
                     node.style, value)
             });
         R.mapObjIndexed(
-            Verses_({backgroundColor: "rgba(145, 248, 29, 0.29)"})
+            Verses_(tstStyleConstants)
             , NodeList_(NodeList_Tmpl)
         );
         //C_Both(MSG);
