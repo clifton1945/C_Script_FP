@@ -97,17 +97,6 @@ var tstCode = function () {
                 }
             }
         };
-        ///**
-        // *          TEST_ONLY VerseStyle:: Obj -> Obj
-        // */
-        //var VerseStyle = styleTmpl_(tstStyleConstants);
-        ///**
-        // *          TEST_ONLY styleTmpl_() :: hardCoded Style Template FROM an object
-        // *              , typically, StyleConstants, BUT also tstStyleConstants
-        // * @type {Function|*}
-        // * @private
-        // */
-        //var styleTmpl_ = R.pipe(R.prop('2'), R.prop('styleTmpl'));
 
         var weightedStyles_ = function weightedStyles_ (StyObj) {
             return  R.pipe(R.prop('2'), R.prop('styleTmpl'))(StyObj)
