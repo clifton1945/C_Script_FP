@@ -97,9 +97,15 @@ var tstCode = function () {
                 }
             }
         };
-
-        var weightedStyles_ = function weightedStyles_ (StyObj) {
-            return  R.pipe(R.prop('2'), R.prop('styleTmpl'))(StyObj)
+        // CUT -------------  Code Under Test -----------------------
+        var weightedStyles_ = function weightedStyles_(StyObj, ndx, coll) {
+            var WIP_LengthMinusOne =
+                function WIP_LengthMinusOne(collection) {
+                    return R.pipe(R.prop('length'), R.dec)(collection)
+                };
+            C_Both(WIP_LengthMinusOne(coll));
+            //C_Both( R.pipe(R.prop('length'), R.dec)(coll));
+            return R.pipe(R.prop('2'), R.prop('styleTmpl'))(StyObj)
         };
 
         var Verses_ = R.curry(
@@ -115,7 +121,7 @@ var tstCode = function () {
              */
             function Verses_(StyleCons, node, ndx, coll) {
                 // TODO pipe these
-                var wtStyles = weightedStyles_(StyleCons);
+                var wtStyles = weightedStyles_(StyleCons, ndx, coll);
 
                 MSG += (`nds:${ndx}, ${JSON.stringify(wtStyles)}`);
 

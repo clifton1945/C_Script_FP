@@ -46,6 +46,13 @@ const C_Both = (txt) => {
     C_It (txt);
     Doc_It (txt);
 };
+/**
+ *          TRACE:: t -> o -> o
+ * @param txt
+ * @param obj
+ * @returns {*}
+ * @constructor
+ */
 const TRACE = function TRACE (txt, obj) {
     C_Both(`${txt}: ${obj}`);
     return obj
