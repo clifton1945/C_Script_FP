@@ -52,39 +52,7 @@ var setStyle = R.curry((value, node) => {
     return Object.assign(
         node.style, value)
 });
-//   my Names
-/**
- *          styleTmpl_() :: hardCoded Style Template FROM an object
- *              , typically, StyleConstants, BUT also tstStyleConstants
- * @type {Function|*}
- * @private
- */
-var styleTmpl_ = R.pipe(R.prop('2'), R.prop('styleTmpl'));
-/**
- *          A subset, IN this case 'fut' OF objects/StyleConstants
- * @type {{2: {name: string, smlWt: number, lrgWt: number, calcWt: Function, styleTmpl: {backgroundColor: string, opacity: string, fontSize: string}}}}
- */
-var tstStyleConstants = {
-    2: {
-        name: 'fut'
-        , smlWt: .4
-        , lrgWt: .8
-        , calcWt: (sObj, vObj) => {
-            //noinspection JSUnusedLocalSymbols
-            let {ver, ndx, ary} = vObj;
-            let {smlWt, lrgWt} = sObj;
-            let len = ary.length - 1;
-            return (len > 0)
-                ? (-(lrgWt - smlWt) / len * ndx + lrgWt)
-                : lrgWt;  // always lrgWt
-        }
-        , styleTmpl: {
-            backgroundColor: "rgba(145, 248, 29, 0.29)"
-            , opacity: ".75"
-            , fontSize: "75%"
-        }
-    }
-};
+//   ------------------ my Names  -----------------------------------
 /**
  *          NodeListTmpl:: template Str FOR document.cssQuery_
  *
@@ -92,38 +60,86 @@ var tstStyleConstants = {
  * @private
  */
 var NodeList_Tmpl = '.book .ChptrReadGrps .cur  .VerseReadGrps > .fut .vers';
-var NodeList_ = R.flip(cssQuery_)(document); //
 /**
- * VerseStyle:: Obj -> Obj
+ *           NodeList_:: n -> o -> n
+ *  Get all descendants that match selector
  */
-var VerseStyle = styleTmpl_(tstStyleConstants);
+var NodeList_ = R.flip(cssQuery_)(document);
+
 
 /**
  *   --------------- CURRENT --------------------------
  * */
 var tstCode = function () {
         MSG = 'tst_DOM_NL.CREATE_StyleTmpl->\n --- ';
+        /**
+         *          TEST_ONLY A subset, IN this case 'fut' OF objects/StyleConstants
+         * @type {{2: {name: string, smlWt: number, lrgWt: number, calcWt: Function, styleTmpl: {backgroundColor: string, opacity: string, fontSize: string}}}}
+         */
+        var tstStyleConstants = {
+            2: {
+                name: 'fut'
+                , smlWt: .4
+                , lrgWt: .8
+                , calcWt: (sObj, vObj) => {
+                    //noinspection JSUnusedLocalSymbols
+                    let {ver, ndx, ary} = vObj;
+                    let {smlWt, lrgWt} = sObj;
+                    let len = ary.length - 1;
+                    return (len > 0)
+                        ? (-(lrgWt - smlWt) / len * ndx + lrgWt)
+                        : lrgWt;  // always lrgWt
+                }
+                , styleTmpl: {
+                    backgroundColor: "rgba(145, 248, 29, 0.29)"
+                    , opacity: ".75"
+                    , fontSize: "75%"
+                }
+            }
+        };
+        /**
+         *          TEST_ONLY VerseStyle:: Obj -> Obj
+         */
+        var VerseStyle = styleTmpl_(tstStyleConstants);
+        /**
+         *          TEST_ONLY styleTmpl_() :: hardCoded Style Template FROM an object
+         *              , typically, StyleConstants, BUT also tstStyleConstants
+         * @type {Function|*}
+         * @private
+         */
+        var styleTmpl_ = R.pipe(R.prop('2'), R.prop('styleTmpl'));
+
         var Verses_ = R.curry(
+            /**
+             * Verses_:: function (o)(v,n,c)-> v
+             * @param StyleCons
+             * @param node
+             * @param ndx
+             * @param coll
+             * @returns {*}
+             * @constructor
+             * @private
+             */
             function Verses_(StyleCons, node, ndx, coll) {
-                var value = R.pipe(
+                var weightedStyles = R.pipe(
                     R.prop('2')
                     , R.prop('styleTmpl')
                 )((StyleCons));
 
-                C_Both(`nds:${ndx}, ${JSON.stringify(value)}`);
-                return Object.assign(
-                    node.style, value)
+                MSG += (`nds:${ndx}, ${JSON.stringify(weightedStyles)}`);
+
+                return setStyle(weightedStyles, node)
             });
         R.mapObjIndexed(
-            Verses_(tstStyleConstants)
+            Verses_(tstStyleConstants) // partial
             , NodeList_(NodeList_Tmpl)
         );
-        //C_Both(MSG);
+        C_Both(MSG);
     }
     ;
 //  ------------------ INVOkE TEST ------------
 main();
-//  ------------------ old MAYBE USEFUL -------
+//  ------------------ old MAYBE USEFUL WHEN I GET TO ALL THREE NODELISTS -------
 /**
  * SEPARATE_StyleConst_BY_VGrpClass_INTO_List
  * @param StyObj
