@@ -128,19 +128,15 @@ var tstCode = function () {
          * @private
          */
         var aStyleFORaVerse_ = function aStyleFORaVerse_(StyleStt, node, ndx, coll) {
-            var aStyle_tstStub = (o) => R.pipe(
-                TRACE(R.prop(JSON.stringify(o))),
-                R.prop('2')
-                //, TRACE(R.prop('name', o))
-                , R.prop('styleTmpl')
-                //, TRACE_((o)=> R.prop('opacity', o))
-            );
-            //MSG += (`>>> nds:${ndx}, ${JSON.stringify(aStyle_tstStub)}`);
-            return setStyle(aStyle_tstStub(StyleStt), node)
+            var aStyle_tstStub = R.pipe(
+                R.prop('2'),
+                R.prop('styleTmpl'),
+                TRACE('AFTER ')
+            )(StyleStt);
+            MSG += (`    >>> nds:${ndx}, ${JSON.stringify(aStyle_tstStub)}`);
+            return aStyle_tstStub
         };
-
         var crrd_StyleFORaVerse_ = R.curry(aStyleFORaVerse_);
-
 
         /**
          *          MAKE this INTO aStyleFOREACH_VerseElem
@@ -150,6 +146,7 @@ var tstCode = function () {
             crrd_StyleFORaVerse_(tstStyleConstants) // partial. WANTS aNode FROM the NL below.
             , NodeList_(NodeList_fut)               // this SATISFIES each aStyleFORaVerse_
         );
+        C_Both(MSG);
 
 // NOW INVOKE IT
 //C_Both(MSG);
