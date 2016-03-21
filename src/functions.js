@@ -57,10 +57,12 @@ const C_Both = (txt) => {
  * @returns {*}
  * @constructor
  */
-const TRACE = function TRACE (txt, obj) {
-    C_Both(`${txt}: ${obj}`);
-    return obj
-};
+const TRACE = R.curry(
+    function TRACE (txt, obj) {
+        C_Both(`${txt}: ${obj}`);
+        return obj
+    }
+);
 const TRACE_ = function TRACE_ (fn, obj) {
     TRACE(fn(obj))
 };
