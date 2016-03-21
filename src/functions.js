@@ -3,6 +3,7 @@
  */
 
 "use strict";
+//var R = require('ramda');
 //VERBS: MODIFY, UPDATE, APPLY,ADMINISTER,COMPLETE,FULFILL,AFFECT,ALTER
 
 /**
@@ -41,7 +42,10 @@ const GET_V_Grp_NL =
 
 // *********** OLD BUT STILL IN USE
 const Doc_It = (txt) => document.querySelector(".console").textContent = txt;
+
 const C_It = (txt) => console.log(txt);
+//export {C_It};
+
 const C_Both = (txt) => {
     C_It (txt);
     Doc_It (txt);
