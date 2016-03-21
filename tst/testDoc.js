@@ -74,84 +74,70 @@ var NodeList_ = R.flip(cssQuery_)(document);
  *   --------------- CURRENT --------------------------
  * */
 var tstCode = function () {
-        MSG = 'tst_DOM_NL.CREATE_StyleTmpl->\n --- ';
-        /**
-         *          TEST_ONLY A subset, IN this case 'fut' OF objects/StyleConstants
-         * @type {{2: {name: string, smlWt: number, lrgWt: number, calcWt: Function, styleTmpl: {backgroundColor: string, opacity: string, fontSize: string}}}}
-         */
-        var tstStyleConstants = {
-            2: {
-                name: 'fut'
-                , smlWt: .4
-                , lrgWt: .8
-                , calcWt: (sObj, vObj) => {
-                    //noinspection JSUnusedLocalSymbols
-                    let {ver, ndx, ary} = vObj;
-                    let {smlWt, lrgWt} = sObj;
-                    let len = ary.length - 1;
-                    return (len > 0)
-                        ? (-(lrgWt - smlWt) / len * ndx + lrgWt)
-                        : lrgWt;  // always lrgWt
-                }
-                , styleTmpl: {
-                    backgroundColor: "rgba(145, 248, 29, 0.29)"
-                    , opacity: ".75"
-                    , fontSize: "75%"
-                }
+    MSG = 'tst_DOM_NL.CREATE_StyleTmpl->\n --- ';
+    /**
+     *          TEST_ONLY A subset, IN this case 'fut' OF objects/StyleConstants
+     * @type {{2: {name: string, smlWt: number, lrgWt: number, calcWt: Function, styleTmpl: {backgroundColor: string, opacity: string, fontSize: string}}}}
+     */
+    var tstStyleConstants = {
+        2: {
+            name: 'fut'
+            , smlWt: .4
+            , lrgWt: .8
+            , calcWt: (sObj, vObj) => {
+                //noinspection JSUnusedLocalSymbols
+                let {ver, ndx, ary} = vObj;
+                let {smlWt, lrgWt} = sObj;
+                let len = ary.length - 1;
+                return (len > 0)
+                    ? (-(lrgWt - smlWt) / len * ndx + lrgWt)
+                    : lrgWt;  // always lrgWt
             }
-        };
-        // CUT -------------  Code Under Test -----------------------
-        //var wtStyles = weightedStyles_(StyleStt, ndx, coll);
-        //var weightedStyles_ = function weightedStyles_(StyObj, ndx, coll) {
-        //    var WIP_LengthMinusOne =
-        //        function WIP_LengthMinusOne(collection) {
-        //            return R.pipe(R.prop('length'), R.dec)(collection)
-        //        };
-        //    C_Both(WIP_LengthMinusOne(coll));
-        //    //C_Both( R.pipe(R.prop('length'), R.dec)(coll));
-        //    return R.pipe(R.prop('2'), R.prop('styleTmpl'))(StyObj)
-        //};
+            , styleTmpl: {
+                backgroundColor: "rgba(145, 248, 29, 0.29)"
+                , opacity: ".75"
+                , fontSize: "75%"
+            }
+        }
+    };
 
-        /**
-         *      curried aStyleFORaVerse_::aStyleFORaVerse_ FROM (StyleState)(VerseState)
-         */
-        /**
-         * aStyleFORaVerse_ FROM (StyleState)(VerseState)
-         * :: function (o)(v,n,c)-> v
-         * @param StyleStt
-         * // Verse State IS
-         * @param node
-         * @param ndx
-         * @param coll
-         * @returns {*}  - node.style MUTATED
-         * @constructor
-         * @private
-         */
-        var aStyleFORaVerse_ = function aStyleFORaVerse_(StyleStt, node, ndx, coll) {
+    /**
+     *          aStyleFOR_eachVerse_ FROM (StyleState)(VerseState)
+     * :: function (o)(v,n,c)-> v
+     * @param StyleStt
+     * // Verse State IS
+     * @param node
+     * @param ndx
+     * @param coll
+     * @returns {*}  - node.style MUTATED
+     * @constructor
+     * @private
+     */
+    var aStyle_FOR_aVerse_ = R.curry(
+        function aStyleFORaVerse_(StyleStt, node, ndx, coll) {
             var aStyleObj = R.pipe(
                 R.prop('2'),
                 R.prop('styleTmpl'),
                 TRACE_((obj) => ` a Style:${JSON.stringify(obj)} FOR Verse[${ndx}]`)
-            )(StyleStt);  // partial
+            );  // partial
             //MSG += (`    >>> nds:${ndx}, ${JSON.stringify(aStyleObj)}`);
             // NOW actually SET the Element's style
-            return aStyleObj
-        };
-        var crrd_StyleFORaVerse_ = R.curry(aStyleFORaVerse_);
+            return setStyle(aStyleObj(StyleStt), node)
+        });
 
-        /**
-         *          MAKE this INTO aStyleFOREACH_VerseElem
-         * StyledVerseList OF MUTATED Node.style FROM NodeList.
-         */
-        R.mapObjIndexed(
-            crrd_StyleFORaVerse_(tstStyleConstants) // partial. WANTS aNode FROM the NL below.
-            , NodeList_(NodeList_fut)               // this SATISFIES each aStyleFORaVerse_
-        );
-        //C_Both(MSG);
+    /**
+     *          aStyleFOR_eachVerse_
+     * StyledVerseList OF MUTATED Node.style FROM NodeList.
+     */
+    R.mapObjIndexed(
+        aStyle_FOR_aVerse_(tstStyleConstants) // partial. WANTS aNode FROM the NL below.
+        , NodeList_(NodeList_fut)               // this SATISFIES each aStyle_FOR_aVerse_
+    );
+    //C_Both(MSG);
 
 // NOW INVOKE IT
 //C_Both(MSG);
-    };
+};
 //  ------------------ INVOkE TEST ------------
 main();
 // Modules
