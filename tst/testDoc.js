@@ -102,21 +102,21 @@ var tstCode = function () {
         };
         // CUT -------------  Code Under Test -----------------------
         //var wtStyles = weightedStyles_(StyleStt, ndx, coll);
-        var weightedStyles_ = function weightedStyles_(StyObj, ndx, coll) {
-            var WIP_LengthMinusOne =
-                function WIP_LengthMinusOne(collection) {
-                    return R.pipe(R.prop('length'), R.dec)(collection)
-                };
-            C_Both(WIP_LengthMinusOne(coll));
-            //C_Both( R.pipe(R.prop('length'), R.dec)(coll));
-            return R.pipe(R.prop('2'), R.prop('styleTmpl'))(StyObj)
-        };
+        //var weightedStyles_ = function weightedStyles_(StyObj, ndx, coll) {
+        //    var WIP_LengthMinusOne =
+        //        function WIP_LengthMinusOne(collection) {
+        //            return R.pipe(R.prop('length'), R.dec)(collection)
+        //        };
+        //    C_Both(WIP_LengthMinusOne(coll));
+        //    //C_Both( R.pipe(R.prop('length'), R.dec)(coll));
+        //    return R.pipe(R.prop('2'), R.prop('styleTmpl'))(StyObj)
+        //};
 
         /**
-         *      curried aStyledVerse_::aStyledVerse_ FROM (StyleState)(VerseState)
+         *      curried aStyleFORaVerse_::aStyleFORaVerse_ FROM (StyleState)(VerseState)
          */
         /**
-         * aStyledVerse_ FROM (StyleState)(VerseState)
+         * aStyleFORaVerse_ FROM (StyleState)(VerseState)
          * :: function (o)(v,n,c)-> v
          * @param StyleStt
          * // Verse State IS
@@ -127,38 +127,39 @@ var tstCode = function () {
          * @constructor
          * @private
          */
-        var aStyledVerse_ = function aStyledVerse_(StyleStt, node, ndx, coll) {
+        var aStyleFORaVerse_ = function aStyleFORaVerse_(StyleStt, node, ndx, coll) {
             var aStyle_tstStub = (o) => R.pipe(
-                R.always(o)
-                , R.prop('styleTmpl'
-                    , R.prop('2')
-                    //, TRACE((o)=> {return R.prop('opacity', o)})
-                ));
+                TRACE(R.prop(JSON.stringify(o))),
+                R.prop('2')
+                //, TRACE(R.prop('name', o))
+                , R.prop('styleTmpl')
+                //, TRACE_((o)=> R.prop('opacity', o))
+            );
             //MSG += (`>>> nds:${ndx}, ${JSON.stringify(aStyle_tstStub)}`);
             return setStyle(aStyle_tstStub(StyleStt), node)
         };
 
-        var curried_aStyleVerse = R.curry(aStyledVerse_);
+        var crrd_StyleFORaVerse_ = R.curry(aStyleFORaVerse_);
+
+
         /**
+         *          MAKE this INTO aStyleFOREACH_VerseElem
          * StyledVerseList OF MUTATED Node.style FROM NodeList.
          */
         R.mapObjIndexed(
-            curried_aStyleVerse(tstStyleConstants) // partial. WANTS aNode FROM the NL below.
-            , NodeList_(NodeList_fut)           // this SATISFIES each aStyledVerse_
+            crrd_StyleFORaVerse_(tstStyleConstants) // partial. WANTS aNode FROM the NL below.
+            , NodeList_(NodeList_fut)               // this SATISFIES each aStyleFORaVerse_
         );
 
 // NOW INVOKE IT
 //C_Both(MSG);
-    }
-    ;
+    };
 //  ------------------ INVOkE TEST ------------
 main();
 // Modules
 //import * as fn from '../src/modules-compiled.js'; // WORKS
 //C_It(testStr);  // OK
-
 // ------------- MODULES ---------------------
-
 //R.find(R.is(String), [ 1, 'a', 'b', 12 ]);
 //R.add(1, 'tt'); //=> 3
 //  ------------------ old MAYBE USEFUL WHEN I GET TO ALL THREE NODELISTS -------
