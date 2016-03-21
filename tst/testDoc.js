@@ -131,8 +131,8 @@ var tstCode = function () {
             var aStyleObj = R.pipe(
                 R.prop('2'),
                 R.prop('styleTmpl'),
-                TRACE_((obj)=> ` after ${JSON.stringify(obj)}`)
-            )(StyleStt);
+                TRACE_((obj) => ` a Style:${JSON.stringify(obj)} FOR Verse[${ndx}]`)
+            )(StyleStt);  // partial
             //MSG += (`    >>> nds:${ndx}, ${JSON.stringify(aStyleObj)}`);
             // NOW actually SET the Element's style
             return aStyleObj
