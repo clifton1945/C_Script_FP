@@ -1,4 +1,6 @@
-"use strict";
+//"use strict";
+//var R = require('ramda-maybe');
+//import { testStr, C_It } from '..//src//modules-compiled'; // WORKS but throws Inspection 'can't resolve
 
 /**
  * ***** TEST FRAMEWORK **************
@@ -10,11 +12,11 @@
  * @param tst
  */
 var tst_DOM_NL = function (tst = false) {
-    tstCode();
+    tstCode(true);
 };
 function main() {
     var all = false;
-    tst_DOM_NL(true);
+    tst_DOM_NL(all);
     //tst_COMBINE_VGrp_Style_List_AND_VGrp_Verse_List_INTO_VGrp_List(all);
     //tst_SEPARATE_StyleConst_BY_VGrpClass_INTO_List(all);
     //tst_SELECT_StyleConstants_forEach_VerseGrp(all);
@@ -59,12 +61,17 @@ var setStyle = R.curry((value, node) => {
  * @type {Function|*}
  * @private
  */
-var NodeList_Tmpl = '.book .ChptrReadGrps .cur  .VerseReadGrps > .fut .vers';
+var NodeList_fut = '.book .ChptrReadGrps .cur  .VerseReadGrps > .fut .vers';
+var NodeList_cur = '.book .ChptrReadGrps .cur  .VerseReadGrps > .cur .vers';
 /**
  *           NodeList_:: n -> o -> n
  *  Get all descendants that match selector
  */
 var NodeList_ = R.flip(cssQuery_)(document);
+
+
+
+
 
 
 /**
@@ -98,6 +105,7 @@ var tstCode = function () {
             }
         };
         // CUT -------------  Code Under Test -----------------------
+        //var wtStyles = weightedStyles_(StyleStt, ndx, coll);
         var weightedStyles_ = function weightedStyles_(StyObj, ndx, coll) {
             var WIP_LengthMinusOne =
                 function WIP_LengthMinusOne(collection) {
@@ -108,34 +116,48 @@ var tstCode = function () {
             return R.pipe(R.prop('2'), R.prop('styleTmpl'))(StyObj)
         };
 
-        var Verses_ = R.curry(
-            /**
-             * Verses_:: function (o)(v,n,c)-> v
-             * @param StyleCons
-             * @param node
-             * @param ndx
-             * @param coll
-             * @returns {*}
-             * @constructor
-             * @private
-             */
-            function Verses_(StyleCons, node, ndx, coll) {
-                // TODO pipe these
-                var wtStyles = weightedStyles_(StyleCons, ndx, coll);
+        /**
+         *      curried aStyledVerse_::aStyledVerse_ FROM (StyleState)(VerseState)
+         */
+        /**
+         * aStyledVerse_ FROM (StyleState)(VerseState)
+         * :: function (o)(v,n,c)-> v
+         * @param StyleStt
+         * // Verse State IS
+         * @param node
+         * @param ndx
+         * @param coll
+         * @returns {*}  - node.style MUTATED
+         * @constructor
+         * @private
+         */
+        var aStyledVerse_ = R.curry(function aStyledVerse_(StyleStt, node, ndx, coll) {
+            var aStyle_tstStub = R.prop('styleTmpl', R.prop('2', StyleStt));
+            MSG += (`>>> nds:${ndx}, ${JSON.stringify(aStyle_tstStub)}`);
+            return setStyle(aStyle_tstStub, node)
+        });
 
-                MSG += (`nds:${ndx}, ${JSON.stringify(wtStyles)}`);
-
-                return setStyle(wtStyles, node)
-            });
+        /**
+         * StyledVerseList OF MUTATED Node.style FROM NodeList.
+         */
         R.mapObjIndexed(
-            Verses_(tstStyleConstants) // partial
-            , NodeList_(NodeList_Tmpl)
+            aStyledVerse_(tstStyleConstants) // partial. WANTS aNode FROM the NL below.
+            , NodeList_(NodeList_fut)           // this SATISFIES each aStyledVerse_
         );
+
+        // NOW INVOKE IT
         C_Both(MSG);
-    }
-    ;
+    };
 //  ------------------ INVOkE TEST ------------
 main();
+// Modules
+//import * as fn from '../src/modules-compiled.js'; // WORKS
+//C_It(testStr);  // OK
+
+// ------------- MODULES ---------------------
+
+//R.find(R.is(String), [ 1, 'a', 'b', 12 ]);
+//R.add(1, 'tt'); //=> 3
 //  ------------------ old MAYBE USEFUL WHEN I GET TO ALL THREE NODELISTS -------
 /**
  * SEPARATE_StyleConst_BY_VGrpClass_INTO_List
