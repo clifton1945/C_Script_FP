@@ -70,10 +70,6 @@ var NodeList_cur = '.book .ChptrReadGrps .cur  .VerseReadGrps > .cur .vers';
 var NodeList_ = R.flip(cssQuery_)(document);
 
 
-
-
-
-
 /**
  *   --------------- CURRENT --------------------------
  * */
@@ -131,23 +127,30 @@ var tstCode = function () {
          * @constructor
          * @private
          */
-        var aStyledVerse_ = R.curry(function aStyledVerse_(StyleStt, node, ndx, coll) {
-            var aStyle_tstStub = R.prop('styleTmpl', R.prop('2', StyleStt));
-            MSG += (`>>> nds:${ndx}, ${JSON.stringify(aStyle_tstStub)}`);
-            return setStyle(aStyle_tstStub, node)
-        });
+        var aStyledVerse_ = function aStyledVerse_(StyleStt, node, ndx, coll) {
+            var aStyle_tstStub = (o) => R.pipe(
+                R.always(o)
+                , R.prop('styleTmpl'
+                    , R.prop('2')
+                    //, TRACE((o)=> {return R.prop('opacity', o)})
+                ));
+            //MSG += (`>>> nds:${ndx}, ${JSON.stringify(aStyle_tstStub)}`);
+            return setStyle(aStyle_tstStub(StyleStt), node)
+        };
 
+        var curried_aStyleVerse = R.curry(aStyledVerse_);
         /**
          * StyledVerseList OF MUTATED Node.style FROM NodeList.
          */
         R.mapObjIndexed(
-            aStyledVerse_(tstStyleConstants) // partial. WANTS aNode FROM the NL below.
+            curried_aStyleVerse(tstStyleConstants) // partial. WANTS aNode FROM the NL below.
             , NodeList_(NodeList_fut)           // this SATISFIES each aStyledVerse_
         );
 
-        // NOW INVOKE IT
-        C_Both(MSG);
-    };
+// NOW INVOKE IT
+//C_Both(MSG);
+    }
+    ;
 //  ------------------ INVOkE TEST ------------
 main();
 // Modules
@@ -160,12 +163,12 @@ main();
 //R.add(1, 'tt'); //=> 3
 //  ------------------ old MAYBE USEFUL WHEN I GET TO ALL THREE NODELISTS -------
 /**
- * SEPARATE_StyleConst_BY_VGrpClass_INTO_List
+ * _____HOLDING_SEPARATE_StyleConst_BY_VGrpClass_INTO_List
  * @param StyObj
  * @returns {*}
  * @constructor
  */
-var SEPARATE_StyleConst_BY_VGrpClass_INTO_List = function (StyObj) {
+var _____HOLDING_SEPARATE_StyleConst_BY_VGrpClass_INTO_List = function (StyObj) {
     var PST = 0, CUR = 1, FUT = 2;
     var f_ = (n)=> {
         return StyObj[n]
@@ -173,11 +176,11 @@ var SEPARATE_StyleConst_BY_VGrpClass_INTO_List = function (StyObj) {
     return R.map(f_, [PST, CUR, FUT]);  // note GIVEN LIST:[INT] -> [OBJ]
 };
 /**
- * TRANSFORM_VGrp_NL_INTO_Vrs_List:: {} -> []
+ * _____HOLDING_TRANSFORM_VGrp_NL_INTO_Vrs_List:: {} -> []
  * @returns {*}
  * @constructor
  */
-var TRANSFORM_VGrp_NL_INTO_Vrs_List = function (NL) {
+var _____HOLDING_TRANSFORM_VGrp_NL_INTO_Vrs_List = function (NL) {
     var f_ = (val, key, obj)=> NL[key].children;
     return R_forEachIndexed(f_, NL);
 };
