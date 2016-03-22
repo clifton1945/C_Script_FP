@@ -73,7 +73,7 @@ var tstCode = function () {
             name: 'fut'
             , smlWt: .4
             , lrgWt: .8
-            , calcWt: (sObj, vObj) => {
+            , calcWt (sObj, vObj) {
                 //noinspection JSUnusedLocalSymbols
                 let {ver, ndx, ary} = vObj;
                 let {smlWt, lrgWt} = sObj;
@@ -82,11 +82,9 @@ var tstCode = function () {
                     ? (-(lrgWt - smlWt) / len * ndx + lrgWt)
                     : lrgWt;  // always lrgWt
             }
-            , styleTmpl: {
-                backgroundColor: "rgba(145, 248, 29, 0.29)"
-                , opacity: ".75"
-                , fontSize: "75%"
-            }
+            , wt: 1
+            , styleStr: ` backgroundColor: "rgba(145, 248, 29, 0.29)", opacity: "0.6", fontSize: "0.75%"`
+            //, styleTmpl: ` backgroundColor: "rgba(145, 248, 29, 0.29)", opacity: "${this.wt}", fontSize: "${this.wt}%"`
         }
     };
 
@@ -102,43 +100,43 @@ var tstCode = function () {
     };
 
     /**
-     *          aStyleCssTmplt_:: Str Template FOR aVerse FROM the Style Constants Object
+     *          aStyleCssStr_:: Str Template FOR aVerse FROM the Style Constants Object
      *          o -> Str
      * @param styleConstants
      * @returns {*} string literal template READY TO FULFILL WITH a Weight
      * @private
      */
-    var aStyleCssTmplt_ = function (styleConstants) {
-        return R.pipe( //STUB FOR TESTING  TODO ADD WT
+    var aStyleCssStr_ = function (styleConstants) {
+        return R.pipe(
             R.prop('2'),
-            R.prop('styleTmpl'),
-            TRACE_((obj) => ` a Style:${JSON.stringify(obj)} FOR Verse[${ndx}]`)
-        )(styleConstants);
+            R.prop('styleStr'),
+            TRACE_((obj) => `   IN  aStyleCssStr_:${JSON.stringify(obj)}`)
+        );
     };
 
     /**
      *          aStyleCSS_FROM(template)(wt)-> CSS object
      * @param cssTmpl
- * @param wt
+     * @param wt
      * @returns {Function|*}
      */
     var aStyleCSS_ = R.curry(function (cssTmpl, wt) {
-        return cssTmpl(wt)
+        return cssTmpl;  // hard coded testing only
     });
 
     /**
      *              actually SET the Element's CSS style
      */
-    var setStyle_FROM_styleCSS_ = function (css, node) {
+    var setStyle_FROM_styleCSS_ = R.curry(function (css, node) {
         return setStyle(css, node)
-    };
+    });
 
     /**
      *          aStyle_SET_FOR_aVerse_FROM_(styleCSS, node, ndx, coll) -> setStyle
      * :: function (o)(v,n,c)-> v
      * // Verse State IS
- * @param styleCnstnts
- * @param node
+     * @param styleCnstnts
+     * @param node
      * @param ndx
      * @param coll
      * @returns {*}  - node.style MUTATED
@@ -148,12 +146,23 @@ var tstCode = function () {
     var aStyle_FOR_aVerse_ = function aStyleFORaVerse_(styleCnstnts, node, ndx, coll) {
         // this is the callBack FOR R_forEach || map
         // aStyleWt( styleCnstnts, ndx, coll)
-        // aStyleCssTmplt_(styleConstants)
+        // aStyleCssStr_(styleConstants)
         // aStyleCSS_(styleCnstnts, aStyleWt)
         // setStyle_FROM_styleCSS_(aStyleCSS_, node)
         // 1. properly pipe wt -> css -> set in this
-        var tstPipe = setStyle_FROM_styleCSS_(aStyleCSS_(aStyleCssTmplt_));
-        return setStyle(aStyleCSS_(tstPipe(styleCnstnts)), node)
+
+        var aStyleCSS = aStyleCSS_(12345);
+        var setStyle_FROM_styleCSS = setStyle_FROM_styleCSS_();
+        var f, f_ = (styCnts) => R.pipe(
+            aStyleCssStr_
+            , TRACE(', #1')
+            , aStyleCSS  // hardcoded for test
+            , TRACE(', #2')
+            , setStyle_FROM_styleCSS
+            ,TRACE(', #3')
+        );
+        f = f_(styleCnstnts);
+        return f(node)
     };
     var aStyle_FOR_aVerse_c_ = R.curry(aStyle_FOR_aVerse_);
 
@@ -163,18 +172,14 @@ var tstCode = function () {
      */
     var aStyle_FOR_eachVerse = function () {
         return R.mapObjIndexed(
-            aStyle_FOR_aVerse_c_(StyleConstants)      // partial. WANTS aNode FROM the NL below.
+            aStyle_FOR_aVerse_c_(tstStyleConstants)      // partial. WANTS aNode FROM the NL below.
             , NodeList_(NodeList_fut)               // this SATISFIES each aStyle_FOR_aVerse_
-        );
+        )
     };
-
+//  ------------------ INVOKE TEST ------------
     aStyle_FOR_eachVerse();
-
-    // NOTE: this is a collection that is not needed
-    // NOTE: this is a collection of verse CSSStyleDeclarations, not a function
-    //C_Both(MSG);
 };
-//  ------------------ INVOkE TEST ------------
+
 main();
 // Modules
 //import * as fn from '../src/modules-compiled.js'; // WORKS
