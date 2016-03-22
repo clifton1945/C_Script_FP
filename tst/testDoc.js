@@ -100,6 +100,14 @@ var tstCode = function () {
         return Math.floor(Math.random() * (max - min + 1)) + min;
         //REFACT THIS TO full  param sty0, val, ndx, coll
     };
+
+    /**
+     *          aStyleCssTmplt_:: Str Template FOR aVerse FROM the Style Constants Object
+     *          o -> Str
+     * @param styleConstants
+     * @returns {*} string literal template READY TO FULFILL WITH a Weight
+     * @private
+     */
     var aStyleCssTmplt_ = function (styleConstants) {
         return R.pipe( //STUB FOR TESTING  TODO ADD WT
             R.prop('2'),
@@ -144,7 +152,7 @@ var tstCode = function () {
         // aStyleCSS_(styleCnstnts, aStyleWt)
         // setStyle_FROM_styleCSS_(aStyleCSS_, node)
         // 1. properly pipe wt -> css -> set in this
-        var tstPipe = setStyle_FROM_styleCSS_(aStyleCSS_(aStyleCssTmplt_()));
+        var tstPipe = setStyle_FROM_styleCSS_(aStyleCSS_(aStyleCssTmplt_));
         return setStyle(aStyleCSS_(tstPipe(styleCnstnts)), node)
     };
     var aStyle_FOR_aVerse_c_ = R.curry(aStyle_FOR_aVerse_);
