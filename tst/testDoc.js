@@ -101,8 +101,27 @@ var tstCode = function () {
         }
     };
 
+    // aStyleWt (styleState)(ndx, coll) -> Wt
+    function aStyleWt(min, max) {
+        return Math.floor(Math.random() * (max - min + 1)) + min;
+    }  //REFACT THIS TO full  param sty0, val, ndx, coll
+
+    // aStyleObj (wt)-> obj
+    function aStyleCss (wt) {
+        R.pipe(// ADD WT
+            R.prop('2'),
+            R.prop('styleTmpl'),
+            TRACE_((obj) => ` a Style:${JSON.stringify(obj)} FOR Verse[${ndx}]`)
+        );
+    }  // partial
+
+    // NOW actually SET the Element's style
+    function setStyle_FROM_styleCSS (styleCSS, node) {
+
+    }
+
     /**
-     *          aStyle_FOR_eachVerse_ FROM (StyleState)(VerseState)
+     *          aStyle_SET_FOR_aVerse_FROM_(styleCSS, node, ndx, coll) -> setStyle
      * :: function (o)(v,n,c)-> v
      * @param StyleStt
      * // Verse State IS
@@ -114,32 +133,29 @@ var tstCode = function () {
      * @private
      */
     var aStyle_FOR_aVerse_ = R.curry(
-        function aStyleFORaVerse_(StyleStt, node, ndx, coll) {
-            var aStyleObj = R.pipe(
-                R.prop('2'),
-                R.prop('styleTmpl'),
-                TRACE_((obj) => ` a Style:${JSON.stringify(obj)} FOR Verse[${ndx}]`)
-            );  // partial
-            //MSG += (`    >>> nds:${ndx}, ${JSON.stringify(aStyleObj)}`);
-            // NOW actually SET the Element's style
-            return setStyle(aStyleObj(StyleStt), node)
+        function aStyleFORaVerse_(styleState, node, ndx, coll) {
+            //MAYBE R_forEach || map
+            // aStyleWt( styleState, ndx, coll)
+            // aStyleCSS
+            // setStyle_FROM_styleCSS
+            // FIX THIS 1st just get it working w/ th three functions
+            // 1. properly pipe wt -> css -> set in this
+            return setStyle(aStyleCSS, node)
         });
 
     /**
      *          aStyle FOR_eachVerse_
      * StyledVerseList OF MUTATED Node.style FROM NodeList.
      */
-    var aStyle_FOR_eachVerse_ = R.mapObjIndexed(
-        aStyle_FOR_aVerse_(tstStyleConstants) // partial. WANTS aNode FROM the NL below.
+    var aStyle_FOR_eachVerse = R.mapObjIndexed(
+        aStyle_FOR_aVerse_(StyleConstants) // partial. WANTS aNode FROM the NL below.
         , NodeList_(NodeList_fut)               // this SATISFIES each aStyle_FOR_aVerse_
     );
 
-    aStyle_FOR_eachVerse_();
-    
+    aStyle_FOR_eachVerse;
+    // NOTE: this is a collection that is not needed
+    // NOTE: this is a collection of verse CSSStyleDeclarations, not a function
     //C_Both(MSG);
-
-// NOW INVOKE IT
-//C_Both(MSG);
 };
 //  ------------------ INVOkE TEST ------------
 main();
