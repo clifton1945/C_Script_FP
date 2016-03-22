@@ -3,7 +3,10 @@
     <words>
       <w>chptr</w>
       <w>clif</w>
+      <w>cnstnts</w>
       <w>nodelists</w>
+      <w>refact</w>
+      <w>tmplt</w>
     </words>
   </dictionary>
 </component>

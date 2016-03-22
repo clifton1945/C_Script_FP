@@ -16,30 +16,23 @@ var tst_DOM_NL = function (tst = false) {
 };
 function main() {
     var all = false;
-    tst_DOM_NL(all);
+    tstCode(true);
     //tst_COMBINE_VGrp_Style_List_AND_VGrp_Verse_List_INTO_VGrp_List(all);
     //tst_SEPARATE_StyleConst_BY_VGrpClass_INTO_List(all);
     //tst_SELECT_StyleConstants_forEach_VerseGrp(all);
     //tst_CHANGE_VerseNodeStyle(all); // require STYLE_Verses.js
     ////tst_coll_len_gt_1(all);
 }
-
 /**
  * GLOBAL vars
  * require functions-compiled.js, objects-compiled.js
  * */
 //  *********** DOM  DATA    REQUIRE functions.js
 var book = GET_book();
-//var NodeListTmpl = '.book .ChptrReadGrps .cur  .VerseReadGrps > div';
-//var VG_NL = GET_V_Grp_NL(GET_book());
-//var VG_AR = [...VG_NL];
-//var C_Grp_NL = GET_C_Grp_NL(book);
-//var V_Grp_NL_ = GET_V_Grp_NL(book);
-//var Tst_DivFut_Vrs4 = V_Grp_NL_.item(2).children.item(5);
 var MSG = '';
 
 /**
- *   --------------- TEST REQUIRED FUNCTIONS  --------------------------
+ *   ----------------------------------------- TEST REQUIRED FUNCTIONS  -----
  * */
 /**
  *          Get all descendants that match selector
@@ -67,14 +60,10 @@ var NodeList_cur = '.book .ChptrReadGrps .cur  .VerseReadGrps > .cur .vers';
  *           NodeList_:: n -> o -> n
  *  Get all descendants that match selector
  */
-var NodeList_ = R.flip(cssQuery_)(document);
-
-
-/**
- *   --------------- CURRENT --------------------------
- * */
+var NodeList_ = R.flip(cssQuery_)(document); // partial
 var tstCode = function () {
     MSG = 'tst_DOM_NL.CREATE_StyleTmpl->\n --- ';
+
     /**
      *          TEST_ONLY A subset, IN this case 'fut' OF objects/StyleConstants
      * @type {{2: {name: string, smlWt: number, lrgWt: number, calcWt: Function, styleTmpl: {backgroundColor: string, opacity: string, fontSize: string}}}}
@@ -101,58 +90,78 @@ var tstCode = function () {
         }
     };
 
-    // aStyleWt (styleState)(ndx, coll) -> Wt
-    function aStyleWt(min, max) {
+    /**
+     *          aStyleWt (styleState)(ndx, coll) -> Wt
+     * @param min
+     * @param max
+     * @returns {*}
+     */
+    var aStyleWt_ = function (min, max) {
         return Math.floor(Math.random() * (max - min + 1)) + min;
-    }  //REFACT THIS TO full  param sty0, val, ndx, coll
-
-    // aStyleObj (wt)-> obj
-    function aStyleCss (wt) {
-        R.pipe(// ADD WT
+        //REFACT THIS TO full  param sty0, val, ndx, coll
+    };
+    var aStyleCssTmplt_ = function (styleConstants) {
+        return R.pipe( //STUB FOR TESTING  TODO ADD WT
             R.prop('2'),
             R.prop('styleTmpl'),
             TRACE_((obj) => ` a Style:${JSON.stringify(obj)} FOR Verse[${ndx}]`)
-        );
-    }  // partial
+        )(styleConstants);
+    };
 
-    // NOW actually SET the Element's style
-    function setStyle_FROM_styleCSS (styleCSS, node) {
+    /**
+     *          aStyleCSS_FROM(template)(wt)-> CSS object
+     * @param cssTmpl
+ * @param wt
+     * @returns {Function|*}
+     */
+    var aStyleCSS_ = R.curry(function (cssTmpl, wt) {
+        return cssTmpl(wt)
+    });
 
-    }
+    /**
+     *              actually SET the Element's CSS style
+     */
+    var setStyle_FROM_styleCSS_ = function (css, node) {
+        return setStyle(css, node)
+    };
 
     /**
      *          aStyle_SET_FOR_aVerse_FROM_(styleCSS, node, ndx, coll) -> setStyle
      * :: function (o)(v,n,c)-> v
-     * @param StyleStt
      * // Verse State IS
-     * @param node
+ * @param styleCnstnts
+ * @param node
      * @param ndx
      * @param coll
      * @returns {*}  - node.style MUTATED
      * @constructor
      * @private
      */
-    var aStyle_FOR_aVerse_ = R.curry(
-        function aStyleFORaVerse_(styleState, node, ndx, coll) {
-            //MAYBE R_forEach || map
-            // aStyleWt( styleState, ndx, coll)
-            // aStyleCSS
-            // setStyle_FROM_styleCSS
-            // FIX THIS 1st just get it working w/ th three functions
-            // 1. properly pipe wt -> css -> set in this
-            return setStyle(aStyleCSS, node)
-        });
+    var aStyle_FOR_aVerse_ = function aStyleFORaVerse_(styleCnstnts, node, ndx, coll) {
+        // this is the callBack FOR R_forEach || map
+        // aStyleWt( styleCnstnts, ndx, coll)
+        // aStyleCssTmplt_(styleConstants)
+        // aStyleCSS_(styleCnstnts, aStyleWt)
+        // setStyle_FROM_styleCSS_(aStyleCSS_, node)
+        // 1. properly pipe wt -> css -> set in this
+        var tstPipe = setStyle_FROM_styleCSS_(aStyleCSS_(aStyleCssTmplt_()));
+        return setStyle(aStyleCSS_(tstPipe(styleCnstnts)), node)
+    };
+    var aStyle_FOR_aVerse_c_ = R.curry(aStyle_FOR_aVerse_);
 
     /**
      *          aStyle FOR_eachVerse_
      * StyledVerseList OF MUTATED Node.style FROM NodeList.
      */
-    var aStyle_FOR_eachVerse = R.mapObjIndexed(
-        aStyle_FOR_aVerse_(StyleConstants) // partial. WANTS aNode FROM the NL below.
-        , NodeList_(NodeList_fut)               // this SATISFIES each aStyle_FOR_aVerse_
-    );
+    var aStyle_FOR_eachVerse = function () {
+        return R.mapObjIndexed(
+            aStyle_FOR_aVerse_c_(StyleConstants)      // partial. WANTS aNode FROM the NL below.
+            , NodeList_(NodeList_fut)               // this SATISFIES each aStyle_FOR_aVerse_
+        );
+    };
 
-    aStyle_FOR_eachVerse;
+    aStyle_FOR_eachVerse();
+
     // NOTE: this is a collection that is not needed
     // NOTE: this is a collection of verse CSSStyleDeclarations, not a function
     //C_Both(MSG);
