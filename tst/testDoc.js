@@ -102,7 +102,7 @@ var tstCode = function () {
     };
 
     /**
-     *          aStyleFOR_eachVerse_ FROM (StyleState)(VerseState)
+     *          aStyle_FOR_eachVerse_ FROM (StyleState)(VerseState)
      * :: function (o)(v,n,c)-> v
      * @param StyleStt
      * // Verse State IS
@@ -126,13 +126,16 @@ var tstCode = function () {
         });
 
     /**
-     *          aStyleFOR_eachVerse_
+     *          aStyle FOR_eachVerse_
      * StyledVerseList OF MUTATED Node.style FROM NodeList.
      */
-    R.mapObjIndexed(
+    var aStyle_FOR_eachVerse_ = R.mapObjIndexed(
         aStyle_FOR_aVerse_(tstStyleConstants) // partial. WANTS aNode FROM the NL below.
         , NodeList_(NodeList_fut)               // this SATISFIES each aStyle_FOR_aVerse_
     );
+
+    aStyle_FOR_eachVerse_();
+    
     //C_Both(MSG);
 
 // NOW INVOKE IT
