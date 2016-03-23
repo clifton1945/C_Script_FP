@@ -168,9 +168,14 @@ var tstCode = function () {
     };
     var aStyle_FOR_aVerse_c_ = R.curry(aStyle_FOR_aVerse_);
 
+
+
+
+
+    var stubStyleObj = (styO) => JSON.parse(R.prop('styleStr', R.prop('2', styO)));
+
     var DOM_SET_FOR_aVerse_ = (styleCnstnts) => (elmnt, ndx, coll) => {
-        var stubStyleObj = JSON.parse(R.prop('styleStr', R.prop('2', styleCnstnts)));
-        setStyle(stubStyleObj)(elmnt)
+        setStyle(stubStyleObj(styleCnstnts))(elmnt)
     };
 
     /**
