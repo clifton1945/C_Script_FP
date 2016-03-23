@@ -40,13 +40,15 @@ var MSG = '';
  * Note: NodeList is array-like so you can run ramda list functions on it.
  */
 var cssQuery_ = R.invoker(1, 'querySelectorAll');
+
 /**
- *          Mutate style properties on an element
+ *          setStyle:: (styleObj) => (node) -> node.style MUTATED
+ * @param (styleObj) => (node) -> node.style MUTATED
  */
-var setStyle = R.curry((value, node) => {
+var setStyle = (styleObj) => (node) => {
     return Object.assign(
-        node.style, value)
-});
+        node.style, styleObj)
+};
 //   ------------------ my Names  -----------------------------------
 /**
  *          NodeListTmpl:: template Str FOR document.cssQuery_
@@ -83,7 +85,7 @@ var tstCode = function () {
                     : lrgWt;  // always lrgWt
             }
             , wt: 1
-            , styleStr: ` backgroundColor: "rgba(145, 248, 29, 0.29)", opacity: "0.6", fontSize: "0.75%"`
+            , styleStr: `{"backgroundColor": "rgba(145, 248, 29, 0.29)", "opacity": "0.6", "fontSize": "75%"}`
             //, styleTmpl: ` backgroundColor: "rgba(145, 248, 29, 0.29)", opacity: "${this.wt}", fontSize: "${this.wt}%"`
         }
     };
@@ -166,20 +168,23 @@ var tstCode = function () {
     };
     var aStyle_FOR_aVerse_c_ = R.curry(aStyle_FOR_aVerse_);
 
-    var DOM_SET_FOR_aVerse_ = () => (elmnt, ndx, coll) => {};
+    var DOM_SET_FOR_aVerse_ = (styleCnstnts) => (elmnt, ndx, coll) => {
+        var stubStyleObj = JSON.parse(R.prop('styleStr', R.prop('2', styleCnstnts)));
+        setStyle(stubStyleObj)(elmnt)
+    };
 
     /**
      *          DOM_SET_FOREACH_Verse
      * StyledVerseList OF MUTATED Node.style FROM NodeList.
      */
-    var DOM_SET_FOREACH_Verse = function (qrySlct) {
+    var DOM_SET_FOREACH_Verse =  (styleCons, qrySlct) => {
         return R.mapObjIndexed(
-            aStyle_FOR_aVerse_c_(tstStyleConstants)      // partial. WANTS aNode FROM the NL below.
+            DOM_SET_FOR_aVerse_(styleCons)      // partial. WANTS aNode FROM the NL below.
             , NodeList_(qrySlct)               // this SATISFIES each aStyle_FOR_aVerse_
         )
     };
 //  ------------------ INVOKE TEST ------------
-    DOM_SET_FOREACH_Verse(NodeList_fut);
+    DOM_SET_FOREACH_Verse(tstStyleConstants,NodeList_fut);
 };
 
 main();
