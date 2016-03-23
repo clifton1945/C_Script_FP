@@ -161,23 +161,25 @@ var tstCode = function () {
             , setStyle_FROM_styleCSS
             ,TRACE(', #3')
         );
-        f = f_(styleCnstnts);
-        return f(node)
+        f = f_(styleCnstnts)(node);
+        return f()
     };
     var aStyle_FOR_aVerse_c_ = R.curry(aStyle_FOR_aVerse_);
 
+    var DOM_SET_FOR_aVerse_ = () => (elmnt, ndx, coll) => {};
+
     /**
-     *          aStyle FOR_eachVerse_
+     *          DOM_SET_FOREACH_Verse
      * StyledVerseList OF MUTATED Node.style FROM NodeList.
      */
-    var aStyle_FOR_eachVerse = function () {
+    var DOM_SET_FOREACH_Verse = function (qrySlct) {
         return R.mapObjIndexed(
             aStyle_FOR_aVerse_c_(tstStyleConstants)      // partial. WANTS aNode FROM the NL below.
-            , NodeList_(NodeList_fut)               // this SATISFIES each aStyle_FOR_aVerse_
+            , NodeList_(qrySlct)               // this SATISFIES each aStyle_FOR_aVerse_
         )
     };
 //  ------------------ INVOKE TEST ------------
-    aStyle_FOR_eachVerse();
+    DOM_SET_FOREACH_Verse(NodeList_fut);
 };
 
 main();
