@@ -19,10 +19,9 @@
  *   a Dashboard for selecting tests,
  */
 function main() {
-    var all = true;
+    var all = false;
     tstCode(true);
     tst_R_MapObjIndex_AND_R_forEachIndexed(all);
-    tst_SEPARATE_StyleConst_BY_VGrpClass_INTO_List(all);
     tst_R_zip_AND_derivatives(all);
     tst_R_map_AND_forEach_derivatives(all);
     tst_R_set(all);
@@ -252,9 +251,42 @@ var tst_R_when = function (tst = false) {
 };
 
 var tstCode = function (tst = false) {
-    MSG = 'tst_Lens->\n --- ';
+    MSG = 'tst_Lens  -> ';
+    /**
+     *          TEST_ONLY A subset, IN this case 'fut' OF objects/StyleConstants
+     * @type {{2: {name: string, smlWt: number, lrgWt: number, calcWt: Function, styleTmpl: {backgroundColor: string, opacity: string, fontSize: string}}}}
+     */
+    var tstStyleConstants = {
+        2: {
+            name: 'fut'
+            , smlWt: .4
+            , lrgWt: .8
+            , calcWt (sObj, vObj) {
+                //noinspection JSUnusedLocalSymbols
+                let {ver, ndx, ary} = vObj;
+                let {smlWt, lrgWt} = sObj;
+                let len = ary.length - 1;
+                return (len > 0)
+                    ? (-(lrgWt - smlWt) / len * ndx + lrgWt)
+                    : lrgWt;  // always lrgWt
+            }
+            , wt: 1
+            , aStyleObj: {
+                backgroundColor: "rgba(145, 248, 29, 0.29)"
+                , fontSize: '70%'
+                , opacity: 0.5
+            }
+            , styleStr: `{"backgroundColor": "rgba(145, 248, 29, 0.29)", "opacity": "0.6", "fontSize": "75%"}`
+            //, styleTmpl: ` backgroundColor: "rgba(145, 248, 29, 0.29)", opacity: "${this.wt}", fontSize: "${this.wt}%"`
+        }
+    };
 //  ------------------ SET TEST ------------
-
+    var Lens2SO_ = R.lensPath(['2', 'aStyleObj', 'fontSize']);
+    var SO1 = R.view(Lens2SO_, tstStyleConstants);
+    MSG += '\n'  + `  BEFORE: view fontSize: ${JSON.stringify( SO1)} `;
+    var SO2 = R.set(Lens2SO_, '25%', SO1);
+    var SO3 = R.view(Lens2SO_, SO2);
+    MSG += '\n' + `  AFTER:  view fontSize: ${JSON.stringify( SO3)} `;
     C_Both(MSG);
 //  ------------------ INVOKE TEST ------------
 };

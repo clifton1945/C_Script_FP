@@ -150,30 +150,29 @@ var tstCode = function () {
      * @type {{2: {name: string, smlWt: number, lrgWt: number, calcWt: Function, styleTmpl: {backgroundColor: string, opacity: string, fontSize: string}}}}
      */
     var tstStyleConstants = {
-            2: {
-                name: 'fut'
-                , smlWt: .4
-                , lrgWt: .8
-                , calcWt (sObj, vObj) {
-                    //noinspection JSUnusedLocalSymbols
-                    let {ver, ndx, ary} = vObj;
-                    let {smlWt, lrgWt} = sObj;
-                    let len = ary.length - 1;
-                    return (len > 0)
-                        ? (-(lrgWt - smlWt) / len * ndx + lrgWt)
-                        : lrgWt;  // always lrgWt
-                }
-                , wt: 1
-                , aStyleObj: {
-                    backgroundColor: "rgba(145, 248, 29, 0.29)"
-                    , fontSize: '70%'
-                    , opacity: 0.5
-                }
-                , styleStr: `{"backgroundColor": "rgba(145, 248, 29, 0.29)", "opacity": "0.6", "fontSize": "75%"}`
-                //, styleTmpl: ` backgroundColor: "rgba(145, 248, 29, 0.29)", opacity: "${this.wt}", fontSize: "${this.wt}%"`
+        2: {
+            name: 'fut'
+            , smlWt: .4
+            , lrgWt: .8
+            , calcWt (sObj, vObj) {
+                //noinspection JSUnusedLocalSymbols
+                let {ver, ndx, ary} = vObj;
+                let {smlWt, lrgWt} = sObj;
+                let len = ary.length - 1;
+                return (len > 0)
+                    ? (-(lrgWt - smlWt) / len * ndx + lrgWt)
+                    : lrgWt;  // always lrgWt
             }
+            , wt: 1
+            , aStyleObj: {
+                backgroundColor: "rgba(145, 248, 29, 0.29)"
+                , fontSize: '70%'
+                , opacity: 0.5
+            }
+            , styleStr: `{"backgroundColor": "rgba(145, 248, 29, 0.29)", "opacity": "0.6", "fontSize": "75%"}`
+            //, styleTmpl: ` backgroundColor: "rgba(145, 248, 29, 0.29)", opacity: "${this.wt}", fontSize: "${this.wt}%"`
         }
-        ;
+    };
     var DEPR_stubStyleObj = (styO) => JSON.parse(R.prop('styleStr', R.prop('2', styO)));
 
     var aStyleObj_ = (styO) => R.prop('aStyleObj', R.prop('2', styO));
