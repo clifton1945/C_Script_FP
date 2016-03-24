@@ -19,7 +19,7 @@
  *   a Dashboard for selecting tests,
  */
 function main() {
-    var all = false;
+    var all = true;
     tst_R_MapObjIndex_AND_R_forEachIndexed(true);
     tst_SEPARATE_StyleConst_BY_VGrpClass_INTO_List(all);
     tst_R_zip_AND_derivatives(all);
