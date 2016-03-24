@@ -40,7 +40,6 @@ var MSG = '';
  * Note: NodeList is array-like so you can run ramda list functions on it.
  */
 var cssQuery_ = R.invoker(1, 'querySelectorAll');
-
 /**
  *          setStyle:: (styleObj) => (node) -> node.style MUTATED
  * @param (styleObj) => (node) -> node.style MUTATED
@@ -64,141 +63,147 @@ var NodeList_cur = '.book .ChptrReadGrps .cur  .VerseReadGrps > .cur .vers';
  */
 var NodeList_ = R.flip(cssQuery_)(document); // partial
 var tstCode = function () {
-        MSG = 'tst_DOM_NL.CREATE_StyleTmpl->\n --- ';
+    MSG = 'tst_DOM_NL.CREATE_StyleTmpl->\n --- ';
 
-        /**
-         *          aStyleWt (styleState)(ndx, coll) -> Wt
-         * @param min
-         * @param max
-         * @returns {*}
-         */
-        var aStyleWt_ = function (min, max) {
-            return Math.floor(Math.random() * (max - min + 1)) + min;
-            //REFACT THIS TO full  param sty0, val, ndx, coll
-        };
+    /**
+     *          aStyleWt (styleState)(ndx, coll) -> Wt
+     * @param min
+     * @param max
+     * @returns {*}
+     */
+    var aStyleWt_ = function (min, max) {
+        return Math.floor(Math.random() * (max - min + 1)) + min;
+        //REFACT THIS TO full  param sty0, val, ndx, coll
+    };
 
-        /**
-         *          aStyleCssStr_:: Str Template FOR aVerse FROM the Style Constants Object
-         *          o -> Str
-         * @param styleConstants
-         * @returns {*} string literal template READY TO FULFILL WITH a Weight
-         * @private
-         */
-        var aStyleCssStr_ = function (styleConstants) {
-            return R.pipe(
-                R.prop('2'),
-                R.prop('styleStr'),
-                TRACE_((obj) => `   IN  aStyleCssStr_:${JSON.stringify(obj)}`)
-            );
-        };
+    /**
+     *          aStyleCssStr_:: Str Template FOR aVerse FROM the Style Constants Object
+     *          o -> Str
+     * @param styleConstants
+     * @returns {*} string literal template READY TO FULFILL WITH a Weight
+     * @private
+     */
+    var aStyleCssStr_ = function (styleConstants) {
+        return R.pipe(
+            R.prop('2'),
+            R.prop('styleStr'),
+            TRACE_((obj) => `   IN  aStyleCssStr_:${JSON.stringify(obj)}`)
+        );
+    };
 
-        /**
-         *          aStyleCSS_FROM(template)(wt)-> CSS object
-         * @param cssTmpl
-         * @param wt
-         * @returns {Function|*}
-         */
-        var aStyleCSS_ = R.curry(function (cssTmpl, wt) {
-            return cssTmpl;  // hard coded testing only
-        });
+    /**
+     *          aStyleCSS_FROM(template)(wt)-> CSS object
+     * @param cssTmpl
+     * @param wt
+     * @returns {Function|*}
+     */
+    var aStyleCSS_ = R.curry(function (cssTmpl, wt) {
+        return cssTmpl;  // hard coded testing only
+    });
 
-        /**
-         *              actually SET the Element's CSS style
-         */
-        var setStyle_FROM_styleCSS_ = R.curry(function (css, node) {
-            return setStyle(css, node)
-        });
+    /**
+     *              actually SET the Element's CSS style
+     */
+    var setStyle_FROM_styleCSS_ = R.curry(function (css, node) {
+        return setStyle(css, node)
+    });
 
-        /**
-         *          aStyle_SET_FOR_aVerse_FROM_(styleCSS, node, ndx, coll) -> setStyle
-         * :: function (o)(v,n,c)-> v
-         * // Verse State IS
-         * @param styleCnstnts
-         * @param node
-         * @param ndx
-         * @param coll
-         * @returns {*}  - node.style MUTATED
-         * @constructor
-         * @private
-         */
-        var aStyle_FOR_aVerse_ = function aStyleFORaVerse_(styleCnstnts, node, ndx, coll) {
-            // this is the callBack FOR R_forEach || map
-            // aStyleWt( styleCnstnts, ndx, coll)
-            // aStyleCssStr_(styleConstants)
-            // aStyleCSS_(styleCnstnts, aStyleWt)
-            // setStyle_FROM_styleCSS_(aStyleCSS_, node)
-            // 1. properly pipe wt -> css -> set in this
+    /**
+     *          aStyle_SET_FOR_aVerse_FROM_(styleCSS, node, ndx, coll) -> setStyle
+     * :: function (o)(v,n,c)-> v
+     * // Verse State IS
+     * @param styleCnstnts
+     * @param node
+     * @param ndx
+     * @param coll
+     * @returns {*}  - node.style MUTATED
+     * @constructor
+     * @private
+     */
+    var aStyle_FOR_aVerse_ = function aStyleFORaVerse_(styleCnstnts, node, ndx, coll) {
+        // this is the callBack FOR R_forEach || map
+        // aStyleWt( styleCnstnts, ndx, coll)
+        // aStyleCssStr_(styleConstants)
+        // aStyleCSS_(styleCnstnts, aStyleWt)
+        // setStyle_FROM_styleCSS_(aStyleCSS_, node)
+        // 1. properly pipe wt -> css -> set in this
 
-            var aStyleCSS = aStyleCSS_(12345);
-            var setStyle_FROM_styleCSS = setStyle_FROM_styleCSS_();
-            var f, f_ = (styCnts) => R.pipe(
-                aStyleCssStr_
-                , TRACE(', #1')
-                , aStyleCSS  // hardcoded for test
-                , TRACE(', #2')
-                , setStyle_FROM_styleCSS
-                , TRACE(', #3')
-            );
-            f = f_(styleCnstnts)(node);
-            return f()
-        };
-        var aStyle_FOR_aVerse_c_ = R.curry(aStyle_FOR_aVerse_);
+        var aStyleCSS = aStyleCSS_(12345);
+        var setStyle_FROM_styleCSS = setStyle_FROM_styleCSS_();
+        var f, f_ = (styCnts) => R.pipe(
+            aStyleCssStr_
+            , TRACE(', #1')
+            , aStyleCSS  // hardcoded for test
+            , TRACE(', #2')
+            , setStyle_FROM_styleCSS
+            , TRACE(', #3')
+        );
+        f = f_(styleCnstnts)(node);
+        return f()
+    };
+    var aStyle_FOR_aVerse_c_ = R.curry(aStyle_FOR_aVerse_);
 
 
 // TODAY >>>>>>>>>>>  aStyleObj
-        /**
-         *          TEST_ONLY A subset, IN this case 'fut' OF objects/StyleConstants
-         * @type {{2: {name: string, smlWt: number, lrgWt: number, calcWt: Function, styleTmpl: {backgroundColor: string, opacity: string, fontSize: string}}}}
-         */
-        var tstStyleConstants = {
-                2: {
-                    name: 'fut'
-                    , smlWt: .4
-                    , lrgWt: .8
-                    , calcWt (sObj, vObj) {
-                        //noinspection JSUnusedLocalSymbols
-                        let {ver, ndx, ary} = vObj;
-                        let {smlWt, lrgWt} = sObj;
-                        let len = ary.length - 1;
-                        return (len > 0)
-                            ? (-(lrgWt - smlWt) / len * ndx + lrgWt)
-                            : lrgWt;  // always lrgWt
-                    }
-                    , wt: 1
-                    , aStyleObj: {
-                        fontSize: '70%'
-                        , opacity: 0.5
-                    }
-                    , styleStr: `{"backgroundColor": "rgba(145, 248, 29, 0.29)", "opacity": "0.6", "fontSize": "75%"}`
-                    //, styleTmpl: ` backgroundColor: "rgba(145, 248, 29, 0.29)", opacity: "${this.wt}", fontSize: "${this.wt}%"`
+    /**
+     *          TEST_ONLY A subset, IN this case 'fut' OF objects/StyleConstants
+     * @type {{2: {name: string, smlWt: number, lrgWt: number, calcWt: Function, styleTmpl: {backgroundColor: string, opacity: string, fontSize: string}}}}
+     */
+    var tstStyleConstants = {
+            2: {
+                name: 'fut'
+                , smlWt: .4
+                , lrgWt: .8
+                , calcWt (sObj, vObj) {
+                    //noinspection JSUnusedLocalSymbols
+                    let {ver, ndx, ary} = vObj;
+                    let {smlWt, lrgWt} = sObj;
+                    let len = ary.length - 1;
+                    return (len > 0)
+                        ? (-(lrgWt - smlWt) / len * ndx + lrgWt)
+                        : lrgWt;  // always lrgWt
                 }
+                , wt: 1
+                , aStyleObj: {
+                    backgroundColor: "rgba(145, 248, 29, 0.29)"
+                    , fontSize: '70%'
+                    , opacity: 0.5
+                }
+                , styleStr: `{"backgroundColor": "rgba(145, 248, 29, 0.29)", "opacity": "0.6", "fontSize": "75%"}`
+                //, styleTmpl: ` backgroundColor: "rgba(145, 248, 29, 0.29)", opacity: "${this.wt}", fontSize: "${this.wt}%"`
             }
-            ;
-        var stubStyleObj = (styO) => JSON.parse(R.prop('styleStr', R.prop('2', styO)));
+        }
+        ;
+    var DEPR_stubStyleObj = (styO) => JSON.parse(R.prop('styleStr', R.prop('2', styO)));
 
-        var aStyleObj = (styO) => R.prop('aStyleObj', R.prop('2', styO));
-        //var tst = aStyleObj(tstStyleConstants);
-        //tst = JSON.stringify(tst);
-        //C_Both(tst);
+    var aStyleObj_ = (styO) => R.prop('aStyleObj', R.prop('2', styO));
 
-        var DOM_SET_FOR_aVerse_ = (styleCnstnts) => (elmnt, ndx, coll) => {
-            setStyle(aStyleObj(styleCnstnts))(elmnt)
-        };
+    var SET_aVerse_Style_ = (styleCnstnts) => (elmnt, ndx, coll) => {
+        setStyle(tst_aStyleObj_(styleCnstnts))(elmnt)
+    };
 
-        /**
-         *          DOM_SET_FOREACH_Verse
-         * StyledVerseList OF MUTATED Node.style FROM NodeList.
-         */
-        var DOM_SET_FOREACH_Verse = (styleCons, qrySlct) => {
-            return R.mapObjIndexed(
-                DOM_SET_FOR_aVerse_(styleCons)      // partial. WANTS aNode FROM the NL below.
-                , NodeList_(qrySlct)               // this SATISFIES each aStyle_FOR_aVerse_
-            )
-        };
+    /**
+     *          DOM_SET_FOREACH_Verse
+     * StyledVerseList OF MUTATED Node.style FROM NodeList.
+     */
+    var DOM_SET_FOREACH_Verse = (styleCons, qrySlct) => {
+        return R.mapObjIndexed(
+            SET_aVerse_Style_(styleCons)      // partial. WANTS aNode FROM the NL below.
+            , NodeList_(qrySlct)               // this SATISFIES each aStyle_FOR_aVerse_
+        )
+    };
+//  ------------------ SET TEST ------------
+    var tst_aStyleObj_ = (styO) => R.prop('aStyleObj', R.prop('2', styO));
+    var A_StyleObj = tst_aStyleObj_(tstStyleConstants);
+    var opacityLens = R.lens(R.prop('opacity'), R.assoc('opacity'));
+    var tst = 'R.view(opacityLens, A_StyleObj)->\n';
+    tst += R.view(opacityLens, A_StyleObj);
+    tst += ' -> ' + R.view(opacityLens, R.set(opacityLens, 1, A_StyleObj));
+    C_Both(tst);
+
 //  ------------------ INVOKE TEST ------------
-        DOM_SET_FOREACH_Verse(tstStyleConstants, NodeList_fut);
-    }
-    ;
+    DOM_SET_FOREACH_Verse(tstStyleConstants, NodeList_fut);
+};
 
 main();
 // Modules
