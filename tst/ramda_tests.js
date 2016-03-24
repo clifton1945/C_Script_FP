@@ -20,7 +20,8 @@
  */
 function main() {
     var all = true;
-    tst_R_MapObjIndex_AND_R_forEachIndexed(true);
+    tstCode(true);
+    tst_R_MapObjIndex_AND_R_forEachIndexed(all);
     tst_SEPARATE_StyleConst_BY_VGrpClass_INTO_List(all);
     tst_R_zip_AND_derivatives(all);
     tst_R_map_AND_forEach_derivatives(all);
@@ -76,7 +77,6 @@ const R_node2Obj = function (val, key, arr) {
 //        // ....tst_SEPARATE_StyleConst_BY_VGrpClass_INTO_List-> [{"name":"pst","smlWt":0.4,"lrgWt":0.95}, ....]
 //    }
 //};
-
 
 var tst_R_MapObjIndex_AND_R_forEachIndexed = function (tst = false) {
     var V_GrpsNL = GET_V_Grp_NL(book);
@@ -249,5 +249,13 @@ var tst_R_when = function (tst = false) {
         MSG += R.toString(READ__(C_Arr[2])) + ', ';
         C_Both(MSG);
     }
+};
+
+var tstCode = function (tst = false) {
+    MSG = 'tst_Lens->\n --- ';
+//  ------------------ SET TEST ------------
+
+    C_Both(MSG);
+//  ------------------ INVOKE TEST ------------
 };
 main();
