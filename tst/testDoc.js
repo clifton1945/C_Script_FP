@@ -167,6 +167,7 @@ var tstCode = function () {
                     , wt: 1
                     , aStyleObj: {
                         fontSize: '70%'
+                        , opacity: 0.5
                     }
                     , styleStr: `{"backgroundColor": "rgba(145, 248, 29, 0.29)", "opacity": "0.6", "fontSize": "75%"}`
                     //, styleTmpl: ` backgroundColor: "rgba(145, 248, 29, 0.29)", opacity: "${this.wt}", fontSize: "${this.wt}%"`
@@ -174,11 +175,14 @@ var tstCode = function () {
             }
             ;
         var stubStyleObj = (styO) => JSON.parse(R.prop('styleStr', R.prop('2', styO)));
-        var aStyleObj = (styO) => JSON.parse(R.prop('aStyleObj', R.prop('2', styO)));
-        var tst = aStyleObj(tstStyleConstants);
-        C_Both(tst);
+
+        var aStyleObj = (styO) => R.prop('aStyleObj', R.prop('2', styO));
+        //var tst = aStyleObj(tstStyleConstants);
+        //tst = JSON.stringify(tst);
+        //C_Both(tst);
+
         var DOM_SET_FOR_aVerse_ = (styleCnstnts) => (elmnt, ndx, coll) => {
-            setStyle(stubStyleObj(styleCnstnts))(elmnt)
+            setStyle(aStyleObj(styleCnstnts))(elmnt)
         };
 
         /**
