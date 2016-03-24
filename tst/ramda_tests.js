@@ -21,6 +21,7 @@
 function main() {
     var all = false;
     tstCode(true);
+    tst_R_Lens(true);
     tst_R_MapObjIndex_AND_R_forEachIndexed(all);
     tst_R_zip_AND_derivatives(all);
     tst_R_map_AND_forEach_derivatives(all);
@@ -98,7 +99,7 @@ var tst_R_MapObjIndex_AND_R_forEachIndexed = function (tst = false) {
 };
 
 /**
- * tst_R_map_AND_forEach_derivatives
+ *          tst_R_map_AND_forEach_derivatives
  * @param tst
  */
 var tst_R_map_AND_forEach_derivatives = function (tst = false) {
@@ -119,7 +120,7 @@ var tst_R_map_AND_forEach_derivatives = function (tst = false) {
 };
 
 /**
- * R_zip_AND_derivatives
+ *          R_zip_AND_derivatives
  * R.zip::[a] -> [b] -> [[a,b],....[]]  // combines
  * R.ZipObj:: [Str] -> [*] -> [[a,b],...] // makes list of combined object
  * R.zipWith(a,b->c)->[a]->[b]->[c] // List OF func(a,b)-> applied to a,b PAIRS
@@ -184,7 +185,7 @@ var tst_R_zip_AND_derivatives = function (tst = false) {
 };
 
 /**
- * ----- LEARNING R_set:: Lens s a-> a->s ->s -----
+ *          LEARNING R_set:: Lens s a-> a->s ->s -----
  * @param tst
  */
 var tst_R_set = function (tst = false) {
@@ -207,7 +208,7 @@ var tst_R_set = function (tst = false) {
 };
 
 /**
- * LOOKS LIKE R.xxx ARE categorized by their return OR
+ *          LOOKS LIKE R.xxx ARE categorized by their return OR
  * what they ARE in the case of Category:Function
  * R.propSatisfies() -> Category.Logic
  * R.prop() ->    Category: 'Object'
@@ -227,7 +228,7 @@ var tst_R_Categories = function (tst = false) {
 };
 
 /**
- * LEARNING R.when()
+ *          LEARNING R.when()
  * when argument NL[XXX].childElementCount > 0 IS satisfied
  * , PASS NL to READ_ Last() || Next()
  * IF NOT, just return the NL arg
@@ -250,7 +251,12 @@ var tst_R_when = function (tst = false) {
     }
 };
 
-var tstCode = function (tst = false) {
+/**
+ *          tst_R_Lens: use WITH DOM and Object Literals
+ * @param tst
+ * @returns {*}
+ */
+var tst_R_Lens = function (tst = false) {
     MSG = 'tst_Lens  -> ';
     /**
      *          TEST_ONLY A subset, IN this case 'fut' OF objects/StyleConstants
@@ -281,13 +287,35 @@ var tstCode = function (tst = false) {
         }
     };
 //  ------------------ SET TEST ------------
+//  ------------------ INVOKE TEST ------------
+    MSG += '\n......Style lensPath W/ aStyleObj...........';
     var Lens2SO_ = R.lensPath(['2', 'aStyleObj', 'fontSize']);
     var SO1 = R.view(Lens2SO_, tstStyleConstants);
-    MSG += '\n'  + `  BEFORE: view fontSize: ${JSON.stringify( SO1)} `;
+    MSG += '\n' + `  BEFORE: expect fontSize: ${JSON.stringify(SO1)}===70% `;
     var SO2 = R.set(Lens2SO_, '25%', SO1);
     var SO3 = R.view(Lens2SO_, SO2);
-    MSG += '\n' + `  AFTER:  view fontSize: ${JSON.stringify( SO3)} `;
+    MSG += '\n' + `  AFTER:  expect fontSize: ${JSON.stringify(SO3)}===25% `;
+
+    MSG += '\n......USE Lens in DOM .............';
+    var aVerse_tmplt = '.book .ChptrReadGrps .cur  .VerseReadGrps > .fut div';
+    var aVerseGrp = document.querySelectorAll(aVerse_tmplt);
+    // OR
+    //var tst = R.invoker(1, 'querySelectorAll') //FIGURE This OUT LATER
+    var headLens = R.lensIndex(0);
+    var ret = R.view(headLens, aVerseGrp);
+    var txt = R.prop('innerText');
+    var ndx = R.slice(16, 21);
+    var lst5 = R.pipe(txt, ndx)(ret);
+    var exp = R.equals(lst5, 'ndx:2');
+    MSG += '\n' + `expect ${lst5} === ndx:2 [${exp}]`;
+
     C_Both(MSG);
+
+};
+var tstCode = function (tst = false) {
+    MSG = '......... tstCode ...........  -> ';
+//  ------------------ SET TEST ------------
 //  ------------------ INVOKE TEST ------------
+    C_Both(MSG);
 };
 main();
