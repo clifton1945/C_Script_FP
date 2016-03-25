@@ -144,7 +144,8 @@ var tstCode = function () {
     var aStyle_FOR_aVerse_c_ = R.curry(aStyle_FOR_aVerse_);
 
 
-// TODAY >>>>>>>>>>>  aStyleObj
+// TODAY >>>>>>>>>>>  SET_aVerse_Style_ WITH aVerseStyle_Wt_
+
     /**
      *          TEST_ONLY A subset, IN this case 'fut' OF objects/StyleConstants
      * @type {{2: {name: string, smlWt: number, lrgWt: number, calcWt: Function, styleTmpl: {backgroundColor: string, opacity: string, fontSize: string}}}}
@@ -173,9 +174,8 @@ var tstCode = function () {
             //, styleTmpl: ` backgroundColor: "rgba(145, 248, 29, 0.29)", opacity: "${this.wt}", fontSize: "${this.wt}%"`
         }
     };
-    var DEPR_stubStyleObj = (styO) => JSON.parse(R.prop('styleStr', R.prop('2', styO)));
 
-    var aStyleObj_ = (styO) => R.prop('aStyleObj', R.prop('2', styO));
+    //var aStyleObj_ = (styO) => R.prop('aStyleObj', R.prop('2', styO));
 
     var SET_aVerse_Style_ = (styleCnstnts) => (elmnt, ndx, coll) => {
         setStyle(tst_aStyleObj_(styleCnstnts))(elmnt)
@@ -191,6 +191,7 @@ var tstCode = function () {
             , NodeList_(qrySlct)               // this SATISFIES each aStyle_FOR_aVerse_
         )
     };
+
 //  ------------------ SET TEST ------------
     var tst_aStyleObj_ = (styO) => R.prop('aStyleObj', R.prop('2', styO));
     var A_StyleObj = tst_aStyleObj_(tstStyleConstants);
