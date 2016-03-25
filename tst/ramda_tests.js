@@ -318,16 +318,26 @@ var tst_R_Lens = function (tst = false) {
     var exp = R.equals(lst5, 'ndx:2');
     MSG += '\n' + `    expect ${lst5} === ndx:2 [${exp}]`;
     //        TEST DATA
-    MSG = '\n' + "...USE a Style Lens"; //NOTE + of += REMOVED WHILE Focus Here
+    //NOTE: POSSIBLE REMOVED + of += REMOVED WHILE Focus Here
+    MSG += '\n\n' + "...USE a Style Lens TO MUTATE a Verse.style Property";
     var theFirstVerse = aVerseNodeList.item(0);
     //theFirstVerse.style.color = 'pink';
     //        CODE UNDER TEST
+    /**
+     *  NOTE there IS NO theFirstVerse.style.color AT this point
+     */
     var colorLens = R.lensPath(['style', 'color']);
-    MSG += '\n' + R.view(colorLens, theFirstVerse);
+    MSG += '\n' + `BEFORE R.set color IS:[${R.view(colorLens, theFirstVerse)}]`;
+    // SETS the color property here.
     var newStyle = R.set(colorLens, 'blue', theFirstVerse);
-    MSG += '\n' + R.view(colorLens, theFirstVerse);
-    MSG += '\n' + R.view(colorLens, newStyle);
+    MSG += '\n' + ` AFTER R.set color IS:[${R.view(colorLens, theFirstVerse)}]
+     the DOM Verse WAS NOT MUTATED.`;
+    var ret = R.view(colorLens, newStyle);
+    MSG += '\n' + ` BUT R.set RETURNS a new Color Property: [${R.view(colorLens, newStyle)}]
+     which CAN BE USED TO ASSIGN TO theFirstVerse.style.color.`;
 
+    // APPLY this TO theVerse
+    theFirstVerse.style.color = ret;
     C_Both(MSG);
     var noop = true;
 
