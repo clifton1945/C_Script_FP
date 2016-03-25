@@ -56,8 +56,8 @@ var NodeList_cur = '.book .ChptrReadGrps .cur  .VerseReadGrps > .cur .vers';
  */
 var NodeList_ = R.flip(cssQuery_)(document); // partial
 
-var tstCode = function (tst = false){
-    if (tst){
+var tstCode = function (tst = false) {
+    if (tst) {
         MSG = 'tst_DOM_NL.CREATE_StyleTmpl->\n --- ';
 
         /**
@@ -186,13 +186,14 @@ var tstCode = function (tst = false){
             )
         };
 //  ------------------ TEST CODE -----------
-        SET_aVerse_Style_ = (styleDict) => (elmnt, ndx, coll) => {
-            var so = (styleDict) => R.prop('fontSize', R.prop('aStyleObj', R.prop('2', styleDict)));
-            setStyle(so)(elmnt)
+        SET_aVerse_Style_ = (cssDict) => (elmnt, ndx, coll) => {
+            var cbf = (so) => {
+                return R.prop('aStyleObj', R.prop('2', so))
+            };
+            var css = cbf(cssDict);
+            return setStyle(css)(elmnt)
         };
 
-        var tst_SET_aVerse_Style_ = (styO) => R.prop('aStyleObj', R.prop('2', styO));
-        var A_StyleObj = tst_SET_aVerse_Style_(tstStyleDict);
         var aVerseNodeList = document.querySelectorAll(aVerse_tmplt);
         var theFirstVerse = aVerseNodeList.item(0);
 
