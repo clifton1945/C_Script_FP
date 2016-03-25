@@ -320,7 +320,7 @@ var tst_R_Lens = function (tst = false) {
     //        TEST DATA
     MSG = '\n' + "...USE a Style Lens"; //NOTE + of += REMOVED WHILE Focus Here
     var theFirstVerse = aVerseNodeList.item(0);
-    theFirstVerse.style.color = 'pink';
+    //theFirstVerse.style.color = 'pink';
     //        CODE UNDER TEST
     var colorLens = R.lensPath(['style', 'color']);
     MSG += '\n' + R.view(colorLens, theFirstVerse);
