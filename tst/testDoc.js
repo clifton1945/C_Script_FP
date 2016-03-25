@@ -58,7 +58,6 @@ var NodeList_ = R.flip(cssQuery_)(document); // partial
 
 var tstCode = function (tst = false) {
     if (tst) {
-        MSG = 'tst_DOM_NL.CREATE_StyleTmpl->\n --- ';
 
         /**
          *          aStyleWt (styleState)(ndx, coll) -> Wt
@@ -138,8 +137,6 @@ var tstCode = function (tst = false) {
         };
         var aStyle_FOR_aVerse_c_ = R.curry(aStyle_FOR_aVerse_);
 
-// TODAY >>>>>>>>>>>  SET_aVerse_Style_ WITH aVerseStyle_Wt_
-
         /**
          *          TEST_ONLY A subset, IN this case 'fut' OF objects/StyleConstants
          * @type {{2: {name: string, smlWt: number, lrgWt: number, calcWt: Function, styleTmpl: {backgroundColor: string, opacity: string, fontSize: string}}}}
@@ -169,38 +166,44 @@ var tstCode = function (tst = false) {
             }
         };
 
-        var SET_aVerse_Style_;  // DECLARED BEFORE DOM_SET_aVerse_Style
+        /**
+         *          SET_aVerse_Style_
+         */
+        var SET_aVerse_Style_;  // DECLARED HERE: Code BELOW DOM_SET_aVerse_Style
 
         /**
          *          DOM_SET_FOREACH_Verse
          * STYLED_VerseList OF MUTATED Verse Element.style FROM NodeList.
-         * MAP SET_aVerse_Style_(styleCons) ONTO NodeList_(qrySlct)
-         * @param styleCons
+         * MAP SET_aVerse_Style_(styleDict) ONTO NodeList_(qrySlct)
+         * @param styleDict
          * @param qrySlct
          * @return {*}
          */
-        var DOM_SET_FOREACH_Verse = (styleCons, qrySlct) => {
+        var DOM_SET_FOREACH_Verse = (styleDict, qrySlct) => {
             return R.mapObjIndexed(
-                SET_aVerse_Style_(styleCons)      // partial. WANTS aNode FROM the NL below.
+                SET_aVerse_Style_(styleDict)      // partial. WANTS aNode FROM the NL below.
                 , NodeList_(qrySlct)               // this SATISFIES each aStyle_FOR_aVerse_
             )
         };
-//  ------------------ TEST CODE -----------
-        SET_aVerse_Style_ = (cssDict) => (elmnt, ndx, coll) => {
-            var cbf = (so) => {
-                return R.prop('aStyleObj', R.prop('2', so))
-            };
-            var css = cbf(cssDict);
-            return setStyle(css)(elmnt)
-        };
 
+//  ------------------ TEST CODE -----------
+        // TODAY >>>>>>>>>>>  SET_aVerse_Style_ WITH aVerseStyle_Wt_
+        MSG = 'tst_DOM_NL.CREATE_StyleTmpl->\n --- ';
+        MSG += '\n REFACT: SET_aVerse_Style_ ->  ';
+
+        var aVerse_tmplt = '.book .ChptrReadGrps .cur  .VerseReadGrps > .fut div';
         var aVerseNodeList = document.querySelectorAll(aVerse_tmplt);
         var theFirstVerse = aVerseNodeList.item(0);
-
+        // OR WITH  Lens
+        var opacityLens_ = R.lensPath(['style', 'opacity']);
+        var fontSizeLens_ = R.lensPath(['style', 'fontSize']);
+        SET_aVerse_Style_ = function SET_aVerse_Style_(cssDict) {
+            return function (elmnt, ndx, coll) {
+                var ret = R.set(fontSizeLens_, '45%', elmnt);
+                elmnt.style.fontSize = R.view(fontSizeLens_, ret);
+            };
+        };
 //  ------------------ SET TEST ------------
-        MSG += '\n REFACT: SET_aVerse_Style_ ->  ';
-        var aVerse_tmplt = '.book .ChptrReadGrps .cur  .VerseReadGrps > .fut div';
-        // APPLY this TO theVerse
         C_Both(MSG);
         var noop = true;
 //  ------------------ INVOKE TEST ------------
