@@ -294,7 +294,7 @@ var tst_R_Lens = function (tst = false) {
     };
 //  ------------------ SET TEST ------------
 //  ------------------ INVOKE TEST ------------
-//    MSG += '\n......Style lensPath W/ aStyleObj...........';
+    MSG += '\n......Style lensPath W/ aStyleObj...........';
     var Lens2SO_ = R.lensPath(['2', 'aStyleObj', 'fontSize']);
     var SO1 = R.view(Lens2SO_, tstStyleConstants);
     //MSG += '\n' + `  BEFORE: expect fontSize: ${JSON.stringify(SO1)}===70% `;
@@ -342,6 +342,5 @@ var tst_R_Lens = function (tst = false) {
     var noop = true;
 
 };
-
 
 main();
