@@ -24,6 +24,96 @@ function main() {
 var book = GET_book();
 var MSG = '';
 
+
+/**
+ *          tst_R_Lens 1st LEARNING Lens:
+ *          similar if not the same as test in ramda_tests.js
+ * @param tst
+ * @returns {*}
+ */
+var tst_R_Lens = function (tst = false) {
+    if (tst) {
+        MSG = 'tst_R_Lens/';
+        /**
+         *          Style Constants for testing: a  subset, IN this case 'fut' OF objects/StyleConstants
+         * @type {{2: {name: string, smlWt: number, lrgWt: number, calcWt: Function, styleTmpl: {backgroundColor: string, opacity: string, fontSize: string}}}}
+         */
+        var tstStyleConstants = {
+            2: {
+                name: 'fut'
+                , smlWt: .4
+                , lrgWt: .8
+                , calcWt (sObj, vObj) {
+                    //noinspection JSUnusedLocalSymbols
+                    let {ver, ndx, ary} = vObj;
+                    let {smlWt, lrgWt} = sObj;
+                    let len = ary.length - 1;
+                    return (len > 0)
+                        ? (-(lrgWt - smlWt) / len * ndx + lrgWt)
+                        : lrgWt;  // always lrgWt
+                }
+                , wt: 1
+                , aStyleObj: {
+                    backgroundColor: "rgba(145, 248, 29, 0.29)"
+                    , fontSize: '70%'
+                    , opacity: 0.5
+                }
+                , styleStr: `{"backgroundColor": "rgba(145, 248, 29, 0.29)", "opacity": "0.6", "fontSize": "75%"}`
+                //, styleTmpl: ` backgroundColor: "rgba(145, 248, 29, 0.29)", opacity: "${this.wt}", fontSize: "${this.wt}%"`
+            }
+        };
+//  ------------------ SET TEST ------------
+//  ------------------ INVOKE TEST ------------
+        MSG += '\n......Style lensPath W/ aStyleObj...........';
+        var Lens2SO_ = R.lensPath(['2', 'aStyleObj', 'fontSize']);
+        var SO1 = R.view(Lens2SO_, tstStyleConstants);
+        //MSG += '\n' + `  BEFORE: expect fontSize: ${JSON.stringify(SO1)}===70% `;
+        var SO2 = R.set(Lens2SO_, '25%', SO1);
+        var SO3 = R.view(Lens2SO_, SO2);
+        //MSG += '\n' + `  AFTER:  expect fontSize: ${JSON.stringify(SO3)}===25% `;
+
+        MSG += '\n USE Lens in DOM ->  ';
+        var aVerse_tmplt = '.book .ChptrReadGrps .cur  .VerseReadGrps > .fut div';
+        var aVerseNodeList = document.querySelectorAll(aVerse_tmplt);
+        //var EXPLORE R.invoker(1, 'querySelectorAll')
+
+        MSG += '\n' + `...USE headLens = R.lensIndex(0)`;
+        var headLens = R.lensIndex(0);
+        var lst5 = R.pipe(
+            R.prop('innerText')
+            , R.slice(16, 21)
+        )(
+            R.view(headLens, aVerseNodeList)
+        );
+        var exp = R.equals(lst5, 'ndx:2');
+        MSG += '\n' + `    expect ${lst5} === ndx:2 [${exp}]`;
+        //        TEST DATA
+        //NOTE: POSSIBLE REMOVED + of += REMOVED WHILE Focus Here
+        MSG += '\n\n' + "...USE a Style Lens TO MUTATE a Verse.style Property";
+        var theFirstVerse = aVerseNodeList.item(0);
+        //theFirstVerse.style.color = 'pink';
+        //        CODE UNDER TEST
+        /**
+         *  NOTE there IS NO theFirstVerse.style.color AT this point
+         */
+        var colorLens = R.lensPath(['style', 'color']);
+        MSG += '\n' + `BEFORE R.set color IS:[${R.view(colorLens, theFirstVerse)}]`;
+        // SETS the color property here.
+        var newStyle = R.set(colorLens, 'blue', theFirstVerse);
+        MSG += '\n' + ` AFTER R.set color IS:[${R.view(colorLens, theFirstVerse)}]
+     the DOM Verse WAS NOT MUTATED.`;
+        var ret = R.view(colorLens, newStyle);
+        MSG += '\n' + ` BUT R.set RETURNS a new Color Property: [${R.view(colorLens, newStyle)}]
+     which CAN BE USED TO ASSIGN TO theFirstVerse.style.color.`;
+
+        // APPLY this TO theVerse
+        theFirstVerse.style.color = ret;
+        C_Both(MSG);
+        var noop = true;
+
+    }
+};
+
 /**
  *   ----------------------------------------- TEST REQUIRED FUNCTIONS  -----
  * */
@@ -37,10 +127,11 @@ var cssQuery_ = R.invoker(1, 'querySelectorAll');
  *          setStyle:: (styleObj) => (node) -> node.style MUTATED
  * @param (styleObj) => (node) -> node.style MUTATED
  */
-var setStyle = (styleObj) => (node) => {
-    return Object.assign(
-        node.style, styleObj)
-};
+var setStyle = R.curry((styleObj) => (node) => {
+    var trc =  Object.assign(
+        node.style, styleObj);
+    return trc
+});
 //   ------------------ my Names  -----------------------------------
 /**
  *          NodeListTmpl:: template Str FOR document.cssQuery_
@@ -169,7 +260,21 @@ var tstCode = function (tst = false) {
         /**
          *          SET_aVerse_Style_
          */
-        var SET_aVerse_Style_;  // DECLARED HERE: Code BELOW DOM_SET_aVerse_Style
+        var opacityLens_ = R.lensPath(['style', 'opacity']);
+        var fontSizeLens_ = R.lensPath(['style', 'fontSize']);
+
+        var SET_aVerse_Style_;
+        //var SET_aVerse_Style_ = function SET_aVerse_Style_(cssDict) {
+        //    return function (elmnt, ndx, coll) {
+        //        var aCSS_FOR_ =  R.pipe(
+        //            R.set(fontSizeLens_, '45%')
+        //            , TRACE('before .view')
+        //            , setStyle
+        //        );
+        //        elmnt.style.fontSize = aCSS_FOR_(elmnt);
+        //        // I MAY NOT NEED TO RETURN anything.
+        //    };
+        //};
 
         /**
          *          DOM_SET_FOREACH_Verse
@@ -197,10 +302,14 @@ var tstCode = function (tst = false) {
         // OR WITH  Lens
         var opacityLens_ = R.lensPath(['style', 'opacity']);
         var fontSizeLens_ = R.lensPath(['style', 'fontSize']);
+
         SET_aVerse_Style_ = function SET_aVerse_Style_(cssDict) {
             return function (elmnt, ndx, coll) {
-                var ret = R.set(fontSizeLens_, '45%', elmnt);
-                elmnt.style.fontSize = R.view(fontSizeLens_, ret);
+                var w = (cssDict, elmnt) => 12345;
+                var trc1 = R.set(fontSizeLens_, '45%', elmnt);
+                var trc2 = R.view(fontSizeLens_, trc1);
+                elmnt.style.fontSize = trc2;
+                //setStyle(trc1, elmnt); // I DO NOT THINK I NEED a return
             };
         };
 //  ------------------ SET TEST ------------
@@ -211,93 +320,5 @@ var tstCode = function (tst = false) {
     }
 };
 
-/**
- *          tst_R_Lens 1st LEARNING Lens:
- *          similar if not the same as test in ramda_tests.js
- * @param tst
- * @returns {*}
- */
-var tst_R_Lens = function (tst = false) {
-    if (tst) {
-        MSG = 'tst_R_Lens/';
-        /**
-         *          Style Constants for testing: a  subset, IN this case 'fut' OF objects/StyleConstants
-         * @type {{2: {name: string, smlWt: number, lrgWt: number, calcWt: Function, styleTmpl: {backgroundColor: string, opacity: string, fontSize: string}}}}
-         */
-        var tstStyleConstants = {
-            2: {
-                name: 'fut'
-                , smlWt: .4
-                , lrgWt: .8
-                , calcWt (sObj, vObj) {
-                    //noinspection JSUnusedLocalSymbols
-                    let {ver, ndx, ary} = vObj;
-                    let {smlWt, lrgWt} = sObj;
-                    let len = ary.length - 1;
-                    return (len > 0)
-                        ? (-(lrgWt - smlWt) / len * ndx + lrgWt)
-                        : lrgWt;  // always lrgWt
-                }
-                , wt: 1
-                , aStyleObj: {
-                    backgroundColor: "rgba(145, 248, 29, 0.29)"
-                    , fontSize: '70%'
-                    , opacity: 0.5
-                }
-                , styleStr: `{"backgroundColor": "rgba(145, 248, 29, 0.29)", "opacity": "0.6", "fontSize": "75%"}`
-                //, styleTmpl: ` backgroundColor: "rgba(145, 248, 29, 0.29)", opacity: "${this.wt}", fontSize: "${this.wt}%"`
-            }
-        };
-//  ------------------ SET TEST ------------
-//  ------------------ INVOKE TEST ------------
-        MSG += '\n......Style lensPath W/ aStyleObj...........';
-        var Lens2SO_ = R.lensPath(['2', 'aStyleObj', 'fontSize']);
-        var SO1 = R.view(Lens2SO_, tstStyleConstants);
-        //MSG += '\n' + `  BEFORE: expect fontSize: ${JSON.stringify(SO1)}===70% `;
-        var SO2 = R.set(Lens2SO_, '25%', SO1);
-        var SO3 = R.view(Lens2SO_, SO2);
-        //MSG += '\n' + `  AFTER:  expect fontSize: ${JSON.stringify(SO3)}===25% `;
-
-        MSG += '\n USE Lens in DOM ->  ';
-        var aVerse_tmplt = '.book .ChptrReadGrps .cur  .VerseReadGrps > .fut div';
-        var aVerseNodeList = document.querySelectorAll(aVerse_tmplt);
-        //var EXPLORE R.invoker(1, 'querySelectorAll')
-
-        MSG += '\n' + `...USE headLens = R.lensIndex(0)`;
-        var headLens = R.lensIndex(0);
-        var lst5 = R.pipe(
-            R.prop('innerText')
-            , R.slice(16, 21)
-        )(
-            R.view(headLens, aVerseNodeList)
-        );
-        var exp = R.equals(lst5, 'ndx:2');
-        MSG += '\n' + `    expect ${lst5} === ndx:2 [${exp}]`;
-        //        TEST DATA
-        //NOTE: POSSIBLE REMOVED + of += REMOVED WHILE Focus Here
-        MSG += '\n\n' + "...USE a Style Lens TO MUTATE a Verse.style Property";
-        var theFirstVerse = aVerseNodeList.item(0);
-        //theFirstVerse.style.color = 'pink';
-        //        CODE UNDER TEST
-        /**
-         *  NOTE there IS NO theFirstVerse.style.color AT this point
-         */
-        var colorLens = R.lensPath(['style', 'color']);
-        MSG += '\n' + `BEFORE R.set color IS:[${R.view(colorLens, theFirstVerse)}]`;
-        // SETS the color property here.
-        var newStyle = R.set(colorLens, 'blue', theFirstVerse);
-        MSG += '\n' + ` AFTER R.set color IS:[${R.view(colorLens, theFirstVerse)}]
-     the DOM Verse WAS NOT MUTATED.`;
-        var ret = R.view(colorLens, newStyle);
-        MSG += '\n' + ` BUT R.set RETURNS a new Color Property: [${R.view(colorLens, newStyle)}]
-     which CAN BE USED TO ASSIGN TO theFirstVerse.style.color.`;
-
-        // APPLY this TO theVerse
-        theFirstVerse.style.color = ret;
-        C_Both(MSG);
-        var noop = true;
-
-    }
-};
 
 main();
