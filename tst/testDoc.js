@@ -304,13 +304,22 @@ var tstCode = function (tst = false) {
         var fontSizeLens_ = R.lensPath(['style', 'fontSize']);
 
         SET_aVerse_Style_ = function SET_aVerse_Style_(cssDict) {
+            // cssDict WILL BE NEEDED in place OF aRandom wt maker
             return function (elmnt, ndx, coll) {
                 var n = aRandom_min_TO_max_(1, 100);
                 var formattedWt_ = n => `${n}%`;
                 var formattedWt = formattedWt_(n);
                 var trc1 = R.set(fontSizeLens_, formattedWt, elmnt);
                 var trc2 = R.view(fontSizeLens_, trc1);
-                elmnt.style.fontSize = trc2;
+                var aNewFn_ = R.pipe(
+                        aRandom_min_TO_max_
+                        , formattedWt_
+                    );
+                //var tst = R.pipe(Math.pow, R.negate, R.inc);
+                var tst = R.pipe(Math.pow); // pipe works WITH just one function
+                var ret = R.pipe(R.inc, formattedWt_);
+                C_Both( aNewFn_(1, 100));
+                elmnt.style.fontSize = trc2;  // This SETS theStyle
                 //setStyle(trc1, elmnt); // I DO NOT THINK I NEED a return
             };
         };
