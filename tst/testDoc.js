@@ -128,7 +128,7 @@ var cssQuery_ = R.invoker(1, 'querySelectorAll');
  * @param (styleObj) => (node) -> node.style MUTATED
  */
 var setStyle = R.curry((styleObj) => (node) => {
-    var trc =  Object.assign(
+    var trc = Object.assign(
         node.style, styleObj);
     return trc
 });
@@ -151,12 +151,12 @@ var tstCode = function (tst = false) {
     if (tst) {
 
         /**
-         *          aStyleWt (styleState)(ndx, coll) -> Wt
+         *          aRandom_min_TO_max_(val, val)-> val
          * @param min
          * @param max
          * @returns {*}
          */
-        var aStyleWt_ = function (min, max) {
+        var aRandom_min_TO_max_ = function (min, max) {
             return Math.floor(Math.random() * (max - min + 1)) + min;
             //REFACT THIS TO full  param sty0, val, ndx, coll
         };
@@ -305,8 +305,10 @@ var tstCode = function (tst = false) {
 
         SET_aVerse_Style_ = function SET_aVerse_Style_(cssDict) {
             return function (elmnt, ndx, coll) {
-                var w = (cssDict, elmnt) => 12345;
-                var trc1 = R.set(fontSizeLens_, '45%', elmnt);
+                var n = aRandom_min_TO_max_(1, 100);
+                var formattedWt_ = n => `${n}%`;
+                var formattedWt = formattedWt_(n);
+                var trc1 = R.set(fontSizeLens_, formattedWt, elmnt);
                 var trc2 = R.view(fontSizeLens_, trc1);
                 elmnt.style.fontSize = trc2;
                 //setStyle(trc1, elmnt); // I DO NOT THINK I NEED a return
