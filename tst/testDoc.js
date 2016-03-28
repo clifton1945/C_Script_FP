@@ -292,15 +292,18 @@ var tstCode = function (tst = false) {
                 // (Str: propStr) -> Str: formatted propStr
                 var FORMAT_fontSize_ = n => `${n}%`;
                 // (min, max) => Str: formatted propStr
-                var a_TEST_formatted_fontSize_ = R.pipe(
+                var FORMAT_aStyleObj_ = R.pipe(
                         aRandom_min_TO_max_ // expect (min, max)
                         , FORMAT_fontSize_
                     );
-                var a_TEST_formatted_fontSize = a_TEST_formatted_fontSize_(51, 100);
+                var a_TEST_formatted_fontSize = FORMAT_aStyleObj_(51, 100);
 
-                // point methods
-                var STYLE_a_Verse = R.set(a_fontSizeLens, a_TEST_formatted_fontSize, elmnt);
-                var trc2 = R.view(a_fontSizeLens, STYLE_a_Verse);
+                var lens = SET_a_fontSize_Lens_('fontSize');
+                var STYLE_a_Verse_ = R.set( // (lens)  (StyleObj: min, max) (element) ->
+                    lens
+                    , FORMAT_aStyleObj_(51, 100)
+                    , elmnt);
+                var trc2 = R.view(lens, STYLE_a_Verse_); // this may work if not curry??
                 MSG += a_TEST_formatted_fontSize;
                 //setStyle(STYLE_a_Verse, elmnt);
                 elmnt.style["fontSize"] = trc2;
