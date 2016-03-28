@@ -302,44 +302,47 @@ var tstCode = function (tst = false) {
         // OR WITH  Lens
         SET_aVerse_Style_ = function SET_aVerse_Style_(cssDict) {
             // cssDict WILL BE NEEDED in place OF aRandom wt maker
-            var opacityLens_ = R.lensPath(['style', 'opacity']);
-            var fontSizeLens_ = R.lensPath(['style', 'fontSize']);
-
             return function (elmnt, ndx, coll) {
-                var n = aRandom_min_TO_max_(1, 100); // () -> n
-                var formatted_fontSize_ = n => `${n}%`;
-                var formattedWt = formatted_fontSize_(n); // Int -> Str
-                var trc1 = R.set(fontSizeLens_, formattedWt, elmnt);
-                var trc2 = R.view(fontSizeLens_, trc1);
+                //var opacityLens_ = R.lensPath(['style', 'opacity']);
+                // EverythingNEEDED TO return a Map CallBack Function CRAVING an Element
+                var SET_a_fontSizeLens_ = (prop) => R.lensPath(['style', prop]);
+                var a_fontSizeLens = SET_a_fontSizeLens_('fontSize'); // this is a lens
 
-                var a_Style_WITH_ = (lens, frmtStr, elmnt) => R.set(lens, frmtStr, elmnt);
-                //var a_Style_WITH_lens_ = a_Style_WITH_(lens);
-                //var a_Style_WITH_lens_frmt_ = (lens, frmtStr) => a_Style_WITH_(lens, frmtStr);
-                //var a_Style_WITH_lens_frmt_elmnt_ = (end, fmtStr, elmnt) => a_Style_WITH_(lens, frmtStr, elmnt);
-
-                let a_formattedStyle_ = R.pipe(
-                        aRandom_min_TO_max_     // (min, max) -> Int:n
-                        , formatted_fontSize_   //  n -> Str: prop
+                var FORMAT_fontSize_ = n => `${n}%`;
+                var a_formatted_fontSize_ = R.pipe(
+                        aRandom_min_TO_max_ // expect (min, max)
+                        , FORMAT_fontSize_
                     );
-                //var a_Style = R.pipe(
-                //    a_formattedStyle(10, 50)
-                //    , R.set(fontSizeLens_, formattedWt, elmnt)
+                var a_formatted_fontSize = a_formatted_fontSize_(51, 100);
+                // point methods
+                var trc1 = R.set(a_fontSizeLens, a_formatted_fontSize, elmnt);
+                var trc2 = R.view(a_fontSizeLens, trc1);
+                MSG += a_formatted_fontSize;
+                //setStyle(trc1, elmnt);
+                elmnt.style["fontSize"] = trc2;
+
+
+                //  OR  USING lens  aStyle:: (min, max) -> (elmnt) -> aStyle
+                //var a_Style_WITH_ = (lens, frmtStr, elmnt) => R.set(lens, frmtStr, elmnt);
+                //a_Style_WITH_ = a_Style_WITH_(lens, frmtStr);
+                //var a_formattedStyle_ = R.pipe(aRandom_min_TO_max_     // (min, max) -> Int:n
+                //    , FORMAT_fontSize_//  n -> Str: prop
                 //);
-                //var tst = R.pipe(Math.pow, R.negate, R.inc);
-                //var tst = R.pipe(Math.pow); // pipe works WITH just one function
-                C_Both( a_formattedStyle_(51, 100));
-                trc1 = R.set(fontSizeLens_, formattedWt, elmnt);
-                trc2 = R.view(fontSizeLens_, trc1);
-                elmnt.style.fontSize = trc2;  // This SETS theStyle
-                //setStyle(trc1, elmnt); // I DO NOT THINK I NEED a return
+                //
+                //var SET_a_Style_WITH_ = R.set(lens, wtStr, elmnt);
+                //// now partialed, just needs an element
+                //var a_Style = R.view(lens, styleStr, elmnt);
+                //a_Style = (SET_a_fontSizeLens_, a_formattedStyle_);
+                ////elmnt.style.fontSize = a_Style;  // This SETS theStyle
+
             };
         };
 //  ------------------ SET TEST ------------
-        C_Both(MSG);
-        var noop = true;
 //  ------------------ INVOKE TEST ------------
-        DOM_SET_FOREACH_Verse(tstStyleDict, NodeList_fut);
+        DOM_SET_FOREACH_Verse(SET_aVerse_Style_, NodeList_fut);
     }
+    C_Both(MSG);
+    var noop = true;
 };
 
 
