@@ -299,14 +299,21 @@ var tstCode = function (tst = false) {
                 var a_TEST_formatted_fontSize = FORMAT_aStyleObj_(51, 100);
 
                 var lens = SET_a_fontSize_Lens_('fontSize');
-                var STYLE_a_Verse_ = R.set( // (lens)  (StyleObj: min, max) (element) ->
+                var SET_a_StyleObject_ = R.set( // (lens)  (StyleObj: min, max) (element) ->
                     lens
                     , FORMAT_aStyleObj_(51, 100)
-                    , elmnt);
-                var trc2 = R.view(lens, STYLE_a_Verse_); // this may work if not curry??
+                    , elmnt
+                );
+                //   :: Obj:lens, StyleObj_ -> (elmnt) -
+                var VIEW_a_StyleObject_ = R.view(lens, SET_a_StyleObject_);
+
+                //var x = R.pipe(
+                //    SET_a_StyleObject_(lens)
+                //    , VIEW_a_StyleObject_(lens)
+                //);
                 MSG += a_TEST_formatted_fontSize;
                 //setStyle(STYLE_a_Verse, elmnt);
-                elmnt.style["fontSize"] = trc2;
+                elmnt.style["fontSize"] = VIEW_a_StyleObject_;
             };
         };
 //  ------------------ SET TEST ------------
