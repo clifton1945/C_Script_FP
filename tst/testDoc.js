@@ -300,25 +300,36 @@ var tstCode = function (tst = false) {
         var aVerseNodeList = document.querySelectorAll(aVerse_tmplt);
         var theFirstVerse = aVerseNodeList.item(0);
         // OR WITH  Lens
-        var opacityLens_ = R.lensPath(['style', 'opacity']);
-        var fontSizeLens_ = R.lensPath(['style', 'fontSize']);
-
         SET_aVerse_Style_ = function SET_aVerse_Style_(cssDict) {
             // cssDict WILL BE NEEDED in place OF aRandom wt maker
+            var opacityLens_ = R.lensPath(['style', 'opacity']);
+            var fontSizeLens_ = R.lensPath(['style', 'fontSize']);
+
             return function (elmnt, ndx, coll) {
-                var n = aRandom_min_TO_max_(1, 100);
-                var formattedWt_ = n => `${n}%`;
-                var formattedWt = formattedWt_(n);
+                var n = aRandom_min_TO_max_(1, 100); // () -> n
+                var formatted_fontSize_ = n => `${n}%`;
+                var formattedWt = formatted_fontSize_(n); // Int -> Str
                 var trc1 = R.set(fontSizeLens_, formattedWt, elmnt);
                 var trc2 = R.view(fontSizeLens_, trc1);
-                var aNewFn_ = R.pipe(
-                        aRandom_min_TO_max_
-                        , formattedWt_
+
+                var a_Style_WITH_ = (lens, frmtStr, elmnt) => R.set(lens, frmtStr, elmnt);
+                //var a_Style_WITH_lens_ = a_Style_WITH_(lens);
+                //var a_Style_WITH_lens_frmt_ = (lens, frmtStr) => a_Style_WITH_(lens, frmtStr);
+                //var a_Style_WITH_lens_frmt_elmnt_ = (end, fmtStr, elmnt) => a_Style_WITH_(lens, frmtStr, elmnt);
+
+                let a_formattedStyle_ = R.pipe(
+                        aRandom_min_TO_max_     // (min, max) -> Int:n
+                        , formatted_fontSize_   //  n -> Str: prop
                     );
+                //var a_Style = R.pipe(
+                //    a_formattedStyle(10, 50)
+                //    , R.set(fontSizeLens_, formattedWt, elmnt)
+                //);
                 //var tst = R.pipe(Math.pow, R.negate, R.inc);
-                var tst = R.pipe(Math.pow); // pipe works WITH just one function
-                var ret = R.pipe(R.inc, formattedWt_);
-                C_Both( aNewFn_(1, 100));
+                //var tst = R.pipe(Math.pow); // pipe works WITH just one function
+                C_Both( a_formattedStyle_(51, 100));
+                trc1 = R.set(fontSizeLens_, formattedWt, elmnt);
+                trc2 = R.view(fontSizeLens_, trc1);
                 elmnt.style.fontSize = trc2;  // This SETS theStyle
                 //setStyle(trc1, elmnt); // I DO NOT THINK I NEED a return
             };
