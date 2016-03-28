@@ -299,28 +299,28 @@ var tstCode = function (tst = false) {
                 var a_TEST_formatted_fontSize = FORMAT_aStyleObj_(51, 100);
 
                 var lens_ = SET_a_fontSize_Lens_('fontSize'); // partial
+
                 var SET_a_StyleObject_ = R.set( // (lens_)  (StyleObj: min, max) (element) ->
                     lens_
                     , FORMAT_aStyleObj_(51, 100)
                     , elmnt
                 );
                 //   :: Obj:lens_, StyleObj_ -> (elmnt) -
-                var VIEW_a_StyleObject_ = R.view(lens_, SET_a_StyleObject_);
+                var VIEW_a_StyleObject_ = R.view(SET_a_fontSize_Lens_('fontSize'), SET_a_StyleObject_);
 
-                var x = (styleStr) => {
-                    var fLens_= SET_a_fontSize_Lens_(styleStr);
+                var STYLE_an_Element = (styleStr) => {
+                    var lens_= SET_a_fontSize_Lens_(styleStr);
                     return R.view(
-                        fLens_
+                        lens_
                         , R.set( // (lens_)  (StyleObj: min, max) (element) ->
-                            fLens_
+                            lens_
                             , FORMAT_aStyleObj_(51, 100)
                             , elmnt
                         )
                     )
                 };
                 MSG += a_TEST_formatted_fontSize;
-                //elmnt.style["fontSize"] = VIEW_a_StyleObject_;
-                elmnt.style["fontSize"] = x("styleStr");
+                elmnt.style["fontSize"] = STYLE_an_Element("HEY, I AM NEVER SEEN");
             };
         };
 //  ------------------ SET TEST ------------
