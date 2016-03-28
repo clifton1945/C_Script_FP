@@ -287,33 +287,40 @@ var tstCode = function (tst = false) {
 
                 // (Str prop) => Obj Lens
                 var SET_a_fontSize_Lens_ = (prop) => R.lensPath(['style', prop]);
-                var a_fontSizeLens = SET_a_fontSize_Lens_('fontSize'); // this is a lens obj
+                var a_fontSizeLens = SET_a_fontSize_Lens_('fontSize'); // this is a lens_ obj
 
                 // (Str: propStr) -> Str: formatted propStr
                 var FORMAT_fontSize_ = n => `${n}%`;
                 // (min, max) => Str: formatted propStr
                 var FORMAT_aStyleObj_ = R.pipe(
-                        aRandom_min_TO_max_ // expect (min, max)
-                        , FORMAT_fontSize_
-                    );
+                    aRandom_min_TO_max_ // expect (min, max)
+                    , FORMAT_fontSize_
+                );
                 var a_TEST_formatted_fontSize = FORMAT_aStyleObj_(51, 100);
 
-                var lens = SET_a_fontSize_Lens_('fontSize');
-                var SET_a_StyleObject_ = R.set( // (lens)  (StyleObj: min, max) (element) ->
-                    lens
+                var lens_ = SET_a_fontSize_Lens_('fontSize'); // partial
+                var SET_a_StyleObject_ = R.set( // (lens_)  (StyleObj: min, max) (element) ->
+                    lens_
                     , FORMAT_aStyleObj_(51, 100)
                     , elmnt
                 );
-                //   :: Obj:lens, StyleObj_ -> (elmnt) -
-                var VIEW_a_StyleObject_ = R.view(lens, SET_a_StyleObject_);
+                //   :: Obj:lens_, StyleObj_ -> (elmnt) -
+                var VIEW_a_StyleObject_ = R.view(lens_, SET_a_StyleObject_);
 
-                //var x = R.pipe(
-                //    SET_a_StyleObject_(lens)
-                //    , VIEW_a_StyleObject_(lens)
-                //);
+                var x = (styleStr) => {
+                    var fLens_= SET_a_fontSize_Lens_(styleStr);
+                    return R.view(
+                        fLens_
+                        , R.set( // (lens_)  (StyleObj: min, max) (element) ->
+                            fLens_
+                            , FORMAT_aStyleObj_(51, 100)
+                            , elmnt
+                        )
+                    )
+                };
                 MSG += a_TEST_formatted_fontSize;
-                //setStyle(STYLE_a_Verse, elmnt);
-                elmnt.style["fontSize"] = VIEW_a_StyleObject_;
+                //elmnt.style["fontSize"] = VIEW_a_StyleObject_;
+                elmnt.style["fontSize"] = x("styleStr");
             };
         };
 //  ------------------ SET TEST ------------
