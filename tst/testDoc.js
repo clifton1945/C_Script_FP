@@ -256,6 +256,10 @@ var tstCode = function (tst = false) {
                 //, styleTmpl: ` backgroundColor: "rgba(145, 248, 29, 0.29)", opacity: "${this.wt}", fontSize: "${this.wt}%"`
             }
         };      // test data
+
+        /**
+         *          SET_aVerse_Style_;; DECLARED HERE
+         */
         var SET_aVerse_Style_;          // Declaration NEEDED-before DOM_SET_FOREACH_Verse
 
         /**
@@ -279,55 +283,65 @@ var tstCode = function (tst = false) {
         MSG = 'tst_DOM_NL.CREATE_StyleTmpl->\n --- ';
         MSG += '\n REFACT: SET_aVerse_Style_ ->  ';
 
-        SET_aVerse_Style_ = function SET_aVerse_Style_(cssDict) {
-            // cssDict WILL BE NEEDED in place OF aRandom wt maker
-            return function (elmnt, ndx, coll) {
-                //var opacityLens_ = R.lensPath(['style', 'opacity']);
-                // EverythingNEEDED TO return a Map CallBack Function CRAVING an Element
+        SET_aVerse_Style_ = function SET_aVerse_Style_(elmnt, ndx, coll) {
+            // (Str prop) => Obj Lens
+            var SET_a_fontSize_Lens_ = (prop) => R.lensPath(['style', prop]);
+            var a_fontSizeLens = SET_a_fontSize_Lens_('fontSize'); // this is a lens_ obj
 
-                // (Str prop) => Obj Lens
-                var SET_a_fontSize_Lens_ = (prop) => R.lensPath(['style', prop]);
-                var a_fontSizeLens = SET_a_fontSize_Lens_('fontSize'); // this is a lens_ obj
+            // (Str: propStr) -> Str: formatted propStr
+            var FORMAT_fontSize_ = n => `${n}%`;
 
-                // (Str: propStr) -> Str: formatted propStr
-                var FORMAT_fontSize_ = n => `${n}%`;
-                // (min, max) => Str: formatted propStr
-                var FORMAT_aStyleObj_ = R.pipe(
-                    aRandom_min_TO_max_ // expect (min, max)
-                    , FORMAT_fontSize_
-                );
-                var a_TEST_formatted_fontSize = FORMAT_aStyleObj_(51, 100);
+            // (min, max) => Str: formatted propStr
+            var FORMAT_aStyleObj_ = R.pipe(
+                aRandom_min_TO_max_ // expect (min, max)
+                , FORMAT_fontSize_
+            );
 
-                var lens_ = SET_a_fontSize_Lens_('fontSize'); // partial
+            var a_TEST_formatted_fontSize = FORMAT_aStyleObj_(51, 100);
 
-                var SET_a_StyleObject_ = R.set( // (lens_)  (StyleObj: min, max) (element) ->
-                    lens_
-                    , FORMAT_aStyleObj_(51, 100)
-                    , elmnt
-                );
-                //   :: Obj:lens_, StyleObj_ -> (elmnt) -
-                var VIEW_a_StyleObject_ = R.view(SET_a_fontSize_Lens_('fontSize'), SET_a_StyleObject_);
+            var lens_ = SET_a_fontSize_Lens_('fontSize'); // partial
 
-                var STYLE_an_Element = (styleStr) => {
-                    var lens_= SET_a_fontSize_Lens_(styleStr);
-                    return R.view(
+            var SET_a_StyleObject_ = R.set( // (lens_)  (StyleObj: min, max) (element) ->
+                lens_
+                , FORMAT_aStyleObj_(51, 100)
+                , elmnt
+            );
+            //   :: Obj:lens_, StyleObj_ -> (elmnt) -
+            var VIEW_a_StyleObject_ = R.view(SET_a_fontSize_Lens_('fontSize'), SET_a_StyleObject_);
+
+            /**
+             *          THIS IS THE CALL BACK FUNCTION !!!!!!
+             * @param styleStr
+             * @param elmnt
+             * @returns {*}
+             * @constructor
+             */
+            var STYLE_an_Element = R.curry(
+                function STYLE_an_Element(styleStr, elmnt) {
+                    // todo REFACT: MAKE this a ramda SET && VIEW.._a_StyleObject_
+                    // as it is now This does not use the two functions
+                    var lens_ = SET_a_fontSize_Lens_(styleStr);
+                    var ret = R.view( //
                         lens_
                         , R.set( // (lens_)  (StyleObj: min, max) (element) ->
                             lens_
-                            , FORMAT_aStyleObj_(51, 100)
+                            , FORMAT_aStyleObj_(51, 100)  // this is a test stub for style weight
                             , elmnt
                         )
-                    )
-                };
-                MSG += a_TEST_formatted_fontSize;
-                elmnt.style["fontSize"] = STYLE_an_Element("HEY, I AM NEVER SEEN");
-            };
+                    );
+                    return elmnt.style[styleStr] = ret
+                }
+            );
+            MSG += a_TEST_formatted_fontSize;
+            return STYLE_an_Element('fontSize')
         };
-//  ------------------ SET TEST ------------
+
+        //  ------------------ SET TEST ------------
 //  ------------------ INVOKE TEST ------------
         DOM_SET_FOREACH_Verse(SET_aVerse_Style_, NodeList_fut);
     }
-    C_Both(MSG);
-    var noop = true;
 };
+
+C_Both(MSG);
+var noop = true;
 main();
