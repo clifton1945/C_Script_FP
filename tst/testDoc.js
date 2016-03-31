@@ -147,7 +147,7 @@ var NodeList_cur = '.book .ChptrReadGrps .cur  .VerseReadGrps > .cur .vers';
  */
 var NodeList_ = R.flip(cssQuery_)(document); // partial
 
-var tstCode = function (tst = false) {
+var tst_DEPR_StyleVerse = function (tst = false) {
     if (tst) {
 
         /**
@@ -342,6 +342,211 @@ var tstCode = function (tst = false) {
     }
 };
 
-C_Both(MSG);
-var noop = true;
+var tstCode = function (tst = false) {
+    if (tst) {
+
+        /**
+         *          aRandom_min_TO_max_(val, val)-> val
+         * @param min
+         * @param max
+         * @returns {*}
+         */
+        var aRandom_min_TO_max_ = function (min, max) {
+            return Math.floor(Math.random() * (max - min + 1)) + min;
+            //REFACT THIS TO full  param sty0, val, ndx, coll
+        };
+
+        /**
+         *          aStyleCssStr_:: Str Template FOR aVerse FROM the Style Constants Object
+         *          o -> Str
+         * @param styleConstants
+         * @returns {*} string literal template READY TO FULFILL WITH a Weight
+         * @private
+         */
+        var aStyleCssStr_ = function (styleConstants) {
+            return R.pipe(
+                R.prop('2'),
+                R.prop('styleStr'),
+                TRACE_((obj) => `   IN  aStyleCssStr_:${JSON.stringify(obj)}`)
+            );
+        };
+        //
+        ///**
+        // *          aStyleCSS_FROM(template)(wt)-> CSS object
+        // * @param cssTmpl
+        // * @param wt
+        // * @returns {Function|*}
+        // */
+        //var aStyleCSS_ = R.curry(function (cssTmpl, wt) {
+        //    return cssTmpl;  // hard coded testing only
+        //});
+        //
+        ///**
+        // *              actually SET the Element's CSS style
+        // */
+        //var setStyle_FROM_styleCSS_ = R.curry(function (css, node) {
+        //    return setStyle(css, node)
+        //});
+        //
+        ///**
+        // *          aStyle_SET_FOR_aVerse_FROM_(styleCSS, node, ndx, coll) -> setStyle
+        // * :: function (o)(v,n,c)-> v
+        // * // Verse State IS
+        // * @param styleCnstnts
+        // * @param node
+        // * @param ndx
+        // * @param coll
+        // * @returns {*}  - node.style MUTATED
+        // * @constructor
+        // * @private
+        // */
+        //var aStyle_FOR_aVerse_ = function aStyleFORaVerse_(styleCnstnts, node, ndx, coll) {
+        //    // this is the callBack FOR R_forEach || map
+        //    // aStyleWt( styleCnstnts, ndx, coll)
+        //    // aStyleCssStr_(styleConstants)
+        //    // aStyleCSS_(styleCnstnts, aStyleWt)
+        //    // setStyle_FROM_styleCSS_(aStyleCSS_, node)
+        //    // 1. properly pipe wt -> css -> set in this
+        //
+        //    var aStyleCSS = aStyleCSS_(12345);
+        //    var setStyle_FROM_styleCSS = setStyle_FROM_styleCSS_();
+        //    var f, f_ = (styCnts) => R.pipe(
+        //        aStyleCssStr_
+        //        , depTRACE(', #1')
+        //        , aStyleCSS  // hardcoded for test
+        //        , TRACE(', #2')
+        //        , setStyle_FROM_styleCSS
+        //        , TRACE(', #3')
+        //    );i
+        //    f = f_(styleCnstnts)(node);
+        //    return f()
+        //};
+        //var aStyle_FOR_aVerse_c_ = R.curry(aStyle_FOR_aVerse_);
+
+        /**
+         *          A subset, IN this case 'fut' OF objects/StyleConstants
+         * @type {{2: {name: string, smlWt: number, lrgWt: number, calcWt: Function, styleTmpl: {backgroundColor: string, opacity: string, fontSize: string}}}}
+         */
+        var tstStyleDict = {
+            2: {
+                name: 'fut'
+                , smlWt: .4
+                , lrgWt: .8
+                , calcWt (sObj, vObj) {
+                    //noinspection JSUnusedLocalSymbols
+                    let {ver, ndx, ary} = vObj;
+                    let {smlWt, lrgWt} = sObj;
+                    let len = ary.length - 1;
+                    return (len > 0)
+                        ? (-(lrgWt - smlWt) / len * ndx + lrgWt)
+                        : lrgWt;  // always lrgWt
+                }
+                , wt: 1
+                , aStyleObj: {
+                    backgroundColor: "rgba(145, 248, 29, 0.29)"
+                    , fontSize: '70%'
+                    , opacity: 0.5
+                }
+                , styleStr: `{"backgroundColor": "rgba(145, 248, 29, 0.29)", "opacity": "0.6", "fontSize": "75%"}`
+                //, styleTmpl: ` backgroundColor: "rgba(145, 248, 29, 0.29)", opacity: "${this.wt}", fontSize: "${this.wt}%"`
+            }
+        };      // test data
+
+        /**
+         *          SET_aVerse_Style_;; DECLARED HERE
+         */
+        var SET_aVerse_Style_;          // Declaration NEEDED-before DOM_SET_FOREACH_Verse
+
+        /**
+         *          DOM_SET_FOREACH_Verse
+         * STYLED_VerseList OF MUTATED Verse Element.style FROM NodeList.
+         * MAP SET_aVerse_Style_(styleDict) ONTO NodeList_(qrySlct)
+         * @param styleDict
+         * @param qrySlct
+         * @return {*}
+         */
+        var DOM_SET_FOREACH_Verse = (styleDict, qrySlct) => {
+            return R.mapObjIndexed(
+                SET_aVerse_Style_(styleDict)      // partial. WANTS aNode FROM the NL below.
+                , NodeList_(qrySlct)               // this SATISFIES each aStyle_FOR_aVerse_
+            )
+        };
+        /**
+         * ----------- BEGIN Test Code here ------------------------
+         * @type {string}
+         */
+        MSG = 'tst_DOM_NL.CREATE_StyleTmpl->\n --- ';
+        MSG += '\n REFACT: SET_aVerse_Style_ ->  ';
+
+        SET_aVerse_Style_ = function SET_aVerse_Style_(elmnt, ndx, coll) {
+            // (Str prop) => Obj Lens
+            var SET_a_fontSize_Lens_ = (prop) => R.lensPath(['style', prop]);
+            var a_fontSizeLens = SET_a_fontSize_Lens_('fontSize'); // this is a lens_ obj
+
+            // (Str: propStr) -> Str: formatted propStr
+            var FORMAT_fontSize_ = n => `${n}%`;
+
+            // (min, max) => Str: formatted propStr
+            var FORMAT_aStyleObj_ = R.pipe(
+                aRandom_min_TO_max_ // expect (min, max)
+                , FORMAT_fontSize_
+            );
+
+            var a_TEST_formatted_fontSize = FORMAT_aStyleObj_(51, 100);
+
+            var lens_ = SET_a_fontSize_Lens_('fontSize'); // partial
+
+            var SET_a_StyleObject_ = R.set( // (lens_)  (StyleObj: min, max) (element) ->
+                lens_
+                , FORMAT_aStyleObj_(51, 100)
+                , elmnt
+            );
+            //   :: Obj:lens_, StyleObj_ -> (elmnt) -
+            var VIEW_a_StyleObject_ = R.view(SET_a_fontSize_Lens_('fontSize'), SET_a_StyleObject_);
+
+            /**
+             *          THIS IS THE CALL BACK FUNCTION !!!!!!
+             * @param styleStr
+             * @param elmnt
+             * @returns {*}
+             * @constructor
+             */
+            var STYLE_an_Element = R.curry(
+                function STYLE_an_Element(styleStr, elmnt) {
+                    // as it is now This does not use the two functions
+                    var lens_ = SET_a_fontSize_Lens_(styleStr);
+                    var ret = R.view( //
+                        lens_
+                        , R.set( // (lens_)  (StyleObj: min, max) (element) ->
+                            lens_
+                            , FORMAT_aStyleObj_(51, 100)  // this is a test stub for style weight
+                            , elmnt
+                        )
+                    );
+                    return elmnt.style[styleStr] = ret
+                }
+            );
+            MSG += a_TEST_formatted_fontSize;
+            return STYLE_an_Element('fontSize')
+        };
+
+        //  ------------------ SET TEST ------------
+        MSG = "CAN I compose a function? > \n";
+        var lens = R.lensPath(['2', 'lrgWt' ]);
+        var value = 0.3;
+        var obj = tstStyleDict;
+        var ret = R.view(lens, obj);
+        MSG += ` before set:${ret}, `;
+        var cut = R.set(lens, value, obj);
+        ret = R.view(lens, cut);
+        MSG +=` after set:${ret}, `;
+        //  ------------------ INVOKE TEST ------------
+        //DOM_SET_FOREACH_Verse(SET_aVerse_Style_, NodeList_fut);
+        C_Both(MSG);
+        var noop = true;
+    }
+};
+
+//C_Both(MSG);
+//var noop = true;
 main();
