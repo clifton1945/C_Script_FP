@@ -9,12 +9,6 @@
 function main() {
     var all = false;
     tstCode(true);
-    tst_R_Lens(all);
-    //tst_COMBINE_VGrp_Style_List_AND_VGrp_Verse_List_INTO_VGrp_List(all);
-    //tst_SEPARATE_StyleConst_BY_VGrpClass_INTO_List(all);
-    //tst_SELECT_StyleConstants_forEach_VerseGrp(all);
-    //tst_CHANGE_VerseNodeStyle(all); // require STYLE_Verses.js
-    ////tst_coll_len_gt_1(all);
 }
 /**
  * GLOBAL vars
@@ -58,7 +52,7 @@ var NodeList_cur = '.book .ChptrReadGrps .cur  .VerseReadGrps > .cur .vers';
 var NodeList_ = R.flip(cssQuery_)(document); // partial
 
 var tstCode = function (tst = false) {
-    if (tst) {
+
 
         /**
          *          aRandom_min_TO_max_(val, val)-> val
@@ -134,6 +128,9 @@ var tstCode = function (tst = false) {
                 , NodeList_(qrySlct)               // this SATISFIES each aStyle_FOR_aVerse_
             )
         };
+
+    if (tst) {
+
         /**
          * ----------- BEGIN Test Code here ------------------------
          * @type {string}
@@ -150,12 +147,10 @@ var tstCode = function (tst = false) {
             var FORMAT_fontSize_ = n => `${n}%`;
 
             var CALC_a_StyPropWt = aRandom_min_TO_max_;
-            //CALC_a_StyPropWt = (ndx, coll) => {
-            //};
 
             // (min, max) => Str: formatted propStr
             var SET_a_CssStyle_ = R.pipe(
-                CALC_a_StyPropWt
+            CALC_a_StyPropWt
                 , FORMAT_fontSize_
             );
 
@@ -163,7 +158,7 @@ var tstCode = function (tst = false) {
 
             var lens_ = SET_a_Sty_Lens_('fontSize'); // partial
 
-            var STYLE_a_Verse = (propName, propCSS, elmnt ) => {return elmnt.style[propName] = propCSS.style.[propName]};
+            var STYLE_a_Verse = (propName, propCSS, elmnt ) => {return elmnt.style[propName] = propCSS.style[propName]};
 
             /**
              *          THIS IS THE CALL BACK FUNCTION !!!!!!
@@ -173,20 +168,17 @@ var tstCode = function (tst = false) {
              * @constructor
              */
             var STYLE_an_Element = R.curry(
-                function STYLE_an_Element(styleStr, elmnt) {
-                    // todo REFACT: MAKE this a ramda SET && VIEW.._a_StyleObject_
-                    // as it is now This does not use the two functions
-                    var lens_ = SET_a_Sty_Lens_(styleStr);
-                    var ret = R.set( // (lens_)  (StyleObj: min, max) (element) ->
-                            lens_
+                function STYLE_an_Element(styleStr, elmnt) {  // PARTIAL: WAITS4 elmnt
+                    var CssStyle = R.set( // (lens_)  (StyleObj: min, max) (element) ->
+                            SET_a_Sty_Lens_(styleStr)
                             , SET_a_CssStyle_(51, 100)  // this is a test stub for style weight
                             , elmnt
                     );
-                    return elmnt.style[styleStr] = ret[styleStr]
+                    return STYLE_a_Verse(styleStr, CssStyle, elmnt)
                 }
             );
             MSG += a_TEST_formatted_fontSize;
-            return STYLE_an_Element('fontSize');
+            return STYLE_an_Element('fontSize'); // WAIT4: elmnt
 
             //  ------------------ SET TEST ------------
 
