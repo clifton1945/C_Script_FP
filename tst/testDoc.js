@@ -160,6 +160,14 @@ var tstCode = function (tst = false) {
 
             var STYLE_a_Verse = (propName, propCSS, elmnt ) => {return elmnt.style[propName] = propCSS.style[propName]};
 
+            var SET_CssStyle = function (styleStr, elmnt) {
+                var CssStyle = R.set( // (lens_)  (StyleObj: min, max) (element) ->
+                    SET_a_Sty_Lens_(styleStr)
+                    , SET_a_CssStyle_(51, 100)  // this is a test stub for style weight
+                    , elmnt
+                );
+                return CssStyle;
+            };
             /**
              *          THIS IS THE CALL BACK FUNCTION !!!!!!
              * @param styleStr
@@ -169,11 +177,7 @@ var tstCode = function (tst = false) {
              */
             var STYLE_an_Element = R.curry(
                 function STYLE_an_Element(styleStr, elmnt) {  // PARTIAL: WAITS4 elmnt
-                    var CssStyle = R.set( // (lens_)  (StyleObj: min, max) (element) ->
-                            SET_a_Sty_Lens_(styleStr)
-                            , SET_a_CssStyle_(51, 100)  // this is a test stub for style weight
-                            , elmnt
-                    );
+                    var CssStyle = SET_CssStyle(styleStr, elmnt);
                     return STYLE_a_Verse(styleStr, CssStyle, elmnt)
                 }
             );
