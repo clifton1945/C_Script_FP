@@ -158,9 +158,10 @@ var tstCode = function (tst = false) {
 
             var lens_ = SET_a_Sty_Lens_('fontSize'); // partial
 
-            var STYLE_a_Verse = (propName, propCSS, elmnt ) => {return elmnt.style[propName] = propCSS.style[propName]};
-
-            var SET_a_Verse_CssStyle = function (styleStr, elmnt) {
+            var STYLE_a_Verse = function STYLE_a_Verse(propName, propCSS, elmnt) {
+                return elmnt.style[propName] = propCSS.style[propName];
+            };
+            var SET_a_VerseCssStyle = function (styleStr, elmnt) {
                 return R.set(
                     SET_a_Sty_Lens_(styleStr)
                     , SET_a_CssStyle_(51, 100)  // this is a test stub for style weight
@@ -175,18 +176,17 @@ var tstCode = function (tst = false) {
              * @returns {*}
              * @constructor
              */
-            var STYLE_an_Element = R.curry(
+            var cSTYLE_an_Element = R.curry(
                 function STYLE_an_Element(styleStr, elmnt) {  // PARTIAL: WAITS4 elmnt
-                    //var CssStyle = SET_a_Verse_CssStyle(styleStr, elmnt);
                     return STYLE_a_Verse(
                         styleStr
-                        , SET_a_Verse_CssStyle(styleStr, elmnt)
+                        , SET_a_VerseCssStyle(styleStr, elmnt)
                         , elmnt)
                 }
             );
 
             MSG += a_TEST_formatted_fontSize;
-            return STYLE_an_Element('fontSize'); // WAIT4: elmnt
+            return cSTYLE_an_Element('fontSize'); // WAIT4: elmnt
 
             //  ------------------ SET TEST ------------
 
