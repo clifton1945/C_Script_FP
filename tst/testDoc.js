@@ -280,30 +280,34 @@ var tstCode = function (tst = false) {
          * ----------- BEGIN Test Code here ------------------------
          * @type {string}
          */
-        MSG = 'tst_DOM_NL.CREATE_StyleTmpl->\n --- ';
-        MSG += '\n REFACT: SET_aVerse_Style_ ->  ';
+        MSG = 'tst_MUTATE_allVerses->';
+        MSG += '\n CALC_wt ->  ';
 
         SET_aVerse_Style_ = function SET_aVerse_Style_(elmnt, ndx, coll) {
             // (Str prop) => Obj Lens
             var SET_a_fontSize_Lens_ = (prop) => R.lensPath(['style', prop]);
-            var a_fontSizeLens = SET_a_fontSize_Lens_('fontSize'); // this is a lens_ obj
+            //var a_fontSizeLens = SET_a_fontSize_Lens_('fontSize'); // this is a lens_ obj
 
             // (Str: propStr) -> Str: formatted propStr
             var FORMAT_fontSize_ = n => `${n}%`;
 
+            var CALC_a_StyPropWt = aRandom_min_TO_max_;
+            //CALC_a_StyPropWt = (ndx, coll) => {
+            //};
+
             // (min, max) => Str: formatted propStr
-            var FORMAT_aStyleObj_ = R.pipe(
-                aRandom_min_TO_max_ // expect (min, max)
+            var SET_a_CssStyle_ = R.pipe(
+                CALC_a_StyPropWt
                 , FORMAT_fontSize_
             );
 
-            var a_TEST_formatted_fontSize = FORMAT_aStyleObj_(51, 100);
+            var a_TEST_formatted_fontSize = SET_a_CssStyle_(51, 100);
 
             var lens_ = SET_a_fontSize_Lens_('fontSize'); // partial
 
             var SET_a_StyleObject_ = R.set( // (lens_)  (StyleObj: min, max) (element) ->
                 lens_
-                , FORMAT_aStyleObj_(51, 100)
+                , SET_a_CssStyle_(51, 100)
                 , elmnt
             );
             //   :: Obj:lens_, StyleObj_ -> (elmnt) -
@@ -325,7 +329,7 @@ var tstCode = function (tst = false) {
                         lens_
                         , R.set( // (lens_)  (StyleObj: min, max) (element) ->
                             lens_
-                            , FORMAT_aStyleObj_(51, 100)  // this is a test stub for style weight
+                            , SET_a_CssStyle_(51, 100)  // this is a test stub for style weight
                             , elmnt
                         )
                     );
@@ -333,15 +337,16 @@ var tstCode = function (tst = false) {
                 }
             );
             MSG += a_TEST_formatted_fontSize;
-            return STYLE_an_Element('fontSize')
-        };
+            return STYLE_an_Element('fontSize');
 
-        //  ------------------ SET TEST ------------
-//  ------------------ INVOKE TEST ------------
+            //  ------------------ SET TEST ------------
+
+        };
+        //  ------------------ INVOKE TEST ------------
         DOM_SET_FOREACH_Verse(SET_aVerse_Style_, NodeList_fut);
     }
+    C_Both(MSG);
+    var noop = true;
 };
 
-C_Both(MSG);
-var noop = true;
 main();
