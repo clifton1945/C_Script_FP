@@ -56,7 +56,7 @@ var tstCode = function (tst = false) {
      *          TEST_ONLY A subset, IN this case 'fut' OF objects/StyleConstants
      * @type {{2: {name: string, smlWt: number, lrgWt: number, calcWt: Function, styleTmpl: {backgroundColor: string, opacity: string, fontSize: string}}}}
      */
-    var tstStyleDict = {
+    let tstStyleDict = {
         2: {
             name: 'fut'
             , smlWt: .4
@@ -151,17 +151,16 @@ var tstCode = function (tst = false) {
             (stylProp)=> R.lensPath(['style', stylProp])
         };
 
-        let tst_aSty_Str = (StylDict, elem, ndx, coll) => { //::-> aSty_Str
-            //return R.pipe(
-            //    R.prop('2', R.prop('name', StylDict))
-            //    , R.tap((a) => 'str:' + C_Both(a))
-            //);
-            C_Both(' I am leaving tst_aSty_Str');
-            return () => {}
+        let tst_aSty_Str4 = (StylDict, elem, ndx, coll) => { //::-> aSty_Str
+            let f = x => C_It(JSON.stringify(`str:${x}`));
+            let y = (x)=> C_It(x);
+            let vCoeff = R.prop('length', coll);
+            let ret = R.prop('smlWt', R.prop('2', StylDict));
+            return ret
         };
 
-        let c_tst_aSty_Str = R.curry(tst_aSty_Str);
-        let fn = c_tst_aSty_Str(TST_StyleObj);
+        let c_tst_aSty_Str4 = R.curry(tst_aSty_Str4);
+        let c_tst_aSty_Str3 = c_tst_aSty_Str4(tstStyleDict);
 
         let DOM_mapObjIndexed_Verse = (cbFn, qrySlct) => {
             return R.mapObjIndexed(
@@ -171,7 +170,7 @@ var tstCode = function (tst = false) {
         };
 
         //  ------------------ INVOKE TEST ------------
-        DOM_mapObjIndexed_Verse(fn, NodeList_fut);
+        DOM_mapObjIndexed_Verse(c_tst_aSty_Str3, NodeList_fut);
     }
     C_Both(MSG);
     var noop = true;
