@@ -141,7 +141,9 @@ var tstCode = function (tst = false) {
             // (Str prop) => Obj Lens
             var a_Sty_Lens_ = (prop) => R.lensPath(['style', prop]);
 
-            var CALC_a_StyPropWt = aRandom_min_TO_max_;
+            var CALC_a_StyPropWt = (ndxV,collV) => {
+                return aRandom_min_TO_max_(ndxV, collV);
+            };
 
             // (Str: propStr) -> Str: formatted propStr
             var FORMAT_fontSize_ = n => `${n}%`;
