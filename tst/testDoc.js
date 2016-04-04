@@ -136,7 +136,8 @@ var tstCode = function (tst = false) {
         MSG += '\n CALC_wt ->  ';
 
         let tst_set_anElem = (propName, aVers_Styl_Css, elem) => {//::-> MUTATED elem
-            return elem.style[propName] = aVers_Styl_Css.style[propName]};
+            return elem.style[propName] = aVers_Styl_Css.style[propName]
+        };
 
         let tst_aVers_Styl_Css = (aLens, aStyl_Str, elem)=> { //::-> aVers_Styl_Css
             return R.set(
@@ -146,14 +147,25 @@ var tstCode = function (tst = false) {
             );
         };  //::-> aVers_Styl_Css
 
-        let tst_aVers_StylLens = ()=>{
-            return R.pipe(
-                (prop)=> R.lensPath(['style', prop])
-            )
+        let tst_aVers_StylLens = (stylProp)=> { //:: a -> Lens:a
+            (stylProp)=> R.lensPath(['style', stylProp])
         };
 
-        let tst_aSty_Str = (StylDict, elem, ndx, coll) => { //::-> aSty_Str
+        let c_tst_aSty_Str = R.curry(
+            // this will grow to include styWt and styFormat
+            (StylDict, elem, ndx, coll) => { //::-> aSty_Str
+                return R.pipe(
+                    R.always("hi there")
+                    , R.tap((a) => 'str:' + C_Both(a))
+                )
+            }
+        );
 
+        let DOM_mapObjIndexed_Verse = (cbFn, nodeList) => {
+            return R.mapObjIndexed(
+                cbFn
+                , nodeList // this SATISFIES each aStyle_FOR_aVerse_
+            )
         };
 
 
@@ -214,8 +226,9 @@ var tstCode = function (tst = false) {
             //  ------------------ SET TEST ------------
 
         };
+        //DOM_SET_FOREACH_Verse(SET_aVerse_Style_, NodeList_fut);
         //  ------------------ INVOKE TEST ------------
-        DOM_SET_FOREACH_Verse(SET_aVerse_Style_, NodeList_fut);
+        DOM_mapObjIndexed_Verse(c_tst_aSty_Str(1), NodeList_fut);
     }
     C_Both(MSG);
     var noop = true;
