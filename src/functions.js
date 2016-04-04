@@ -56,6 +56,9 @@ const C_Both = (txt) => {
     C_It(txt);
     Doc_It(txt);
 };
+
+const MSG_It = (msg) => C_Both(msg)
+
 /**
  *          TRACE:: t -> o -> o
  * @param txt
