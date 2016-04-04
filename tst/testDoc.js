@@ -110,7 +110,7 @@ var tstCode = function (tst = false) {
     /**
      *          SET_aVerse_Style_;; DECLARED HERE
      */
-    var SET_aVerse_Style_;          // Declaration NEEDED-before DOM_SET_FOREACH_Verse
+    //var SET_aVerse_Style_;          // Declaration NEEDED-before DOM_SET_FOREACH_Verse
 
     /**
      *          DOM_SET_FOREACH_Verse
@@ -151,25 +151,27 @@ var tstCode = function (tst = false) {
             (stylProp)=> R.lensPath(['style', stylProp])
         };
 
-        let c_tst_aSty_Str = R.curry(
-            // this will grow to include styWt and styFormat
-            (StylDict, elem, ndx, coll) => { //::-> aSty_Str
-                return R.pipe(
-                    R.always("hi there")
-                    , R.tap((a) => 'str:' + C_Both(a))
-                )
-            }
-        );
+        let tst_aSty_Str = (StylDict, elem, ndx, coll) => { //::-> aSty_Str
+            //return R.pipe(
+            //    R.prop('2', R.prop('name', StylDict))
+            //    , R.tap((a) => 'str:' + C_Both(a))
+            //);
+            C_Both(' I am leaving tst_aSty_Str');
+            return () => {}
+        };
 
-        let DOM_mapObjIndexed_Verse = (cbFn, nodeList) => {
+        let c_tst_aSty_Str = R.curry(tst_aSty_Str);
+        let fn = c_tst_aSty_Str(TST_StyleObj);
+
+        let DOM_mapObjIndexed_Verse = (cbFn, qrySlct) => {
             return R.mapObjIndexed(
                 cbFn
-                , nodeList // this SATISFIES each aStyle_FOR_aVerse_
+                , NodeList_(qrySlct)   // this SATISFIES each aStyle_FOR_aVerse_
             )
         };
 
         //  ------------------ INVOKE TEST ------------
-        DOM_mapObjIndexed_Verse(c_tst_aSty_Str(1), NodeList_fut);
+        DOM_mapObjIndexed_Verse(fn, NodeList_fut);
     }
     C_Both(MSG);
     var noop = true;
