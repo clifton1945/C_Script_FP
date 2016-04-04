@@ -141,10 +141,7 @@ var tstCode = function (tst = false) {
             // (Str prop) => Obj Lens
             var a_Sty_Lens_ = (prop) => R.lensPath(['style', prop]);
 
-            var CALC_a_StyPropWt = (elNdx, elColl) => {
-                var ret = aRandom_min_TO_max_(51, 100);
-                return ret
-            };
+            var CALC_a_StyPropWt = aRandom_min_TO_max_;
 
             // (Str: propStr) -> Str: formatted propStr
             var FORMAT_fontSize_ = n => `${n}%`;
@@ -153,7 +150,7 @@ var tstCode = function (tst = false) {
             var a_CssStyle_ = R.pipe(
                 CALC_a_StyPropWt
                 , FORMAT_fontSize_
-                , R.tap((x)=> C_Both(`+ ${x}`))
+                , R.tap((x)=> C_Both(` ${x}`))
             );
 
             var STYLE_a_Verse = function STYLE_a_Verse(propName, propCSS, elmnt) {
