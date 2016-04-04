@@ -128,21 +128,47 @@ var tstCode = function (tst = false) {
     };
 
     if (tst) {
-
         /**
          * ----------- BEGIN Test Code here ------------------------
          * @type {string}
          */
-        MSG = 'tst_MUTATE_allVerses->';
+        MSG = 'tst_SET_aVerse_Style_->';
         MSG += '\n CALC_wt ->  ';
+
+        let tst_set_anElem = (propName, aVers_Styl_Css, elem) => {//::-> MUTATED elem
+            return elem.style[propName] = aVers_Styl_Css.style[propName]};
+
+        let tst_aVers_Styl_Css = (aLens, aStyl_Str, elem)=> { //::-> aVers_Styl_Css
+            return R.set(
+                aLens
+                , aStyl_Str
+                , elem
+            );
+        };  //::-> aVers_Styl_Css
+
+        let tst_aVers_StylLens = ()=>{
+            return R.pipe(
+                (prop)=> R.lensPath(['style', prop])
+            )
+        };
+
+        let tst_aSty_Str = (StylDict, elem, ndx, coll) => { //::-> aSty_Str
+
+        };
+
 
         SET_aVerse_Style_ = function SET_aVerse_Style_(elmnt, ndx, coll) {
 
             // (Str prop) => Obj Lens
             var a_Sty_Lens_ = (prop) => R.lensPath(['style', prop]);
 
-            var CALC_a_StyPropWt = (ndxV,collV) => {
-                return aRandom_min_TO_max_(ndxV, collV);
+            var CALC_a_StyPropWt = (ndxV, collV) => {
+                var ret = R.pipe(
+                    R.prop('length')
+                    , R.dec
+                    , R.tap((a)=> C_Both(a))
+                );
+                return aRandom_min_TO_max_(40, 80);
             };
 
             // (Str: propStr) -> Str: formatted propStr
@@ -150,21 +176,21 @@ var tstCode = function (tst = false) {
 
             // (min, max) => Str: formatted propStr
             var a_CssStyle_ = R.pipe(
-                CALC_a_StyPropWt
+                CALC_a_StyPropWt // EXP ndx, call
                 , FORMAT_fontSize_
                 , R.tap((x)=> C_Both(` ${x}`))
             );
 
-            var STYLE_a_Verse = function STYLE_a_Verse(propName, propCSS, elmnt) {
-                return elmnt.style[propName] = propCSS.style[propName];
-            };
-
             var SET_a_VerseCssStyle = function (styleStr, elmnt) {
                 return R.set(
                     a_Sty_Lens_(styleStr)
-                    , a_CssStyle_(51, 100)  // this is a test stub for style weight
+                    , a_CssStyle_(234, [1, 2, 3])  // this is a test stub for style weight
                     , elmnt
                 );
+            };
+
+            var STYLE_a_Verse = function STYLE_a_Verse(propName, propCSS, elmnt) {
+                return elmnt.style[propName] = propCSS.style[propName];
             };
 
             /**
@@ -174,14 +200,13 @@ var tstCode = function (tst = false) {
              * @returns {*}
              * @constructor
              */
-            var cSTYLE_an_Element = R.curry(
-                function STYLE_an_Element(styleStr, elmnt) {  // PARTIAL: WAITS4 elmnt
-                    return STYLE_a_Verse(
-                        styleStr
-                        , SET_a_VerseCssStyle(styleStr, elmnt)
-                        , elmnt)
-                }
-            );
+            var STYLE_an_Element = function STYLE_an_Element(styleStr, elmnt) {  // PARTIAL: WAITS4 elmnt
+                return STYLE_a_Verse(
+                    styleStr
+                    , SET_a_VerseCssStyle(styleStr, elmnt)
+                    , elmnt)
+            };
+            var cSTYLE_an_Element = R.curry(STYLE_an_Element);
 
             //MSG += a_TEST_formatted_fontSize;
             return cSTYLE_an_Element('fontSize'); // WAIT4: elmnt
