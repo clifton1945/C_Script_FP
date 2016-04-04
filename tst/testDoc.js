@@ -168,65 +168,6 @@ var tstCode = function (tst = false) {
             )
         };
 
-
-        SET_aVerse_Style_ = function SET_aVerse_Style_(elmnt, ndx, coll) {
-
-            // (Str prop) => Obj Lens
-            var a_Sty_Lens_ = (prop) => R.lensPath(['style', prop]);
-
-            var CALC_a_StyPropWt = (ndxV, collV) => {
-                var ret = R.pipe(
-                    R.prop('length')
-                    , R.dec
-                    , R.tap((a)=> C_Both(a))
-                );
-                return aRandom_min_TO_max_(40, 80);
-            };
-
-            // (Str: propStr) -> Str: formatted propStr
-            var FORMAT_fontSize_ = n => `${n}%`;
-
-            // (min, max) => Str: formatted propStr
-            var a_CssStyle_ = R.pipe(
-                CALC_a_StyPropWt // EXP ndx, call
-                , FORMAT_fontSize_
-                , R.tap((x)=> C_Both(` ${x}`))
-            );
-
-            var SET_a_VerseCssStyle = function (styleStr, elmnt) {
-                return R.set(
-                    a_Sty_Lens_(styleStr)
-                    , a_CssStyle_(234, [1, 2, 3])  // this is a test stub for style weight
-                    , elmnt
-                );
-            };
-
-            var STYLE_a_Verse = function STYLE_a_Verse(propName, propCSS, elmnt) {
-                return elmnt.style[propName] = propCSS.style[propName];
-            };
-
-            /**
-             *          THIS IS THE CALL BACK FUNCTION !!!!!!
-             * @param styleStr
-             * @param elmnt
-             * @returns {*}
-             * @constructor
-             */
-            var STYLE_an_Element = function STYLE_an_Element(styleStr, elmnt) {  // PARTIAL: WAITS4 elmnt
-                return STYLE_a_Verse(
-                    styleStr
-                    , SET_a_VerseCssStyle(styleStr, elmnt)
-                    , elmnt)
-            };
-            var cSTYLE_an_Element = R.curry(STYLE_an_Element);
-
-            //MSG += a_TEST_formatted_fontSize;
-            return cSTYLE_an_Element('fontSize'); // WAIT4: elmnt
-
-            //  ------------------ SET TEST ------------
-
-        };
-        //DOM_SET_FOREACH_Verse(SET_aVerse_Style_, NodeList_fut);
         //  ------------------ INVOKE TEST ------------
         DOM_mapObjIndexed_Verse(c_tst_aSty_Str(1), NodeList_fut);
     }
