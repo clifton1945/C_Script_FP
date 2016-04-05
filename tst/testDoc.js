@@ -134,12 +134,20 @@ var tstCode = function (tst = false) {
          */
         MSG = 'tst_SET_aVerse_Style_->';
         MSG += '\n CALC_wt ->  ';
+        let tst_aSty_Str4
+            , c_tst_aSty_Str4
+            , c_tst_aSty_Str3
+            , tst_aVers_StylLens
+            , tst_aVers_Styl_Css
+            , tst_set_anElem
+            ,DOM_mapObjIndexed_Verse
+        ;
 
-        let tst_set_anElem = (propName, aVers_Styl_Css, elem) => {//::-> MUTATED elem
+        tst_set_anElem = (propName, aVers_Styl_Css, elem) => {//::-> MUTATED elem
             return elem.style[propName] = aVers_Styl_Css.style[propName]
         };
 
-        let tst_aVers_Styl_Css = (aLens, aStyl_Str, elem)=> { //::-> aVers_Styl_Css
+        tst_aVers_Styl_Css = (aLens, aStyl_Str, elem)=> { //::-> aVers_Styl_Css
             return R.set(
                 aLens
                 , aStyl_Str
@@ -147,22 +155,33 @@ var tstCode = function (tst = false) {
             );
         };  //::-> aVers_Styl_Css
 
-        let tst_aVers_StylLens = (stylProp)=> { //:: a -> Lens:a
-            (stylProp)=> R.lensPath(['style', stylProp])
+        tst_aVers_StylLens = (stylProp) => R.lensPath(['style', stylProp]); //:: a -> Lens:a
+
+        tst_aSty_Str4 = (StylDict, elem, ndx, coll) => { //::-> aSty_Str
+            let f = x => C_It(JSON.stringify(`:${x}`));
+            let y = (x)=> C_Both(x);
+            let msg = (msg) => ` ${msg}`;
+            let smlWt = R.pipe(R.prop('2'), R.prop('smlWt'));
+            // begin calc Wt
+            let vDenom = R.pipe(
+                R.length
+                , R.unless(R.equals(1), R.dec) // DO NOT DECRIMENT IF Len == 1
+                , R.divide(1)
+            );
+            var round = x => Math.round(x * 100) / 100;
+            let vCoeff = R.pipe(
+                R.multiply(vDenom(coll))
+                , round
+            );
+
+            MSG += msg(vCoeff(ndx));
+
         };
 
-        let tst_aSty_Str4 = (StylDict, elem, ndx, coll) => { //::-> aSty_Str
-            let f = x => C_It(JSON.stringify(`str:${x}`));
-            let y = (x)=> C_It(x);
-            let vCoeff = R.prop('length', coll);
-            let ret = R.prop('smlWt', R.prop('2', StylDict));
-            return ret
-        };
+        c_tst_aSty_Str4 = R.curry(tst_aSty_Str4);
+        c_tst_aSty_Str3 = c_tst_aSty_Str4(tstStyleDict);
 
-        let c_tst_aSty_Str4 = R.curry(tst_aSty_Str4);
-        let c_tst_aSty_Str3 = c_tst_aSty_Str4(tstStyleDict);
-
-        let DOM_mapObjIndexed_Verse = (cbFn, qrySlct) => {
+        DOM_mapObjIndexed_Verse = (cbFn, qrySlct) => {
             return R.mapObjIndexed(
                 cbFn
                 , NodeList_(qrySlct)   // this SATISFIES each aStyle_FOR_aVerse_
