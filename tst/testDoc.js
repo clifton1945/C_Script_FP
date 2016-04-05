@@ -12,9 +12,9 @@ function main() {
 }
 /**
  * GLOBAL vars
- * require functions-compiled.js, objects-compiled.js
+ * require DEPRfunctions-compiled.js, objects-compiled.js
  * */
-//  *********** DOM  DATA    REQUIRE functions.js
+//  *********** DOM  DATA    REQUIRE DEPRfunctions.js
 var book = GET_book();
 var MSG = '';
 
@@ -161,21 +161,22 @@ var tstCode = function (tst = false) {
             let f = x => C_It(JSON.stringify(`:${x}`));
             let y = (x)=> C_Both(x);
             let msg = (msg) => ` ${msg}`;
-            let smlWt = R.pipe(R.prop('2'), R.prop('smlWt'));
-            // begin calc Wt
+
+            // begin calc Wt WITH vCoeff:: ndx/(coll.len-1)
             let vDenom = R.pipe(
                 R.length
                 , R.unless(R.equals(1), R.dec) // DO NOT DECRIMENT IF Len == 1
                 , R.divide(1)
             );
-            var round = x => Math.round(x * 100) / 100;
-            let vCoeff = R.pipe(
-                R.multiply(vDenom(coll))
-                , round
-            );
-
-            MSG += msg(vCoeff(ndx));
-
+            let vCoeff2 = R.curry(
+                (denom, numer) =>
+                round(R.divide(numer, denom))
+                );
+            let vCoeff1 = vCoeff2(vDenom(coll));
+            MSG += msg(vCoeff1(ndx));
+            //
+            let smlWt = R.pipe(R.prop('2'), R.prop('smlWt'));
+            let lrgWt = R.pipe(R.prop('2'), R.prop('lrgWt'));
         };
 
         c_tst_aSty_Str4 = R.curry(tst_aSty_Str4);
