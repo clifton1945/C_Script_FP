@@ -78,5 +78,6 @@ const TRACE_ = R.curry(
         return obj
     });
 
-var round = x => Math.round(x * 100) / 100;
+const round = x => Math.round(x * 100) / 100;
+const msg = (msg) => ` ${msg}`;
 
