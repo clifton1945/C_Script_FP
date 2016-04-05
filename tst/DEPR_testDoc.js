@@ -16,9 +16,9 @@ function main() {
 
 /**
  * GLOBAL vars
- * require functions-compiled.js, objects-compiled.js
+ * require DEPRfunctions-compiled.js, objects-compiled.js
  * */
-//  *********** DOM  DATA    REQUIRE functions.js
+//  *********** DOM  DATA    REQUIRE DEPRfunctions.js
 var book = GET_book();
 var VG_NL = GET_V_Grp_NL(GET_book());
 var VG_AR = [...VG_NL];

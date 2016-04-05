@@ -267,10 +267,11 @@
         <item url="file://$PROJECT_DIR$/src/objects-compiled.js" />
         <item url="file://$PROJECT_DIR$/node_modules/ramda-maybe/node_modules/ramda-fantasy/node_modules/ramda/src/empty-compiled.js" />
         <item url="file://$PROJECT_DIR$/tst/mod_test-compiled.js" />
-        <item url="file://$PROJECT_DIR$/src/modules-compiled.js" />
         <item url="file://$PROJECT_DIR$/node_modules/ramda-maybe/node_modules/ramda-fantasy/node_modules/ramda/src/internal/_map-compiled.js" />
+        <item url="file://$PROJECT_DIR$/src/modules-compiled.js" />
         <item url="file://$PROJECT_DIR$/src/STYLE_Verses-compiled.js" />
         <item url="file://$PROJECT_DIR$/node_modules/ramda-maybe/node_modules/ramda-fantasy/node_modules/ramda/src/curry-compiled.js" />
+        <item url="file://$PROJECT_DIR$/tst/DEPRfunctions-compiled.js" />
         <item url="file://$PROJECT_DIR$/node_modules/ramda-maybe/node_modules/ramda-fantasy/node_modules/ramda/src/hasIn-compiled.js" />
         <item url="file://$PROJECT_DIR$/tst/testDoc-compiled.js" />
         <item url="file://$PROJECT_DIR$/node_modules/ramda-maybe/node_modules/ramda-fantasy/node_modules/ramda/src/clone-compiled.js" />
@@ -864,10 +865,11 @@
       <root url="file://$PROJECT_DIR$/src/objects-compiled.js" />
       <root url="file://$PROJECT_DIR$/node_modules/ramda-maybe/node_modules/ramda-fantasy/node_modules/ramda/src/empty-compiled.js" />
       <root url="file://$PROJECT_DIR$/tst/mod_test-compiled.js" />
-      <root url="file://$PROJECT_DIR$/src/modules-compiled.js" />
       <root url="file://$PROJECT_DIR$/node_modules/ramda-maybe/node_modules/ramda-fantasy/node_modules/ramda/src/internal/_map-compiled.js" />
+      <root url="file://$PROJECT_DIR$/src/modules-compiled.js" />
       <root url="file://$PROJECT_DIR$/src/STYLE_Verses-compiled.js" />
       <root url="file://$PROJECT_DIR$/node_modules/ramda-maybe/node_modules/ramda-fantasy/node_modules/ramda/src/curry-compiled.js" />
+      <root url="file://$PROJECT_DIR$/tst/DEPRfunctions-compiled.js" />
       <root url="file://$PROJECT_DIR$/node_modules/ramda-maybe/node_modules/ramda-fantasy/node_modules/ramda/src/hasIn-compiled.js" />
       <root url="file://$PROJECT_DIR$/tst/testDoc-compiled.js" />
       <root url="file://$PROJECT_DIR$/node_modules/ramda-maybe/node_modules/ramda-fantasy/node_modules/ramda/src/clone-compiled.js" />

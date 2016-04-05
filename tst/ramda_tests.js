@@ -31,7 +31,7 @@ var C_Cut, C_Ret, C_Exp, MSG;
 
 /**
  * GLOBAL vars
- * require functions-compiled.js, objects-compiled.js
+ * require DEPRfunctions-compiled.js, objects-compiled.js
  * */
 var book = GET_book();
 var VG_NL = GET_V_Grp_NL(GET_book());
@@ -42,7 +42,7 @@ const R_node2Obj = function (val, key, arr) {
     var vlStr = ["val", "key", "arr"];
     var x = R.zipObj(vlStr, vl);
     return x
-}; // TODO ADD TO functions.js
+};
 // ------------------- TESTS -------------------
 //
 ///**
