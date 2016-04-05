@@ -134,20 +134,20 @@ var tstCode = function (tst = false) {
          */
         MSG = 'tst_SET_aVerse_Style_->';
         MSG += '\n CALC_wt ->  ';
-        let tst_aSty_Str4
-            , c_tst_aSty_Str4
-            , c_tst_aSty_Str3
-            , tst_aVers_StylLens
-            , tst_aVers_Styl_Css
-            , tst_set_anElem
+        let aSty_Str_4
+            , aSty_Str_c4
+            , aSty_Str_c3
+            , aVers_Styl_Lens
+            , aVers_Styl_Css
+            , set_anElemStyl
             ,DOM_mapObjIndexed_Verse
         ;
 
-        tst_set_anElem = (propName, aVers_Styl_Css, elem) => {//::-> MUTATED elem
+        set_anElemStyl = (propName, aVers_Styl_Css, elem) => {//::-> MUTATED elem
             return elem.style[propName] = aVers_Styl_Css.style[propName]
         };
 
-        tst_aVers_Styl_Css = (aLens, aStyl_Str, elem)=> { //::-> aVers_Styl_Css
+        aVers_Styl_Css = (aLens, aStyl_Str, elem)=> { //::-> aVers_Styl_Css
             return R.set(
                 aLens
                 , aStyl_Str
@@ -155,9 +155,9 @@ var tstCode = function (tst = false) {
             );
         };  //::-> aVers_Styl_Css
 
-        tst_aVers_StylLens = (stylProp) => R.lensPath(['style', stylProp]); //:: a -> Lens:a
+        aVers_Styl_Lens = (stylProp) => R.lensPath(['style', stylProp]); //:: a -> Lens:a
 
-        tst_aSty_Str4 = (StylDict, elem, ndx, coll) => { //::-> aSty_Str
+        aSty_Str_4 = (StylDict, elem, ndx, coll) => { //::-> aSty_Str
             let f = x => C_It(JSON.stringify(`:${x}`));
             let y = (x)=> C_Both(x);
             let msg = (msg) => ` ${msg}`;
@@ -177,10 +177,17 @@ var tstCode = function (tst = false) {
             //
             let smlWt = R.pipe(R.prop('2'), R.prop('smlWt'));
             let lrgWt = R.pipe(R.prop('2'), R.prop('lrgWt'));
+
+            //  end calc Wt WITH sCoeff:: vCoeff*(lrgWt - smlWt) + smlWt
+            //  end calc Wt WITH sCoeff:: vCoeff*lrgWt + smlWt(1 - vCoeff)
+            let sCoeff = (stylD, versCoeff) => {
+                return 555555555
+                // AND FIX the Wt calc 0-100 OR 0-1
+            };
         };
 
-        c_tst_aSty_Str4 = R.curry(tst_aSty_Str4);
-        c_tst_aSty_Str3 = c_tst_aSty_Str4(tstStyleDict);
+        aSty_Str_c4 = R.curry(aSty_Str_4);
+        aSty_Str_c3 = aSty_Str_c4(tstStyleDict);
 
         DOM_mapObjIndexed_Verse = (cbFn, qrySlct) => {
             return R.mapObjIndexed(
@@ -190,7 +197,7 @@ var tstCode = function (tst = false) {
         };
 
         //  ------------------ INVOKE TEST ------------
-        DOM_mapObjIndexed_Verse(c_tst_aSty_Str3, NodeList_fut);
+        DOM_mapObjIndexed_Verse(aSty_Str_c3, NodeList_fut);
     }
     C_Both(MSG);
     var noop = true;
