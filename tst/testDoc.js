@@ -135,7 +135,6 @@ var tstCode = function (tst = false) {
         MSG = 'tst_SET_aVerse_Style_->';
         MSG += '\n CALC_wt ->  ';
         let aVCoeff_c2
-            , aVCoeff_c1
             , aSCoeff
             , aWt_Styl_Str
             , aVers_Styl_Lens
@@ -179,23 +178,12 @@ var tstCode = function (tst = false) {
             { //::-> aSty_Str
                 //let f = x => C_It(JSON.stringify(`:${x}`));
                 //let y = (x)=> C_Both(x);
-                let msg = (msg) => ` ${msg}`;
+
 
                 var ret = aVCoeff_c2(coll, ndx);
-
                 MSG += msg(ret); // TRACE
-
                 return ret; // WIP STUB Only a fn -> a number
-                //
-                //let smlWt = R.pipe(R.prop('2'), R.prop('smlWt'));
-                //let lrgWt = R.pipe(R.prop('2'), R.prop('lrgWt'));
-                //
-                ////  end calc Wt WITH sCoeff:: vCoeff*(lrgWt - smlWt) + smlWt
-                ////  end calc Wt WITH sCoeff:: vCoeff*lrgWt + smlWt(1 - vCoeff)
-                //let sCoeff = (stylD, versCoeff) => {
-                //    return 555555555
-                //    // AND FIX the Wt calc 0-100 OR 0-1
-                //};
+
             }
         );
 
