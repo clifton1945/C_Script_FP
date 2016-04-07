@@ -15,7 +15,7 @@ function main() {
  * require DEPRfunctions-compiled.js, objects-compiled.js
  * */
 //  *********** DOM  DATA    REQUIRE DEPRfunctions.js
-var book = GET_book();
+//var book = GET_book();
 var MSG = '';
 
 /**
@@ -222,11 +222,13 @@ var tstCode = function (tst = false) {
         };
 
         //  ------------------ INVOKE TEST ------------
-        // TESTING ONLY DOM_mapObjIndexed_Verse(aWt_Styl_Str(tstStyleDict), NodeList_fut);
-        MSG = " inside tst";
+        DOM_mapObjIndexed_Verse(aWt_Styl_Str(tstStyleDict), NodeList_fut);
+        MSG += " inside tst";
+        C_Both(MSG);
     }
-    MSG = (x) => R.add(x, R.multiply(6, (R.negate(R.clone((x))))));
-    C_Both(MSG(4));
+    //MSG = (x) => R.add(x, R.multiply(6, (R.negate(R.clone((x))))));
+    //C_Both(MSG(4));
+    C_Both(MSG);
     var noop = true;
 };
 
