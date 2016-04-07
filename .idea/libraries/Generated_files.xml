@@ -4,11 +4,15 @@
       <sourceFilesUrls>
         <item url="file://$PROJECT_DIR$/tst/testDoc-compiled.js" />
         <item url="file://$PROJECT_DIR$/tst/a_stylWt_MAKER-compiled.js" />
+        <item url="file://$PROJECT_DIR$/tst/modules_test-compiled.js" />
+        <item url="file://$PROJECT_DIR$/src/modules-compiled.js" />
       </sourceFilesUrls>
     </properties>
     <CLASSES>
       <root url="file://$PROJECT_DIR$/tst/testDoc-compiled.js" />
       <root url="file://$PROJECT_DIR$/tst/a_stylWt_MAKER-compiled.js" />
+      <root url="file://$PROJECT_DIR$/tst/modules_test-compiled.js" />
+      <root url="file://$PROJECT_DIR$/src/modules-compiled.js" />
     </CLASSES>
     <SOURCES />
   </library>

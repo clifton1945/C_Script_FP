@@ -1,6 +1,6 @@
 //"use strict";
 //var R = require('ramda-maybe');
-//import { testStr, C_It } from '..//src//modules-compiled'; // WORKS but throws Inspection 'can't resolve
+//import { testStr } from '..//src//modules-compiled'; // WORKS but throws Inspection 'can't resolve
 
 /**
  * ***** TEST FRAMEWORK **************
@@ -157,28 +157,26 @@ var tstCode = function (tst = false) {
 
         tst_aVers_StylLens = (stylProp) => R.lensPath(['style', stylProp]); //:: a -> Lens:a
 
-        tst_aSty_Str4 = a_stylWt_MAKER;
+        tst_aSty_Str4 = (StylDict, elem, ndx, coll) => { //::-> aSty_Str
+            let f = x => C_It(JSON.stringify(`:${x}`));
+            let y = (x)=> C_Both(x);
+            let msg = (msg) => ` ${msg}`;
+            let smlWt = R.pipe(R.prop('2'), R.prop('smlWt'));
+            // begin calc Wt
+            let vDenom = R.pipe(
+                R.length
+                , R.unless(R.equals(1), R.dec) // DO NOT DECRIMENT IF Len == 1
+                , R.divide(1)
+            );
+            var round = x => Math.round(x * 100) / 100;
+            let vCoeff = R.pipe(
+                R.multiply(vDenom(coll))
+                , round
+            );
 
-        //(StylDict, elem, ndx, coll) => { //::-> aSty_Str
-        //    let f = x => C_It(JSON.stringify(`:${x}`));
-        //    let y = (x)=> C_Both(x);
-        //    let msg = (msg) => ` ${msg}`;
-        //    let smlWt = R.pipe(R.prop('2'), R.prop('smlWt'));
-        //    // begin calc Wt
-        //    let vDenom = R.pipe(
-        //        R.length
-        //        , R.unless(R.equals(1), R.dec) // DO NOT DECRIMENT IF Len == 1
-        //        , R.divide(1)
-        //    );
-        //    var round = x => Math.round(x * 100) / 100;
-        //    let vCoeff = R.pipe(
-        //        R.multiply(vDenom(coll))
-        //        , round
-        //    );
-        //
-        //    MSG += msg(vCoeff(ndx));
-        //
-        //};
+            MSG += msg(vCoeff(ndx));
+
+        };
 
         // here VAR a_stylWt_MAKER((StylDict, elem, ndx, coll)) FROM stylWt_MAKER.js
 
@@ -193,7 +191,7 @@ var tstCode = function (tst = false) {
         };
 
         //  ------------------ INVOKE TEST ------------
-        DOM_mapObjIndexed_Verse(c_tst_aSty_Str3, NodeList_fut);
+        DOM_mapObjIndexed_Verse(a_stylWt_MAKER(tstStyleDict), NodeList_fut);
     }
     C_Both(MSG);
     var noop = true;
