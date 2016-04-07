@@ -192,10 +192,10 @@ var tstCode = function (tst = false) {
         };
 
         //  ------------------ INVOKE TEST ------------
-        //DOM_mapObjIndexed_Verse(a_stylWt_MAKER(tstStyleDict), NodeList_pst);
+        DOM_mapObjIndexed_Verse(a_stylWt_MAKER(tstStyleDict), NodeList_pst);
         DOM_mapObjIndexed_Verse(a_stylWt_MAKER(tstStyleDict), NodeList_cur);
+        DOM_mapObjIndexed_Verse(a_stylWt_MAKER(tstStyleDict), NodeList_fut);
         C_Both(MSG);
-        //DOM_mapObjIndexed_Verse(a_stylWt_MAKER(tstStyleDict), NodeList_fut);
     }
     var noop = true;
 };
