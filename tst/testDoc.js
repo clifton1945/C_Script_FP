@@ -54,21 +54,21 @@ var NodeList_ = R.flip(cssQuery_)(document); // partial
 var tstCode = function (tst = false) {
     /**
      *          TEST_ONLY A subset, IN this case 'fut' OF objects/StyleConstants
-     * @type {{2: {name: string, smlWt: number, lrgWt: number, calcWt: Function, styleTmpl: {backgroundColor: string, opacity: string, fontSize: string}}}}
+     * @type {{2: {name: string, farWt: number, nearWt: number, calcWt: Function, styleTmpl: {backgroundColor: string, opacity: string, fontSize: string}}}}
      */
     let tstStyleDict = {
         2: {
             name: 'fut'
-            , smlWt: .4
-            , lrgWt: .8
+            , farWt: .4
+            , nearWt: .8
             , calcWt (sObj, vObj) {
                 //noinspection JSUnusedLocalSymbols
                 let {ver, ndx, ary} = vObj;
-                let {smlWt, lrgWt} = sObj;
+                let {farWt, nearWt} = sObj;
                 let len = ary.length - 1;
                 return (len > 0)
-                    ? (-(lrgWt - smlWt) / len * ndx + lrgWt)
-                    : lrgWt;  // always lrgWt
+                    ? (-(nearWt - farWt) / len * ndx + nearWt)
+                    : nearWt;  // always nearWt
             }
             , wt: 1
             , aStyleObj: {
@@ -144,7 +144,6 @@ var tstCode = function (tst = false) {
             ;
 
 
-
         set_anElemStyl = (propName, aVers_Styl_Css, elem) => {//::-> MUTATED elem
             return elem.style[propName] = aVers_Styl_Css.style[propName]
         };
@@ -170,19 +169,45 @@ var tstCode = function (tst = false) {
                 , R.unless(R.equals(1), R.dec) // DO NOT DECREMENT IF Len == 1
                 , R.divide(1) // this is the division; now just multiply.
             );
-            let vCoeff2 = round(R.multiply( index, vDenom(collection)));
-            return vCoeff2;
+            let vCoeff2 = round(R.multiply(index, vDenom(collection)));
+            //`vCoeff2:${vCoeff2}, ndx:${index}, coll${collection}`
+            return vCoeff2; // now need index
         });
 
-        aWt_Styl_Str = R.curry((StylDict, elem, ndx, coll) =>
-            { //::-> aSty_Str
-                //let f = x => C_It(JSON.stringify(`:${x}`));
-                //let y = (x)=> C_Both(x);
+        /**
+         *          aSCoeff:: Dict,
+         * @param sDict
+         * @param vcoeff
+         * @returns {*}
+         */
+        aSCoeff = (sDict, vcoeff)=> {
+            let farWt = R.pipe(
+                R.prop('2')
+                , R.prop('farWt')
+                , round(R.multiply(R.subtract(1, vcoeff)))
+            );
+            let nearWt = R.pipe(
+                R.prop('2')
+                , R.prop('nearWt')
+                , round(R.multiply(vcoeff))
+            );
 
+            //  end calc Wt WITH sCoeff:: vcoeff*(nearWt - farWt) + farWt
+            //  end calc Wt WITH sCoeff:: vcoeff*nearWt + farWt(1 - vcoeff)
+            var x = farWt;
+            var y = nearWt;
+            // `sCoeff:${sCoeff}, n:${nearWt(sDict)}, f:${farWt(sDict)}`
+            var sCoeff = R.add(x, y);
+            return sCoeff
+        };
 
-                var ret = aVCoeff_c2(coll, ndx);
-                MSG += msg(ret); // TRACE
-                return ret; // WIP STUB Only a fn -> a number
+        aWt_Styl_Str = R.curry((stylDict, elem, ndx, coll) => {
+                //::-> aSty_Str
+            var aVCoeff = aVCoeff_c2(coll, ndx);
+            var aWt = aSCoeff(stylDict, aVCoeff);
+                //` aWt:${ aVCoeff_c2(coll, ndx)}`
+                MSG += msg(aWt); // TRACE
+                return aWt; // WIP STUB Only a fn -> a number
 
             }
         );
@@ -198,9 +223,11 @@ var tstCode = function (tst = false) {
         };
 
         //  ------------------ INVOKE TEST ------------
-        DOM_mapObjIndexed_Verse(aWt_Styl_Str(tstStyleDict), NodeList_fut);
+        // TESTING ONLY DOM_mapObjIndexed_Verse(aWt_Styl_Str(tstStyleDict), NodeList_fut);
+        MSG = " inside tst";
     }
-    C_Both(MSG);
+    MSG = (x) => R.add(x, R.multiply(6, (R.negate(R.clone((x))))));
+    C_Both(MSG(4));
     var noop = true;
 };
 
