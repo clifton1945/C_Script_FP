@@ -192,7 +192,8 @@ var tstCode = function (tst = false) {
         };
 
         //  ------------------ INVOKE TEST ------------
-        DOM_mapObjIndexed_Verse(a_stylWt_MAKER(tstStyleDict), NodeList_pst);
+        //DOM_mapObjIndexed_Verse(a_stylWt_MAKER(tstStyleDict), NodeList_pst);
+        DOM_mapObjIndexed_Verse(a_stylWt_MAKER(tstStyleDict), NodeList_cur);
         C_Both(MSG);
         //DOM_mapObjIndexed_Verse(a_stylWt_MAKER(tstStyleDict), NodeList_fut);
     }
