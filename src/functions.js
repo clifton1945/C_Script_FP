@@ -57,7 +57,7 @@ const C_Both = (txt) => {
     Doc_It(txt);
 };
 
-const MSG_It = (msg) => C_Both(msg)
+const MSG_It = (msg) => C_Both(msg);
 
 /**
  *          TRACE:: t -> o -> o
@@ -78,6 +78,6 @@ const TRACE_ = R.curry(
         return obj
     });
 
-const round = x => Math.round(x * 100) / 100;
+const round2 = x => Math.round(x * 100) / 100;
 const msg = (msg) => ` ${msg}`;
 
