@@ -45,6 +45,7 @@ var setStyle = R.curry((styleObj) => (node) => {
  */
 var NodeList_fut = '.book .ChptrReadGrps .cur  .VerseReadGrps > .fut .vers';
 var NodeList_cur = '.book .ChptrReadGrps .cur  .VerseReadGrps > .cur .vers';
+var NodeList_pst = '.book .ChptrReadGrps .cur  .VerseReadGrps > .pst .vers';
 /**
  *           NodeList_:: n -> o -> n
  *  Get all descendants that match selector
@@ -132,7 +133,7 @@ var tstCode = function (tst = false) {
          * ----------- BEGIN Test Code here ------------------------
          * @type {string}
          */
-        MSG = 'tst_SET_aVerse_Style_->';
+        MSG = 'tst_a_stylWt_MAKER()->';
         MSG += '\n CALC_wt ->  ';
         let tst_aSty_Str4
             , c_tst_aSty_Str4
@@ -191,8 +192,9 @@ var tstCode = function (tst = false) {
         };
 
         //  ------------------ INVOKE TEST ------------
-        DOM_mapObjIndexed_Verse(a_stylWt_MAKER(tstStyleDict), NodeList_fut);
+        DOM_mapObjIndexed_Verse(a_stylWt_MAKER(tstStyleDict), NodeList_pst);
         C_Both(MSG);
+        //DOM_mapObjIndexed_Verse(a_stylWt_MAKER(tstStyleDict), NodeList_fut);
     }
     var noop = true;
 };
