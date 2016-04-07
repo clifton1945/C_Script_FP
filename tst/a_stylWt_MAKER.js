@@ -21,10 +21,8 @@ var a_stylWt_MAKER = R.curry(
             smlWt
             , R.add(.5)
         );
-
         // rndm just for early testing
         var rndm = (min, max) => Math.floor(Math.random() * (max - min + 1)) + min;
-
         MSG += msg(wt(stylDict)); // TRACING ONLY
         return wt(stylDict)
     });
