@@ -140,8 +140,8 @@ var tstCode = function (tst = false) {
             , tst_aVers_StylLens
             , tst_aVers_Styl_Css
             , tst_set_anElem
-            ,DOM_mapObjIndexed_Verse
-        ;
+            , DOM_mapObjIndexed_Verse
+            ;
 
         tst_set_anElem = (propName, aVers_Styl_Css, elem) => {//::-> MUTATED elem
             return elem.style[propName] = aVers_Styl_Css.style[propName]
@@ -192,8 +192,8 @@ var tstCode = function (tst = false) {
 
         //  ------------------ INVOKE TEST ------------
         DOM_mapObjIndexed_Verse(a_stylWt_MAKER(tstStyleDict), NodeList_fut);
+        C_Both(MSG);
     }
-    C_Both(MSG);
     var noop = true;
 };
 
