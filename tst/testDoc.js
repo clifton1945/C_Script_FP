@@ -1,6 +1,6 @@
 //"use strict";
 //var R = require('ramda-maybe');
-//import { testStr, C_It } from '..//src//modules-compiled'; // WORKS but throws Inspection 'can't resolve
+//import { testStr } from '..//src//modules-compiled'; // WORKS but throws Inspection 'can't resolve
 
 /**
  * ***** TEST FRAMEWORK **************
@@ -12,9 +12,9 @@ function main() {
 }
 /**
  * GLOBAL vars
- * require DEPRfunctions-compiled.js, objects-compiled.js
+ * require functions-compiled.js, objects-compiled.js
  * */
-//  *********** DOM  DATA    REQUIRE DEPRfunctions.js
+//  *********** DOM  DATA    REQUIRE functions.js
 var book = GET_book();
 var MSG = '';
 
@@ -45,6 +45,7 @@ var setStyle = R.curry((styleObj) => (node) => {
  */
 var NodeList_fut = '.book .ChptrReadGrps .cur  .VerseReadGrps > .fut .vers';
 var NodeList_cur = '.book .ChptrReadGrps .cur  .VerseReadGrps > .cur .vers';
+var NodeList_pst = '.book .ChptrReadGrps .cur  .VerseReadGrps > .pst .vers';
 /**
  *           NodeList_:: n -> o -> n
  *  Get all descendants that match selector
@@ -54,21 +55,21 @@ var NodeList_ = R.flip(cssQuery_)(document); // partial
 var tstCode = function (tst = false) {
     /**
      *          TEST_ONLY A subset, IN this case 'fut' OF objects/StyleConstants
-     * @type {{2: {name: string, farWt: number, nearWt: number, calcWt: Function, styleTmpl: {backgroundColor: string, opacity: string, fontSize: string}}}}
+     * @type {{2: {name: string, smlWt: number, lrgWt: number, calcWt: Function, styleTmpl: {backgroundColor: string, opacity: string, fontSize: string}}}}
      */
     let tstStyleDict = {
         2: {
             name: 'fut'
-            , farWt: .4
-            , nearWt: .8
+            , smlWt: .4
+            , lrgWt: .8
             , calcWt (sObj, vObj) {
                 //noinspection JSUnusedLocalSymbols
                 let {ver, ndx, ary} = vObj;
-                let {farWt, nearWt} = sObj;
+                let {smlWt, lrgWt} = sObj;
                 let len = ary.length - 1;
                 return (len > 0)
-                    ? (-(nearWt - farWt) / len * ndx + nearWt)
-                    : nearWt;  // always nearWt
+                    ? (-(lrgWt - smlWt) / len * ndx + lrgWt)
+                    : lrgWt;  // always lrgWt
             }
             , wt: 1
             , aStyleObj: {
@@ -107,48 +108,47 @@ var tstCode = function (tst = false) {
         );
     };
 
-    ///**
-    // *          SET_aVerse_Style_;; DECLARED HERE
-    // */
-    ////var SET_aVerse_Style_;          // Declaration NEEDED-before DOM_SET_FOREACH_Verse
+    /**
+     *          SET_aVerse_Style_;; DECLARED HERE
+     */
+    //var SET_aVerse_Style_;          // Declaration NEEDED-before DOM_SET_FOREACH_Verse
 
-    ///**
-    // *          DOM_SET_FOREACH_Verse
-    // * STYLED_VerseList OF MUTATED Verse Element.style FROM NodeList.
-    // * MAP SET_aVerse_Style_(styleDict) ONTO NodeList_(qrySlct)
-    // * @param styleDict
-    // * @param qrySlct
-    // * @return {*}
-    // */
-    //var DOM_SET_FOREACH_Verse = (styleDict, qrySlct) => {
-    //    return R.mapObjIndexed(
-    //        SET_aVerse_Style_(styleDict)      // partial. WANTS aNode FROM the NL below.
-    //        , NodeList_(qrySlct)               // this SATISFIES each aStyle_FOR_aVerse_
-    //    )
-    //};
+    /**
+     *          DOM_SET_FOREACH_Verse
+     * STYLED_VerseList OF MUTATED Verse Element.style FROM NodeList.
+     * MAP SET_aVerse_Style_(styleDict) ONTO NodeList_(qrySlct)
+     * @param styleDict
+     * @param qrySlct
+     * @return {*}
+     */
+    var DOM_SET_FOREACH_Verse = (styleDict, qrySlct) => {
+        return R.mapObjIndexed(
+            SET_aVerse_Style_(styleDict)      // partial. WANTS aNode FROM the NL below.
+            , NodeList_(qrySlct)               // this SATISFIES each aStyle_FOR_aVerse_
+        )
+    };
 
     if (tst) {
         /**
          * ----------- BEGIN Test Code here ------------------------
          * @type {string}
          */
-        MSG = 'tst_SET_aVerse_Style_->';
+        MSG = 'tst_a_stylWt_MAKER()->';
         MSG += '\n CALC_wt ->  ';
-        let aVCoeff_c2
-            , aSCoeff
-            , aWt_Styl_Str
-            , aVers_Styl_Lens
-            , aVers_Styl_Css
-            , set_anElemStyl
+        let tst_aSty_Str4
+            , c_tst_aSty_Str4
+            , c_tst_aSty_Str3
+            , tst_aVers_StylLens
+            , tst_aVers_Styl_Css
+            , tst_set_anElem
             , DOM_mapObjIndexed_Verse
             ;
 
-
-        set_anElemStyl = (propName, aVers_Styl_Css, elem) => {//::-> MUTATED elem
+        tst_set_anElem = (propName, aVers_Styl_Css, elem) => {//::-> MUTATED elem
             return elem.style[propName] = aVers_Styl_Css.style[propName]
         };
 
-        aVers_Styl_Css = (aLens, aStyl_Str, elem)=> { //::-> aVers_Styl_Css
+        tst_aVers_Styl_Css = (aLens, aStyl_Str, elem)=> { //::-> aVers_Styl_Css
             return R.set(
                 aLens
                 , aStyl_Str
@@ -156,64 +156,33 @@ var tstCode = function (tst = false) {
             );
         };  //::-> aVers_Styl_Css
 
-        aVers_Styl_Lens = (stylProp) => R.lensPath(['style', stylProp]); //:: a -> Lens:a
+        tst_aVers_StylLens = (stylProp) => R.lensPath(['style', stylProp]); //:: a -> Lens:a
 
-        /**
-         *          aVCoeff_c2:: [coll]->Int:ndx-> Num:vCoeff
-         *  begin calc Wt WITH vCoeff:: ndx/(collection.len - [0|1]
-         *
-         */
-        aVCoeff_c2 = R.curry(function (collection, index) {
+        tst_aSty_Str4 = (StylDict, elem, ndx, coll) => { //::-> aSty_Str
+            let f = x => C_It(JSON.stringify(`:${x}`));
+            let y = (x)=> C_Both(x);
+            let msg = (msg) => ` ${msg}`;
+            let smlWt = R.pipe(R.prop('2'), R.prop('smlWt'));
+            // begin calc Wt
             let vDenom = R.pipe(
                 R.length
-                , R.unless(R.equals(1), R.dec) // DO NOT DECREMENT IF Len == 1
-                , R.divide(1) // this is the division; now just multiply.
+                , R.unless(R.equals(1), R.dec) // DO NOT DECRIMENT IF Len == 1
+                , R.divide(1)
             );
-            let vCoeff2 = round(R.multiply(index, vDenom(collection)));
-            //`vCoeff2:${vCoeff2}, ndx:${index}, coll${collection}`
-            return vCoeff2; // now need index
-        });
-
-        /**
-         *          aSCoeff:: Dict,
-         * @param sDict
-         * @param vcoeff
-         * @returns {*}
-         */
-        aSCoeff = (sDict, vcoeff)=> {
-            let farWt = R.pipe(
-                R.prop('2')
-                , R.prop('farWt')
-                , round(R.multiply(R.subtract(1, vcoeff)))
-            );
-            let nearWt = R.pipe(
-                R.prop('2')
-                , R.prop('nearWt')
-                , round(R.multiply(vcoeff))
+            var round = x => Math.round(x * 100) / 100;
+            let vCoeff = R.pipe(
+                R.multiply(vDenom(coll))
+                , round
             );
 
-            //  end calc Wt WITH sCoeff:: vcoeff*(nearWt - farWt) + farWt
-            //  end calc Wt WITH sCoeff:: vcoeff*nearWt + farWt(1 - vcoeff)
-            var x = farWt;
-            var y = nearWt;
-            // `sCoeff:${sCoeff}, n:${nearWt(sDict)}, f:${farWt(sDict)}`
-            var sCoeff = R.add(x, y);
-            return sCoeff
+            MSG += msg(vCoeff(ndx));
+
         };
 
-        aWt_Styl_Str = R.curry((stylDict, elem, ndx, coll) => {
-                //::-> aSty_Str
-            var aVCoeff = aVCoeff_c2(coll, ndx);
-            var aWt = aSCoeff(stylDict, aVCoeff);
-                //` aWt:${ aVCoeff_c2(coll, ndx)}`
-                MSG += msg(aWt); // TRACE
-                return aWt; // WIP STUB Only a fn -> a number
+        // here VAR a_stylWt_MAKER((StylDict, elem, ndx, coll)) FROM stylWt_MAKER.js
 
-            }
-        );
-
-        //aSty_Str_c4 = R.curry(aSty_Str_c3);
-        //aSty_Str_c3 = aSty_Str_c4(tstStyleDict);
+        c_tst_aSty_Str4 = R.curry(tst_aSty_Str4);
+        c_tst_aSty_Str3 = c_tst_aSty_Str4(tstStyleDict);
 
         DOM_mapObjIndexed_Verse = (cbFn, qrySlct) => {
             return R.mapObjIndexed(
@@ -223,11 +192,11 @@ var tstCode = function (tst = false) {
         };
 
         //  ------------------ INVOKE TEST ------------
-        // TESTING ONLY DOM_mapObjIndexed_Verse(aWt_Styl_Str(tstStyleDict), NodeList_fut);
-        MSG = " inside tst";
+        DOM_mapObjIndexed_Verse(a_stylWt_MAKER(tstStyleDict), NodeList_pst);
+        DOM_mapObjIndexed_Verse(a_stylWt_MAKER(tstStyleDict), NodeList_cur);
+        DOM_mapObjIndexed_Verse(a_stylWt_MAKER(tstStyleDict), NodeList_fut);
+        C_Both(MSG);
     }
-    MSG = (x) => R.add(x, R.multiply(6, (R.negate(R.clone((x))))));
-    C_Both(MSG(4));
     var noop = true;
 };
 
