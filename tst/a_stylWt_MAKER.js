@@ -1,5 +1,6 @@
 /**
  * Created by CLIF on 4/7/2016.
+ * first of using small files
  */
 'use strict';
 

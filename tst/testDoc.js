@@ -179,8 +179,6 @@ var tstCode = function (tst = false) {
 
         };
 
-        // here VAR a_stylWt_MAKER((StylDict, elem, ndx, coll)) FROM stylWt_MAKER.js
-
         c_tst_aSty_Str4 = R.curry(tst_aSty_Str4);
         c_tst_aSty_Str3 = c_tst_aSty_Str4(tstStyleDict);
 
