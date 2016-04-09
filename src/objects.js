@@ -1,10 +1,11 @@
 /**
- * Created by CLIF on 1/9/2016.
+ * MODIFIED 4/9/2016
+ * CREATED by CLIF on 1/9/2016.
  */
 "use strict";
 // OBJECTS
 /**
- * DEPRECATE 160229 USE StyleConstants
+ *              TST_StyleObj: still Active  IN ramda_tests
  * @type {{2: {name: string, smlWt: number, lrgWt: number, calcWt: Function}, 1: {name: string, smlWt: number, lrgWt: number, calcWt: Function}, 0: {name: string, smlWt: number, lrgWt: number, calcWt: Function}}}
  */
 const TST_StyleObj = {
@@ -51,7 +52,7 @@ const TST_StyleObj = {
     }
 };
 /**
- * DEPRECATE 160229 USE StyleConstants
+ *              StyleObj:  still Active IN update_ReadGrp_TESTS
  * @type {{CRGrpsTmpl: string, VRGrpsTmpl: string, fut: {name: string, smlWt: number, lrgWt: number, calcWt: Function}, cur: {name: string, smlWt: number, lrgWt: number, calcWt: Function}, pst: {name: string, smlWt: number, lrgWt: number, calcWt: Function}}}
  */
 const StyleObj = {
@@ -102,10 +103,10 @@ const StyleObj = {
         }
     }
 };
-
 /**
- * built for use in style all verses
- * 160229
+ *              StyleConstants: IS still Active IN ...
+ * ramda_tests; STYLE_Verses_TESTS
+ * 160409
  * @type {{CRGrpsTmpl: string, VRGrpsTmpl: string, fut: {name: string, smlWt: number, lrgWt: number, calcWt: Function}, cur: {name: string, smlWt: number, lrgWt: number, calcWt: Function}, pst: {name: string, smlWt: number, lrgWt: number, calcWt: Function}}}
  */
 const StyleConstants = {
@@ -155,12 +156,4 @@ const StyleConstants = {
                 : lrgWt;  // start small grow larger.
         }
     }
-};
-
-const VerseObj = {
-    val: {}
-    , ndx: 0
-    , ary: []
-    , toStr: () => `Trace>VerseObj.ndx:${VerseObj.ndx},.ary.length:${VerseObj.ary.length},
-        outerHTML  ${VerseObj.val.outerHTML}`
 };
