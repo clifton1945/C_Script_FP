@@ -2,19 +2,27 @@
   <library name="Generated files" type="javaScript">
     <properties>
       <sourceFilesUrls>
+        <item url="file://$PROJECT_DIR$/tst/a_versStyl_MUTATOR-compiled.js" />
         <item url="file://$PROJECT_DIR$/tst/testDoc-compiled.js" />
+        <item url="file://$PROJECT_DIR$/tst/DEPR_testDoc-compiled.js" />
+        <item url="file://$PROJECT_DIR$/tst/ramda_tests-compiled.js" />
+        <item url="file://$PROJECT_DIR$/tst/STYLE_Verses_TESTS-compiled.js" />
         <item url="file://$PROJECT_DIR$/src/functions-compiled.js" />
         <item url="file://$PROJECT_DIR$/tst/modules_test-compiled.js" />
-        <item url="file://$PROJECT_DIR$/tst/a_stylWt_MAKER-compiled.js" />
         <item url="file://$PROJECT_DIR$/src/modules-compiled.js" />
+        <item url="file://$PROJECT_DIR$/tst/DEPRfunctions-compiled.js" />
       </sourceFilesUrls>
     </properties>
     <CLASSES>
+      <root url="file://$PROJECT_DIR$/tst/a_versStyl_MUTATOR-compiled.js" />
       <root url="file://$PROJECT_DIR$/tst/testDoc-compiled.js" />
+      <root url="file://$PROJECT_DIR$/tst/DEPR_testDoc-compiled.js" />
+      <root url="file://$PROJECT_DIR$/tst/ramda_tests-compiled.js" />
+      <root url="file://$PROJECT_DIR$/tst/STYLE_Verses_TESTS-compiled.js" />
       <root url="file://$PROJECT_DIR$/src/functions-compiled.js" />
       <root url="file://$PROJECT_DIR$/tst/modules_test-compiled.js" />
-      <root url="file://$PROJECT_DIR$/tst/a_stylWt_MAKER-compiled.js" />
       <root url="file://$PROJECT_DIR$/src/modules-compiled.js" />
+      <root url="file://$PROJECT_DIR$/tst/DEPRfunctions-compiled.js" />
     </CLASSES>
     <SOURCES />
   </library>
