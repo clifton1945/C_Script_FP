@@ -5,7 +5,7 @@
 
 var the_versStyl_CONSTANTS = {
     properties:{
-        opacity: "1"
+        opacity: ".1"
         , fontSize: "100%"
 
     },
@@ -37,8 +37,24 @@ var the_versStyl_CONSTANTS = {
  */
 var a_versStyl_MUTATOR = R.curry(  // just always curry all my functions
     function a_versStyl_MUTATOR(stylCons, elem, ndx, coll) {
-        var elem_opacity = {opacity: ".75"};
-        var elem_fontSize = {fontSize: "75%"};
-        Object.assign(elem.style, elem_fontSize, elem_opacity)
+        var obj = the_versStyl_CONSTANTS;
+
+        var elem_backgroundColor = R.pipe(
+            R.prop('fut')
+            , R.prop('backgroundColor')
+        )(obj);
+        var elem_opacity = R.pipe(
+            R.prop("properties")
+            , R.prop("opacity")
+        )(obj);
+        var elem_fontSize = R.pipe(
+            R.prop("properties")
+            , R.prop("fontSize")
+        )(obj);
+        Object.assign(elem.style
+            , elem_fontSize
+            , elem_opacity
+            , elem_backgroundColor
+        )
     });
 
