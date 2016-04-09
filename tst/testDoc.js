@@ -109,11 +109,6 @@ var tstCode = function (tst = false) {
     };
 
     /**
-     *          SET_aVerse_Style_;; DECLARED HERE
-     */
-    //var SET_aVerse_Style_;          // Declaration NEEDED-before DOM_SET_FOREACH_Verse
-
-    /**
      *          DOM_SET_FOREACH_Verse
      * STYLED_VerseList OF MUTATED Verse Element.style FROM NodeList.
      * MAP SET_aVerse_Style_(styleDict) ONTO NodeList_(qrySlct)
@@ -190,9 +185,9 @@ var tstCode = function (tst = false) {
         };
 
         //  ------------------ INVOKE TEST ------------
-        DOM_mapObjIndexed_Verse(a_stylWt_MAKER(tstStyleDict), NodeList_pst);
-        DOM_mapObjIndexed_Verse(a_stylWt_MAKER(tstStyleDict), NodeList_cur);
-        DOM_mapObjIndexed_Verse(a_stylWt_MAKER(tstStyleDict), NodeList_fut);
+        DOM_mapObjIndexed_Verse(a_versStyl_MUTATOR(tstStyleDict), NodeList_pst);
+        DOM_mapObjIndexed_Verse(a_versStyl_MUTATOR(tstStyleDict), NodeList_cur);
+        DOM_mapObjIndexed_Verse(a_versStyl_MUTATOR(tstStyleDict), NodeList_fut);
         C_Both(MSG);
     }
     var noop = true;

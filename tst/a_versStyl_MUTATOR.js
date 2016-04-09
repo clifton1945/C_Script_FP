@@ -10,7 +10,7 @@
  *
  */
 var a_versStyl_MUTATOR = R.curry(  // just always curry all my functions
-    function a_versStyl_MUTATOR(elem, ndx, coll) {
+    function a_versStyl_MUTATOR(stylCons, elem, ndx, coll) {
         var elem_opacity = {opacity: ".5"};
         var elem_fontSize = {fontSize: "50%"};
         Object.assign(elem.style, elem_fontSize)
