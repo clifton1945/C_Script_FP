@@ -76,7 +76,19 @@ var _average = function (xs) {
 //}, cars);
 //return _average(dollar_values);
 
-var dollar_values =  _.map(_.prop('dollar_value'));
+var dollar_values = _.map(_.prop('dollar_value'));
 var averageDollarValue = _.compose(_average, trace('after dollar_values'), dollar_values);
 c_it(averageDollarValue(CARS));
 
+// Exercise 4:
+// ============
+// Write a function: sanitizeNames() using compose that returns a list of lowercase and underscored car's names: e.g: sanitizeNames([{name: 'Ferrari FF', horsepower: 660, dollar_value: 700000, in_stock: true}]) //=> ['ferrari_ff'].
+var _name = _.prop('name');
+var _lowerCase = _.toLower;
+var _underscore = _.replace(/\W+/g, '_'); //<-- leave this alone and use to sanitize
+
+var sanitizeNames = _.map(_.compose(
+        _underscore, _lowerCase, _name
+    )
+); // map(_compose( _underscore, _toLower, _name))
+c_it(sanitizeNames(CARS));
