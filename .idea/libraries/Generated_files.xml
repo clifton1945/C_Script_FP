@@ -2,31 +2,59 @@
   <library name="Generated files" type="javaScript">
     <properties>
       <sourceFilesUrls>
-        <item url="file://$PROJECT_DIR$/tst/a_versStyl_MUTATOR-compiled.js" />
-        <item url="file://$PROJECT_DIR$/tst/testDoc-compiled.js" />
-        <item url="file://$PROJECT_DIR$/tst/DEPR_testDoc-compiled.js" />
+        <item url="file://$PROJECT_DIR$/node_modules/accounting/tests/qunit/speed-compiled.js" />
+        <item url="file://$PROJECT_DIR$/node_modules/accounting/demo-resources/js/libs/jquery.min-compiled.js" />
         <item url="file://$PROJECT_DIR$/tst/ramda_tests-compiled.js" />
         <item url="file://$PROJECT_DIR$/tst/Exercise5-compiled.js" />
-        <item url="file://$PROJECT_DIR$/src/functions-compiled.js" />
         <item url="file://$PROJECT_DIR$/tst/STYLE_Verses_TESTS-compiled.js" />
         <item url="file://$PROJECT_DIR$/src/objects-compiled.js" />
+        <item url="file://$PROJECT_DIR$/node_modules/accounting/tests/qunit/methods-compiled.js" />
         <item url="file://$PROJECT_DIR$/tst/modules_test-compiled.js" />
         <item url="file://$PROJECT_DIR$/src/modules-compiled.js" />
         <item url="file://$PROJECT_DIR$/tst/DEPRfunctions-compiled.js" />
+        <item url="file://$PROJECT_DIR$/tst/testDoc-compiled.js" />
+        <item url="file://$PROJECT_DIR$/node_modules/accounting/tests/jasmine/core/formatNumberSpec-compiled.js" />
+        <item url="file://$PROJECT_DIR$/node_modules/accounting/tests/qunit/vendor/qunit-compiled.js" />
+        <item url="file://$PROJECT_DIR$/node_modules/accounting/tests/jasmine/lib/jasmine/jasmine-compiled.js" />
+        <item url="file://$PROJECT_DIR$/node_modules/accounting/tests/qunit/vendor/jquery-compiled.js" />
+        <item url="file://$PROJECT_DIR$/src/functions-compiled.js" />
+        <item url="file://$PROJECT_DIR$/node_modules/accounting/demo-resources/js/prettify-compiled.js" />
+        <item url="file://$PROJECT_DIR$/node_modules/accounting/accounting-compiled.js" />
+        <item url="file://$PROJECT_DIR$/node_modules/accounting/accounting.min-compiled.js" />
+        <item url="file://$PROJECT_DIR$/node_modules/accounting/tests/jasmine/core/formatMoneySpec-compiled.js" />
+        <item url="file://$PROJECT_DIR$/node_modules/accounting/tests/jasmine/core/unformatSpec-compiled.js" />
+        <item url="file://$PROJECT_DIR$/tst/DEPR_testDoc-compiled.js" />
+        <item url="file://$PROJECT_DIR$/tst/a_versStyl_MUTATOR-compiled.js" />
+        <item url="file://$PROJECT_DIR$/node_modules/accounting/tests/qunit/vendor/jslitmus-compiled.js" />
+        <item url="file://$PROJECT_DIR$/node_modules/accounting/tests/jasmine/lib/jasmine/jasmine-html-compiled.js" />
       </sourceFilesUrls>
     </properties>
     <CLASSES>
-      <root url="file://$PROJECT_DIR$/tst/a_versStyl_MUTATOR-compiled.js" />
-      <root url="file://$PROJECT_DIR$/tst/testDoc-compiled.js" />
-      <root url="file://$PROJECT_DIR$/tst/DEPR_testDoc-compiled.js" />
+      <root url="file://$PROJECT_DIR$/node_modules/accounting/tests/qunit/speed-compiled.js" />
+      <root url="file://$PROJECT_DIR$/node_modules/accounting/demo-resources/js/libs/jquery.min-compiled.js" />
       <root url="file://$PROJECT_DIR$/tst/ramda_tests-compiled.js" />
       <root url="file://$PROJECT_DIR$/tst/Exercise5-compiled.js" />
-      <root url="file://$PROJECT_DIR$/src/functions-compiled.js" />
       <root url="file://$PROJECT_DIR$/tst/STYLE_Verses_TESTS-compiled.js" />
       <root url="file://$PROJECT_DIR$/src/objects-compiled.js" />
+      <root url="file://$PROJECT_DIR$/node_modules/accounting/tests/qunit/methods-compiled.js" />
       <root url="file://$PROJECT_DIR$/tst/modules_test-compiled.js" />
       <root url="file://$PROJECT_DIR$/src/modules-compiled.js" />
       <root url="file://$PROJECT_DIR$/tst/DEPRfunctions-compiled.js" />
+      <root url="file://$PROJECT_DIR$/tst/testDoc-compiled.js" />
+      <root url="file://$PROJECT_DIR$/node_modules/accounting/tests/jasmine/core/formatNumberSpec-compiled.js" />
+      <root url="file://$PROJECT_DIR$/node_modules/accounting/tests/qunit/vendor/qunit-compiled.js" />
+      <root url="file://$PROJECT_DIR$/node_modules/accounting/tests/jasmine/lib/jasmine/jasmine-compiled.js" />
+      <root url="file://$PROJECT_DIR$/node_modules/accounting/tests/qunit/vendor/jquery-compiled.js" />
+      <root url="file://$PROJECT_DIR$/src/functions-compiled.js" />
+      <root url="file://$PROJECT_DIR$/node_modules/accounting/demo-resources/js/prettify-compiled.js" />
+      <root url="file://$PROJECT_DIR$/node_modules/accounting/accounting-compiled.js" />
+      <root url="file://$PROJECT_DIR$/node_modules/accounting/accounting.min-compiled.js" />
+      <root url="file://$PROJECT_DIR$/node_modules/accounting/tests/jasmine/core/formatMoneySpec-compiled.js" />
+      <root url="file://$PROJECT_DIR$/node_modules/accounting/tests/jasmine/core/unformatSpec-compiled.js" />
+      <root url="file://$PROJECT_DIR$/tst/DEPR_testDoc-compiled.js" />
+      <root url="file://$PROJECT_DIR$/tst/a_versStyl_MUTATOR-compiled.js" />
+      <root url="file://$PROJECT_DIR$/node_modules/accounting/tests/qunit/vendor/jslitmus-compiled.js" />
+      <root url="file://$PROJECT_DIR$/node_modules/accounting/tests/jasmine/lib/jasmine/jasmine-html-compiled.js" />
     </CLASSES>
     <SOURCES />
   </library>
