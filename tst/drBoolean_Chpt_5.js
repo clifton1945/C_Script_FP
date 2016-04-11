@@ -1,5 +1,7 @@
 /**
  * Created by CLIF on 4/11/2016.
+ * Chapter 5: mostly Exercises
+ * https://drboolean.gitbooks.io/mostly-adequate-guide/content/ch5.html
  */
 var _ = require('ramda');
 var accounting = require('accounting');
