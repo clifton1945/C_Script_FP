@@ -17,9 +17,9 @@ function main() {
 var book = GET_book();
 var MSG = '';
 
-var NodeList_fut = '.book .ChptrReadGrps .cur  .VerseReadGrps > .fut .vers';
-var NodeList_cur = '.book .ChptrReadGrps .cur  .VerseReadGrps > .cur .vers';
-var NodeList_pst = '.book .ChptrReadGrps .cur  .VerseReadGrps > .pst .vers';
+var fut_queryStr = '.book .ChptrReadGrps .cur  .VerseReadGrps > .fut .vers';
+var cur_queryStr = '.book .ChptrReadGrps .cur  .VerseReadGrps > .cur .vers';
+var pst_queryStr = '.book .ChptrReadGrps .cur  .VerseReadGrps > .pst .vers';
 /**
  *          testData::  A subset, IN this case 'fut' OF objects/StyleConstants
  * @type {{2: {name: string, smlWt: number, lrgWt: number, calcWt: Function, styleTmpl: {backgroundColor: string, opacity: string, fontSize: string}}}}
@@ -56,9 +56,22 @@ var tstCode = function (tst = false) {
     if (tst) {
         /**
          * ----------- BEGIN Test Code here ----------
-         * @type {string}
+         * today, 12 Apr 2016 I EXPECT TO CONFIRM
+         *  that FP Code IS BASED ON definitions, timeless or at least not sequential Definitions.
+         *  SO
+         *  I WILL BEGIN WITH Code TO MUTATE_aClasVersStyle USING .map
+         *     TO APPLY MUTATE_aClasVerseStyle TO theseVerses.
+         *     I WILL NEED
+         *     (1) a function TO DELIVER theseClasVerses FROM theDOM
+         *     (2) a function TO DELIVER theseClasStylConst FROM theStylConst
+         *     (3) a function TO MUTATE_clasVersStyl
+         *
          */
-        MSG = 'I AM ready.';
+
+        MSG = 'MUTATE_aVersStyle.';
+        var theseClasVerses = function () {// ::
+            
+        };
 
         /**  ------------INVOKE TEST here------------ */
         MSG += 'I HAVE FINISHED.';
