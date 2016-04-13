@@ -21,6 +21,9 @@ var MSG = '';
  * @type {{2: {name: string, smlWt: number, lrgWt: number, calcWt: Function, styleTmpl: {backgroundColor: string, opacity: string, fontSize: string}}}}
  */
 let tstStylDict = {
+    cur: {
+        styleStr: `{"backgroundColor": "rgba(145, 248, 29, 0.29)", "opacity": "0.8", "fontSize": "50%"}`
+    },
     fut: {
         name: 'fut'
         , smlWt: .4
@@ -65,10 +68,10 @@ var tstCode = function (tst = false) {
     var cur_queryStr = '.book .ChptrReadGrps .cur  .VerseReadGrps > .cur .vers';
     var pst_queryStr = '.book .ChptrReadGrps .cur  .VerseReadGrps > .pst .vers';
     /**
-     *          setStyle:: (styleObj) => (node) -> node.style MUTATED
+     *          _setStyle:: (styleObj) => (node) -> node.style MUTATED
      * @param (styleObj) => (node) -> node.style MUTATED
      */
-    var setStyle = R.curry(function setStyle(styleObj, node) {
+    var _setStyle = R.curry(function setStyle(styleObj, node) {
         return Object.assign(node['style'], styleObj);
     });
     /**
@@ -90,40 +93,41 @@ var tstCode = function (tst = false) {
         MSG = 'MUTATE_aVersStyle > ';
         /**  ------------INVOKE TEST here------------ */
         var _futClasVerses = _qSelectAll(fut_queryStr); // WANTS a Node: at least a book element; gets a document here.
+        var _spacer = R.join(', ');
+
         var tstMUTATE = function (stylDict) {
             //NOTE: FOR this Test I AM FORCING ClasVerses TO 'fut'
             var _futClasVerses = _qSelectAll(fut_queryStr); // WANTS at least a book element; gets a document here.
             var _futStylObj = R.compose(R.prop('aStylObj'), R.prop('fut')); // WANTS stylDict
-            var _spacer = R.join(', ');
-            var _MUT_aVers = function _MUT_aVers (stylObj, elem, ndx, coll) {
-                setStyle(stylObj, elem)
-            };
-            var _cbfn = R.curry( _MUT_aVers)(_futStylObj(stylDict));
 
-            return R.compose(
-                //trace('after map'),
-                //_spacer,
-                //R.map(_cbfn),
-                trace('after _futClasVerses'),
-                _futClasVerses(document)
-            );
+            var _MUT_aVers = function _MUT_aVers() {
+
+            };
         };
 
         var comma = ', ';
+        // GET a NodeList
         var _futVersNL = _qSelectAll(fut_queryStr);
         var a_futVersNL = _futVersNL(document);
         MSG += JSON.stringify(a_futVersNL.length);
-
+        // GET a Verse
         var _qSelect = R.invoker(1, 'querySelector');
         var _curVers = _qSelect(cur_queryStr);
-        var a_curVers = _qSelect(cur_queryStr)(document);
+        var a_curVers = _curVers(document);
         var ret = a_curVers.innerHTML;
         MSG += comma + JSON.stringify(ret);
+        // a css style obj
+        var _futStylObj = R.compose(R.prop('aStylObj'), R.prop('fut'));
+        var a_futStylObj = _futStylObj(tstStylDict);
+        // MUTATE a verse style
+        var _mutate_a_fut_Styl = R.compose(_setStyle, _futStylObj)(tstStylDict);
+        _mutate_a_fut_Styl(a_curVers);
+        // a function that MUTATEs all fut Verses
+        var MUTATE_all_futVersS = function () {
 
-        var _a_innerHTML = R.invoker(1, 'innerHTML');
+        };
         C_Both(MSG);
         var noop = '';
     }
 };
-
 main();
