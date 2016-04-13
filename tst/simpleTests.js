@@ -35,7 +35,7 @@ let tstStylDict = {
                 : lrgWt;  // always lrgWt
         }
         , wt: 1
-        , aStyleObj: {
+        , aStylObj: {
             backgroundColor: "rgba(145, 248, 29, 0.29)"
             , fontSize: '70%'
             , opacity: 0.5
@@ -50,12 +50,17 @@ let tstStylDict = {
  * @param tst
  */
 var tstCode = function (tst = false) {
+    var trace = R.curry(function (tag, x) {
+        console.log(tag, x);
+        return x;
+    });
     /**
-     *          Get all descendants that match selector
-     * cssQuery_ :: String -> Node -> NodeList
+     *          Get all descendants that match qSselect_
+     * _qSelectAll :: String -> Node -> NodeList
      * Note: NodeList is array-like so you can run ramda list functions on it.
      */
-    var cssQuery_ = R.invoker(1, 'querySelectorAll');
+    var _qSelectAll = R.invoker(1, 'querySelectorAll');
+
     var fut_queryStr = '.book .ChptrReadGrps .cur  .VerseReadGrps > .fut .vers';
     var cur_queryStr = '.book .ChptrReadGrps .cur  .VerseReadGrps > .cur .vers';
     var pst_queryStr = '.book .ChptrReadGrps .cur  .VerseReadGrps > .pst .vers';
@@ -63,10 +68,8 @@ var tstCode = function (tst = false) {
      *          setStyle:: (styleObj) => (node) -> node.style MUTATED
      * @param (styleObj) => (node) -> node.style MUTATED
      */
-    var setStyle = R.curry((styleObj) => (node) => {
-        var trc = Object.assign(
-            node.style, styleObj);
-        return trc
+    var setStyle = R.curry(function setStyle(styleObj, node) {
+        return Object.assign(node['style'], styleObj);
     });
     /**
      * ----------- BEGIN Test Code here ----------
@@ -80,21 +83,46 @@ var tstCode = function (tst = false) {
      *     (2) a function TO DELIVER theseClasStylDict FROM theStylConst
      *     (3) a function TO MUTATE_clasVersStyl(aStylObj, aNode) -> mutated node
      *         I WILL NEED
-     *            aStylObj curried
-     *            aNode from the map
+     *            fn(aStylObj, node, ndx, coll)            aNode from the map
      *
      */
     if (tst) {
-        MSG = 'MUTATE_aVersStyle.';
-        //NOTE: FOR this Test I AM FORCING ClasVerses TO 'fut'
-        var _futClasVerses = cssQuery_(fut_queryStr);
-        var _futClasStylDict = R.prop('fut');
+        MSG = 'MUTATE_aVersStyle > ';
         /**  ------------INVOKE TEST here------------ */
-        var x = _futClasVerses(document);
-        var y = _futClasStylDict(tstStylDict);
+        var _futClasVerses = _qSelectAll(fut_queryStr); // WANTS a Node: at least a book element; gets a document here.
+        var tstMUTATE = function (stylDict) {
+            //NOTE: FOR this Test I AM FORCING ClasVerses TO 'fut'
+            var _futClasVerses = _qSelectAll(fut_queryStr); // WANTS at least a book element; gets a document here.
+            var _futStylObj = R.compose(R.prop('aStylObj'), R.prop('fut')); // WANTS stylDict
+            var _spacer = R.join(', ');
+            var _MUT_aVers = function _MUT_aVers (stylObj, elem, ndx, coll) {
+                setStyle(stylObj, elem)
+            };
+            var _cbfn = R.curry( _MUT_aVers)(_futStylObj(stylDict));
 
-        MSG += 'I HAVE FINISHED.';
+            return R.compose(
+                //trace('after map'),
+                //_spacer,
+                //R.map(_cbfn),
+                trace('after _futClasVerses'),
+                _futClasVerses(document)
+            );
+        };
+
+        var comma = ', ';
+        var _futVersNL = _qSelectAll(fut_queryStr);
+        var a_futVersNL = _futVersNL(document);
+        MSG += JSON.stringify(a_futVersNL.length);
+
+        var _qSelect = R.invoker(1, 'querySelector');
+        var _curVers = _qSelect(cur_queryStr);
+        var a_curVers = _qSelect(cur_queryStr)(document);
+        var ret = a_curVers.innerHTML;
+        MSG += comma + JSON.stringify(ret);
+
+        var _a_innerHTML = R.invoker(1, 'innerHTML');
         C_Both(MSG);
+        var noop = '';
     }
 };
 
