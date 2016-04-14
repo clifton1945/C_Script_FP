@@ -22,7 +22,12 @@ var MSG = '';
  */
 let tstStylDict = {
     cur: {
-        styleStr: `{"backgroundColor": "rgba(145, 248, 29, 0.29)", "opacity": "0.8", "fontSize": "50%"}`
+        aStylObj: {
+            backgroundColor: "rgb:(000,255,255)"
+            , fontSize: '40%'
+            , opacity: 0.5
+        },
+        stylStr: `{"backgroundColor": "rgb:(000,255,255)", "opacity": "0.8", "fontSize": "50%"}`
     },
     fut: {
         name: 'fut'
@@ -43,7 +48,7 @@ let tstStylDict = {
             , fontSize: '70%'
             , opacity: 0.5
         }
-        , styleStr: `{"backgroundColor": "rgba(145, 248, 29, 0.29)", "opacity": "0.6", "fontSize": "75%"}`
+        , stylStr: `{"backgroundColor": "rgba(145, 248, 29, 0.29)", "opacity": "0.6", "fontSize": "75%"}`
         //, styleTmpl: ` backgroundColor: "rgba(145, 248, 29, 0.29)", opacity: "${this.wt}", fontSize: "${this.wt}%"`
     }
 };      // test data
@@ -99,10 +104,6 @@ var tstCode = function (tst = false) {
             //NOTE: FOR this Test I AM FORCING ClasVerses TO 'fut'
             var _futClasVerses = _qSelectAll(fut_queryStr); // WANTS at least a book element; gets a document here.
             var _futStylObj = R.compose(R.prop('aStylObj'), R.prop('fut')); // WANTS stylDict
-
-            var _MUT_aVers = function _MUT_aVers() {
-
-            };
         };
 
         var comma = ', ';
@@ -110,18 +111,37 @@ var tstCode = function (tst = false) {
         var _futVersNL = _qSelectAll(fut_queryStr);
         var a_futVersNL = _futVersNL(document);
         MSG += JSON.stringify(a_futVersNL.length);
+
         // GET a Verse
         var _qSelect = R.invoker(1, 'querySelector');
         var _curVers = _qSelect(cur_queryStr);
         var a_curVers = _curVers(document);
         var ret = a_curVers.innerHTML;
         MSG += comma + JSON.stringify(ret);
+
+        // GET the third fut verse
+        var _a_NL = R.curry(function (queryStr) {
+            return _qSelectAll(queryStr, document)
+        });
+        var _third_fut_vers = R.compose(R.nth(2), _a_NL);
+        var third_fut_vers = _third_fut_vers(fut_queryStr);
+        var _third_fut_vers_innerHTML =  R.compose(R.prop('innerHTML'), _third_fut_vers);
+        MSG += comma + JSON.stringify(_third_fut_vers_innerHTML(fut_queryStr));
+
         // a css style obj
+        var _blue_StylObj = R.compose(R.prop('aStylObj'), R.prop('cur'));
+        var blue_StylObj =_blue_StylObj(tstStylDict);
         var _futStylObj = R.compose(R.prop('aStylObj'), R.prop('fut'));
         var a_futStylObj = _futStylObj(tstStylDict);
+
         // MUTATE a verse style
-        var _mutate_a_fut_Styl = R.compose(_setStyle, _futStylObj)(tstStylDict);
-        _mutate_a_fut_Styl(a_curVers);
+        var _mutate = R.curry(function (styl, elem) {
+            _setStyle(styl, elem);
+        });
+        _mutate(a_futStylObj, a_curVers);
+        // MUTATE another verse style
+        _mutate(blue_StylObj, third_fut_vers);
+
         // a function that MUTATEs all fut Verses
         var MUTATE_all_futVersS = function () {
 
