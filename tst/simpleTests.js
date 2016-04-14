@@ -111,7 +111,7 @@ var tstCode = function (tst = false) {
          * @returns NodeList {*}
          * @private
          */
-        var _a_clasNL = function _clasNL (divClasStr) {
+        var _a_clasNL = function _clasNL(divClasStr) {
             return _qSelectAll(divClasStr)(document)
         };
         var a_futVersNL = _a_clasNL(fut_queryStr);
@@ -124,36 +124,39 @@ var tstCode = function (tst = false) {
          * @returns Node | Elem {*}
          * @private
          */
-        var _a_clasElem = function _clasElem (divClasStr) {
+        var _a_clasElem = function _clasElem(divClasStr) {
             return _qSelect(divClasStr)(document)
         };
+        // GET a_curVers for testing
         var a_curVers = _a_clasElem(cur_queryStr);
         MSG += comma + JSON.stringify(a_curVers.innerHTML);
 
         // GET the third fut verse
         var _third_vers = R.compose(R.nth(2), _a_clasNL);
-        //var third_fut_vers = _third_vers(fut_queryStr);
-        var _third_fut_vers_innerHTML =  R.compose(R.prop('innerHTML'), _third_vers);
+        var _third_fut_vers_innerHTML = R.compose(R.prop('innerHTML'), _third_vers);
         MSG += comma + JSON.stringify(_third_fut_vers_innerHTML(fut_queryStr));
 
         // GET a css style obj
-        var a_stylObj = function a_stylObj (clas){return R.compose(R.prop('aStylObj'), R.prop(clas))};
+        var a_stylObj = function a_stylObj(clas) {
+            return R.compose(R.prop('aStylObj'), R.prop(clas))
+        };
         var _blue_StylObj = a_stylObj('cur');
         var _futStylObj = a_stylObj('fut');
 
-        var blue_StylObj =_blue_StylObj(tstStylDict);
+        var blue_StylObj = _blue_StylObj(tstStylDict);
         var a_futStylObj = _futStylObj(tstStylDict);
 
         /**
-         *          _mutate_elemStyl:: (styl, elem)->e
+         *          _elemStyl_MUTATOR:: (styl, elem)-> elem
          */
-        var _mutate = R.curry(function (styl, elem) {
-            _setStyle(styl, elem);
+        var _elemStyl_MUTATOR = R.curry(function _elemStyl_MUTATOR (stylObj, elem) {
+            return _setStyle(stylObj, elem)
         });
-        _mutate(_futStylObj(tstStylDict), a_curVers);
+        _elemStyl_MUTATOR(_futStylObj(tstStylDict), a_curVers);
         // MUTATE another verse style
-        _mutate(_blue_StylObj(tstStylDict), _third_vers(fut_queryStr));
-
+        //_elemStyl_MUTATOR(_blue_StylObj(tstStylDict), _third_vers(pst_queryStr));// BREAKS no verses
+        //_elemStyl_MUTATOR(_blue_StylObj(tstStylDict), _third_vers(cur_queryStr));// BREAKS no 3rd Verse
+        _elemStyl_MUTATOR(_blue_StylObj(tstStylDict), _third_vers(fut_queryStr));// WORKS
         /**
          *            _MUTATEs all fut Verses
          * @constructor
