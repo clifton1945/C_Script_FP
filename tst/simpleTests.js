@@ -131,12 +131,9 @@ var tstCode = function (tst = false) {
         MSG += comma + JSON.stringify(a_curVers.innerHTML);
 
         // GET the third fut verse
-        var _a_NL = R.curry(function (queryStr) {
-            return _qSelectAll(queryStr, document)
-        });
-        var _third_fut_vers = R.compose(R.nth(2), _a_NL);
-        var third_fut_vers = _third_fut_vers(fut_queryStr);
-        var _third_fut_vers_innerHTML =  R.compose(R.prop('innerHTML'), _third_fut_vers);
+        var _third_vers = R.compose(R.nth(2), _a_clasNL);
+        //var third_fut_vers = _third_vers(fut_queryStr);
+        var _third_fut_vers_innerHTML =  R.compose(R.prop('innerHTML'), _third_vers);
         MSG += comma + JSON.stringify(_third_fut_vers_innerHTML(fut_queryStr));
 
         // GET a css style obj
@@ -155,7 +152,7 @@ var tstCode = function (tst = false) {
         });
         _mutate(_futStylObj(tstStylDict), a_curVers);
         // MUTATE another verse style
-        _mutate(_blue_StylObj(tstStylDict), third_fut_vers);
+        _mutate(_blue_StylObj(tstStylDict), _third_vers(fut_queryStr));
 
         /**
          *            _MUTATEs all fut Verses
