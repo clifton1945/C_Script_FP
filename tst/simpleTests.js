@@ -62,16 +62,14 @@ var tstCode = function (tst = false) {
         console.log(tag, x);
         return x;
     });
+
     /**
-     *          Get all descendants that match qSselect_
+     *          Get all descendants matching _qSelect || _qSelectAll
      * _qSelectAll :: String -> Node -> NodeList
      * Note: NodeList is array-like so you can run ramda list functions on it.
      */
+    var _qSelect = R.invoker(1, 'querySelector');
     var _qSelectAll = R.invoker(1, 'querySelectorAll');
-
-    var fut_queryStr = '.book .ChptrReadGrps .cur  .VerseReadGrps > .fut .vers';
-    var cur_queryStr = '.book .ChptrReadGrps .cur  .VerseReadGrps > .cur .vers';
-    var pst_queryStr = '.book .ChptrReadGrps .cur  .VerseReadGrps > .pst .vers';
     /**
      *          _setStyle:: (styleObj) => (node) -> node.style MUTATED
      * @param (styleObj) => (node) -> node.style MUTATED
@@ -79,6 +77,13 @@ var tstCode = function (tst = false) {
     var _setStyle = R.curry(function setStyle(styleObj, node) {
         return Object.assign(node['style'], styleObj);
     });
+
+    var fut_queryStr = '.book .ChptrReadGrps .cur  .VerseReadGrps > .fut .vers';
+    var cur_queryStr = '.book .ChptrReadGrps .cur  .VerseReadGrps > .cur .vers';
+    var pst_queryStr = '.book .ChptrReadGrps .cur  .VerseReadGrps > .pst .vers';
+
+    var _spacer = R.join(', ');
+    var comma = ', ';
     /**
      * ----------- BEGIN Test Code here ----------
      * today, 12 Apr 2016 I EXPECT TO CONFIRM
@@ -97,27 +102,33 @@ var tstCode = function (tst = false) {
     if (tst) {
         MSG = 'MUTATE_aVersStyle > ';
         /**  ------------INVOKE TEST here------------ */
-        var _futClasVerses = _qSelectAll(fut_queryStr); // WANTS a Node: at least a book element; gets a document here.
-        var _spacer = R.join(', ');
 
-        var tstMUTATE = function (stylDict) {
-            //NOTE: FOR this Test I AM FORCING ClasVerses TO 'fut'
-            var _futClasVerses = _qSelectAll(fut_queryStr); // WANTS at least a book element; gets a document here.
-            var _futStylObj = R.compose(R.prop('aStylObj'), R.prop('fut')); // WANTS stylDict
+
+        /**
+         *          GET a NodeList USING querySelectorALL Str
+         * @param divClasStr
+         *          * built in DOM document for now
+         * @returns NodeList {*}
+         * @private
+         */
+        var _a_clasNL = function _clasNL (divClasStr) {
+            return _qSelectAll(divClasStr)(document)
         };
-
-        var comma = ', ';
-        // GET a NodeList
-        var _futVersNL = _qSelectAll(fut_queryStr);
-        var a_futVersNL = _futVersNL(document);
+        var a_futVersNL = _a_clasNL(fut_queryStr);
         MSG += JSON.stringify(a_futVersNL.length);
 
-        // GET a Verse
-        var _qSelect = R.invoker(1, 'querySelector');
-        var _curVers = _qSelect(cur_queryStr);
-        var a_curVers = _curVers(document);
-        var ret = a_curVers.innerHTML;
-        MSG += comma + JSON.stringify(ret);
+        /**
+         *          GET a Element firstChild FROM querySelector Str
+         * @param divClasStr
+         * built in DOM document for now
+         * @returns Node | Elem {*}
+         * @private
+         */
+        var _a_clasElem = function _clasElem (divClasStr) {
+            return _qSelect(divClasStr)(document)
+        };
+        var a_curVers = _a_clasElem(cur_queryStr);
+        MSG += comma + JSON.stringify(a_curVers.innerHTML);
 
         // GET the third fut verse
         var _a_NL = R.curry(function (queryStr) {
@@ -128,21 +139,28 @@ var tstCode = function (tst = false) {
         var _third_fut_vers_innerHTML =  R.compose(R.prop('innerHTML'), _third_fut_vers);
         MSG += comma + JSON.stringify(_third_fut_vers_innerHTML(fut_queryStr));
 
-        // a css style obj
-        var _blue_StylObj = R.compose(R.prop('aStylObj'), R.prop('cur'));
+        // GET a css style obj
+        var a_stylObj = function a_stylObj (clas){return R.compose(R.prop('aStylObj'), R.prop(clas))};
+        var _blue_StylObj = a_stylObj('cur');
+        var _futStylObj = a_stylObj('fut');
+
         var blue_StylObj =_blue_StylObj(tstStylDict);
-        var _futStylObj = R.compose(R.prop('aStylObj'), R.prop('fut'));
         var a_futStylObj = _futStylObj(tstStylDict);
 
-        // MUTATE a verse style
+        /**
+         *          _mutate_elemStyl:: (styl, elem)->e
+         */
         var _mutate = R.curry(function (styl, elem) {
             _setStyle(styl, elem);
         });
-        _mutate(a_futStylObj, a_curVers);
+        _mutate(_futStylObj(tstStylDict), a_curVers);
         // MUTATE another verse style
-        _mutate(blue_StylObj, third_fut_vers);
+        _mutate(_blue_StylObj(tstStylDict), third_fut_vers);
 
-        // a function that MUTATEs all fut Verses
+        /**
+         *            _MUTATEs all fut Verses
+         * @constructor
+         */
         var MUTATE_all_futVersS = function () {
 
         };
