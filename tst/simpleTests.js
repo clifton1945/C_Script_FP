@@ -178,8 +178,9 @@ var tstCode = function (tst = false) {
         // }
 
         // simple
-        var cBF = (sObj) => (elem) => C_Both(elem.innerText);
-        R.map(cBF('anyThing'), a_futVersNL);
+        var cBF = (sObj) => (elem, ndx, coll) => { return C_Both(`i:${ndx} w:${sObj['w']}`)};
+        R_forEachIndexed(cBF({w:0}), a_futVersNL);
+        //now what ????
 
         C_Both(MSG);
         var noop = '';
