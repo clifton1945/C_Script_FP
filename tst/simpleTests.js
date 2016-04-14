@@ -147,23 +147,33 @@ var tstCode = function (tst = false) {
         var a_futStylObj = _futStylObj(tstStylDict);
 
         /**
-         *          _elemStyl_MUTATOR:: (styl, elem)-> elem
+         *          one_Elem_Styl_MUTATOR:: (styl, elem)-> elem
          */
-        var _elemStyl_MUTATOR = R.curry(function _elemStyl_MUTATOR (stylObj, elem) {
+        var one_Elem_Styl_MUTATOR = R.curry(function _elemStyl_MUTATOR (stylObj, elem) {
             return _setStyle(stylObj, elem)
         });
-        _elemStyl_MUTATOR(_futStylObj(tstStylDict), a_curVers);
+        // MUTATE a verse style
+        one_Elem_Styl_MUTATOR(_futStylObj(tstStylDict), a_curVers);
         // MUTATE another verse style
-        //_elemStyl_MUTATOR(_blue_StylObj(tstStylDict), _third_vers(pst_queryStr));// BREAKS no verses
-        //_elemStyl_MUTATOR(_blue_StylObj(tstStylDict), _third_vers(cur_queryStr));// BREAKS no 3rd Verse
-        _elemStyl_MUTATOR(_blue_StylObj(tstStylDict), _third_vers(fut_queryStr));// WORKS
+        //one_Elem_Styl_MUTATOR(_blue_StylObj(tstStylDict), _third_vers(pst_queryStr));// BREAKS no verses
+        //one_Elem_Styl_MUTATOR(_blue_StylObj(tstStylDict), _third_vers(cur_queryStr));// BREAKS no 3rd Verse
+        one_Elem_Styl_MUTATOR(_blue_StylObj(tstStylDict), _third_vers(fut_queryStr));// WORKS
+
         /**
          *            _MUTATEs all fut Verses
          * @constructor
          */
-        var MUTATE_all_futVersS = function () {
-
-        };
+            //so first partial a fut style obj
+        var _a_futElem_Styl_MUTATOR = one_Elem_Styl_MUTATOR(a_futStylObj);
+            // then AS a test lets see one verse
+        var a_second_futVers = R.compose(R.nth(1), _a_clasNL)(fut_queryStr);
+        _a_futElem_Styl_MUTATOR(a_second_futVers);  //WORKS,CAN SEE new fut 2nd verse
+            // now all Verse in one Class:  fut
+        var _all_Elem_Styl_MUTATOR = R.curry(function _elem_Styl_MUTATOR (stylObj, nodelist) {
+            // MAP an a_elem_Styl_MUTATOR callBack function
+            return R.map(one_Elem_Styl_MUTATOR( stylObj, nodelist))
+        });
+        _all_Elem_Styl_MUTATOR(a_futStylObj)(a_futVersNL);
         C_Both(MSG);
         var noop = '';
     }
