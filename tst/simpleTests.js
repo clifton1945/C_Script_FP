@@ -157,23 +157,30 @@ var tstCode = function (tst = false) {
         // MUTATE another verse style
         //one_Elem_Styl_MUTATOR(_blue_StylObj(tstStylDict), _third_vers(pst_queryStr));// BREAKS no verses
         //one_Elem_Styl_MUTATOR(_blue_StylObj(tstStylDict), _third_vers(cur_queryStr));// BREAKS no 3rd Verse
-        one_Elem_Styl_MUTATOR(_blue_StylObj(tstStylDict), _third_vers(fut_queryStr));// WORKS
+        one_Elem_Styl_MUTATOR(_blue_StylObj(tstStylDict), _third_vers(fut_queryStr));// WORKS: SEE 3rd Vers mutated
+
+            //so first partial a fut style obj
+        var _a_futElem_Styl_MUTATOR = one_Elem_Styl_MUTATOR(a_futStylObj);
+            // then AS a test lets see THE SECOND verse
+        var the_second_futVers = R.compose(R.nth(1), _a_clasNL)(fut_queryStr);
+        _a_futElem_Styl_MUTATOR(the_second_futVers);  //WORKS,CAN SEE new fut 2nd verse
+
 
         /**
          *            _MUTATEs all fut Verses
          * @constructor
          */
-            //so first partial a fut style obj
-        var _a_futElem_Styl_MUTATOR = one_Elem_Styl_MUTATOR(a_futStylObj);
-            // then AS a test lets see one verse
-        var a_second_futVers = R.compose(R.nth(1), _a_clasNL)(fut_queryStr);
-        _a_futElem_Styl_MUTATOR(a_second_futVers);  //WORKS,CAN SEE new fut 2nd verse
-            // now all Verse in one Class:  fut
-        var _all_Elem_Styl_MUTATOR = R.curry(function _elem_Styl_MUTATOR (stylObj, nodelist) {
-            // MAP an a_elem_Styl_MUTATOR callBack function
-            return R.map(one_Elem_Styl_MUTATOR( stylObj, nodelist))
-        });
-        _all_Elem_Styl_MUTATOR(a_futStylObj)(a_futVersNL);
+            // now all Verse in one Class:  fut for this test
+        // will need map(
+        //      (1) a cBF:callBackFunction with PARAMS: ( _aStylObj (??),an elem, ndx, coll returned with the .map),
+        //          this cBF culminates in APPLYING a final StylObj TO aN Elem: i.e. _setStyl(finalStylObj, elem)
+        //      (2) an elem collection | nodeList
+        // }
+
+        // simple
+        var cBF = (sObj) => (elem) => C_Both(elem.innerText);
+        R.map(cBF('anyThing'), a_futVersNL);
+
         C_Both(MSG);
         var noop = '';
     }
