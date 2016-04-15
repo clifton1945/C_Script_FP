@@ -189,24 +189,36 @@ var tstCode = function (tst = false) {
 
 
         var cBF = (sObj) => (elem, ndx, coll) => {
-            let _wt = i => 20 + i*10; // STUB
-            let _fmt = (a) => `${a}%`;
-            var __styl = R.curry((fwt, orig) => R.assoc('fontSize', fwt, orig));
-            let _styl =R.compose(__styl, _fmt, _wt);
+            let _wt = i => 35 + i*10; // EXP ndx
+
+            let _fmt_fontSize = (w) => `${w}%`; // EXP: wt
             // values for tracing
             let wt = _wt(ndx);
-            let fmt_wt =R.compose(_fmt, _wt)(ndx);
+            let fmt_wt = R.compose(_fmt_fontSize, _wt)(ndx);
+            // fontSized
+            var __fontSizing = R.curry(
+                (origStyl, fwt) => R.assoc('fontSize', fwt, origStyl)
+            ); // EXP:
+            let _fontSizing = __fontSizing(sObj);
+            let fontSize = R.compose(_fontSizing, _fmt_fontSize, _wt)(ndx);
 
-            var styl = _styl(a_futStylObj);
+            // opacity
+            let _frm_opaque = (w) => w/100; // EXP: wt
+            var __opaciting = R.curry(
+                (oldStylObj, fwt) => R.assoc('opacity', fwt, oldStylObj)
+            );
+            let _opaciting = __opaciting(sObj);
+            let opacity = R.compose(_opaciting, _frm_opaque, _wt)(ndx);
 
-            Object.assign(elem.style, styl); // WORKS
+            // This IS the Line that SETS the Style
+            // NOTE: COULD HAVE ALSO USED
+            // >> let _opaciting = __opaciting(fontSize) // rather than sObj
+            Object.assign(elem.style, opacity, fontSize);
 
-            MSG += `i:${ndx} :${elem.style.fontSize}, `;
-
-
+            MSG += `i:${ndx} :${elem.style.fontSize}, ${elem.style.opacity}, `;
         };
-        R_forEachIndexed(cBF(tstStylDict), a_futVersNL);
-        //now what ????
+        // APPLY cBF TO the fut Verses
+        R_forEachIndexed(cBF(tstStylDict['fut']['aStylObj']), R.reverse(a_futVersNL));
 
         C_Both(MSG);
         var noop = '';
