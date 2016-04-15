@@ -189,22 +189,20 @@ var tstCode = function (tst = false) {
 
 
         var cBF = (sObj) => (elem, ndx, coll) => {
-            var _wt = i => 20 + i*10;
-            var wt = _wt(ndx);
-            var _fmt_wt = (a) => `${a}%`;
-            var fmt_wt =R.compose(_fmt_wt, _wt)(ndx);
+            let _wt = i => 20 + i*10; // STUB
+            let _fmt = (a) => `${a}%`;
+            var __styl = R.curry((fwt, orig) => R.assoc('fontSize', fwt, orig));
+            let _styl =R.compose(__styl, _fmt, _wt);
+            // values for tracing
+            let wt = _wt(ndx);
+            let fmt_wt =R.compose(_fmt, _wt)(ndx);
 
-            //var _stylStr = wt => `{fontSize: '${wt}%'}`;
-            //var _thisStyl = R.compose(_stylStr, _wt);
-            //var thisStyl = _thisStyl(ndx); // THIS MUST BE an Object: like {fontSize: "120%"}
-            //Object.assign(elem.style, a_futStylObj); //WORKS
-            var z = R.assoc('fontSize', fmt_wt, a_futStylObj);
-            Object.assign(elem.style, z); // WORKS
+            var styl = _styl(a_futStylObj);
+
+            Object.assign(elem.style, styl); // WORKS
 
             MSG += `i:${ndx} :${elem.style.fontSize}, `;
 
-            //var _mut = R.compose(one_Elem_Styl_MUTATOR, _thisStyl)(ndx); // partial
-            //_mut(elem); // THIS IS IT !!!
 
         };
         R_forEachIndexed(cBF(tstStylDict), a_futVersNL);
