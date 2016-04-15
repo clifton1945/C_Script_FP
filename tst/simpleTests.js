@@ -77,6 +77,9 @@ var tstCode = function (tst = false) {
     var _setStyle = R.curry(function setStyle(styleObj, node) {
         return Object.assign(node['style'], styleObj);
     });
+    // see also from "MESS with the DOM" ramda - located in /ramda
+    // though it looks like ONLY one property
+    //var setStyle = R.curry((prop, value,node) => node.style[prop] = value)
 
     var fut_queryStr = '.book .ChptrReadGrps .cur  .VerseReadGrps > .fut .vers';
     var cur_queryStr = '.book .ChptrReadGrps .cur  .VerseReadGrps > .cur .vers';
@@ -115,28 +118,33 @@ var tstCode = function (tst = false) {
             return _qSelectAll(divClasStr)(document)
         };
         var a_futVersNL = _a_clasNL(fut_queryStr);
-        MSG += JSON.stringify(a_futVersNL.length);
+        //MSG += JSON.stringify(a_futVersNL.length);
 
         /**
-         *          GET a Element firstChild FROM querySelector Str
+         *              GET a Element firstChild FROM querySelector Str
          * @param divClasStr
          * built in DOM document for now
          * @returns Node | Elem {*}
          * @private
          */
+        // VERSES
         var _a_clasElem = function _clasElem(divClasStr) {
             return _qSelect(divClasStr)(document)
         };
         // GET a_curVers for testing
         var a_curVers = _a_clasElem(cur_queryStr);
-        MSG += comma + JSON.stringify(a_curVers.innerHTML);
+        //MSG += comma + JSON.stringify(a_curVers.innerHTML);
 
         // GET the third fut verse
         var _third_vers = R.compose(R.nth(2), _a_clasNL);
         var _third_fut_vers_innerHTML = R.compose(R.prop('innerHTML'), _third_vers);
-        MSG += comma + JSON.stringify(_third_fut_vers_innerHTML(fut_queryStr));
+        //MSG += comma + JSON.stringify(_third_fut_vers_innerHTML(fut_queryStr));
 
-        // GET a css style obj
+        /**
+         *              GET a css style obj
+         * @param clas
+         * @returns {Function|*}
+         */
         var a_stylObj = function a_stylObj(clas) {
             return R.compose(R.prop('aStylObj'), R.prop(clas))
         };
@@ -153,17 +161,17 @@ var tstCode = function (tst = false) {
             return _setStyle(stylObj, elem)
         });
         // MUTATE a verse style
-        one_Elem_Styl_MUTATOR(_futStylObj(tstStylDict), a_curVers);
+        //one_Elem_Styl_MUTATOR(_futStylObj(tstStylDict), a_curVers);
         // MUTATE another verse style
         //one_Elem_Styl_MUTATOR(_blue_StylObj(tstStylDict), _third_vers(pst_queryStr));// BREAKS no verses
         //one_Elem_Styl_MUTATOR(_blue_StylObj(tstStylDict), _third_vers(cur_queryStr));// BREAKS no 3rd Verse
-        one_Elem_Styl_MUTATOR(_blue_StylObj(tstStylDict), _third_vers(fut_queryStr));// WORKS: SEE 3rd Vers mutated
+        //one_Elem_Styl_MUTATOR(_blue_StylObj(tstStylDict), _third_vers(fut_queryStr));// WORKS: SEE 3rd Vers mutated
 
             //so first partial a fut style obj
         var _a_futElem_Styl_MUTATOR = one_Elem_Styl_MUTATOR(a_futStylObj);
             // then AS a test lets see THE SECOND verse
         var the_second_futVers = R.compose(R.nth(1), _a_clasNL)(fut_queryStr);
-        _a_futElem_Styl_MUTATOR(the_second_futVers);  //WORKS,CAN SEE new fut 2nd verse
+        //_a_futElem_Styl_MUTATOR(the_second_futVers);  //WORKS,CAN SEE new fut 2nd verse
 
 
         /**
@@ -178,8 +186,28 @@ var tstCode = function (tst = false) {
         // }
 
         // simple
-        var cBF = (sObj) => (elem, ndx, coll) => { return C_Both(`i:${ndx} w:${sObj['w']}`)};
-        R_forEachIndexed(cBF({w:0}), a_futVersNL);
+
+
+        var cBF = (sObj) => (elem, ndx, coll) => {
+            var _wt = i => 20 + i*10;
+            var wt = _wt(ndx);
+            var _fmt_wt = (a) => `${a}%`;
+            var fmt_wt =R.compose(_fmt_wt, _wt)(ndx);
+
+            //var _stylStr = wt => `{fontSize: '${wt}%'}`;
+            //var _thisStyl = R.compose(_stylStr, _wt);
+            //var thisStyl = _thisStyl(ndx); // THIS MUST BE an Object: like {fontSize: "120%"}
+            //Object.assign(elem.style, a_futStylObj); //WORKS
+            var z = R.assoc('fontSize', fmt_wt, a_futStylObj);
+            Object.assign(elem.style, z); // WORKS
+
+            MSG += `i:${ndx} :${elem.style.fontSize}, `;
+
+            //var _mut = R.compose(one_Elem_Styl_MUTATOR, _thisStyl)(ndx); // partial
+            //_mut(elem); // THIS IS IT !!!
+
+        };
+        R_forEachIndexed(cBF(tstStylDict), a_futVersNL);
         //now what ????
 
         C_Both(MSG);
