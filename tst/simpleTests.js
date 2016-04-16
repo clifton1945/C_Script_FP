@@ -130,4 +130,10 @@ var tstCode = function (tst = false) {
         var noop = '';
     }
 };
-main();
+const main = function () {
+    let book = GET_book();
+
+    //SET_All_Verse_Styles(StyleObj);
+    BindHandlers(book);
+    //SET_All_Verse_Styles(StyleObj);
+};

@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Job: a book</title>
+    <title>Job_01: a book</title>
     <!--<link rel="stylesheet" href="jquerySrc/qunit-1.18.0.css">-->
     <!--<link rel="stylesheet" href="../src/uTD.css">-->
     <style>
@@ -948,12 +948,11 @@ Selected Text:
         </div>
     </div>
 </div>
-<!--<script src="tst/DEPRfunctions-compiled.js"></script>-->
-<script src="./src/bindHandlers-compiled.js"></script>
-<!--<script src="src/update_ReadGrp-compiled.js"></script>-->
-<!--<script src="src/STYLE_Verses-compiled.js"></script>-->
-<script src="./src/objects-compiled.js"></script>
-<script src="tst/testDoc-compiled.js"></script>
-<!--<script src="./src/current_app-compiled.js"></script>-->
+<!--// the Order of these is important: Dependencies-->
+<script src="node_modules/ramda/dist/ramda.js"></script>
+<script src="src/objects-compiled.js"></script>
+<script src="src/functions-compiled.js"></script>
+<script src="src/bindHandlers-compiled.js"></script>
+<script src="tst/simpleTests-compiled.js"></script>
 </body>
 </html>
