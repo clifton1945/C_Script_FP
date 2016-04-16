@@ -108,7 +108,7 @@ var tstCode = function (tst = false) {
 
 
         /**
-         *          GET a NodeList USING querySelectorALL Str
+         *              a NodeList USING querySelectorALL Str
          * @param divClasStr
          *          * built in DOM document for now
          * @returns NodeList {*}
@@ -119,9 +119,8 @@ var tstCode = function (tst = false) {
         };
         var a_futVersNL = _a_clasNL(fut_queryStr);
         //MSG += JSON.stringify(a_futVersNL.length);
-
         /**
-         *              GET a Element firstChild FROM querySelector Str
+         *              a Element firstChild FROM querySelector Str
          * @param divClasStr
          * built in DOM document for now
          * @returns Node | Elem {*}
@@ -173,54 +172,52 @@ var tstCode = function (tst = false) {
         var the_second_futVers = R.compose(R.nth(1), _a_clasNL)(fut_queryStr);
         //_a_futElem_Styl_MUTATOR(the_second_futVers);  //WORKS,CAN SEE new fut 2nd verse
 
+        /**
+         *          __setStyleBy:: el, Obj -> el
+         */
+        var __setStyleBy = R.curry(function (anElement, el_StyleDict) {
+            return Object.assign(anElement.style, el_StyleDict);
+        });
 
         /**
-         *            _MUTATEs all fut Verses
-         * @constructor
+         *              _a_Wt:: Num: i -> Num w  CREATE a property Weight
+         * @param i
+         * @private
          */
-            // now all Verse in one Class:  fut for this test
-        // will need map(
-        //      (1) a cBF:callBackFunction with PARAMS: ( _aStylObj (??),an elem, ndx, coll returned with the .map),
-        //          this cBF culminates in APPLYING a final StylObj TO aN Elem: i.e. _setStyl(finalStylObj, elem)
-        //      (2) an elem collection | nodeList
-        // }
-
-        // simple
+        let _a_Wt = i => 45 + i*10; // EXP ndx
+        let _a_fmted_fontSize = (w) => `${w}%`; // EXP: wt
+        var __a_new_fontSize_stylObj = R.curry(
+            (stylObj, fwt) => R.assoc('fontSize', fwt, stylObj)
+        ); // __a_new_fontSize_stylObj
 
 
-        var cBF = (sObj) => (elem, ndx, coll) => {
-            let _wt = i => 45 + i*10; // EXP ndx
+        var cBF = (styl_obj) => (elem, ndx, coll) => {
+
             // style Prop: fontSize
-            let _fmt_fontSize = (w) => `${w}%`; // EXP: wt
+
             // values for tracing
-            let wt = _wt(ndx);
-            let fmt_wt = R.compose(_fmt_fontSize, _wt)(ndx);
+            //let wt = _a_Wt(ndx);
+            //let fmt_wt = R.compose(_a_fmted_fontSize, _a_Wt)(ndx);
             // fontSized
-            var __fontSizing = R.curry(
-                (origStyl, fwt) => R.assoc('fontSize', fwt, origStyl)
-            ); // EXP:
-            let _fontSizing = __fontSizing(sObj);
-            let fontSize = R.compose(_fontSizing, _fmt_fontSize, _wt)(ndx);
+            //var __a_new_fontSize_stylObj = R.curry(
+            //    (origStyl, fwt) => R.assoc('fontSize', fwt, origStyl)
+            //); // EXP:
+            const __fontSizing = (stylObj) => R.compose(__a_new_fontSize_stylObj(stylObj), R.compose(_a_fmted_fontSize, _a_Wt));
+            let fontSize = __fontSizing(styl_obj)(ndx);
 
             // style Prop: opacity
             let _frm_opaque = (w) => w/100; // EXP: wt
             var __opaciting = R.curry(
                 (oldStylObj, fwt) => R.assoc('opacity', fwt, oldStylObj)
             );
-            let _opaciting = __opaciting(sObj);
-            let opacity = R.compose(_opaciting, _frm_opaque, _wt)(ndx);
+            let _opaciting = __opaciting(styl_obj);
+            let opacity = R.compose(_opaciting, _frm_opaque, _a_Wt)(ndx);
 
             // This IS the Line that SETS the Style
-            // NOTE: COULD HAVE ALSO USED
-            // >> let _opaciting = __opaciting(fontSize) // rather than sObj
 
-            /**
-             *          __setStyleBy:: el, Obj -> el
-             */
-            const __setStyleBy = R.curry((anElement, el_StyleDict) =>
-                Object.assign(anElement.style,el_StyleDict));
-            var _setStyleBy = __setStyleBy(elem);
-            _setStyleBy( opacity);
+            var _setStyleBy = __setStyleBy(elem); // partial
+
+            //_setStyleBy( opacity);
             _setStyleBy( fontSize);
 
             MSG += `i:${ndx} :${elem.style.fontSize}, ${elem.style.opacity}, `;
