@@ -189,8 +189,8 @@ var tstCode = function (tst = false) {
 
 
         var cBF = (sObj) => (elem, ndx, coll) => {
-            let _wt = i => 35 + i*10; // EXP ndx
-
+            let _wt = i => 45 + i*10; // EXP ndx
+            // style Prop: fontSize
             let _fmt_fontSize = (w) => `${w}%`; // EXP: wt
             // values for tracing
             let wt = _wt(ndx);
@@ -202,7 +202,7 @@ var tstCode = function (tst = false) {
             let _fontSizing = __fontSizing(sObj);
             let fontSize = R.compose(_fontSizing, _fmt_fontSize, _wt)(ndx);
 
-            // opacity
+            // style Prop: opacity
             let _frm_opaque = (w) => w/100; // EXP: wt
             var __opaciting = R.curry(
                 (oldStylObj, fwt) => R.assoc('opacity', fwt, oldStylObj)
@@ -213,11 +213,20 @@ var tstCode = function (tst = false) {
             // This IS the Line that SETS the Style
             // NOTE: COULD HAVE ALSO USED
             // >> let _opaciting = __opaciting(fontSize) // rather than sObj
-            Object.assign(elem.style, opacity, fontSize);
+
+            /**
+             *          __setStyleBy:: el, Obj -> el
+             */
+            const __setStyleBy = R.curry((anElement, el_StyleDict) =>
+                Object.assign(anElement.style,el_StyleDict));
+            var _setStyleBy = __setStyleBy(elem);
+            _setStyleBy( opacity);
+            _setStyleBy( fontSize);
 
             MSG += `i:${ndx} :${elem.style.fontSize}, ${elem.style.opacity}, `;
         };
         // APPLY cBF TO the fut Verses
+
         R_forEachIndexed(cBF(tstStylDict['fut']['aStylObj']), R.reverse(a_futVersNL));
 
         C_Both(MSG);
