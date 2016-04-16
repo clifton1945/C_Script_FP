@@ -99,30 +99,19 @@ var tstCode = function (tst = false) {
             return R.assoc('opacity', fwt, baseStylObj);
         });
 
+        /**
+         *              the MAIN .map(callBackFunc:: cBF(stylObj)->(elem, ndx, coll)-> MUTATED elem.style.
+         * @param styl_obj
+         * @returns {Function}
+         */
         var cBF = (styl_obj) => (elem, ndx, coll) => {
-
-
-            // OK I WANT opacity TO INCLUDE fontSize
-
             // now COMBINE | ASSOC opacity WITH fontSize
             let fontSize = __fontSizing(styl_obj)(ndx);
+            // Someday IMPROVE below to pointless.
             let _op_fs_StylObj = R.compose(
                 __opaciting(fontSize),
                 _frm_opaque,
                 _a_Wt);
-
-
-
-            // This IS the Code
-            /**
-             *          __setStyleBy:: el, Obj -> el
-             */
-            var __setStyleBy = R.curry(function (anElement, el_StyleDict) {
-                return Object.assign(anElement.style, el_StyleDict);
-            }); // returns the updated element.styl
-            //var _setStyleBy = __setStyleBy(elem); // partial
-
-            C_Both('i:' + ndx + '.0 :' + elem.style.fontSize + ', ' + elem.style.opacity + ', ');
 
             /**
              *             The Heart-of-the-Function: _setStyle(Obj, Elem) -> MUTATED Elem.style
@@ -130,11 +119,11 @@ var tstCode = function (tst = false) {
             let op_fs_StylObj = _op_fs_StylObj(ndx);
             _setStyle(op_fs_StylObj, elem);
 
-            C_Both('i:' + ndx + '.1 :' + elem.style.fontSize + ', ' + elem.style.opacity + ', ');
+            MSG += ('i:' + ndx + '.1 :' + elem.style.fontSize + ', ' + elem.style.opacity + ', ');
         };
         // APPLY cBF TO the base a_stylDict AND a_futVersNL
-        var a_futVersNL = _a_clasNL(fut_queryStr);
         var a_stylDict = tstStylDict['fut']['aStylObj'];
+        var a_futVersNL = _a_clasNL(fut_queryStr);
         R_forEachIndexed(cBF(a_stylDict), R.reverse(a_futVersNL));
 
         C_Both(MSG);
