@@ -44,9 +44,9 @@ let tstStylDict = {
         }
         , wt: 1
         , aStylObj: {
-            backgroundColor: "rgba(145, 248, 29, 0.29)"
-            , fontSize: '70%'
-            , opacity: 0.5
+            //backgroundColor: "rgba(145, 248, 29, 0.29)",
+            fontSize: '70%',
+            opacity: 0.5
         }
         , stylStr: `{"backgroundColor": "rgba(145, 248, 29, 0.29)", "opacity": "0.6", "fontSize": "75%"}`
         //, styleTmpl: ` backgroundColor: "rgba(145, 248, 29, 0.29)", opacity: "${this.wt}", fontSize: "${this.wt}%"`
@@ -156,7 +156,7 @@ var tstCode = function (tst = false) {
         /**
          *          one_Elem_Styl_MUTATOR:: (styl, elem)-> elem
          */
-        var one_Elem_Styl_MUTATOR = R.curry(function _elemStyl_MUTATOR (stylObj, elem) {
+        var one_Elem_Styl_MUTATOR = R.curry(function _elemStyl_MUTATOR(stylObj, elem) {
             return _setStyle(stylObj, elem)
         });
         // MUTATE a verse style
@@ -166,61 +166,61 @@ var tstCode = function (tst = false) {
         //one_Elem_Styl_MUTATOR(_blue_StylObj(tstStylDict), _third_vers(cur_queryStr));// BREAKS no 3rd Verse
         //one_Elem_Styl_MUTATOR(_blue_StylObj(tstStylDict), _third_vers(fut_queryStr));// WORKS: SEE 3rd Vers mutated
 
-            //so first partial a fut style obj
+        //so first partial a fut style obj
         var _a_futElem_Styl_MUTATOR = one_Elem_Styl_MUTATOR(a_futStylObj);
-            // then AS a test lets see THE SECOND verse
+        // then AS a test lets see THE SECOND verse
         var the_second_futVers = R.compose(R.nth(1), _a_clasNL)(fut_queryStr);
         //_a_futElem_Styl_MUTATOR(the_second_futVers);  //WORKS,CAN SEE new fut 2nd verse
 
-        /**
-         *          __setStyleBy:: el, Obj -> el
-         */
-        var __setStyleBy = R.curry(function (anElement, el_StyleDict) {
-            return Object.assign(anElement.style, el_StyleDict);
-        });
 
         /**
          *              _a_Wt:: Num: i -> Num w  CREATE a property Weight
          * @param i
          * @private
          */
-        let _a_Wt = i => 45 + i*10; // EXP ndx
-        let _a_fmted_fontSize = (w) => `${w}%`; // EXP: wt
-        var __a_new_fontSize_stylObj = R.curry(
-            (stylObj, fwt) => R.assoc('fontSize', fwt, stylObj)
-        ); // __a_new_fontSize_stylObj
+        const _a_Wt = i => 45 + i * 10; // EXP ndx
+        const _a_fmted_fontSize = (w) => `${w}%`;
+        //const __a_new_fontSize_stylObj = R.curry( (stylObj, fwt) => R.assoc('fontSize', fwt, stylObj)
+        //); // __a_new_fontSize_stylObj
+        const __fontSizing = (stylObj) => R.compose(
+            R.curry((stylObj, fwt) => R.assoc('fontSize', fwt, stylObj))(stylObj),
+            R.compose(_a_fmted_fontSize, _a_Wt)
+        );
 
 
         var cBF = (styl_obj) => (elem, ndx, coll) => {
 
-            // style Prop: fontSize
-
-            // values for tracing
-            //let wt = _a_Wt(ndx);
-            //let fmt_wt = R.compose(_a_fmted_fontSize, _a_Wt)(ndx);
-            // fontSized
-            //var __a_new_fontSize_stylObj = R.curry(
-            //    (origStyl, fwt) => R.assoc('fontSize', fwt, origStyl)
-            //); // EXP:
-            const __fontSizing = (stylObj) => R.compose(__a_new_fontSize_stylObj(stylObj), R.compose(_a_fmted_fontSize, _a_Wt));
             let fontSize = __fontSizing(styl_obj)(ndx);
 
             // style Prop: opacity
-            let _frm_opaque = (w) => w/100; // EXP: wt
+            let _frm_opaque = (w) => w / 100; // EXP: wt
             var __opaciting = R.curry(
-                (oldStylObj, fwt) => R.assoc('opacity', fwt, oldStylObj)
+                (baseStylObj, fwt) => R.assoc('opacity', fwt, baseStylObj)
             );
-            let _opaciting = __opaciting(styl_obj);
-            let opacity = R.compose(_opaciting, _frm_opaque, _a_Wt)(ndx);
 
-            // This IS the Line that SETS the Style
+            // OK I WANT opacity TO BE R.assoc WITH fontSize
 
-            var _setStyleBy = __setStyleBy(elem); // partial
+            // now COMBINE | ASSOC opacity WITH fontSize
+            let _opacity_fontSize = R.compose(
+                __opaciting(fontSize),
+                _frm_opaque,
+                _a_Wt);
 
-            //_setStyleBy( opacity);
-            _setStyleBy( fontSize);
+            let opacity_fontSize = _opacity_fontSize(ndx);
+            // This IS the Code
+            /**
+             *          __setStyleBy:: el, Obj -> el
+             */
+            var __setStyleBy = R.curry(function (anElement, el_StyleDict) {
+                return Object.assign(anElement.style, el_StyleDict);
+            }); // returns the updated element.styl
+            //var _setStyleBy = __setStyleBy(elem); // partial
 
-            MSG += `i:${ndx} :${elem.style.fontSize}, ${elem.style.opacity}, `;
+            C_Both('i:' + ndx + '.0 :' + elem.style.fontSize + ', ' + elem.style.opacity + ', ');
+            // This is the INVOKE tat sets the Verse
+            var ret = __setStyleBy(elem, opacity_fontSize);
+            C_Both('i:' + ndx + '.1 :' + elem.style.fontSize + ', ' + elem.style.opacity + ', ');
+            // DID IT??
         };
         // APPLY cBF TO the fut Verses
 
