@@ -35,12 +35,10 @@ let tstStylDict = {
         , lrgWt: .8
         , wt: 1
         , aStylObj: {
-            //backgroundColor: "rgba(145, 248, 29, 0.29)",
+            backgroundColor: "rgba(199, 248, 151, 0.29)",
             fontSize: '70%',
             opacity: 0.5
         }
-        , stylStr: `{"backgroundColor": "rgba(145, 248, 29, 0.29)", "opacity": "0.6", "fontSize": "75%"}`
-        //, styleTmpl: ` backgroundColor: "rgba(145, 248, 29, 0.29)", opacity: "${this.wt}", fontSize: "${this.wt}%"`
     }
 };      // test data
 
@@ -82,74 +80,51 @@ var tstCode = function (tst = false) {
     var _a_clasNL = function _clasNL(divClasStr) {
         return _qSelectAll(divClasStr)(document)
     };
-    /**
-     * ----------- BEGIN Test Code here ----------
-     * today, 12 Apr 2016 I EXPECT TO CONFIRM
-     *  that FP Code IS BASED ON definitions, timeless or at least not sequential Definitions.
-     *  SO
-     *  I WILL BEGIN WITH Code TO MUTATE_aClasVersStyle USING .map
-     *     TO APPLY MUTATE_aClasVerseStyle TO theseVerses.
-     *     I WILL NEED
-     *     (1) a function TO DELIVER theseClasVerses FROM theDOM
-     *     (2) a function TO DELIVER theseClasStylDict FROM theStylConst
-     *     (3) a function TO MUTATE_clasVersStyl(aStylObj, aNode) -> mutated node
-     *         I WILL NEED
-     *            fn(aStylObj, node, ndx, coll)            aNode from the map
-     *
-     */
     if (tst) {
         MSG = 'MUTATE_aVersStyle > ';
 
         const _a_Wt = i => 45 + i * 10; // EXP ndx
         const _a_fmted_fontSize = (w) => `${w}%`;
-        const __fontSizing = (stylObj) => R.compose(
-            R.curry((stylObj, fwt) => R.assoc('fontSize', fwt, stylObj))(stylObj),
-            R.compose(_a_fmted_fontSize, _a_Wt)
-        );
+        var __fontSizing = function __fontSizing(stylObj) {
+            return R.compose(
+                R.curry(function (stylObj, fwt) {
+                    return R.assoc('fontSize', fwt, stylObj);
+                })(stylObj), R.compose(
+                    _a_fmted_fontSize, _a_Wt
+                )
+            );
+        };
         const _frm_opaque = (w) => w / 100; // EXP: wt
-        const __opaciting = R.curry( (baseStylObj, fwt) =>
-                R.assoc('opacity', fwt, baseStylObj)
-        );
+        var __opaciting = R.curry(function (baseStylObj, fwt) {
+            return R.assoc('opacity', fwt, baseStylObj);
+        });
 
+        /**
+         *              the MAIN .map(callBackFunc:: cBF(stylObj)->(elem, ndx, coll)-> MUTATED elem.style.
+         * @param styl_obj
+         * @returns {Function}
+         */
         var cBF = (styl_obj) => (elem, ndx, coll) => {
-
-            let fontSize = __fontSizing(styl_obj)(ndx);
-
-            // style Prop: opacity
-
-
-            // OK I WANT opacity TO BE R.assoc WITH fontSize
-
             // now COMBINE | ASSOC opacity WITH fontSize
-            let _opacity_fontSize = R.compose(
+            let fontSize = __fontSizing(styl_obj)(ndx);
+            // Someday IMPROVE below to pointless.
+            let _op_fs_StylObj = R.compose(
                 __opaciting(fontSize),
                 _frm_opaque,
                 _a_Wt);
 
-            let opacity_fontSize = _opacity_fontSize(ndx);
-            // This IS the Code
-            /**
-             *          __setStyleBy:: el, Obj -> el
-             */
-            var __setStyleBy = R.curry(function (anElement, el_StyleDict) {
-                return Object.assign(anElement.style, el_StyleDict);
-            }); // returns the updated element.styl
-            //var _setStyleBy = __setStyleBy(elem); // partial
-
-            C_Both('i:' + ndx + '.0 :' + elem.style.fontSize + ', ' + elem.style.opacity + ', ');
-
             /**
              *             The Heart-of-the-Function: _setStyle(Obj, Elem) -> MUTATED Elem.style
              */
-            var ret = _setStyle(opacity_fontSize, elem);
+            let op_fs_StylObj = _op_fs_StylObj(ndx);
+            _setStyle(op_fs_StylObj, elem);
 
-            C_Both('i:' + ndx + '.1 :' + elem.style.fontSize + ', ' + elem.style.opacity + ', ');
-            // DID IT??
+            MSG += ('i:' + ndx + '.1 :' + elem.style.fontSize + ', ' + elem.style.opacity + ', ');
         };
-        // APPLY cBF TO the fut Verses
+        // APPLY cBF TO the base a_stylDict AND a_futVersNL
+        var a_stylDict = tstStylDict['fut']['aStylObj'];
         var a_futVersNL = _a_clasNL(fut_queryStr);
-        var a_stylObj = tstStylDict['fut']['aStylObj'];
-        R_forEachIndexed(cBF(a_stylObj), R.reverse(a_futVersNL));
+        R_forEachIndexed(cBF(a_stylDict), R.reverse(a_futVersNL));
 
         C_Both(MSG);
         var noop = '';
