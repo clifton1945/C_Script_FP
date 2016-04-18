@@ -4,6 +4,7 @@
       <sourceFilesUrls>
         <item url="file://$PROJECT_DIR$/tst/DEPR_testDoc-compiled.js" />
         <item url="file://$PROJECT_DIR$/tst/testDoc-compiled.js" />
+        <item url="file://$PROJECT_DIR$/tst/a_tst_stylPropObj-compiled.js" />
         <item url="file://$PROJECT_DIR$/src/functions-compiled.js" />
         <item url="file://$PROJECT_DIR$/tst/DEPRfunctions-compiled.js" />
         <item url="file://$PROJECT_DIR$/src/objects-compiled.js" />
@@ -17,13 +18,14 @@
     </properties>
     <CLASSES>
       <root url="file://$PROJECT_DIR$/tst/DEPR_testDoc-compiled.js" />
+      <root url="file://$PROJECT_DIR$/tst/a_tst_stylPropObj-compiled.js" />
+      <root url="file://$PROJECT_DIR$/src/objects-compiled.js" />
+      <root url="file://$PROJECT_DIR$/tst/modules_test-compiled.js" />
+      <root url="file://$PROJECT_DIR$/src/modules-compiled.js" />
       <root url="file://$PROJECT_DIR$/tst/testDoc-compiled.js" />
       <root url="file://$PROJECT_DIR$/src/functions-compiled.js" />
       <root url="file://$PROJECT_DIR$/tst/DEPRfunctions-compiled.js" />
-      <root url="file://$PROJECT_DIR$/src/objects-compiled.js" />
       <root url="file://$PROJECT_DIR$/tst/ramda_tests-compiled.js" />
-      <root url="file://$PROJECT_DIR$/tst/modules_test-compiled.js" />
-      <root url="file://$PROJECT_DIR$/src/modules-compiled.js" />
       <root url="file://$PROJECT_DIR$/tst/simpleTests-compiled.js" />
       <root url="file://$PROJECT_DIR$/tst/STYLE_Verses_TESTS-compiled.js" />
       <root url="file://$PROJECT_DIR$/tst/a_versStyl_MUTATOR-compiled.js" />
