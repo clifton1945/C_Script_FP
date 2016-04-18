@@ -1,4 +1,4 @@
-//"use strict";
+"use strict";
 //var R = require('ramda-maybe');
 //import { testStr } from '..//src//modules-compiled'; // WORKS but throws Inspection 'can't resolve
 
@@ -84,13 +84,19 @@ var tstCode = function (tst = false) {
         MSG = 'MUTATE_aVersStyle > ';
 
         const _a_Wt = i => 45 + i * 10; // EXP ndx
-        const _a_fmted_fontSize = (w) => `${w}%`;
+
+        const _a_fontSizeSTR = (w) => `${w}%`;
+
+
+
+
+
         var __fontSizing = function __fontSizing(stylObj) {
             return R.compose(
                 R.curry(function (stylObj, fwt) {
                     return R.assoc('fontSize', fwt, stylObj);
                 })(stylObj), R.compose(
-                    _a_fmted_fontSize, _a_Wt
+                    _a_fontSizeSTR, _a_Wt
                 )
             );
         };
@@ -126,14 +132,19 @@ var tstCode = function (tst = false) {
         var a_futVersNL = _a_clasNL(fut_queryStr);
         R_forEachIndexed(cBF(a_stylDict), R.reverse(a_futVersNL));
 
+
+
+
+
+
         C_Both(MSG);
         var noop = '';
     }
 };
-const main = function () {
-    let book = GET_book();
-
-    //SET_All_Verse_Styles(StyleObj);
-    BindHandlers(book);
-    //SET_All_Verse_Styles(StyleObj);
-};
+//const main = function () {
+//    let book = GET_book();
+//
+//    //SET_All_Verse_Styles(StyleObj);
+//    BindHandlers(book);
+//    //SET_All_Verse_Styles(StyleObj);
+//};

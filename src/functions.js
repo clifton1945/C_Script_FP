@@ -13,14 +13,14 @@
  * addIndex() Returns function.
  *      An altered list iteration function that passes (item, index, list) to its callback
  */
-const R_forEachIndexed = R.addIndex(R.forEach);
+var R_forEachIndexed = R.addIndex(R.forEach);
 
 // *********** TEST HELPERS
-const Cnt = R.curry(
+var Cnt = R.curry(
     function (NDX, coll) {
         return R.prop('childElementCount', coll[NDX]);
     });
-const C_GrpStateCnt = R.curry(
+var C_GrpStateCnt = R.curry(
     // NOTE: this function requires indexs:PST, CUR, FUT as 0,1,2 repectively.
     function (nameStr, coll) {
         C_Both(`${nameStr}.div.class Cnt:p,c,f [${Cnt([PST], coll)},${Cnt([CUR], coll)},${Cnt([FUT], coll)}]`);

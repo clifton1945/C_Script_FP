@@ -3,7 +3,7 @@
  */
 "use strict";
 
-const testStr = " I am a module test string.";
+var testStr = " I am a module test string.";
 export {testStr};
-const C_It = (txt) => console.log(txt);
+var C_It = (txt) => console.log(txt);
 export { C_It }
