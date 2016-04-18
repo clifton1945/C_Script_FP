@@ -13,5 +13,18 @@ var frmtsOBJ = {
     fontSize: _a_percentSTR_FNC,
     opacity: _an_normalSTR_FNC
 };
-C_It(R.compose(frmtsOBJ['fontSize'], _a_Wt)(0.3));
+var _a_frmted_stylWt_STR = (stylProp_Name)=> R.compose(frmtsOBJ[stylProp_Name], _a_Wt);
+_a_frmted_stylWt_STR("fontSize")( 0.4) ;
+var _a_frmted_stylSTR = (stylProp_Name, wt) => {
+    return `{"${stylProp_Name}":" ${_a_frmted_stylWt_STR(stylProp_Name)(wt)}"}`
+};
+
+ret = _a_frmted_stylSTR('fontSize', .2);//-> STR:: fontSize: 47%
+C_It(ret);
+C_It(R.is(String,ret));
+// now use obj = JSON.parse(str)
+ret = JSON.parse(ret);
+C_It(R.is(Object,ret)); //  YEAH !!
+// PROVE It WITH
+
 
