@@ -36,7 +36,7 @@ var tstCode = function (tst = false) {
     /**
      *           CODE UNDER TEST
      * @type {string}
-     */
+     */0;
     if (tst) {
         MSG = 'MUTATE_aVersStyle > ';
         /**
@@ -52,6 +52,8 @@ var tstCode = function (tst = false) {
             //var ret = _a_frmted_styl_OBJ("fontSize")(ndx);
             var ret = _a_frmted_styl_OBJ("opacity")(ndx);
             C_It(JSON.stringify(ret));
+            // REFACT: remove outer {} brackets on each frmated style
+            // then compose all the style strings then enclose that with a final {}
             //ret = JSON.parse(`{"color":"blue", "fontSize":"150%"}`);
             _setStyle(ret, elem);
 
