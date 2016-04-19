@@ -26,7 +26,7 @@ var tstCode = function (tst = false) {
     });
 
     /**
-     *          Get all descendants matching _qSelect || _qSelectAll
+     *          TESTING Functions
      * _qSelectAll :: String -> Node -> NodeList
      * Note: NodeList is array-like so you can run ramda list functions on it.
      */
@@ -38,10 +38,11 @@ var tstCode = function (tst = false) {
     var _a_clasNL = function _clasNL(divClasStr) {
         return _qSelectAll(divClasStr)(document)
     };
-    var _a_frmted_stylOBJ = R.curry(function a_frmted_stylOBJ(stylProp_Name, wt) {
-        return JSON.parse(`{"${stylProp_Name}":" ${_a_frmted_stylWt_STR(stylProp_Name)(wt)}"}`
-        )
-    });
+
+    /**
+     *           CODE UNDER TEST
+     * @type {string}
+     */
     if (tst) {
         MSG = 'MUTATE_aVersStyle > ';
         /**
@@ -49,19 +50,20 @@ var tstCode = function (tst = false) {
          * @param styl_obj
          * @returns {Function}
          */
-        var cBF = function cBF(elem, ndx, coll){
+        var cBF = function cBF(elem, ndx, coll) {
             /**
              *             The Heart-of-the-Function: _setStyle(Obj, Elem) -> MUTATED Elem.style
              */
 
-            var ret = _a_frmted_stylOBJ("fontSize")(ndx);
+            //var ret = _a_frmted_stylOBJ("fontSize")(ndx);
+            var ret = _a_frmted_stylOBJ("opacity")(ndx);
             C_It(JSON.stringify(ret));
             _setStyle(ret, elem);
 
-            MSG += ('i:' + ndx + '.1 :' + elem.style.fontSize + ', ' + elem.style.opacity + ', ');
+            MSG += `i:${ndx}-> ${elem.style.fontSize}, ${elem.style.opacity}`;
         };
         var tstNL = _a_clasNL(fut_queryStr);
-        R_forEachIndexed(cBF,R.reverse(tstNL));
+        R_forEachIndexed(cBF, R.reverse(tstNL));
 
         C_Both(MSG);
         var noop = '';

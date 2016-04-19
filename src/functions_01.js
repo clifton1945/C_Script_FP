@@ -22,7 +22,10 @@ var frmtsOBJ = {
     opacity: _an_normalSTR_FNC
 };
 var _a_frmted_stylWt_STR = (stylProp_Name)=> R.compose(frmtsOBJ[stylProp_Name], _a_Wt);
-
+var _a_frmted_stylOBJ = R.curry(function a_frmted_stylOBJ(stylProp_Name, wt) {
+    return JSON.parse(`{"${stylProp_Name}":" ${_a_frmted_stylWt_STR(stylProp_Name)(wt)}"}`
+    )
+});
 var _setStyle = R.curry(function setStyle(styleObj, node) {
     return Object.assign(node['style'], styleObj);
 });
