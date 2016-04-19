@@ -13,17 +13,19 @@
  *      An altered list iteration function that passes (item, index, list) to its callback
  */
 var R_forEachIndexed = R.addIndex(R.forEach);
+var _qSelect = R.invoker(1, 'querySelector');
+var _qSelectAll = R.invoker(1, 'querySelectorAll');
 // STYLING Elements Code
 var _a_Wt = i => .45 + i * .10; // EXP ndx
-var _a_percentSTR_FNC = (w) => `${w * 100}%`;
-var _an_normalSTR_FNC = (w) => `${w}`;
+var _a_percentSTR = (w) => `${w * 100}%`;
+var _a_normalSTR = (w) => `${w}`;
 var frmtsOBJ = {
-    fontSize: _a_percentSTR_FNC,
-    opacity: _an_normalSTR_FNC
+    fontSize: _a_percentSTR,
+    opacity: _a_normalSTR
 };
-var _a_frmted_stylWt_STR = (stylProp_Name)=> R.compose(frmtsOBJ[stylProp_Name], _a_Wt);
-var _a_frmted_stylOBJ = R.curry(function a_frmted_stylOBJ(stylProp_Name, wt) {
-    return JSON.parse(`{"${stylProp_Name}":" ${_a_frmted_stylWt_STR(stylProp_Name)(wt)}"}`
+var _a_frmted_stylWt_STR = (stylName)=> R.compose(frmtsOBJ[stylName], _a_Wt);
+var _a_frmted_styl_OBJ = R.curry(function a_frmted_stylOBJ(stylName, wt) {
+    return JSON.parse(`{"${stylName}":" ${_a_frmted_stylWt_STR(stylName)(wt)}"}`
     )
 });
 var _setStyle = R.curry(function setStyle(styleObj, node) {

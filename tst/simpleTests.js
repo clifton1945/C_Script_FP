@@ -20,18 +20,12 @@ var MSG = '';
  * @param tst
  */
 var tstCode = function (tst = false) {
-    var trace = R.curry(function (tag, x) {
-        console.log(tag, x);
-        return x;
-    });
-
     /**
      *          TESTING Functions
      * _qSelectAll :: String -> Node -> NodeList
      * Note: NodeList is array-like so you can run ramda list functions on it.
      */
-    var _qSelect = R.invoker(1, 'querySelector');
-    var _qSelectAll = R.invoker(1, 'querySelectorAll');
+
     var fut_queryStr = '.book .ChptrReadGrps .cur  .VerseReadGrps > .fut .vers';
     var cur_queryStr = '.book .ChptrReadGrps .cur  .VerseReadGrps > .cur .vers';
     var pst_queryStr = '.book .ChptrReadGrps .cur  .VerseReadGrps > .pst .vers';
@@ -55,9 +49,10 @@ var tstCode = function (tst = false) {
              *             The Heart-of-the-Function: _setStyle(Obj, Elem) -> MUTATED Elem.style
              */
 
-            //var ret = _a_frmted_stylOBJ("fontSize")(ndx);
-            var ret = _a_frmted_stylOBJ("opacity")(ndx);
+            //var ret = _a_frmted_styl_OBJ("fontSize")(ndx);
+            var ret = _a_frmted_styl_OBJ("opacity")(ndx);
             C_It(JSON.stringify(ret));
+            //ret = JSON.parse(`{"color":"blue", "fontSize":"150%"}`);
             _setStyle(ret, elem);
 
             MSG += `i:${ndx}-> ${elem.style.fontSize}, ${elem.style.opacity}`;
