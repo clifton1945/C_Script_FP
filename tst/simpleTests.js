@@ -36,7 +36,7 @@ var tstCode = function (tst = false) {
     /**
      *           CODE UNDER TEST
      * @type {string}
-     */0;
+     */
     if (tst) {
         MSG = 'MUTATE_aVersStyle > ';
         /**
@@ -44,17 +44,16 @@ var tstCode = function (tst = false) {
          * @param styl_obj
          * @returns {Function}
          */
+
+
         var cBF = function cBF(elem, ndx, coll) {
             /**
              *             The Heart-of-the-Function: _setStyle(Obj, Elem) -> MUTATED Elem.style
              */
 
-            //var ret = _a_frmted_styl_OBJ("fontSize")(ndx);
-            var ret = _a_frmted_styl_OBJ("opacity")(ndx);
-            C_It(JSON.stringify(ret));
-            // REFACT: remove outer {} brackets on each frmated style
-            // then compose all the style strings then enclose that with a final {}
-            //ret = JSON.parse(`{"color":"blue", "fontSize":"150%"}`);
+            var fnt = _a_styl_frmtOBJ("fontSize", ndx);
+            var opc = _a_styl_frmtOBJ("opacity", ndx);
+            var ret = R.mergeAll([fnt, opc]);
             _setStyle(ret, elem);
 
             MSG += `i:${ndx}-> ${elem.style.fontSize}, ${elem.style.opacity}`;
