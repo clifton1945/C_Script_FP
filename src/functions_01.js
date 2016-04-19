@@ -13,7 +13,7 @@
  *      An altered list iteration function that passes (item, index, list) to its callback
  */
 var R_forEachIndexed = R.addIndex(R.forEach);
-
+// STYLING Elements Code
 var _a_Wt = i => .45 + i * .10; // EXP ndx
 var _a_percentSTR_FNC = (w) => `${w * 100}%`;
 var _an_normalSTR_FNC = (w) => `${w}`;
@@ -22,10 +22,7 @@ var frmtsOBJ = {
     opacity: _an_normalSTR_FNC
 };
 var _a_frmted_stylWt_STR = (stylProp_Name)=> R.compose(frmtsOBJ[stylProp_Name], _a_Wt);
-var _a_frmted_stylSTR = (stylProp_Name, wt) => {
-    return JSON.parse(`{"${stylProp_Name}":" ${_a_frmted_stylWt_STR(stylProp_Name)(wt)}"}`
-    )
-};
+
 var _setStyle = R.curry(function setStyle(styleObj, node) {
     return Object.assign(node['style'], styleObj);
 });

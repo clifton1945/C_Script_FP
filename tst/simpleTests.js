@@ -14,34 +14,7 @@ function main() {
  * require functions-compiled.js, objects-compiled.js
  * */
 //  *********** DOM  DATA    REQUIRE functions.js
-var book = GET_book();
 var MSG = '';
-/**
- *          testData::  A subset, IN this case 'fut' OF objects/StyleConstants
- * @type {{2: {name: string, smlWt: number, lrgWt: number, calcWt: Function, styleTmpl: {backgroundColor: string, opacity: string, fontSize: string}}}}
- */
-let tstStylDict = {
-    cur: {
-        aStylObj: {
-            backgroundColor: "rgb:(000,255,255)"
-            , fontSize: '40%'
-            , opacity: 0.5
-        },
-        stylStr: `{"backgroundColor": "rgb:(000,255,255)", "opacity": "0.8", "fontSize": "50%"}`
-    },
-    fut: {
-        name: 'fut'
-        , smlWt: .4
-        , lrgWt: .8
-        , wt: 1
-        , aStylObj: {
-            backgroundColor: "rgba(199, 248, 151, 0.29)",
-            fontSize: '70%',
-            opacity: 0.5
-        }
-    }
-};      // test data
-
 /**
  *          testCode::
  * @param tst
@@ -59,92 +32,40 @@ var tstCode = function (tst = false) {
      */
     var _qSelect = R.invoker(1, 'querySelector');
     var _qSelectAll = R.invoker(1, 'querySelectorAll');
-
-
-    /**
-     *          _setStyle:: (styleObj) => (node) -> node.style MUTATED
-     * @param (styleObj) => (node) -> node.style MUTATED
-     */
-    var _setStyle = R.curry(function setStyle(styleObj, node) {
-        return Object.assign(node['style'], styleObj);
-    });
-    // see also from "MESS with the DOM" ramda - located in /ramda
-    // though it looks like ONLY one property
-    //var setStyle = R.curry((prop, value,node) => node.style[prop] = value)
-    var _spacer = R.join(', ');
-    var comma = ', ';
-
     var fut_queryStr = '.book .ChptrReadGrps .cur  .VerseReadGrps > .fut .vers';
     var cur_queryStr = '.book .ChptrReadGrps .cur  .VerseReadGrps > .cur .vers';
     var pst_queryStr = '.book .ChptrReadGrps .cur  .VerseReadGrps > .pst .vers';
     var _a_clasNL = function _clasNL(divClasStr) {
         return _qSelectAll(divClasStr)(document)
     };
+    var _a_frmted_stylOBJ = R.curry(function a_frmted_stylOBJ(stylProp_Name, wt) {
+        return JSON.parse(`{"${stylProp_Name}":" ${_a_frmted_stylWt_STR(stylProp_Name)(wt)}"}`
+        )
+    });
     if (tst) {
         MSG = 'MUTATE_aVersStyle > ';
-
-        const _a_Wt = i => 45 + i * 10; // EXP ndx
-
-        const _a_fontSizeSTR = (w) => `${w}%`;
-
-
-
-
-
-        var __fontSizing = function __fontSizing(stylObj) {
-            return R.compose(
-                R.curry(function (stylObj, fwt) {
-                    return R.assoc('fontSize', fwt, stylObj);
-                })(stylObj), R.compose(
-                    _a_fontSizeSTR, _a_Wt
-                )
-            );
-        };
-        const _frm_opaque = (w) => w / 100; // EXP: wt
-        var __opaciting = R.curry(function (baseStylObj, fwt) {
-            return R.assoc('opacity', fwt, baseStylObj);
-        });
-
         /**
          *              the MAIN .map(callBackFunc:: cBF(stylObj)->(elem, ndx, coll)-> MUTATED elem.style.
          * @param styl_obj
          * @returns {Function}
          */
-        var cBF = (styl_obj) => (elem, ndx, coll) => {
-            // now COMBINE | ASSOC opacity WITH fontSize
-            let fontSize = __fontSizing(styl_obj)(ndx);
-            // Someday IMPROVE below to pointless.
-            let _op_fs_StylObj = R.compose(
-                __opaciting(fontSize),
-                _frm_opaque,
-                _a_Wt);
-
+        var cBF = function cBF(elem, ndx, coll){
             /**
              *             The Heart-of-the-Function: _setStyle(Obj, Elem) -> MUTATED Elem.style
              */
-            let op_fs_StylObj = _op_fs_StylObj(ndx);
-            _setStyle(op_fs_StylObj, elem);
+
+            var ret = _a_frmted_stylOBJ("fontSize")(ndx);
+            C_It(JSON.stringify(ret));
+            _setStyle(ret, elem);
 
             MSG += ('i:' + ndx + '.1 :' + elem.style.fontSize + ', ' + elem.style.opacity + ', ');
         };
-        // APPLY cBF TO the base a_stylDict AND a_futVersNL
-        var a_stylDict = tstStylDict['fut']['aStylObj'];
-        var a_futVersNL = _a_clasNL(fut_queryStr);
-        R_forEachIndexed(cBF(a_stylDict), R.reverse(a_futVersNL));
-
-
-
-
-
+        var tstNL = _a_clasNL(fut_queryStr);
+        R_forEachIndexed(cBF,R.reverse(tstNL));
 
         C_Both(MSG);
         var noop = '';
     }
 };
-//const main = function () {
-//    let book = GET_book();
-//
-//    //SET_All_Verse_Styles(StyleObj);
-//    BindHandlers(book);
-//    //SET_All_Verse_Styles(StyleObj);
-//};
+main();
+
