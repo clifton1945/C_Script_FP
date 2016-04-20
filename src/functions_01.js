@@ -13,6 +13,7 @@
  *      An altered list iteration function that passes (item, index, list) to its callback
  */
 var R_forEachIndexed = R.addIndex(R.forEach);
+var _R_forEachIndexed = R.curry(R.addIndex(R.forEach));
 var _qSelect = R.invoker(1, 'querySelector');
 var _qSelectAll = R.invoker(1, 'querySelectorAll');
 // STYLING Elements Code
@@ -24,9 +25,8 @@ var frmtsOBJ = {
     opacity: _a_normalSTR
 };
 var _a_frmted_stylWt_STR = (stylName)=> R.compose(frmtsOBJ[stylName], round2, _a_Wt);
-var _a_frmted_styl_OBJ = R.curry(function a_frmted_stylOBJ(stylName, wt) {
-    return JSON.parse(`{"${stylName}":" ${_a_frmted_stylWt_STR(stylName)(wt)}"}`
-    )
+var _a_styl_frmtOBJ = R.curry(function a_styl_frmtOBJ (stylProp_Name, wt) {
+    return JSON.parse('{"' + stylProp_Name + '":" ' + _a_frmted_stylWt_STR(stylProp_Name)(wt) + '"}');
 });
 /**
  *                  _a_styl_frmtOBJ: OBJ returned from JSON.parsed _a_frmted_stylWt_STR(stylName)
