@@ -25,7 +25,6 @@ var tstCode = function (tst = false) {
      * _qSelectAll :: String -> Node -> NodeList
      * Note: NodeList is array-like so you can run ramda list functions on it.
      */
-
     var fut_queryStr = '.book .ChptrReadGrps .cur  .VerseReadGrps > .fut .vers';
     var cur_queryStr = '.book .ChptrReadGrps .cur  .VerseReadGrps > .cur .vers';
     var pst_queryStr = '.book .ChptrReadGrps .cur  .VerseReadGrps > .pst .vers';
@@ -33,33 +32,47 @@ var tstCode = function (tst = false) {
         return _qSelectAll(divClasStr)(document)
     };
 
+    var align = JSON.parse(`{"textAlign":"center"}`);
+    var _fontSize = (ndx)=>_a_styl_frmtOBJ("fontSize");
+    var _opacity = (ndx)=> _a_styl_frmtOBJ("opacity"); // curried> can take arg either way.
+
+    //var _WEIGHT_aStyl = R.curry((ndx, _aStyl) => _aStyl(ndx));
+    //var _WEIGHT_someStyles = (ndx, lst) => R.map(_WEIGHT_aStyl(ndx), lst);
+    //var weightedStylesLST = [_fontSize, _opacity];
+    //var weightedStyles = _WEIGHT_someStyles(weightedStylesLST);
+
+    var unweightedStyles = [align];
+    var stylesLST = R.mergeAll(unweightedStyles, []);
+
     /**
      *           CODE UNDER TEST
      * @type {string}
      */
+    var _MUTATE_aClas = R.curry(function MUTATE_anElem(stylesLST, elem, ndx, coll) {
+            // once inside this function, use ndx to WEIGHT some styles
+            // STYLE each Verse
+            _WEIGHT_someStyles(weightedStylesLST);
+            _setStyle(stylesLST, elem);
+            MSG += `..(i[${ndx}] ${elem.style.fontSize}, ${elem.style.opacity})`;
+        }
+    );
+
+
     if (tst) {
         MSG = 'MUTATE_aVersStyle > ';
         /**
-         *              the MAIN .map(callBackFunc:: cBF(stylObj)->(elem, ndx, coll)-> MUTATED elem.style.
+         *              the MAIN .map(callBackFunc:: MUTATE_anElem(stylObj)->(elem, ndx, coll)-> MUTATED elem.style.
          * @param styl_obj
          * @returns {Function}
          */
+        var _y = (elem,ndx,coll) =>  { MSG += `..(i[${ndx}] ${elem.style.fontSize}, ${elem.style.opacity})`};
 
+        const a_stylOBJ = (name, valu)=>{JSON.parse(`"${name}:"${valu}"`)};
+        var STYL_aClas = (cBF, arr) => R_forEachIndexed(cBF, arr);
+        var _STYL_aClas = R.curry(STYL_aClas);
 
-        var cBF = function cBF(elem, ndx, coll) {
-            /**
-             *             The Heart-of-the-Function: _setStyle(Obj, Elem) -> MUTATED Elem.style
-             */
-
-            var fnt = _a_styl_frmtOBJ("fontSize", ndx);
-            var opc = _a_styl_frmtOBJ("opacity", ndx);
-            var ret = R.mergeAll([fnt, opc]);
-            _setStyle(ret, elem);
-
-            MSG += `i:${ndx}-> ${elem.style.fontSize}, ${elem.style.opacity}`;
-        };
         var tstNL = _a_clasNL(fut_queryStr);
-        R_forEachIndexed(cBF, R.reverse(tstNL));
+        _STYL_aClas(_y)(tstNL);
 
         C_Both(MSG);
         var noop = '';
