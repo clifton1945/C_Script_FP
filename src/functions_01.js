@@ -13,7 +13,6 @@
  *      An altered list iteration function that passes (item, index, list) to its callback
  */
 var R_forEachIndexed = R.addIndex(R.forEach);
-var _R_forEachIndexed = R.curry(R.addIndex(R.forEach));
 var _qSelect = R.invoker(1, 'querySelector');
 var _qSelectAll = R.invoker(1, 'querySelectorAll');
 // STYLING Elements Code
