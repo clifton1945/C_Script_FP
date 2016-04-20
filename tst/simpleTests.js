@@ -50,8 +50,8 @@ var tstCode = function (tst = false) {
      */
     var _MUTATE_aClas = R.curry(function MUTATE_anElem(stylesLST, elem, ndx, coll) {
             // once inside this function, use ndx to WEIGHT some styles
+            //_WEIGHT_someStyles(weightedStylesLST);
             // STYLE each Verse
-            _WEIGHT_someStyles(weightedStylesLST);
             _setStyle(stylesLST, elem);
             MSG += `..(i[${ndx}] ${elem.style.fontSize}, ${elem.style.opacity})`;
         }
@@ -68,6 +68,7 @@ var tstCode = function (tst = false) {
         var _y = (elem,ndx,coll) =>  { MSG += `..(i[${ndx}] ${elem.style.fontSize}, ${elem.style.opacity})`};
 
         const a_stylOBJ = (name, valu)=>{JSON.parse(`"${name}:"${valu}"`)};
+
         var STYL_aClas = (cBF, arr) => R_forEachIndexed(cBF, arr);
         var _STYL_aClas = R.curry(STYL_aClas);
 
