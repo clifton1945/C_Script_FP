@@ -40,11 +40,6 @@ C_It(R.is(Object,ret)); //  YEAH !!
 ret = R.mergeAll([prop1, prop2]);
 C_It(ret);
 
-// CAN NOT PROVE It HERE BECAUSE NO html. NOT Here
-var _setStyle = R.curry(function setStyle(styleObj, node) {
-    return Object.assign(node['style'], styleObj);
-});
-
 
 
 
