@@ -25,11 +25,5 @@ C_It(R.is(String,ret));
 C_It(R.is(Object,ret)); //  YEAH !!
 
 
-// PROVE It WITH IN html NOT Here
-var _setStyle = R.curry(function setStyle(styleObj, node) {
-    return Object.assign(node['style'], styleObj);
-});
-
-
 
 
