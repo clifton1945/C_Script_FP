@@ -51,8 +51,8 @@ var tstCode = function (tst = false) {
      * @type {string}
      */
     //NEW
-    var a_stylOBJ = function a_stylOBJ (name, valu) {
-        return JSON.parse(`{"${name}":"${valu}"}`)
+    var a_stylOBJ = function a_stylOBJ (name, valu, obj) {
+        return R.assoc(name, valu, obj)
     };
     // WORKING
     var _a_stylOBJ = R.curry();
@@ -69,9 +69,7 @@ var tstCode = function (tst = false) {
     // test data
     var tst_NL = _a_clasNL(cur_queryStr);
     // test callBackFN
-    //var tst_stylObj = _a_stylOBJ('textAlign', 'center');
-    //var tst_stylObj = {textAlign: 'right'};
-    var tst_stylObj = align;
+    var tst_stylObj =a_stylOBJ('textAlign', 'center', {textAlign: 'left'});
     var _tst_STYL_aVerse = _STYL_aVerse(tst_stylObj); // APPLY PARTIAL
     var _tst_cBFn = _tst_STYL_aVerse;
     // test it
