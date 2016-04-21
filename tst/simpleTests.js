@@ -50,30 +50,40 @@ var tstCode = function (tst = false) {
      *           CODE UNDER TEST
      * @type {string}
      */
-    //WORKING
-    var a_stylOBJ = function a_stylOBJ (name, valu, obj) {
-        return R.assoc(name, valu, obj)
-    };
-    var _a_stylOBJ = R.curry(a_stylOBJ);
-    var STYL_aVerse = function STYL_aVerse(stylObj, elem, ndx, coll) {
+    //WORKING Code IN functions,js
+
+    // NEW TEST CODE
+    /**
+     *          _STYLE_thisVerse:: obj, node -> MUTATED node.style
+     *          curried
+     * @param styleObj
+     * @param node
+     * @returns {*}
+     */
+    var _STYLE_thisVerse = R.curry(function setStyle(styleObj, node) {
+        return Object.assign(node['style'], styleObj);
+    });
+
+    var _STYL_aVerse = R.curry(function STYL_aVerse(obj, elem, ndx, coll) {
         // once inside this function, use ndx to WEIGHT some styles
         //_WEIGHT_someStyles(weightedStylesLST);
-        _setStyle(stylObj, elem);
+        var _mergedStylesOBJ = (o) => { // NOTE: o not used yet
+            var _fs = _a_stylOBJ('fontSize', '160%');
+            var _op = _a_stylOBJ('opacity', '.3');
+            var _cntr = _a_stylOBJ('textAlign', 'center');
+            return R.compose(_cntr, _op, _fs); // expect ndx PASSED through these functins
+        };
+        var x = _mergedStylesOBJ(obj)(ndx);
+        _STYLE_thisVerse(x)(elem);
         MSG += `..(i[${ndx}] ${elem.style.textAlign}, ${elem.style.fontSize}, ${elem.style.opacity})`;
-    };
-    var _STYL_aVerse = R.curry(STYL_aVerse);
-    var STYL_aClas = (cBFn, arr) => R_forEachIndexed(cBFn, arr);
-    var _STYL_aClas = R.curry(STYL_aClas);
-    // NEW TEST CODE
+    });
     // test composing stylOBJs
-    var _fs = _a_stylOBJ('fontSize', '160%');
-    var _op = _a_stylOBJ('opacity', '.3');
-    var _cntr = _a_stylOBJ('textAlign', 'center');
-    var tst_stylObj = R.compose(_cntr, _op, _fs)({});
+
     // test data
-    var tst_NL = _a_clasNL(fut_queryStr);
-    var _tst_STYL_aVerse = _STYL_aVerse(tst_stylObj); // APPLY PARTIAL composed stylOBJs
+    var tst_Dict = {};
+    var _tst_STYL_aVerse = _STYL_aVerse(tst_Dict); // APPLY PARTIAL composed stylOBJs
     var _tst_cBFn = _tst_STYL_aVerse;
+    var tst_NL = _a_clasNL(fut_queryStr);
     // test it
     _STYL_aClas(_tst_cBFn)(tst_NL);
 
