@@ -53,6 +53,14 @@ var tstCode = function (tst = false) {
     //WORKING Code IN functions,js
 
     // NEW TEST CODE
+    var _mergedStylesOBJ = (o) => {
+        // NOTE: o not used yet
+        var _fs = _a_stylOBJ('fontSize', '160%');
+        var _op = _a_stylOBJ('opacity', '.3');
+        var _cntr = _a_stylOBJ('textAlign', 'center');
+        return R.compose(_cntr, _op, _fs); // expect ndx PASSED through these functins
+    };
+
     /**
      *          _STYLE_thisVerse:: obj, node -> MUTATED node.style
      *          curried
@@ -64,24 +72,17 @@ var tstCode = function (tst = false) {
         return Object.assign(node['style'], styleObj);
     });
 
-    var _STYL_aVerse = R.curry(function STYL_aVerse(obj, elem, ndx, coll) {
+    var _STYL_aVerse = R.curry(function STYL_aVerse(_stylByNdx, elem, ndx, coll) {
         // once inside this function, use ndx to WEIGHT some styles
-        //_WEIGHT_someStyles(weightedStylesLST);
-        var _mergedStylesOBJ = (o) => { // NOTE: o not used yet
-            var _fs = _a_stylOBJ('fontSize', '160%');
-            var _op = _a_stylOBJ('opacity', '.3');
-            var _cntr = _a_stylOBJ('textAlign', 'center');
-            return R.compose(_cntr, _op, _fs); // expect ndx PASSED through these functins
-        };
-        var x = _mergedStylesOBJ(obj)(ndx);
-        _STYLE_thisVerse(x)(elem);
+        var s = _stylByNdx(ndx);
+        _STYLE_thisVerse(s, elem);
         MSG += `..(i[${ndx}] ${elem.style.textAlign}, ${elem.style.fontSize}, ${elem.style.opacity})`;
     });
     // test composing stylOBJs
 
     // test data
     var tst_Dict = {};
-    var _tst_STYL_aVerse = _STYL_aVerse(tst_Dict); // APPLY PARTIAL composed stylOBJs
+    var _tst_STYL_aVerse = _STYL_aVerse(_mergedStylesOBJ(tst_Dict)); // APPLY PARTIAL composed stylOBJs
     var _tst_cBFn = _tst_STYL_aVerse;
     var tst_NL = _a_clasNL(fut_queryStr);
     // test it
