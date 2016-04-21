@@ -65,14 +65,13 @@ var tstCode = function (tst = false) {
     var STYL_aClas = (cBFn, arr) => R_forEachIndexed(cBFn, arr);
     var _STYL_aClas = R.curry(STYL_aClas);
     // NEW TEST CODE
-    // test data
-    var tst_NL = _a_clasNL(fut_queryStr);
     // test composing stylOBJs
-    var _fs = _a_stylOBJ('fontSize', '60%');
-    var _op = _a_stylOBJ('opacity', '.5');
+    var _fs = _a_stylOBJ('fontSize', '160%');
+    var _op = _a_stylOBJ('opacity', '.3');
     var _cntr = _a_stylOBJ('textAlign', 'center');
     var tst_stylObj = R.compose(_cntr, _op, _fs)({});
-
+    // test data
+    var tst_NL = _a_clasNL(fut_queryStr);
     var _tst_STYL_aVerse = _STYL_aVerse(tst_stylObj); // APPLY PARTIAL composed stylOBJs
     var _tst_cBFn = _tst_STYL_aVerse;
     // test it
