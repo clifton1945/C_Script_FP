@@ -40,44 +40,45 @@ var tstCode = function (tst = false) {
     //var _WEIGHT_someStyles = (ndx, lst) => R.map(_WEIGHT_aStyl(ndx), lst);
     //var weightedStylesLST = [_fontSize, _opacity];
     //var weightedStyles = _WEIGHT_someStyles(weightedStylesLST);
+    //
+    //var unweightedStyles = [align];
+    //var stylesLST = R.mergeAll(unweightedStyles, []);
 
-    var unweightedStyles = [align];
-    var stylesLST = R.mergeAll(unweightedStyles, []);
 
+    MSG = 'MUTATE_aVersStyle > ';
     /**
      *           CODE UNDER TEST
      * @type {string}
      */
-    var _MUTATE_aClas = R.curry(function MUTATE_anElem(stylesLST, elem, ndx, coll) {
-            // once inside this function, use ndx to WEIGHT some styles
-            //_WEIGHT_someStyles(weightedStylesLST);
-            // STYLE each Verse
-            _setStyle(stylesLST, elem);
-            MSG += `..(i[${ndx}] ${elem.style.fontSize}, ${elem.style.opacity})`;
-        }
-    );
+    //NEW
+    var a_stylOBJ = function a_stylOBJ (name, valu) {
+        return JSON.parse(`{"${name}":"${valu}"}`)
+    };
+    // WORKING
+    var _a_stylOBJ = R.curry();
+    var STYL_aVerse = function STYL_aVerse(stylObj, elem, ndx, coll) {
+        // once inside this function, use ndx to WEIGHT some styles
+        //_WEIGHT_someStyles(weightedStylesLST);
+        _setStyle(stylObj, elem);
+        MSG += `..(i[${ndx}] ${elem.style.textAlign}, ${elem.style.fontSize}, ${elem.style.opacity})`;
+    };
+    var _STYL_aVerse = R.curry(STYL_aVerse);
+    var STYL_aClas = (cBFn, arr) => R_forEachIndexed(cBFn, arr);
+    var _STYL_aClas = R.curry(STYL_aClas);
 
+    // test data
+    var tst_NL = _a_clasNL(cur_queryStr);
+    // test callBackFN
+    //var tst_stylObj = _a_stylOBJ('textAlign', 'center');
+    //var tst_stylObj = {textAlign: 'right'};
+    var tst_stylObj = align;
+    var _tst_STYL_aVerse = _STYL_aVerse(tst_stylObj); // APPLY PARTIAL
+    var _tst_cBFn = _tst_STYL_aVerse;
+    // test it
+    _STYL_aClas(_tst_cBFn)(tst_NL);
 
-    if (tst) {
-        MSG = 'MUTATE_aVersStyle > ';
-        /**
-         *              the MAIN .map(callBackFunc:: MUTATE_anElem(stylObj)->(elem, ndx, coll)-> MUTATED elem.style.
-         * @param styl_obj
-         * @returns {Function}
-         */
-        var _y = (elem,ndx,coll) =>  { MSG += `..(i[${ndx}] ${elem.style.fontSize}, ${elem.style.opacity})`};
-
-        const a_stylOBJ = (name, valu)=>{JSON.parse(`"${name}:"${valu}"`)};
-
-        var STYL_aClas = (cBF, arr) => R_forEachIndexed(cBF, arr);
-        var _STYL_aClas = R.curry(STYL_aClas);
-
-        var tstNL = _a_clasNL(fut_queryStr);
-        _STYL_aClas(_y)(tstNL);
-
-        C_Both(MSG);
-        var noop = '';
-    }
+    C_Both(MSG);
+    var noop = '';
 };
 main();
 

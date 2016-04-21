@@ -25,9 +25,6 @@ var frmtsOBJ = {
 };
 var _a_frmted_stylWt_STR = (stylName)=> R.compose(frmtsOBJ[stylName], round2, _a_Wt);
 
-var _a_styl_frmtOBJ = R.curry(function a_styl_frmtOBJ (stylProp_Name, wt) {
-    return JSON.parse('{"' + stylProp_Name + '":" ' + _a_frmted_stylWt_STR(stylProp_Name)(wt) + '"}');
-});
 /**
  *                  _a_styl_frmtOBJ: OBJ returned from JSON.parsed _a_frmted_stylWt_STR(stylName)
  * @param stylProp_Name
@@ -39,6 +36,13 @@ var _a_styl_frmtOBJ = R.curry((stylProp_Name, wt) => {
     )
 });
 
+/**
+ *          _setStyle:: obj, node -> MUTATED node.style
+ *          curried
+ * @param styleObj
+ * @param node
+ * @returns {*}
+ */
 var _setStyle = R.curry(function setStyle(styleObj, node) {
     return Object.assign(node['style'], styleObj);
 });
