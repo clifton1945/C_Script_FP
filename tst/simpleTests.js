@@ -32,9 +32,9 @@ var tstCode = function (tst = false) {
         return _qSelectAll(divClasStr)(document)
     };
 
-    var align = JSON.parse(`{"textAlign":"center"}`);
-    var _fontSize = (ndx)=>_a_styl_frmtOBJ("fontSize");
-    var _opacity = (ndx)=> _a_styl_frmtOBJ("opacity"); // curried> can take arg either way.
+    //var DEPRalign = JSON.parse(`{"textAlign":"center"}`);
+    //var DEPR_fontSize = (ndx)=>_a_styl_frmtOBJ("fontSize");
+    //var DEPR_opacity = (ndx)=> _a_styl_frmtOBJ("opacity"); // curried> can take arg either way.
 
     //var _WEIGHT_aStyl = R.curry((ndx, _aStyl) => _aStyl(ndx));
     //var _WEIGHT_someStyles = (ndx, lst) => R.map(_WEIGHT_aStyl(ndx), lst);
@@ -50,12 +50,11 @@ var tstCode = function (tst = false) {
      *           CODE UNDER TEST
      * @type {string}
      */
-    //NEW
+    //WORKING
     var a_stylOBJ = function a_stylOBJ (name, valu, obj) {
         return R.assoc(name, valu, obj)
     };
-    // WORKING
-    var _a_stylOBJ = R.curry();
+    var _a_stylOBJ = R.curry(a_stylOBJ);
     var STYL_aVerse = function STYL_aVerse(stylObj, elem, ndx, coll) {
         // once inside this function, use ndx to WEIGHT some styles
         //_WEIGHT_someStyles(weightedStylesLST);
@@ -65,12 +64,16 @@ var tstCode = function (tst = false) {
     var _STYL_aVerse = R.curry(STYL_aVerse);
     var STYL_aClas = (cBFn, arr) => R_forEachIndexed(cBFn, arr);
     var _STYL_aClas = R.curry(STYL_aClas);
-
+    // NEW TEST CODE
     // test data
-    var tst_NL = _a_clasNL(cur_queryStr);
-    // test callBackFN
-    var tst_stylObj =a_stylOBJ('textAlign', 'center', {textAlign: 'left'});
-    var _tst_STYL_aVerse = _STYL_aVerse(tst_stylObj); // APPLY PARTIAL
+    var tst_NL = _a_clasNL(fut_queryStr);
+    // test composing stylOBJs
+    var _fs = _a_stylOBJ('fontSize', '60%');
+    var _op = _a_stylOBJ('opacity', '.5');
+    var _cntr = _a_stylOBJ('textAlign', 'center');
+    var tst_stylObj = R.compose(_cntr, _op, _fs)({});
+
+    var _tst_STYL_aVerse = _STYL_aVerse(tst_stylObj); // APPLY PARTIAL composed stylOBJs
     var _tst_cBFn = _tst_STYL_aVerse;
     // test it
     _STYL_aClas(_tst_cBFn)(tst_NL);
