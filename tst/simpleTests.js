@@ -53,8 +53,8 @@ var tstCode = function (tst = false) {
     //WORKING Code IN functions,js
 
     // NEW TEST CODE
-    var _mergedStylesOBJ = (o) => {
-        // NOTE: o not used yet
+    var _mergedStylesOBJ = (dict) => {
+        // NOTE: dict not used yet
         var _fs = _a_stylOBJ('fontSize', '160%');
         var _op = _a_stylOBJ('opacity', '.3');
         var _cntr = _a_stylOBJ('textAlign', 'center');
@@ -72,9 +72,10 @@ var tstCode = function (tst = false) {
         return Object.assign(node['style'], styleObj);
     });
 
-    var _STYL_aVerse = R.curry(function STYL_aVerse(_stylByNdx, elem, ndx, coll) {
+    var _STYL_aVerse = R.curry(function STYL_aVerse(stylDict, elem, ndx, coll) {
         // once inside this function, use ndx to WEIGHT some styles
-        var s = _stylByNdx(ndx);
+        //var s = _stylByNdx(ndx);
+        var s = _mergedStylesOBJ(stylDict)(ndx); //DOES this eliminate passing _merge... ??
         _STYLE_thisVerse(s, elem);
         MSG += `..(i[${ndx}] ${elem.style.textAlign}, ${elem.style.fontSize}, ${elem.style.opacity})`;
     });
