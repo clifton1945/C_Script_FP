@@ -80,21 +80,21 @@ var tstCode = function (tst = false) {
         return Object.assign(node['style'], styleObj);
     });
 
-    var _STYLE_Verse = R.curry(function STYL_aVerse(versStylDict, elem, ndx, coll) {
+    var _STYL_aVerse = R.curry(function STYL_aVerse(versStylDict, elem, ndx, coll) {
         // once inside this function, use ndx to WEIGHT some styles
         var thisStylObj = _thisStylOBJ(versStylDict)(ndx); // ndx applied to WEIGHT AND COMPOSE individual styles
         _STYLE(thisStylObj, elem);
         MSG += `..(i[${ndx}] ${elem.style.textAlign}, ${elem.style.fontSize}, ${elem.style.opacity})`;
     });
 
-    var _STYLE_Clas = R.curry((sOBJ, arr) => R_forEachIndexed(_STYLE_Verse(sOBJ), arr));
+    var _STYL_aClas = R.curry((sOBJ, arr) => R_forEachIndexed(_STYL_aVerse(sOBJ), arr));
     // test composing stylOBJs
 
     // test data
     var tst_Dict = {};
     var tst_NL = _a_clasNL(fut_queryStr);
     // test it
-    _STYLE_Clas(tst_Dict, tst_NL);
+    _STYL_aClas(tst_Dict, tst_NL);
 
     C_Both(MSG);
     var noop = '';

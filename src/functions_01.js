@@ -66,7 +66,7 @@ var _a_stylOBJ = R.curry(a_stylOBJ);
 /**
 *                  _STYL_aClas:: OBJ Styl, COL of 3 class nodes
  */
-//var _STYL_aClas = R.curry((cBFn, arr) => R_forEachIndexed(cBFn, arr));
+var _STYL_aClas = R.curry((cBFn, arr) => R_forEachIndexed(cBFn, arr));
 
 // *********** OLD BUT STILL IN USE
 const Doc_It = (txt) => document.querySelector(".console").textContent = txt;
