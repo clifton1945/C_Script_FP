@@ -53,41 +53,48 @@ var tstCode = function (tst = false) {
     //WORKING Code IN functions,js
 
     // NEW TEST CODE
-    var _mergedStylesOBJ = (dict) => {
-        // NOTE: dict not used yet
-        var _fs = _a_stylOBJ('fontSize', '160%');
-        var _op = _a_stylOBJ('opacity', '.3');
-        var _cntr = _a_stylOBJ('textAlign', 'center');
-        return R.compose(_cntr, _op, _fs); // expect ndx PASSED through these functins
-    };
 
     /**
-     *          _STYLE_thisVerse:: obj, node -> MUTATED node.style
+     *          _thisStylOBJ: o, i -> o
+     *          ndx applied to WEIGHT AND COMPOSE individual styles
+     //        _STYLE(so, elem);
+     *      this returns a ndxLacking fn of merged / composed styles
+     */
+    var _thisStylOBJ = R.curry(function _thisStylOBJ (dict) {
+        // NOTE: dict not used yet
+        var n = 75;
+        var _fs = _a_stylOBJ('fontSize', `${n}%`);
+        var _op = _a_stylOBJ('opacity', '.3');
+        var _cntr = _a_stylOBJ('textAlign', 'center');
+        return R.compose( _op, _fs, _cntr); // lacking ndx
+    });
+
+    /**
+     *          _STYLE:: obj, node -> MUTATED node.style
      *          curried
      * @param styleObj
      * @param node
      * @returns {*}
      */
-    var _STYLE_thisVerse = R.curry(function setStyle(styleObj, node) {
+    var _STYLE = R.curry(function setStyle(styleObj, node) {
         return Object.assign(node['style'], styleObj);
     });
 
-    var _STYL_aVerse = R.curry(function STYL_aVerse(stylDict, elem, ndx, coll) {
+    var _STYLE_Verse = R.curry(function STYL_aVerse(versStylDict, elem, ndx, coll) {
         // once inside this function, use ndx to WEIGHT some styles
-        //var s = _stylByNdx(ndx);
-        var s = _mergedStylesOBJ(stylDict)(ndx); //DOES this eliminate passing _merge... ??
-        _STYLE_thisVerse(s, elem);
+        var thisStylObj = _thisStylOBJ(versStylDict)(ndx); // ndx applied to WEIGHT AND COMPOSE individual styles
+        _STYLE(thisStylObj, elem);
         MSG += `..(i[${ndx}] ${elem.style.textAlign}, ${elem.style.fontSize}, ${elem.style.opacity})`;
     });
+
+    var _STYLE_Clas = R.curry((sOBJ, arr) => R_forEachIndexed(_STYLE_Verse(sOBJ), arr));
     // test composing stylOBJs
 
     // test data
     var tst_Dict = {};
-    var _tst_STYL_aVerse = _STYL_aVerse(_mergedStylesOBJ(tst_Dict)); // APPLY PARTIAL composed stylOBJs
-    var _tst_cBFn = _tst_STYL_aVerse;
     var tst_NL = _a_clasNL(fut_queryStr);
     // test it
-    _STYL_aClas(_tst_cBFn)(tst_NL);
+    _STYLE_Clas(tst_Dict, tst_NL);
 
     C_Both(MSG);
     var noop = '';

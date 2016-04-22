@@ -26,27 +26,47 @@ var frmtsOBJ = {
 };
 var _a_frmted_stylWt_STR = (stylName)=> R.compose(frmtsOBJ[stylName], round2, _a_Wt);
 
-/**
- *                  _a_styl_frmtOBJ: OBJ returned from JSON.parsed _a_frmted_stylWt_STR(stylName)
- * @param stylProp_Name
- * @param wt
- * @private
- */
-var _a_styl_frmtOBJ = R.curry((stylProp_Name, wt) => {
-    return JSON.parse(`{"${stylProp_Name}":" ${_a_frmted_stylWt_STR(stylProp_Name)(wt)}"}`
-    )
-});
+///**
+// *                  _a_styl_frmtOBJ: OBJ returned from JSON.parsed _a_frmted_stylWt_STR(stylName)
+// * @param stylProp_Name
+// * @param wt
+// * @private
+// */
+//var _a_styl_frmtOBJ = R.curry((stylProp_Name, wt) => {
+//    return JSON.parse(`{"${stylProp_Name}":" ${_a_frmted_stylWt_STR(stylProp_Name)(wt)}"}`
+//    )
+//});
+//
+///**
+// *          _STYLE_thisVerse:: obj, node -> MUTATED node.style
+// *          curried
+// * @param styleObj
+// * @param node
+// * @returns {*}
+// */
+//var _STYLE_thisVerse = R.curry(function setStyle(styleObj, node) {
+//    return Object.assign(node['style'], styleObj);
+//});
+var a_stylOBJ = function a_stylOBJ (name, valu, obj) {
+    return R.assoc(name, valu, obj)
+};
+var _a_stylOBJ = R.curry(a_stylOBJ);
+
+// WIP   _STYL_aVerse ()  IS IN tst_STYL_aVerse.js
+//var STYL_aVerse = function STYL_aVerse(stylObj, elem, ndx, coll) {
+//    // once inside this function, use ndx to WEIGHT some styles
+//    //_WEIGHT_someStyles(weightedStylesLST);
+//
+//    _STYLE_thisVerse(stylObj, elem);
+//    MSG += `..(i[${ndx}] ${elem.style.textAlign}, ${elem.style.fontSize}, ${elem.style.opacity})`;
+//};
+//var _STYL_aVerse = R.curry(STYL_aVerse);
+//var STYL_aClas = (cBFn, arr) => R_forEachIndexed(cBFn, arr);
 
 /**
- *          _setStyle:: obj, node -> MUTATED node.style
- *          curried
- * @param styleObj
- * @param node
- * @returns {*}
+*                  _STYL_aClas:: OBJ Styl, COL of 3 class nodes
  */
-var _setStyle = R.curry(function setStyle(styleObj, node) {
-    return Object.assign(node['style'], styleObj);
-});
+//var _STYL_aClas = R.curry((cBFn, arr) => R_forEachIndexed(cBFn, arr));
 
 // *********** OLD BUT STILL IN USE
 const Doc_It = (txt) => document.querySelector(".console").textContent = txt;
