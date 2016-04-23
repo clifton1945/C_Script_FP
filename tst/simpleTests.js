@@ -71,10 +71,10 @@ var tstCode = function (tst = false) {
      //        _STYLE_(so, elem);
      *      this returns a ndxLacking fn of merged / composed styles
      */
-    var _thisStylOBJ = R.curry(function _thisStylOBJ (dict, i) {
+    var _thisStylOBJ = R.curry(function _thisStylOBJ (dict, i, arr) {
         // NOTE: i || this elem index IS NOT USED YET
-        var _fs = _newStylOBJ('fontSize', `${56}%`);
-        var _op = _newStylOBJ('opacity', '.3');
+        var _fs = _newStylOBJ('fontSize', `${68}%`);
+        var _op = _newStylOBJ('opacity', '.39');
         var _cntr = _newStylOBJ('textAlign', 'center');
         var ret = R.compose( _op, _fs, _cntr);
         // wip
@@ -86,7 +86,7 @@ var tstCode = function (tst = false) {
 
     var _STYL_aVerse = R.curry(function STYL_aVerse(versStylDict, elem, ndx, coll) {
         // once inside this function, use ndx to WEIGHT some styles
-        var thisStylObj = _thisStylOBJ(versStylDict)(ndx); // ndx applied to WEIGHT AND COMPOSE individual styles
+        var thisStylObj = _thisStylOBJ(versStylDict)(ndx, coll); // ndx applied to WEIGHT AND COMPOSE individual styles
         _STYLE_(thisStylObj, elem);
         MSG += `..(i[${ndx}] ${elem.style.textAlign}, ${elem.style.fontSize}, ${elem.style.opacity})`;
     });
