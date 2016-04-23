@@ -57,33 +57,36 @@ var tstCode = function (tst = false) {
     /**
      *          _thisStylOBJ: o, i -> o
      *          ndx applied to WEIGHT AND COMPOSE individual styles
-     //        _STYLE(so, elem);
+     //        _STYLE_this(so, elem);
      *      this returns a ndxLacking fn of merged / composed styles
      */
     var _thisStylOBJ = R.curry(function _thisStylOBJ (dict) {
         // NOTE: dict not used yet
-        var n = 75;
-        var _fs = _a_stylOBJ('fontSize', `${n}%`);
-        var _op = _a_stylOBJ('opacity', '.3');
-        var _cntr = _a_stylOBJ('textAlign', 'center');
+        // THE PROBLEM IS each individual prop MUST BE an Obj BEFORE COMPOSING
+
+        // these 3 are partials without a target object
+        var _fs = _newStylOBJ('fontSize', `${56}%`);
+        var _op = _newStylOBJ('opacity', '.3');
+        var _cntr = _newStylOBJ('textAlign', 'center');
+        var list = [_fs, _op, _cntr];
         return R.compose( _op, _fs, _cntr); // lacking ndx
     });
 
     /**
-     *          _STYLE:: obj, node -> MUTATED node.style
+     *          _STYLE_this:: obj, node -> MUTATED node.style
      *          curried
      * @param styleObj
      * @param node
      * @returns {*}
      */
-    var _STYLE = R.curry(function setStyle(styleObj, node) {
+    var _STYLE_this = R.curry(function setStyle(styleObj, node) {
         return Object.assign(node['style'], styleObj);
     });
 
     var _STYL_aVerse = R.curry(function STYL_aVerse(versStylDict, elem, ndx, coll) {
         // once inside this function, use ndx to WEIGHT some styles
         var thisStylObj = _thisStylOBJ(versStylDict)(ndx); // ndx applied to WEIGHT AND COMPOSE individual styles
-        _STYLE(thisStylObj, elem);
+        _STYLE_this(thisStylObj, elem);
         MSG += `..(i[${ndx}] ${elem.style.textAlign}, ${elem.style.fontSize}, ${elem.style.opacity})`;
     });
 

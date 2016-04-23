@@ -47,10 +47,18 @@ var _a_frmted_stylWt_STR = (stylName)=> R.compose(frmtsOBJ[stylName], round2, _a
 //var _STYLE_thisVerse = R.curry(function setStyle(styleObj, node) {
 //    return Object.assign(node['style'], styleObj);
 //});
-var a_stylOBJ = function a_stylOBJ (name, valu, obj) {
-    return R.assoc(name, valu, obj)
-};
-var _a_stylOBJ = R.curry(a_stylOBJ);
+/**
+ *          AUGMENTED || MUTATED style Property:: obj, node -> MUTATED node.style
+ * NOTE: composing multiple  with an initial obj, even an empty one, results in a single multi property style object.
+ * @returns {a style Property Obj}
+ * @param propName
+ * @param propValu
+ * @param trgStylObj
+ */
+var _newStylOBJ = R.curry(function _newStylOBJ (propName, propValu, trgStylObj) {
+    return R.assoc(propName, propValu, trgStylObj)
+});
+
 
 // WIP   _STYL_aVerse ()  IS IN tst_STYL_aVerse.js
 //var STYL_aVerse = function STYL_aVerse(stylObj, elem, ndx, coll) {
