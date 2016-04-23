@@ -65,6 +65,9 @@ var tstCode = function (tst = false) {
         return Object.assign(node['style'], styleObj);
     });
 
+    var _a_weighted_stylProp_STR = R.curry((propName) =>
+        _a_frmted_stylWt_STR(propName));
+
     /**
      *          _thisStylOBJ: o, i -> o
      *          ndx applied to WEIGHT AND COMPOSE individual styles
@@ -73,8 +76,10 @@ var tstCode = function (tst = false) {
      */
     var _thisStylOBJ = R.curry(function _thisStylOBJ (dict, i, arr) {
         // NOTE: i || this elem index IS USED
-        var a_frmted_stylWt_STR = _a_frmted_stylWt_STR('fontSize')(i);
-        var _fs = _newStylOBJ('fontSize', a_frmted_stylWt_STR);
+
+        var a_weighted_stylProp_STR = _a_weighted_stylProp_STR('fontSize')(i);
+
+        var _fs = _newStylOBJ('fontSize', a_weighted_stylProp_STR);
         var _op = _newStylOBJ('opacity', '.39');
         var _cntr = _newStylOBJ('textAlign', 'center');
         var ret = R.compose( _op, _fs, _cntr);

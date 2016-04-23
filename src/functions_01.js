@@ -24,6 +24,11 @@ var frmtsOBJ = {
     fontSize: _a_percentSTR,
     opacity: _a_normalSTR
 };
+/**
+ *          _a_frmted_stylWt_STR:: Str: propName -> FN Str MISSING a NUM: ndx TO INVOKE IT
+ * @param stylName
+ * @private
+ */
 var _a_frmted_stylWt_STR = (stylName)=> R.compose(frmtsOBJ[stylName], round2, _a_Wt);
 /**
  *              _COMPOSE_These FROM a list
