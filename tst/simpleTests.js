@@ -55,6 +55,17 @@ var tstCode = function (tst = false) {
     // NEW TEST CODE
 
     /**
+     *          _STYLE_this:: obj, node -> MUTATED node.style
+     *          curried
+     * @param styleObj
+     * @param node
+     * @returns {*}
+     */
+    var _STYLE_this = R.curry(function setStyle(styleObj, node) {
+        return Object.assign(node['style'], styleObj);
+    });
+
+    /**
      *          _thisStylOBJ: o, i -> o
      *          ndx applied to WEIGHT AND COMPOSE individual styles
      //        _STYLE_this(so, elem);
@@ -68,19 +79,19 @@ var tstCode = function (tst = false) {
         var _fs = _newStylOBJ('fontSize', `${56}%`);
         var _op = _newStylOBJ('opacity', '.3');
         var _cntr = _newStylOBJ('textAlign', 'center');
-        var list = [_fs, _op, _cntr];
-        return R.compose( _op, _fs, _cntr); // lacking ndx
-    });
+        var ret = R.compose( _op, _fs, _cntr);
+        // wip
+        var props = [_fs, _op, _cntr];
 
-    /**
-     *          _STYLE_this:: obj, node -> MUTATED node.style
-     *          curried
-     * @param styleObj
-     * @param node
-     * @returns {*}
-     */
-    var _STYLE_this = R.curry(function setStyle(styleObj, node) {
-        return Object.assign(node['style'], styleObj);
+        ///**
+        // *
+        // * @param list
+        // * @private
+        // * USED initially to combine style Properties INTO one property.
+        // */
+        //var _composeThese = (list) => R.apply(R.compose, list);
+
+        return _composeThese(props);  // a prop object AFTER applying
     });
 
     var _STYL_aVerse = R.curry(function STYL_aVerse(versStylDict, elem, ndx, coll) {

@@ -25,6 +25,13 @@ var frmtsOBJ = {
     opacity: _a_normalSTR
 };
 var _a_frmted_stylWt_STR = (stylName)=> R.compose(frmtsOBJ[stylName], round2, _a_Wt);
+/**
+ *
+ * @param list
+ * @private
+ * USED initially to combine style Properties INTO one property.
+ */
+const _composeThese = (list) => R.apply(R.compose, list);
 
 ///**
 // *                  _a_styl_frmtOBJ: OBJ returned from JSON.parsed _a_frmted_stylWt_STR(stylName)
@@ -82,6 +89,11 @@ const Doc_It = (txt) => document.querySelector(".console").textContent = txt;
 const C_It = (txt) => console.log(txt);
 //export {C_It};
 
+/**
+ *          :: STR:text -> C_It(text) Doc_It(text)
+ * @param txt
+ * @constructor
+ */
 const C_Both = (txt) => {
     C_It(txt);
     Doc_It(txt);
