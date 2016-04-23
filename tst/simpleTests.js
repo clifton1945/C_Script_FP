@@ -76,10 +76,8 @@ var tstCode = function (tst = false) {
      */
     var _thisStylOBJ = R.curry(function _thisStylOBJ (dict, i, arr) {
         // NOTE: i || this elem index IS USED
-
-        var a_weighted_stylProp_STR = _a_weighted_stylProp_STR('fontSize')(i);
-
-        var _fs = _newStylOBJ('fontSize', a_weighted_stylProp_STR);
+        var a_frmted_stylWt_STR = _a_frmted_stylWt_STR('fontSize')(i);
+        var _fs = _newStylOBJ('fontSize', a_frmted_stylWt_STR);
         var _op = _newStylOBJ('opacity', '.39');
         var _cntr = _newStylOBJ('textAlign', 'center');
         var ret = R.compose( _op, _fs, _cntr);
