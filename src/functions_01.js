@@ -26,10 +26,10 @@ var frmtsOBJ = {
 };
 var _a_frmted_stylWt_STR = (stylName)=> R.compose(frmtsOBJ[stylName], round2, _a_Wt);
 /**
- *
+ *              _COMPOSE_These FROM a list
  * @param list
  * @private
- * USED initially to combine style Properties INTO one property.
+ * USED initially to combine style Properties INTO one property STR then OBJ.
  */
 const _COMPOSE_These = (list) => R.apply(R.compose, list);
 
@@ -65,7 +65,6 @@ const _COMPOSE_These = (list) => R.apply(R.compose, list);
 var _newStylOBJ = R.curry(function _newStylOBJ (propName, propValu, trgStylObj) {
     return R.assoc(propName, propValu, trgStylObj)
 });
-
 
 // WIP   _STYL_aVerse ()  IS IN tst_STYL_aVerse.js
 //var STYL_aVerse = function STYL_aVerse(stylObj, elem, ndx, coll) {

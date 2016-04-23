@@ -72,8 +72,9 @@ var tstCode = function (tst = false) {
      *      this returns a ndxLacking fn of merged / composed styles
      */
     var _thisStylOBJ = R.curry(function _thisStylOBJ (dict, i, arr) {
-        // NOTE: i || this elem index IS NOT USED YET
-        var _fs = _newStylOBJ('fontSize', `${68}%`);
+        // NOTE: i || this elem index IS USED
+        var a_frmted_stylWt_STR = _a_frmted_stylWt_STR('fontSize')(i);
+        var _fs = _newStylOBJ('fontSize', a_frmted_stylWt_STR);
         var _op = _newStylOBJ('opacity', '.39');
         var _cntr = _newStylOBJ('textAlign', 'center');
         var ret = R.compose( _op, _fs, _cntr);
