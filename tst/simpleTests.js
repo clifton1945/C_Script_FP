@@ -71,16 +71,17 @@ var tstCode = function (tst = false) {
      //        _STYLE_(so, elem);
      *      this returns a ndxLacking fn of merged / composed styles
      */
-    var _thisStylOBJ = R.curry(function _thisStylOBJ (dict) {
-        // NOTE: dict not used YET
-        // these 3 are partial strings without a target OBJECT
+    var _thisStylOBJ = R.curry(function _thisStylOBJ (dict, i) {
+        // NOTE: i || this elem index IS NOT USED YET
         var _fs = _newStylOBJ('fontSize', `${56}%`);
         var _op = _newStylOBJ('opacity', '.3');
         var _cntr = _newStylOBJ('textAlign', 'center');
         var ret = R.compose( _op, _fs, _cntr);
         // wip
         var props = [_fs, _op, _cntr];
-        return _COMPOSE_These(props);  // a single prop String of all in the list
+        ret = _COMPOSE_These(props);  // a single prop String of all in the list
+        ret = ret(dict);
+        return ret
     });
 
     var _STYL_aVerse = R.curry(function STYL_aVerse(versStylDict, elem, ndx, coll) {
