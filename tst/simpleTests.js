@@ -55,49 +55,38 @@ var tstCode = function (tst = false) {
     // NEW TEST CODE
 
     /**
-     *          _STYLE_this:: obj, node -> MUTATED node.style
+     *          _STYLE_:: obj, node -> MUTATED node.style
      *          curried
      * @param styleObj
      * @param node
      * @returns {*}
      */
-    var _STYLE_this = R.curry(function setStyle(styleObj, node) {
+    var _STYLE_ = R.curry(function setStyle(styleObj, node) {
         return Object.assign(node['style'], styleObj);
     });
 
     /**
      *          _thisStylOBJ: o, i -> o
      *          ndx applied to WEIGHT AND COMPOSE individual styles
-     //        _STYLE_this(so, elem);
+     //        _STYLE_(so, elem);
      *      this returns a ndxLacking fn of merged / composed styles
      */
     var _thisStylOBJ = R.curry(function _thisStylOBJ (dict) {
-        // NOTE: dict not used yet
-        // THE PROBLEM IS each individual prop MUST BE an Obj BEFORE COMPOSING
-
-        // these 3 are partials without a target object
+        // NOTE: dict not used YET
+        // these 3 are partial strings without a target OBJECT
         var _fs = _newStylOBJ('fontSize', `${56}%`);
         var _op = _newStylOBJ('opacity', '.3');
         var _cntr = _newStylOBJ('textAlign', 'center');
         var ret = R.compose( _op, _fs, _cntr);
         // wip
         var props = [_fs, _op, _cntr];
-
-        ///**
-        // *
-        // * @param list
-        // * @private
-        // * USED initially to combine style Properties INTO one property.
-        // */
-        //var _composeThese = (list) => R.apply(R.compose, list);
-
-        return _composeThese(props);  // a prop object AFTER applying
+        return _COMPOSE_These(props);  // a single prop String of all in the list
     });
 
     var _STYL_aVerse = R.curry(function STYL_aVerse(versStylDict, elem, ndx, coll) {
         // once inside this function, use ndx to WEIGHT some styles
         var thisStylObj = _thisStylOBJ(versStylDict)(ndx); // ndx applied to WEIGHT AND COMPOSE individual styles
-        _STYLE_this(thisStylObj, elem);
+        _STYLE_(thisStylObj, elem);
         MSG += `..(i[${ndx}] ${elem.style.textAlign}, ${elem.style.fontSize}, ${elem.style.opacity})`;
     });
 

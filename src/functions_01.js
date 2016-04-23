@@ -31,7 +31,7 @@ var _a_frmted_stylWt_STR = (stylName)=> R.compose(frmtsOBJ[stylName], round2, _a
  * @private
  * USED initially to combine style Properties INTO one property.
  */
-const _composeThese = (list) => R.apply(R.compose, list);
+const _COMPOSE_These = (list) => R.apply(R.compose, list);
 
 ///**
 // *                  _a_styl_frmtOBJ: OBJ returned from JSON.parsed _a_frmted_stylWt_STR(stylName)
