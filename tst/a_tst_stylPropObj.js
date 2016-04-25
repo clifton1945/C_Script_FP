@@ -7,13 +7,18 @@ var R = require('ramda');
 import { C_It } from '..//src//modules-compiled';
 var ret, _ret;
 var _a_Wt = i => .45 + i * .10; // EXP ndx
+var round2 = x => Math.round(x * 100) / 100;
 var _a_percentSTR_FNC = (w) => `${w * 100}%`;
 var _an_normalSTR_FNC = (w) => `${w}`;
 var frmtOBJs = {
     fontSize: _a_percentSTR_FNC,
     opacity: _an_normalSTR_FNC
 };
-var _a_wtStylPropSTR = R.curry((propNameStr, ndx)=> R.compose(frmtOBJs[propNameStr], _a_Wt)(ndx));
+// round2 does not work?? var _a_wtStylPropSTR = R.curry((propNameStr, ndx)=> R.compose(frmtOBJs[propNameStr], round2, _a_Wt)(ndx));
+/**
+ *      (propNameStr, ndx)=> R.compose(frmtOBJs[propNameStr],_a_Wt)(ndx)
+ */
+var _a_wtStylPropSTR = R.curry((propNameStr, ndx)=> R.compose(frmtOBJs[propNameStr],_a_Wt)(ndx));
 /**
  *          _aStylOBJ:: AUGMENTED || MUTATED style Property:: obj, node -> MUTATED node.style
  * NOTE: composing multiple  with an initial obj, even an empty one, results in a single multi property style object.
@@ -25,41 +30,37 @@ var _a_wtStylPropSTR = R.curry((propNameStr, ndx)=> R.compose(frmtOBJs[propNameS
 var _aStylOBJ = R.curry(function _newStylOBJ(propNameStr, propValuStr, trgStylObj) {
     return R.assoc(propNameStr, propValuStr, trgStylObj)
 });
+
 var _a_newStylOBJ = R.curry(function (nameStr, ndx) {
-    //var s = _a_wtStylPropSTR(nameStr)(ndx);
-    //var r = _aStylOBJ(nameStr, s);
-    //OR
     //var r = R.compose(_aStylOBJ(nameStr), _a_wtStylPropSTR(nameStr))(ndx);
-    //return r; // _aStylOBJ IS WAITING4 stylObj
     //OR
-    var r = R.compose(
-        _aStylOBJ(nameStr)
-        , _a_wtStylPropSTR(nameStr))
-    (ndx);
+    var s = _a_wtStylPropSTR(nameStr)(ndx);
+    var r = _aStylOBJ(nameStr, s);
     return r; // _aStylOBJ IS WAITING4 stylObj
 });
-/**
- *          _y DID NOT WORK - DID NOT SPEND TIME ON IT
- */
-var _y = R.curry(function (nameStr, trgtObj) {
-    var s = _a_wtStylPropSTR(nameStr); // PARTIAL: WANTS (ndx);
-    var r = _aStylOBJ(nameStr, s, trgtObj);
-    //OR
-    //var r = R.compose(_aStylOBJ(nameStr), _a_wtStylPropSTR(nameStr))(ndx);
-    return r; // _aStylOBJ IS WAITING4 ndx
-});
 // TESTS
-var i = 0;
+var i = 1;
 var _cntr = _aStylOBJ('textAlign', 'center');
 var cntr = _cntr({});
-// using _x
-_ret = _x('fontSize', i);
-ret = _ret(cntr);
-ret = _x('opacity', i)(ret);
-
+// using __a_newStylOBJ
+ret = _a_newStylOBJ('fontSize',i)( cntr);
+ret = _a_newStylOBJ('opacity', i)(ret);
 C_It(JSON.stringify(ret));
-console.assert(R.not(R.is(String, ret)), 'assert NOT Str.');
-console.assert(R.is(Object, ret), 'assert IS Obj.'); //  YEAH !!
+console.assert(R.not(R.is(String, ret)), 'assert: CANNOT BE Str.');
+console.assert(R.is(Object, ret), 'assert: MUST BE Obj.'); //  YEAH !!
+// INSTEAD i want TO APPLY ndx TO all the properties THEN merge the Properties
+// something like
+//  WEIGHT_these[list], MERGE_these
+var aPropLST = ['fontSize', 'opacity'];
+var weightedPropSTR_wo_ndx =  (propNameStr) => R.compose(frmtOBJs[propNameStr],_a_Wt); // WANTS index
+
+var _formattedLST_wo_ndx = (lst) => R.map(weightedPropSTR_wo_ndx, lst);
+ret =_formattedLST_wo_ndx(aPropLST);
+//var _frmtdLST_after_ndx = (lst) => R.map((v)=> v(1), lst);//WORKS BUT  w/o index
+var _frmtdLST_after_ndx = (lst) => { return R.addIndex(R.map)((v,n,c)=> v(n), lst)};
+ret = _frmtdLST_after_ndx(ret);
+C_It(JSON.stringify(ret));  // OK, this WORKS - returns weight formatted list of property strings.
+
 
 
 
