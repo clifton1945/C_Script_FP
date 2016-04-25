@@ -6,6 +6,11 @@
 var R = require('ramda');
 import { C_It } from '..//src//modules-compiled';
 var ret, _ret;
+/**
+ *              _a_Wt:: NUM -> NUM
+ * @param i
+ * @private
+ */
 var _a_Wt = i => .45 + i * .10; // EXP ndx
 var round2 = x => Math.round(x * 100) / 100;
 var _a_percentSTR_FNC = (w) => `${w * 100}%`;
@@ -14,11 +19,12 @@ var frmtOBJs = {
     fontSize: _a_percentSTR_FNC,
     opacity: _an_normalSTR_FNC
 };
-// round2 does not work?? var _a_wtStylPropSTR = R.curry((propNameStr, ndx)=> R.compose(frmtOBJs[propNameStr], round2, _a_Wt)(ndx));
+
+// This approach APPLIES the ndx, and maybe coll BEFORE ASSEMBLING each property STR -> OBJ
 /**
  *      (propNameStr, ndx)=> R.compose(frmtOBJs[propNameStr],_a_Wt)(ndx)
  */
-var _a_wtStylPropSTR = R.curry((propNameStr, ndx)=> R.compose(frmtOBJs[propNameStr],_a_Wt)(ndx));
+var _a_wtStylPropSTR = R.curry((propNameStr, ndx)=> R.compose(frmtOBJs[propNameStr], _a_Wt)(ndx));
 /**
  *          _aStylOBJ:: AUGMENTED || MUTATED style Property:: obj, node -> MUTATED node.style
  * NOTE: composing multiple  with an initial obj, even an empty one, results in a single multi property style object.
@@ -30,7 +36,6 @@ var _a_wtStylPropSTR = R.curry((propNameStr, ndx)=> R.compose(frmtOBJs[propNameS
 var _aStylOBJ = R.curry(function _newStylOBJ(propNameStr, propValuStr, trgStylObj) {
     return R.assoc(propNameStr, propValuStr, trgStylObj)
 });
-
 var _a_newStylOBJ = R.curry(function (nameStr, ndx) {
     //var r = R.compose(_aStylOBJ(nameStr), _a_wtStylPropSTR(nameStr))(ndx);
     //OR
@@ -45,31 +50,51 @@ var cntr = _cntr({});
 // using __a_newStylOBJ
 ret = _a_newStylOBJ('fontSize',i)( cntr);
 ret = _a_newStylOBJ('opacity', i)(ret);
-//C_It(JSON.stringify(ret));
+C_It(JSON.stringify(ret));
 console.assert(R.not(R.is(String, ret)), 'assert: CANNOT BE Str.');
 console.assert(R.is(Object, ret), 'assert: MUST BE Obj.'); //  YEAH !!
 
 
-// INSTEAD i want TO APPLY ndx TO PRODUCE
-// -5 then _APPLY that OBJ to a verse
-// _6 then forEach(_APPLY, Verse)
-
+// INSTEAD this below will ASSEMBLE weighted style properties
+//and then APPLY an index  AT the final mapping of eachVerse
+i = 1;
 // -1 1st: GET a list of property name/keys:: STR, that need weights, from a constants dictionary:>> ['fontSize', 'opacity']
-var aPropLST_1 = ['fontSize', 'opacity']; // soon get this from a StylPropDCT
+var aPropLST_1 = ['fontSize', 'opacity']; // soon: get this from a StylPropDCT
+
 // -2 then CREATE a list of formatted property cB_FNC wo an index:: FNC
-var _weightedPropSTR_wo_ndx_2 =  (propNameStr) => R.compose(frmtOBJs[propNameStr],_a_Wt); // WANTS index
-var _a_LST_of_cBFn_wo_ndx_2 = (lst) => R.addIndex(R.map)(_weightedPropSTR_wo_ndx_2, lst);
-// -3 then APPLY an Index to the list  resulting in a list of property value STRs.
-var _frmtdStylePropSTR_LST_3 =  R.addIndex(R.map)((v,n,c)=> v(n), _a_LST_of_cBFn_wo_ndx_2(aPropLST_1));
-ret = _frmtdStylePropSTR_LST_3;
-// -4 then REDUCE them - probably with _aStylOBJ(key, val, obj) - TO one style properties OBJ
-var stylPropsOBJ = R.zipObj(aPropLST_1, _frmtdStylePropSTR_LST_3(aPropLST_1));
-//ret = stylPropsOBJ;
+/**
+ *          _a_wtPropSTR:: (STR)->(NUM) -> STR
+ *  @param propNameStr STR
+ *  @param index NUM  WAITING from _a_Wt function
+ *  @return weight formatted styl Prop STR
+ */
+var _a_wtPropSTR =  R.curry((propNameStr) => R.compose(frmtOBJs[propNameStr], round2, _a_Wt)); // WANTS index
 
-// now combine this list with a non-weighted one
-// then
-C_It(JSON.stringify(ret));  // OK, this WORKS - returns weight formatted list of property strings.
+ret = _a_wtPropSTR('fontSize');// NOTE: partial of 'fontSize'
+C_It(`tst weighted STR for (i) -> ` + JSON.stringify(ret(i)));
+// now make a LST of
+/**
+ *          _a_wtPropLST:: [LST]->(NUM) -> LST
+ * @param lst
+ * @private
+ */
+var _a_wtPropLST = (lst) => R.map(_a_wtPropSTR, lst);
 
+ret = _a_wtPropLST(aPropLST_1);
+C_It(JSON.stringify(ret[0](i)));
+// -4 then REDUCE the list TO one style properties OBJ
+/**
+ *          a_stylPropOBJ:: (LST) -> (NUM) -> OBJ
+ * @param lst
+ * @returns {*}
+ */
+var stylPropsOBJ = function stylPropsOBJ(lst) { return R.zipObj(lst, _a_wtPropLST(lst))};
+
+ret = stylPropsOBJ (aPropLST_1); //STILL WANTING an Index
+C_It(JSON.stringify(ret.opacity(i)));  // ok SEES this one property
+console.assert(R.not(R.is(String, ret)), 'assert: CANNOT BE Str.');
+console.assert(R.is(Object, ret), 'assert: MUST BE Obj.'); //  YEAH !!
+// thus a_StylProp_OBJ will be the callBack function of  STYLE_a_Verse
 
 
 
