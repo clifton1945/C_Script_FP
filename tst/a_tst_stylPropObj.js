@@ -45,20 +45,29 @@ var cntr = _cntr({});
 // using __a_newStylOBJ
 ret = _a_newStylOBJ('fontSize',i)( cntr);
 ret = _a_newStylOBJ('opacity', i)(ret);
-C_It(JSON.stringify(ret));
+//C_It(JSON.stringify(ret));
 console.assert(R.not(R.is(String, ret)), 'assert: CANNOT BE Str.');
 console.assert(R.is(Object, ret), 'assert: MUST BE Obj.'); //  YEAH !!
-// INSTEAD i want TO APPLY ndx TO all the properties THEN merge the Properties
-// something like
-//  WEIGHT_these[list], MERGE_these
-var aPropLST = ['fontSize', 'opacity'];
-var weightedPropSTR_wo_ndx =  (propNameStr) => R.compose(frmtOBJs[propNameStr],_a_Wt); // WANTS index
 
-var _formattedLST_wo_ndx = (lst) => R.map(weightedPropSTR_wo_ndx, lst);
-ret =_formattedLST_wo_ndx(aPropLST);
-//var _frmtdLST_after_ndx = (lst) => R.map((v)=> v(1), lst);//WORKS BUT  w/o index
-var _frmtdLST_after_ndx = (lst) => { return R.addIndex(R.map)((v,n,c)=> v(n), lst)};
-ret = _frmtdLST_after_ndx(ret);
+
+// INSTEAD i want TO APPLY ndx TO PRODUCE
+// -5 then _APPLY that OBJ to a verse
+// _6 then forEach(_APPLY, Verse)
+
+// -1 1st: GET a list of property name/keys:: STR, that need weights, from a constants dictionary:>> ['fontSize', 'opacity']
+var aPropLST_1 = ['fontSize', 'opacity']; // soon get this from a StylPropDCT
+// -2 then CREATE a list of formatted property cB_FNC wo an index:: FNC
+var _weightedPropSTR_wo_ndx_2 =  (propNameStr) => R.compose(frmtOBJs[propNameStr],_a_Wt); // WANTS index
+var _a_LST_of_cBFn_wo_ndx_2 = (lst) => R.addIndex(R.map)(_weightedPropSTR_wo_ndx_2, lst);
+// -3 then APPLY an Index to the list  resulting in a list of property value STRs.
+var _frmtdStylePropSTR_LST_3 =  R.addIndex(R.map)((v,n,c)=> v(n), _a_LST_of_cBFn_wo_ndx_2(aPropLST_1));
+ret = _frmtdStylePropSTR_LST_3;
+// -4 then REDUCE them - probably with _aStylOBJ(key, val, obj) - TO one style properties OBJ
+var stylPropsOBJ = R.zipObj(aPropLST_1, _frmtdStylePropSTR_LST_3(aPropLST_1));
+//ret = stylPropsOBJ;
+
+// now combine this list with a non-weighted one
+// then
 C_It(JSON.stringify(ret));  // OK, this WORKS - returns weight formatted list of property strings.
 
 
