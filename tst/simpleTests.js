@@ -31,20 +31,6 @@ var tstCode = function (tst = false) {
     var _a_clasNL = function _clasNL(divClasStr) {
         return _qSelectAll(divClasStr)(document)
     };
-
-    //var DEPRalign = JSON.parse(`{"textAlign":"center"}`);
-    //var DEPR_fontSize = (ndx)=>_a_styl_frmtOBJ("fontSize");
-    //var DEPR_opacity = (ndx)=> _a_styl_frmtOBJ("opacity"); // curried> can take arg either way.
-
-    //var _WEIGHT_aStyl = R.curry((ndx, _aStyl) => _aStyl(ndx));
-    //var _WEIGHT_someStyles = (ndx, lst) => R.map(_WEIGHT_aStyl(ndx), lst);
-    //var weightedStylesLST = [_fontSize, _opacity];
-    //var weightedStyles = _WEIGHT_someStyles(weightedStylesLST);
-    //
-    //var unweightedStyles = [align];
-    //var stylesLST = R.mergeAll(unweightedStyles, []);
-
-
     MSG = 'MUTATE_aVersStyle > ';
     /**
      *           CODE UNDER TEST
@@ -55,7 +41,7 @@ var tstCode = function (tst = false) {
     // NEW TEST CODE
 
     /**
-     *          _STYLE_:: obj, node -> MUTATED node.style
+ *      _STYLE_:: obj, node -> MUTATED node.style
      *          curried
      * @param styleObj
      * @param node
@@ -69,7 +55,7 @@ var tstCode = function (tst = false) {
         _a_frmted_stylWt_STR(propName));
 
     /**
-     *          _thisStylOBJ: o, i -> o
+     *      _thisStylOBJ: o, i -> o
      *          ndx applied to WEIGHT AND COMPOSE individual styles
      //        _STYLE_(so, elem);
      *      this returns a ndxLacking fn of merged / composed styles
@@ -92,17 +78,19 @@ var tstCode = function (tst = false) {
         // once inside this function, use ndx to WEIGHT some styles
         var thisStylObj = _thisStylOBJ(versStylDict)(ndx, coll); // ndx applied to WEIGHT AND COMPOSE individual styles
         _STYLE_(thisStylObj, elem);
+
+
         MSG += `..(i[${ndx}] ${elem.style.textAlign}, ${elem.style.fontSize}, ${elem.style.opacity})`;
     });
 
-    var _STYL_aClas = R.curry((sOBJ, arr) => R_forEachIndexed(_STYL_aVerse(sOBJ), arr));
+    var _STYL_aVerseClas = R.curry((sOBJ, arr) => R_forEachIndexed(_STYL_aVerse(sOBJ), arr));
     // test composing stylOBJs
 
     // test data
     var tst_Dict = {};
     var tst_NL = _a_clasNL(fut_queryStr);
     // test it
-    _STYL_aClas(tst_Dict, tst_NL);
+    _STYL_aVerseClas(tst_Dict, tst_NL);
 
     C_Both(MSG);
     var noop = '';

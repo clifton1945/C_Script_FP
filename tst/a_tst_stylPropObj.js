@@ -20,9 +20,9 @@ var frmtOBJs = {
     opacity: _an_normalSTR_FNC
 };
 
-// This approach APPLIES the ndx, and maybe coll BEFORE ASSEMBLING each property STR -> OBJ
+// This approach APPLIES the ndx, and maybe coll, BEFORE ASSEMBLING each property STR -> OBJ
 /**
- *      (propNameStr, ndx)=> R.compose(frmtOBJs[propNameStr],_a_Wt)(ndx)
+ *           (propNameStr, ndx)=> R.compose(frmtOBJs[propNameStr],_a_Wt)(ndx)
  */
 var _a_wtStylPropSTR = R.curry((propNameStr, ndx)=> R.compose(frmtOBJs[propNameStr], _a_Wt)(ndx));
 /**
@@ -55,6 +55,7 @@ console.assert(R.not(R.is(String, ret)), 'assert: CANNOT BE Str.');
 console.assert(R.is(Object, ret), 'assert: MUST BE Obj.'); //  YEAH !!
 
 
+
 // INSTEAD this below will ASSEMBLE weighted style properties
 //and then APPLY an index  AT the final mapping of eachVerse
 i = 1;
@@ -70,8 +71,8 @@ var aPropLST_1 = ['fontSize', 'opacity']; // soon: get this from a StylPropDCT
  */
 var _a_wtPropSTR =  R.curry((propNameStr) => R.compose(frmtOBJs[propNameStr], round2, _a_Wt)); // WANTS index
 
-ret = _a_wtPropSTR('fontSize');// NOTE: partial of 'fontSize'
-C_It(`tst weighted STR for (i) -> ` + JSON.stringify(ret(i)));
+//ret = _a_wtPropSTR('fontSize');// NOTE: partial of 'fontSize'
+//C_It(`tst weighted STR for (i) -> ` + JSON.stringify(ret(i)));
 // now make a LST of
 /**
  *          _a_wtPropLST:: [LST]->(NUM) -> LST
@@ -80,11 +81,11 @@ C_It(`tst weighted STR for (i) -> ` + JSON.stringify(ret(i)));
  */
 var _a_wtPropLST = (lst) => R.map(_a_wtPropSTR, lst);
 
-ret = _a_wtPropLST(aPropLST_1);
-C_It(JSON.stringify(ret[0](i)));
+//ret = _a_wtPropLST(aPropLST_1);
+//C_It(JSON.stringify(ret[0](i)));
 // -4 then REDUCE the list TO one style properties OBJ
 /**
- *          a_stylPropOBJ:: (LST) -> (NUM) -> OBJ
+ *          a_stylPropOBJ:: (LST) -> (NUM) -> {OBJ of functions requiring an index)
  * @param lst
  * @returns {*}
  */

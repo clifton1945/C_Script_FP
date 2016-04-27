@@ -104,12 +104,17 @@ const StyleObj = {
     }
 };
 /**
- *              StyleConstants: IS still Active IN ...
+ *              StyleDict: IS still Active IN ...
  * ramda_tests; STYLE_Verses_TESTS
  * 160409
  * @type {{CRGrpsTmpl: string, VRGrpsTmpl: string, fut: {name: string, smlWt: number, lrgWt: number, calcWt: Function}, cur: {name: string, smlWt: number, lrgWt: number, calcWt: Function}, pst: {name: string, smlWt: number, lrgWt: number, calcWt: Function}}}
  */
-const StyleConstants = {
+const StyleDict = {
+    properties: {
+        _fontSize:function _fontSize(x) {return x + '%'}
+        ,_opacity:function _opacity(x) {return '' + x / 100}
+        ,textAlign: "center"
+    },
     2: {
         name: 'fut'
         ,smlWt: .4

@@ -54,7 +54,7 @@ var NodeList_ = R.flip(cssQuery_)(document); // partial
 
 var tstCode = function (tst = false) {
     /**
-     *          TEST_ONLY A subset, IN this case 'fut' OF objects/StyleConstants
+     *          TEST_ONLY A subset, IN this case 'fut' OF objects/StyleDict
      * @type {{2: {name: string, smlWt: number, lrgWt: number, calcWt: Function, styleTmpl: {backgroundColor: string, opacity: string, fontSize: string}}}}
      */
     let tstStyleDict = {
