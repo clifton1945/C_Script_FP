@@ -1,3 +1,6 @@
+DO NOT FORGET TO ADD --presets es2015 TO babel Arguments in th File Watcher
+
+
 160212.1100 Notes ON allong.es DEPRECATED - using ramda, ellong.es does not work in testDoc.js
 IN https://github.com/raganwald/allong.es
 OR https://leanpub.com/javascriptallongesix/read
