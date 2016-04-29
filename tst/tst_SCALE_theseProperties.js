@@ -59,29 +59,24 @@ var _a_frmtedValue = R.curry(function (styledict, propName, ndx) {
  *  _the_stylObj:: (sDict) => {obj}
  *  _the_propVals::  {obj}=>[v]
  *  _the_propKeys::  {obj}=>[k]
- *  _MAP_
- *  //          functions for different types of Property keys
- *  //          TRIAGE BY: key OR valu numeric + string makeup
- *  // mutate valu_n_str:: e.g. {fontSize: "25%" -> "35%"}
-     *  _oldValu:: (v) => alph + num + alph
-     *  _strRt:: _oldValu_num_n_alpha-> rt+alph
-     *  _this_propWt:: (ndx,[coll]) => wt
-     *  _this_propValu:: (wt, _strRt)=> "wt+alpha"
- *  // mutate valu::       e.g. {opacity: "0.25" -> "0.35"}
-     *  _oldValu:: (v) => alph + num + alph
-     *  _old_propWt:: (ndx,[coll]) => wt
-     *  _this_propWt:: (wt, _func) => new wt
-     *  _this_propValu:: (wt)=> "wt"
- *  // mutate str::        e.g. (testAlign: "center -> "left"}
-     *  _oldValu:: (v) => == alph
-     *  _this_propWt:: (ndx,[coll]) => wt  // for consistency: throw away
-     *  _this_propValu:: (new_prop)=>_thisPropValu
+ *  _the_numeric_key:: -> v
+ *  _a_new_propValu:: (i,[a]) => Num w
+ *  ASSOC_(thiskey
  *
  *  NOT SURE AT THIS POINT
  *  ASSOC_(thisProp, _this_propValu)(_the_propObj)
  *  _this_StylObj (ndx, coll) = {k:v}
  *  _STYL_aVerse({thisStylObj, elem)=> elem
  *
+ */
+
+/**
+ *          PLAN #2
+ * WHAT IS the End? the Simplest IS evolve the default StyleObj
+ *  using fontStyle AND key:opacity value transforms
+ *  replace the key: fontStyle AND key:opacity values
+ *
+ * @type {StyleDict.property|{fontSize, opacity, textAlign, backgroundColor}}
  */
 //  TESTS
 var baseStyle = StyleDict.property;

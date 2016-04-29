@@ -1,4 +1,3 @@
-
 "use strict";
 var R = require('ramda');
 import { C_It } from '..//src//modules-compiled';
@@ -11,19 +10,8 @@ var ret, _ret;
  */
 var round2 = x => Math.round(x * 100) / 100;
 const StyleDict = {
-    property: {fontSize: "100%", opacity: 1.0, textAlign: "Center", backgroundColor: "rgba(145, 248, 29, 0.29)"}};
-/**
- *          _a_scaledValue:: (NUM ndx) -> NUM scaleValue
- * @param i
- * @returns {number} minValu: <=
- * @private
- */
-var _a_scaledValue = function (i) {
-    return 45 + i
+    property: {fontSize: "100%", opacity: 1.0, textAlign: "Center", backgroundColor: "rgba(145, 248, 29, 0.29)"}
 };
-/**
- *          _a_frmtTmpl:: (DICT , STR propName) -> FN ( NUM: val) -> STR: val
- */
 
 /**
  *          PLAN #2
@@ -35,9 +23,9 @@ var _a_scaledValue = function (i) {
  */
 //  TESTS
 var baseStyle = StyleDict.property;
-var fontSizeStyle = {fontSize:"70%"};
+var fontSizeStyle = {fontSize: "70%"};
 
-ret = (a)=>{a};
+ret = baseStyle;
 C_It(ret);
 C_It(JSON.stringify(ret));
 
