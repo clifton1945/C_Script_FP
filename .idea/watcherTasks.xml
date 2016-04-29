@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="ProjectTasksOptions" suppressed-tasks="Traceur compiler">
+  <component name="ProjectTasksOptions">
     <TaskOptions isEnabled="true">
-      <option name="arguments" value="--source-maps --presets es2015 --out-file $FileNameWithoutExtension$-compiled.js $FilePath$" />
+      <option name="arguments" value="--presets es2015 --source-maps --out-file $FileNameWithoutExtension$-compiled.js $FilePath$" />
       <option name="checkSyntaxErrors" value="true" />
       <option name="description" value="Transpiles ECMAScript 6 code to ECMAScript 5" />
       <option name="exitCodeBehavior" value="ERROR" />
@@ -16,7 +16,7 @@
       <option name="outputFromStdout" value="false" />
       <option name="passParentEnvs" value="true" />
       <option name="program" value="$PROJECT_DIR$/node_modules/.bin/babel.cmd" />
-      <option name="scopeName" value="MY_SRC_AND_TST" />
+      <option name="scopeName" value="tst_EVOLVE_Styles" />
       <option name="trackOnlyRoot" value="true" />
       <option name="workingDir" value="$FileDir$" />
       <envs />
