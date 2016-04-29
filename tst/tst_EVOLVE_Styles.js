@@ -25,11 +25,15 @@ var n = 6;
 var _appendPercent = (n) => `${n}%`;
 var _divid100 = (n) => R.divide(n, 100);//WORKS
 var _newStr = (s)=>R.always(s);
-var _new_fontSize = (n) => R.always(_appendPercent(_a_Wt(n)));
-var _new_opacity = (n) => R.always(_divid100(_a_Wt(n)));
+// FINAL FORM
+//var _new_fontSize = (n) => R.always(_appendPercent(_a_Wt(n))); // WORKS
+var _new_fontSize = R.compose(R.always, _appendPercent, _a_Wt);
+//var _new_opacity = (n) => R.always(_divid100(_a_Wt(n))); //WORKS
+var _new_opacity = R.compose(R.always, _divid100, _a_Wt);
+var i = 3;
 var transformations = {
-    opacity:_new_opacity(4),
-    fontSize: _new_fontSize(6),
+    opacity:_new_opacity(i),
+    fontSize: _new_fontSize(i),
     textAlign: _newStr('right'),
 };
 ret = R.evolve(transformations, baseStyle);
