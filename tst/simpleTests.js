@@ -50,35 +50,10 @@ var tstCode = function (tst = false) {
     var _STYLE_ = R.curry(function setStyle(styleObj, node) {
         return Object.assign(node['style'], styleObj);
     });
-
-    var _a_weighted_stylProp_STR = R.curry((propName) =>
-        _a_frmted_stylWt_STR(propName));
-
-    /**
-     *      _thisStylOBJ: o, i -> o
-     *          ndx applied to WEIGHT AND COMPOSE individual styles
-     //        _STYLE_(so, elem);
-     *      this returns a ndxLacking fn of merged / composed styles
-     */
-    var _thisStylOBJ = R.curry(function _thisStylOBJ (dict, i, arr) {
-        // NOTE: i || this elem index IS USED
-        var a_frmted_stylWt_STR = _a_frmted_stylWt_STR('fontSize')(i);
-        var _fs = _newStylOBJ('fontSize', a_frmted_stylWt_STR);
-        var _op = _newStylOBJ('opacity', '.39');
-        var _cntr = _newStylOBJ('textAlign', 'center');
-        var ret = R.compose( _op, _fs, _cntr);
-        // wip
-        var props = [_fs, _op, _cntr];
-        ret = _COMPOSE_These(props);  // a single prop String of all in the list
-        ret = ret(dict);
-        return ret
-    });
-
     var _STYL_aVerse = R.curry(function STYL_aVerse(versStylDict, elem, ndx, coll) {
         // once inside this function, use ndx to WEIGHT some styles
         var thisStylObj = _thisStylOBJ(versStylDict)(ndx, coll); // ndx applied to WEIGHT AND COMPOSE individual styles
         _STYLE_(thisStylObj, elem);
-
 
         MSG += `..(i[${ndx}] ${elem.style.textAlign}, ${elem.style.fontSize}, ${elem.style.opacity})`;
     });
