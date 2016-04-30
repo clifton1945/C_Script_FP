@@ -1,7 +1,9 @@
 "use strict";
-var R = require('ramda');
-import { C_It } from '..//src//modules-compiled';
-//var C_It = (txt) => {return console.log(txt)};
+//var R = require('ramda');
+//import { C_It } from '..//src//modules-compiled';
+var C_It = (txt) => {
+    return console.log(txt)
+};
 var CUT, _CUT, ret, _ret;
 
 /**
