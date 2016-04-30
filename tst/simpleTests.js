@@ -6,6 +6,16 @@
  *      ***** TEST FRAMEWORK **************
  *   a Dashboard for selecting tests,
  */
+
+/**
+ *  a Book has three ChapterClasses [ClassOfChptrs]: .pst, .cur, .fut. Each is a Collection of 0->N Chapters AT any one time.
+ *  a ChapterClass [ClassOfChptrs]: is a Collection of 0->N Chapters AT any one time.
+ *  a Chapter has three VerseClasses [ClassOfVerses]: .pst, .cur, .fut. Each with a Collection of 0->N Verses AT any one time.
+ *  a VerseClass [ClassOfVerses] is a Collection of 0->N Verses AT any one time.
+ *  a Verse has 1-N Sentences, each with 1-N clauses, each with 0-N phrases,....
+ *
+ *  BUT ONLY the cur_ChptrClass IS READ. Though any or all Chapters may at any on time be in the cur_ChptrClass
+ */
 function main() {
     tstCode(true);
 }
@@ -62,15 +72,9 @@ var tstCode = function (tst = false) {
      *
      */
     var _STYL_aVerseClas = R.curry((sOBJ, arr) => R_forEachIndexed(_STYL_aVerse(sOBJ), arr));
+
     /**
      *       _STYL_a_Chptr:: {OBJ}->(ELM: e, NUM: n, [a])-> ELM: a Chptr COLLECTION
-     *  a Book has three ChapterClasses [ClassOfChptrs]: .pst, .cur, .fut. Each is a Collection of 0->N Chapters AT any one time.
-     *  a ChapterClass [ClassOfChptrs]: is a Collection of 0->N Chapters AT any one time.
-     *  a Chapter has three VerseClasses [ClassOfVerses]: .pst, .cur, .fut. Each with a Collection of 0->N Verses AT any one time.
-     *  a VerseClass [ClassOfVerses] is a Collection of 0->N Verses AT any one time.
-     *  a Verse has 1-N Sentences, each with 1-N clauses, each with 0-N phrases,....
-     *
-     *  BUT ONLY the cur_ChptrClass IS READ. Though any or all Chapters may at any on time be in the cur_ChptrClass
      */
     var _STYL_aChptr = R.curry((sOBJ, arr) => R_forEachIndexed(_STYL_aVerseClas(sOBJ), arr));
 
