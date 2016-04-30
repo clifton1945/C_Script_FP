@@ -12,7 +12,7 @@ var CUT, _CUT, ret, _ret;
 const StyleDict = {
     property: {fontSize: "100%", opacity: 1.0, textAlign: "CENTER", backgroundColor: "rgba(145, 248, 29, 0.29)"}
 };
-var baseStyle = StyleDict.property;
+var styleModel = StyleDict.property;
 // CODE:
 /**
  *              TEST STUB ONLY >> _a_Wt:: NUM -> NUM
@@ -34,7 +34,7 @@ var transformations = {
     fontSize: _new_fontSize(i),
     textAlign: _newStr('right'),
 };
-var new_stylObj = R.evolve(transformations, baseStyle);
+var new_stylObj = R.evolve(transformations, styleModel);
 
 ret= new_stylObj;
 // COMMENTED OUT FOR USE IN simpleTests.js
