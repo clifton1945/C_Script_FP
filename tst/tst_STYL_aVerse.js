@@ -1,6 +1,6 @@
 
 "use strict";
-var R = require('ramda');
+//var R = require('ramda');  //COMMENTED OUT FOR USE IN simpleTest.js
 import { C_It } from '..//src//modules-compiled';
 var ret, _ret;
 
