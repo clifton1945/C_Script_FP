@@ -45,9 +45,13 @@ var tstCode = function (tst = false) {
         return Object.assign(node['style'], styleObj);
     });
     var _STYL_aVerse = R.curry(function STYL_aVerse(versStylDict, elem, ndx, coll) {
-        // once inside this function, use ndx to WEIGHT some styles
-        var thisStylObj = _thisStylOBJ(versStylDict)(ndx, coll); // ndx applied to WEIGHT AND COMPOSE individual styles
-        _STYLE_(thisStylObj, elem);
+        var transformations = {
+            opacity: _new_opacity(ndx), // a function that can be applied to WHICH theKey OR theValue ?
+            fontSize: _new_fontSize(ndx),
+            textAlign: _newStr('center'),
+        };
+        var new_stylObj = R.evolve(transformations, styleModel);
+        _STYLE_(new_stylObj, elem);
 
         MSG += `..(i[${ndx}] ${elem.style.textAlign}, ${elem.style.fontSize}, ${elem.style.opacity})`;
     });
@@ -60,6 +64,10 @@ var tstCode = function (tst = false) {
 
     C_Both(MSG);
     var noop = '';
+
+    function new_transformations(i) {
+        this.opacity = _new_opacity(i)
+    }
 };
 main();
 
