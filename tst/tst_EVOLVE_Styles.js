@@ -1,6 +1,7 @@
 "use strict";
-var R = require('ramda');
-import { C_It } from '..//src//modules-compiled';
+// COMMENTED OUT node code FOR USE IN .html
+//var R = require('ramda');
+//import { C_It } from '..//src//modules-compiled';
 //var C_It = (txt) => {return console.log(txt)};
 var CUT, _CUT, ret, _ret;
 
@@ -36,9 +37,9 @@ var transformations = {
 var new_stylObj = R.evolve(transformations, baseStyle);
 
 ret= new_stylObj;
-
-C_It(ret);
-C_It(JSON.stringify(ret));
+// COMMENTED OUT FOR USE IN simpleTests.js
+//C_It(ret);
+//C_(JSON.stringify(ret));
 //var _new_fontSize = (n) => R.always(_appendPercent(_a_Wt(n))); // WORKS
 //var _new_opacity = (n) => R.always(_divide100(_a_Wt(n))); //WORKS
 // FINAL FORM

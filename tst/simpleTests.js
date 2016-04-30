@@ -1,7 +1,6 @@
 "use strict";
 //var R = require('ramda-maybe');
 //import { testStr } from '..//src//modules-compiled'; // WORKS but throws Inspection 'can't resolve
-
 /**
  *      ***** TEST FRAMEWORK **************
  *   a Dashboard for selecting tests,
@@ -13,7 +12,6 @@ function main() {
  *          GLOBAL vars
  * require functions-compiled.js, objects-compiled.js
  * */
-//  *********** DOM  DATA    REQUIRE functions.js
 var MSG = '';
 /**
  *          testCode::
@@ -36,10 +34,6 @@ var tstCode = function (tst = false) {
      *           CODE UNDER TEST
      * @type {string}
      */
-    //WORKING Code IN functions,js
-
-    // NEW TEST CODE
-
     /**
  *      _STYLE_:: obj, node -> MUTATED node.style
      *          curried
@@ -57,10 +51,7 @@ var tstCode = function (tst = false) {
 
         MSG += `..(i[${ndx}] ${elem.style.textAlign}, ${elem.style.fontSize}, ${elem.style.opacity})`;
     });
-
     var _STYL_aVerseClas = R.curry((sOBJ, arr) => R_forEachIndexed(_STYL_aVerse(sOBJ), arr));
-    // test composing stylOBJs
-
     // test data
     var tst_Dict = {};
     var tst_NL = _a_clasNL(fut_queryStr);
