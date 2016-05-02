@@ -20,34 +20,14 @@ var baseStyle = StyleDict.property;
  * @param i
  * @private
  */
-var _a_Wt = i => 35 + i * 10; // EXP ndx
 // CODE UNDER TEST
-var _appendPercent = (n) => `${n}%`;  // DO NOT UNDERSTAND HOW TO MAKE THIS Pointless ?
 //var _divide100 = (n) => R.divide(n, 100);//WORKS
+var _a_Wt = i => 35 + i * 10; // EXP ndx
+var _appendPercent = (n) => `${n}%`;  // DO NOT UNDERSTAND HOW TO MAKE THIS Pointless ?
 var _divide100 = R.flip(R.divide)(100);// WORKS
 var _new_fontSize = R.compose(R.always, _appendPercent, _a_Wt);
 var _new_opacity = R.compose(R.always, _divide100, _a_Wt);
-var _newStr = (s)=>R.always(s);
-
-/**
- *      WANT transformations TO RETURN Property objs ALREADY MUTATED BY a new ndx
- *
- * the transforms OBJECT as shown in ramda docs have Functions that can not be partialed
- * they modify the values of a key. After the transform is invoked it is an object
- *
- *  Another way?? Will lens be better??
- *
- * @type {number}
- */
-//
-//var i = 7;
-//var transformations = {
-//    opacity:_new_opacity(i), // a function that can be applied to WHICH theKey OR theValue ?
-//    fontSize: _new_fontSize(i),
-//    textAlign: _newStr('right'),
-//};
-//var new_stylObj = R.evolve(transformations, baseStyle);
-
+// var _newStr = (s)=>R.always(s);
 
 //var opacity_lens = R.lensProp('opacity');
 //ret = R.set(opacity_lens)(.1234)(baseStyle);// good> 0.1234
@@ -64,13 +44,8 @@ var _set_fontSize = R.compose(R.set, R.lensProp)('fontSize');
 var _set_fontSize_Wt = R.compose(_set_fontSize, _appendPercent, _a_Wt);
 ret = _set_fontSize_Wt(2)(ret);// good> fontSize: '0.55%' AND opacity: 0.55
 
-
-
-C_It(ret);
-C_It(JSON.stringify(ret));
-//var _new_fontSize = (n) => R.always(_appendPercent(_a_Wt(n))); // WORKS
-//var _new_opacity = (n) => R.always(_divide100(_a_Wt(n))); //WORKS
-// FINAL FORM
+//C_It(ret);
+//C_It(JSON.stringify(ret));
 
 
 
