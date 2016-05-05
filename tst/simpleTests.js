@@ -67,30 +67,45 @@ var tstCode = function (tst = false) {
     };
     var _aClas_StylObj = (dict)=>(R.prop('chptr')(dict));
     var _aVers_StylObj = (dict)=>R.prop('styleProps')(dict);
-    /**
-     *      _STYL_aVerse:: {OBJ}->(ELM e, NUM n, [a])-> ELM e
-     */
-    var _STYL_aVerse = R.curry(function STYL_aVerse(versStylDict, elem, ndx, coll) {
-        var thisStylObj = R.compose(_set_opacity_Wt(ndx), _set_fontSize_Wt(ndx))(baseStyle); // ndx applied to WEIGHT AND COMPOSE individual styles
-        _STYLE_(thisStylObj, elem);
 
-        MSG += `..(i[${ndx}] ${elem.style.textAlign}, ${elem.style.fontSize}, ${elem.style.opacity})`;
-    });
-    var _aVersClasColl = (elem) => R.prop('children');
     /**
-     *      _STYL_aVerseClass:: {OBJ a}->(ELM e, NUM n, [a])-> fn(a, e) => {Obj b}
-     *      sets cBFn:_STYL_aVerse ( styleObj parameter to the appropriate versClass: pst, cur, fut as determined by its Element.
+     *              _STYL_a_Verse:: {OBJ styl}->(ELM e, NUM n, [a])-> ELM e
+     *      is a cBFn: CREATED TO BE APPLIED To each Verse OF a Collection of Verses.
+     *      this cBFn: IS BUILT on a partial application
+     */
+    var _STYL_a_Verse = R.curry(function STYL_aVerse(baseStyleProps, elem, ndx, coll) {
+        /**
+         *          _thisStylObj:: will be a Mutated style Property for this element's ndx and coll after providing a baseStyleObj
+         *
+         *  ndx applied to just the fontSize and opacity baseStylProperties;
+         *  any other properties are not affected i.e. kept|unchanged
+         *  NOTE: expect to add a coll OR coll.length Parameter to the two _set_....s.
+         */
+        var _thisStylObj = R.compose(_set_opacity_Wt(ndx), _set_fontSize_Wt(ndx));
+        //return _STYLE_(_thisStylObj(baseStyleProps), elem); // NO return used since the Element IS MUTATED in the DOM
+        var _x = _STYLE_(_thisStylObj(baseStyleProps));
+        var y = _x(elem); // NO return used since the Element IS MUTATED in the DOM
+        MSG += '..(i[' + ndx + '] ' + elem.style.textAlign + ', ' + elem.style.fontSize + ', ' + elem.style.opacity + ')';
+        return y; // x for tracing then returning
+    });
+
+    /**
+     *      _STYL_these_Verses:: {OBJ a}->(ELM e, NUM n, [a])-> fn(a, e) => {Obj b}
+     *      1st: sets the style Properties object argument of cBFn: _STYL_a_Verse as f(class = pst||cur||fut)
+     *          as determined by its Element:e a Verse Class Node
+     *      2nd: APPLIES a new _STYL function with the above styl properties TO EACH Verse Node/Element List.
      *
      */
-    var _STYL_aVerseClas = R.curry((sDict, coll) => {
+    var _STYL_these_Verses = R.curry((versPropDict, versNL) => {
         R_forEachIndexed(
-            _STYL_aVerse(_aClas_StylObj(sDict))
-            , coll
+            _STYL_a_Verse(_aClas_StylObj(versPropDict))
+            , versNL
         )
     });
 
     // test it
     var tst_Elem, tst_Coll;
+    // first test  _STYL_a_Verse( a clas stylProp obj)( a HTMLElem)
     const tst_Dict = {
         chptr: {
             fut: {
@@ -121,14 +136,18 @@ var tstCode = function (tst = false) {
             }
         }
     };
-    var tst_fut_styleDict = tst_Dict.chptr.fut;
-    _ret = _STYL_aVerse(tst_fut_styleDict);
-    tst_Coll = _aDoc_NL(fut_queryStr);
-    ret = R_forEachIndexed(_ret, tst_Coll);
+    var tst_fut_styleDict = tst_Dict.chptr.fut.styleProps;
+    var tst_futVerse = _aDoc_Node(fut_queryStr);
+    ret = _STYL_a_Verse(tst_fut_styleDict)(tst_futVerse);
+
+    //var tst_NL = _aDoc_NL(fut_queryStr); // exp:
+
+    //ret = _STYL_these_Verses(tst_fut_styleDict)(tst_Coll);
+    //ret = R_forEachIndexed(_ret, tst_Coll); // this works: the fut verses are changed, though not correctly first>large, last small
     //
-    tst_Elem = _aDoc_Node(chptr_queryStr);
-    tst_Coll = _aVersClasColl(tst_Elem);
-    //_STYL_aVerseClas(tst_Dict, tst_Coll);
+    //tst_Elem = _aDoc_Node(chptr_queryStr);
+    //tst_Coll = tst_Coll;
+    //_ret =_STYL_these_Verses(tst_Dict, tst_Coll);
     C_Both(MSG);
     var noop = '';
 
@@ -136,7 +155,7 @@ var tstCode = function (tst = false) {
      *       _STYL_a_Chptr:: {OBJ}->(ELM: e, NUM: n, [a])-> ELM: a Chptr COLLECTION
      */
     var DEPR_untilNeeded__STYL_aChptr = R.curry((sOBJ, arr) => {
-        R_forEachIndexed(_STYL_aVerseClas(sOBJ), arr)
+        R_forEachIndexed(_STYL_these_Verses(sOBJ), arr)
     });
 };
 main();
