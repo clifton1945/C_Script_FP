@@ -60,16 +60,15 @@ var tstCode = function (tst = false) {
 
 
     // test data
-
-    var chptr_queryStr = '.ChptrReadGrps .cur .VerseReadGrps';
+    //var chptr_queryStr = '.ChptrReadGrps .cur .VerseReadGrps';
     var _aDoc_Node = function _aDoc_Node(divStr) {
         return _qSelect(divStr)(document)
     };
     var _aDoc_NodeList = function _aDoc_NodeList(divStr) {
         return _qSelectAll(divStr)(document)
     };
-    var _aClas_StylObj = (dict)=>(R.prop('chptr')(dict));
-    var _aVers_StylObj = (dict)=>R.prop('styleProps')(dict);
+    //var _aClas_StylObj = (dict)=>(R.prop('chptr')(dict));
+    //var _aVers_StylObj = (dict)=>R.prop('styleProps')(dict);
 
     /**
      *              _STYL_a_Verse:: {OBJ styl}->(ELM e, NUM n, [a])-> ELM e
@@ -137,12 +136,20 @@ var tstCode = function (tst = false) {
             }
         }
     };
-    var tst_Three_Clas_Styl_Props = tst_Dict.chptr;
-    var tst_One_Clas_Styl_Props = tst_Dict.chptr.fut;
-    var tst_One_Clas_Styl_Property = tst_Dict.chptr.fut.styleProps;
-    var tst_NodeListOf_Vers = _aDoc_Node('.ChptrReadGrps .cur .VerseReadGrps').children;
-    var tst_One_Vers = _aDoc_Node(chptr_queryStr).children[2];
+    //var tst_Three_Clas_StylProps = tst_Dict.chptr;
+    //var tst_One_Clas_StylProps = tst_Dict.chptr.fut;
+    var tst_One_StylProps = tst_Dict.chptr.fut.styleProps;
+    //var tst_NodeListOf_Vers = _aDoc_Node('.ChptrReadGrps .cur .VerseReadGrps').children;
+    var tst_One_Vers = _aDoc_Node('.ChptrReadGrps .cur .VerseReadGrps').children[2];
 
+    var _set_textAlign = R.compose(R.set, R.lensProp)('textAlign');
+    var _set_textAlign_right = _set_textAlign('right');
+    var styl_One_Verse = R.curry(function styl_One_Verse(styleObj, node) {
+        return Object.assign(node['style'], styleObj);
+    });
+
+    var newStyl = _set_textAlign_right(tst_One_StylProps);
+    styl_One_Verse(newStyl)(tst_One_Vers);
     C_Both(MSG);
     var noop = '';
 
