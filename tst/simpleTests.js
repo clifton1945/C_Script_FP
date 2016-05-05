@@ -65,6 +65,9 @@ var tstCode = function (tst = false) {
     var _aDoc_Node = function _aDoc_Node(divStr) {
         return _qSelect(divStr)(document)
     };
+    var _aDoc_NodeList = function _aDoc_NodeList(divStr) {
+        return _qSelectAll(divStr)(document)
+    };
     var _aClas_StylObj = (dict)=>(R.prop('chptr')(dict));
     var _aVers_StylObj = (dict)=>R.prop('styleProps')(dict);
 
@@ -103,16 +106,14 @@ var tstCode = function (tst = false) {
         )
     });
 
-    // test it
-    var tst_Elem, tst_Coll;
-    // first test  _STYL_a_Verse( a clas stylProp obj)( a HTMLElem)
+    // test it: separate collections and functions
     const tst_Dict = {
         chptr: {
             fut: {
                 name: 'fut'
                 , styleProps: {
-                    fontSize: "100%",
-                    opacity: 1.0,
+                    fontSize: "90%",
+                    opacity: 0.9,
                     textAlign: "CENTER",
                     backgroundColor: "rgba(145, 248, 29, 0.29)"
                 }
@@ -128,26 +129,20 @@ var tstCode = function (tst = false) {
             , pst: {
                 name: 'pst'
                 , styleProps: {
-                    fontSize: "100%",
-                    opacity: 1.0,
+                    fontSize: "80%",
+                    opacity: 0.8,
                     textAlign: "CENTER",
                     backgroundColor: "rgba(255, 0, 0, 0.24)"
                 }
             }
         }
     };
-    var tst_fut_styleDict = tst_Dict.chptr.fut.styleProps;
-    var tst_futVerse = _aDoc_Node(fut_queryStr);
-    ret = _STYL_a_Verse(tst_fut_styleDict)(tst_futVerse);
+    var tst_Three_Clas_Styl_Props = tst_Dict.chptr;
+    var tst_One_Clas_Styl_Props = tst_Dict.chptr.fut;
+    var tst_One_Clas_Styl_Property = tst_Dict.chptr.fut.styleProps;
+    var tst_NodeListOf_Vers = _aDoc_Node('.ChptrReadGrps .cur .VerseReadGrps').children;
+    var tst_One_Vers = _aDoc_Node(chptr_queryStr).children[2];
 
-    //var tst_NL = _aDoc_NL(fut_queryStr); // exp:
-
-    //ret = _STYL_these_Verses(tst_fut_styleDict)(tst_Coll);
-    //ret = R_forEachIndexed(_ret, tst_Coll); // this works: the fut verses are changed, though not correctly first>large, last small
-    //
-    //tst_Elem = _aDoc_Node(chptr_queryStr);
-    //tst_Coll = tst_Coll;
-    //_ret =_STYL_these_Verses(tst_Dict, tst_Coll);
     C_Both(MSG);
     var noop = '';
 
