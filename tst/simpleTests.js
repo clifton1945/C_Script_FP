@@ -80,8 +80,9 @@ var tstCode = function (tst = false) {
 
     // ASSERT
     RET = tst_One_Vers.style.textAlign;
-    TST = RET === 'left';
-    EXP = `'EXP: textAlign:left NOT ${RET}`;
+    TST = RET === '';
+    EXP = `'EXP: textAlign:'' NOT ${RET}`;
+    console.assert(TST, EXP);
     //CUT
     var styl_One_Verse = R.curry(function styl_One_Verse(styleObj, node) {
         //NOTE: the target styleObj IS RETURNED MUTATED !!
