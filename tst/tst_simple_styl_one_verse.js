@@ -1,3 +1,6 @@
+/**
+ * Created by CLIF on 5/5/2016.
+ */
 "use strict";
 //var R = require('ramda-maybe');
 //import { testStr } from '..//src//modules-compiled'; // WORKS but throws Inspection 'can't resolve
@@ -24,7 +27,7 @@ function main() {
  * require functions-compiled.js, objects-compiled.js
  * */
 //  *********** DOM  DATA    REQUIRE functions.js
-var MSG = '';
+var MSG = '', RET, EXP, TST;
 /**
  *          testCode::
  * @param tst
@@ -35,10 +38,6 @@ var tstCode = function (tst = false) {
      * _qSelectAll :: String -> Node -> NodeList
      * Note: NodeList is array-like so you can run ramda list functions on it.
      */
-    //var chptr_queryStr = '.book .ChptrReadGrps .cur';
-    //var fut_queryStr = '.book .ChptrReadGrps .cur  .VerseReadGrps > .fut .vers';
-    //var cur_queryStr = '.book .ChptrReadGrps .cur  .VerseReadGrps > .cur .vers';
-    //var pst_queryStr = '.book .ChptrReadGrps .cur  .VerseReadGrps > .pst .vers';
     var _aDoc_NL = function _clasNL(divClasStr) {
         return _qSelectAll(divClasStr)(document)
     };
@@ -67,43 +66,7 @@ var tstCode = function (tst = false) {
     var _aDoc_NodeList = function _aDoc_NodeList(divStr) {
         return _qSelectAll(divStr)(document)
     };
-    //var _aClas_StylObj = (dict)=>(R.prop('chptr')(dict));
-    //var _aVers_StylObj = (dict)=>R.prop('styleProps')(dict);
 
-    /**
-     *              _STYL_a_Verse:: {OBJ styl}->(ELM e, NUM n, [a])-> ELM e
-     *      is a cBFn: CREATED TO BE APPLIED To each Verse OF a Collection of Verses.
-     *      this cBFn: IS BUILT on a partial application
-     */
-    //var _STYL_a_Verse = R.curry(function STYL_aVerse(baseStyleProps, elem, ndx, coll) {
-    //    /**
-    //     *          _thisStylObj:: will be a Mutated style Property for this element's ndx and coll after providing a baseStyleObj
-    //     *
-    //     *  ndx applied to just the fontSize and opacity baseStylProperties;
-    //     *  any other properties are not affected i.e. kept|unchanged
-    //     *  NOTE: expect to add a coll OR coll.length Parameter to the two _set_....s.
-    //     */
-    //    var _thisStylObj = R.compose(_set_opacity_Wt(ndx), _set_fontSize_Wt(ndx));
-    //    //return _STYLE_(_thisStylObj(baseStyleProps), elem); // NO return used since the Element IS MUTATED in the DOM
-    //    var _x = _STYLE_(_thisStylObj(baseStyleProps));
-    //    var y = _x(elem); // NO return used since the Element IS MUTATED in the DOM
-    //    MSG += '..(i[' + ndx + '] ' + elem.style.textAlign + ', ' + elem.style.fontSize + ', ' + elem.style.opacity + ')';
-    //    return y; // x for tracing then returning
-    //});
-
-    /**
-     *      _STYL_these_Verses:: {OBJ a}->(ELM e, NUM n, [a])-> fn(a, e) => {Obj b}
-     *      1st: sets the style Properties object argument of cBFn: _STYL_a_Verse as f(class = pst||cur||fut)
-     *          as determined by its Element:e a Verse Class Node
-     *      2nd: APPLIES a new _STYL function with the above styl properties TO EACH Verse Node/Element List.
-     *
-     */
-    //var _STYL_these_Verses = R.curry((versPropDict, versNL) => {
-    //    R_forEachIndexed(
-    //        _STYL_a_Verse(_aClas_StylObj(versPropDict))
-    //        , versNL
-    //    )
-    //});
 
     // test it: separate collections and functions
     const tst_Dict = {
@@ -143,9 +106,9 @@ var tstCode = function (tst = false) {
     var _set_textAlign_right = _set_textAlign('right');
 
     // ASSERT
-    ret = tst_One_Vers.style.textAlign;
-    var TST = ret === 'left';
-    var EXP = `'EXP: textAlign:left NOT ${ret}`;
+    RET = tst_One_Vers.style.textAlign;
+    TST = RET === 'left';
+    EXP = `'EXP: textAlign:left NOT ${RET}`;
     //CUT
     var styl_One_Verse = R.curry(function styl_One_Verse(styleObj, node) {
         //NOTE: the target styleObj IS RETURNED MUTATED !!
@@ -155,19 +118,13 @@ var tstCode = function (tst = false) {
     var newStyl = _set_textAlign_right(tst_One_StylProps); //TODO ADD TO functions_01
     styl_One_Verse(newStyl)(tst_One_Vers);
     // ASSERT
-    ret = tst_One_Vers.style.textAlign;
-    TST = ret === 'right';
-    EXP = `'EXP: textAlign:right NOT ${ret}`;
+    RET = tst_One_Vers.style.textAlign;
+    TST = RET === 'right';
+    EXP = `'EXP: textAlign:right NOT ${RET}`;
     console.assert(TST, EXP);
     //C_Both(MSG);
     var noop = '';
-
-    /**
-     *       _STYL_a_Chptr:: {OBJ}->(ELM: e, NUM: n, [a])-> ELM: a Chptr COLLECTION
-     */
-    //var DEPR_untilNeeded__STYL_aChptr = R.curry((sOBJ, arr) => {
-    //    R_forEachIndexed(_STYL_these_Verses(sOBJ), arr)
-    //});
 };
 main();
+
 
