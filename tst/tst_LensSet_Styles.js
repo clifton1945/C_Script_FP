@@ -64,6 +64,9 @@ var _set_fontSize = R.compose(R.set, R.lensProp)('fontSize');
 var _set_fontSize_Wt = R.compose(_set_fontSize, _appendPercent, _a_Wt);
 ret = _set_fontSize_Wt(2)(ret);// good> fontSize: '0.55%' AND opacity: 0.55
 
+/**
+ *          _set_textAlign:: styleLens WAITING FOR  a styleProperty obj TO MUTATE
+ */
 var _set_textAlign = R.compose(R.set, R.lensProp)('textAlign');
 
 
