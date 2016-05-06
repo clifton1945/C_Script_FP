@@ -52,7 +52,7 @@ var tstCode = function (tst = false) {
      * @type {{chptr: {fut: {name: string, styleProps: {fontSize: string, opacity: number, textAlign: string, backgroundColor: string}}, cur: {name: string, styleProps: {fontSize: string, opacity: number, textAlign: string}}, pst: {name: string, styleProps: {fontSize: string, opacity: number, textAlign: string, backgroundColor: string}}}}}
      */
 
-    const baseStylProp_Dict_stub = {
+    const baseStylProps_Dict_stub = {
         chptr: {
             fut: {
                 name: 'fut'
@@ -82,25 +82,27 @@ var tstCode = function (tst = false) {
             }
         }
     };
-    var stub_One_StylProps = baseStylProp_Dict_stub.chptr.fut.styleProps;
+    var fut_StylProps_stub = baseStylProp_Dict_stub.chptr.fut.styleProps;
+    var aVerse_stub = _aDoc_Node('.ChptrReadGrps .cur .VerseReadGrps .fut').children[1];
     var theseVerses_Coll_stub = _aDoc_Node('.ChptrReadGrps .cur .VerseReadGrps .fut').children;
     var _set_textAlign_right = _set_textAlign('right');
 
-    // ASSERT
-    RET = theseVerses_Coll_stub.style.textAlign;
-    TST = RET === '';
-    EXP = `'EXP: textAlign:'' NOT ${RET}`;
-    console.assert(TST, EXP);
+    //// ASSERT
+    //RET = aVerse_stub.style.textAlign;
+    //TST = RET === '';
+    //EXP = `'EXP: textAlign:'' NOT ${RET}`;
+    //console.assert(TST, EXP);
+
     //CUT:      now styl_these_Verses() USING
+    var newStyl_stub = _set_textAlign_right(fut_StylProps_stub);
+    styl_One_Verse(newStyl_stub)(aVerse_stub);
 
+    //// ASSERT
+    //RET = aVerse_stub.style.textAlign;
+    //TST = RET === 'right';
+    //EXP = `'EXP: textAlign:right NOT ${RET}`;
+    //console.assert(TST, EXP);
 
-    var newStyl = _set_textAlign_right(stub_One_StylProps);
-    styl_One_Verse(newStyl)(theseVerses_Coll_stub);
-    // ASSERT
-    RET = theseVerses_Coll_stub.style.textAlign;
-    TST = RET === 'right';
-    EXP = `'EXP: textAlign:right NOT ${RET}`;
-    console.assert(TST, EXP);
     //C_Both(MSG);
     var noop = '';
 };
