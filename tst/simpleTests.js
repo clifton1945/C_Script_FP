@@ -43,7 +43,15 @@ var tstCode = function (tst = false) {
      *           CODE UNDER TEST
      * @type {string}
      */
-    // test data
+    let styl_One_Verse = R.curry(function styl_One_Verse(styleObj, node) {
+        //NOTE: the target styleObj IS RETURNED MUTATED !!
+        return Object.assign(node['style'], styleObj);
+    });
+    /**
+     *          TEST DATA STUBS, ETC
+     * @type {{chptr: {fut: {name: string, styleProps: {fontSize: string, opacity: number, textAlign: string, backgroundColor: string}}, cur: {name: string, styleProps: {fontSize: string, opacity: number, textAlign: string}}, pst: {name: string, styleProps: {fontSize: string, opacity: number, textAlign: string, backgroundColor: string}}}}}
+     */
+
     const tst_Dict = {
         chptr: {
             fut: {
@@ -83,13 +91,10 @@ var tstCode = function (tst = false) {
     TST = RET === '';
     EXP = `'EXP: textAlign:'' NOT ${RET}`;
     console.assert(TST, EXP);
-    //CUT
-    var styl_One_Verse = R.curry(function styl_One_Verse(styleObj, node) {
-        //NOTE: the target styleObj IS RETURNED MUTATED !!
-        return Object.assign(node['style'], styleObj);
-    });
+    //CUT:      now styl_these_Verses() USING
 
-    var newStyl = _set_textAlign_right(tst_One_StylProps); //TODO ADD TO functions_01
+
+    var newStyl = _set_textAlign_right(tst_One_StylProps);
     styl_One_Verse(newStyl)(tst_One_Vers);
     // ASSERT
     RET = tst_One_Vers.style.textAlign;
