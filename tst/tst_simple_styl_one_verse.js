@@ -60,12 +60,12 @@ var tstCode = function (tst = false) {
 
     // test data
     //var chptr_queryStr = '.ChptrReadGrps .cur .VerseReadGrps';
-    var _aDoc_Node = function _aDoc_Node(divStr) {
-        return _qSelect(divStr)(document)
-    };
-    var _aDoc_NodeList = function _aDoc_NodeList(divStr) {
-        return _qSelectAll(divStr)(document)
-    };
+    //var _aDoc_Node = function _aDoc_Node(divStr) {
+    //    return _qSelect(divStr)(document)
+    //};
+    //var _aDoc_NodeList = function _aDoc_NodeList(divStr) {
+    //    return _qSelectAll(divStr)(document)
+    //};
 
 
     // test it: separate collections and functions

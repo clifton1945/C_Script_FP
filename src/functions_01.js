@@ -16,6 +16,12 @@ var R_forEachIndexed = R.addIndex(R.forEach);
 var _R_forEachIndexed = R.curry(R.addIndex(R.forEach));
 var _qSelect = R.invoker(1, 'querySelector');
 var _qSelectAll = R.invoker(1, 'querySelectorAll');
+var _aDoc_Node = function _aDoc_Node(divStr) {
+    return _qSelect(divStr)(document)
+};
+var _aDoc_NodeList = function _aDoc_NodeList(divStr) {
+    return _qSelectAll(divStr)(document)
+};
 // STYLING Elements Code
 var _a_Wt = i => .45 + i * .10; // EXP ndx
 var _a_percentSTR = (w) => `${w * 100}%`;
