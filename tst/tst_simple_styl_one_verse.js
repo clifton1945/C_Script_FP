@@ -102,7 +102,7 @@ var tstCode = function (tst = false) {
     var tst_One_StylProps = tst_Dict.chptr.fut.styleProps;
     var tst_One_Vers = _aDoc_Node('.ChptrReadGrps .cur .VerseReadGrps .fut').children[2];
 
-    var _set_textAlign = R.compose(R.set, R.lensProp)('textAlign');
+
     var _set_textAlign_right = _set_textAlign('right');
 
     // ASSERT
@@ -114,7 +114,6 @@ var tstCode = function (tst = false) {
         //NOTE: the target styleObj IS RETURNED MUTATED !!
         return Object.assign(node['style'], styleObj);
     });
-
     var newStyl = _set_textAlign_right(tst_One_StylProps); //TODO ADD TO functions_01
     styl_One_Verse(newStyl)(tst_One_Vers);
     // ASSERT

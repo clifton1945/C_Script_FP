@@ -64,10 +64,11 @@ var _set_fontSize = R.compose(R.set, R.lensProp)('fontSize');
 var _set_fontSize_Wt = R.compose(_set_fontSize, _appendPercent, _a_Wt);
 ret = _set_fontSize_Wt(2)(ret);// good> fontSize: '0.55%' AND opacity: 0.55
 
+var _set_textAlign = R.compose(R.set, R.lensProp)('textAlign');
 
 
-C_It(ret);
-C_It(JSON.stringify(ret));
+//C_It(ret);
+//C_It(JSON.stringify(ret));
 //var _new_fontSize = (n) => R.always(_appendPercent(_a_Wt(n))); // WORKS
 //var _new_opacity = (n) => R.always(_divide100(_a_Wt(n))); //WORKS
 // FINAL FORM
