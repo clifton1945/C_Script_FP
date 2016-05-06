@@ -38,37 +38,12 @@ var tstCode = function (tst = false) {
      * _qSelectAll :: String -> Node -> NodeList
      * Note: NodeList is array-like so you can run ramda list functions on it.
      */
-    var _aDoc_NL = function _clasNL(divClasStr) {
-        return _qSelectAll(divClasStr)(document)
-    };
-    MSG = 'MUTATE_aVersStyle > ';
+    MSG = 'style_oneVerse';
     /**
      *           CODE UNDER TEST
      * @type {string}
      */
-    /**
-     *      _STYLE_:: obj, node -> MUTATED node.style
-     *          curried
-     * @param styleObj
-     * @param node
-     * @returns {*}
-     */
-    var _STYLE_ = R.curry(function setStyle(styleObj, node) {
-        return Object.assign(node['style'], styleObj);
-    });
-
-
     // test data
-    //var chptr_queryStr = '.ChptrReadGrps .cur .VerseReadGrps';
-    //var _aDoc_Node = function _aDoc_Node(divStr) {
-    //    return _qSelect(divStr)(document)
-    //};
-    //var _aDoc_NodeList = function _aDoc_NodeList(divStr) {
-    //    return _qSelectAll(divStr)(document)
-    //};
-
-
-    // test it: separate collections and functions
     const tst_Dict = {
         chptr: {
             fut: {
@@ -101,8 +76,6 @@ var tstCode = function (tst = false) {
     };
     var tst_One_StylProps = tst_Dict.chptr.fut.styleProps;
     var tst_One_Vers = _aDoc_Node('.ChptrReadGrps .cur .VerseReadGrps .fut').children[2];
-
-
     var _set_textAlign_right = _set_textAlign('right');
 
     // ASSERT
@@ -114,6 +87,7 @@ var tstCode = function (tst = false) {
         //NOTE: the target styleObj IS RETURNED MUTATED !!
         return Object.assign(node['style'], styleObj);
     });
+
     var newStyl = _set_textAlign_right(tst_One_StylProps); //TODO ADD TO functions_01
     styl_One_Verse(newStyl)(tst_One_Vers);
     // ASSERT
