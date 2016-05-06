@@ -38,10 +38,13 @@ var tstCode = function (tst = false) {
      * _qSelectAll :: String -> Node -> NodeList
      * Note: NodeList is array-like so you can run ramda list functions on it.
      */
-    MSG = 'style_oneVerse';
+    MSG = 'style_theseVerses';
     /**
      *           CODE UNDER TEST
      * @type {string}
+     */
+    /**
+     *          a cBFN:: {obj}-> Elem:a -> Elem:a MUTATED
      */
     let styl_oneVerse = R.curry(function styl_One_Verse(styleObj, node) {
         //NOTE: the target styleObj IS RETURNED MUTATED !!
@@ -86,19 +89,28 @@ var tstCode = function (tst = false) {
     var aVerse_stub = _aDoc_Node('.ChptrReadGrps .cur .VerseReadGrps .fut').children[1];
     var theseVerses_Coll_stub = _aDoc_Node('.ChptrReadGrps .cur .VerseReadGrps .fut').children;
     var _set_textAlign_right = _set_textAlign('right');
+    var newStyl_stub = _set_textAlign_right(stub_One_StylProps);
 
     // ASSERT
     //RET = aVerse_stub.style.textAlign;
     //TST = RET === '';
     //EXP = `'EXP: textAlign:'' NOT ${RET}`;
     //console.assert(TST, EXP);
+
     //CUT:      now styl_these_Verses() USING
-    var newStyl = _set_textAlign_right(stub_One_StylProps);
-    styl_oneVerse(newStyl)(aVerse_stub);
+    styl_oneVerse(newStyl_stub)(aVerse_stub);
+
+    /**
+     *          a cBFn:: partially applied w/ a new style obj set as a function of this_verse: ndx and coll.
+     * @param cBFn
+     * @param coll
+     */
+    let map_theseVerses = (cBFn, coll) => R.map(cBFn)(coll);
+    var cBFn = styl_oneVerse(newStyl_stub);
     // ASSERT
-    //RET = aVerse_stub.style.textAlign;
-    //TST = RET === 'right';
-    //EXP = `'EXP: textAlign:right NOT ${RET}`;
+    RET = map_theseVerses(cBFn, theseVerses_Coll_stub);
+    TST = RET === 'right';
+    EXP = `'EXP: textAlign:right NOT ${RET}`;
     //console.assert(TST, EXP);
     //C_Both(MSG);
     var noop = '';
