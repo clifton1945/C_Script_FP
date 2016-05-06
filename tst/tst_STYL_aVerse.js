@@ -1,6 +1,6 @@
 
 "use strict";
-//var R = require('ramda');  //COMMENTED OUT FOR USE IN simpleTest.js
+var R = require('ramda');  //COMMENTED OUT FOR USE IN simpleTest.js
 import { C_It } from '..//src//modules-compiled';
 var ret, _ret;
 
@@ -24,7 +24,7 @@ var STYL_aVerse = function STYL_aVerse(stylObj, elem, ndx, coll) {
 };
 var _STYL_aVerse = R.curry(STYL_aVerse);
 // TESTS
-
+ret = "DFGHJKL:";
 C_It(ret);
 
 

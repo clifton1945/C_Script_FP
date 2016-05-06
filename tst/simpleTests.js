@@ -79,50 +79,84 @@ var tstCode = function (tst = false) {
             }
         }
     };
-    var stub_One_StylProps = baseStylProp_Dict_stub.chptr.fut.styleProps;
+    var fut_StylProps_stub = baseStylProp_Dict_stub.chptr.fut.styleProps;
     var aVerse_stub = _aDoc_Node('.ChptrReadGrps .cur .VerseReadGrps .fut').children[1];
     var theseVerses_Coll_stub = _aDoc_Node('.ChptrReadGrps .cur .VerseReadGrps .fut').children;
+    //
+    //var _set_textAlign_right = _set_textAlign('right');
+    //var newStyl_stub = _set_textAlign_right(fut_StylProps_stub);
 
-    var _set_textAlign_right = _set_textAlign('right');
-    var newStyl_stub = _set_textAlign_right(stub_One_StylProps);
-
-    // ASSERT
-    //RET = aVerse_stub.style.textAlign;
-    //TST = RET === '';
-    //EXP = `'EXP: textAlign:'' NOT ${RET}`;
-    //console.assert(TST, EXP);
-
-    //CUT:      now styl_these_Verses()
     /**
-     *          a cBFN:: {obj}-> Elem:a -> Elem:a MUTATED
-     * there are two basic functions required to actually mutate a Verse.style object
-     * NOTE: I have been using _verb to mean partially applied verb
+     *              update_thisStylObj_cBFn({so}, ndx, [coll])=>{so}
      * (1) update_theStyleObj as f(baseStylObj, ndx, coll) -> stylObj
      *      (a) calc_Wt (VerseClassPropertyDict)(ndx, coll) -> Num: wt
      *      (b) set_ each property f(base, prop1, prop2,...) WITH its weight
      *      NOTE: the _set_PropertyKey class functions can be Partialled with (aPropValue)
      *      THEN they JUST NEED a_stylObj TO set
      *      (c) merge them into one style obj by compose/pipe each set object
-     * (2) assign_thisStyleObj_to_thisElement.
      */
-    let styl_oneVerse = R.curry(function styl_One_Verse(styleObj, node) {
-        //NOTE: the target styleObj IS RETURNED MUTATED !!
-        return Object.assign(node['style'], styleObj);
-    });
-
     /**
-     *          a cBFn:: partially applied w/ a new style obj set as a function of this_verse: ndx and coll.
-     * @param cBFn
-     * @param coll
+     *              TEST STUB ONLY >> _a_Wt_stub:: NUM -> NUM
+     * @param i
+     * @private
      */
-    let map_theseVerses = (cBFn, coll) => R.map(cBFn)(coll);
-    var cBFn = styl_oneVerse(_set_fontSize_Wt(1)(stub_One_StylProps));
-    // ASSERT
-    RET = map_theseVerses(cBFn, theseVerses_Coll_stub);
-    TST = RET === 'right';
-    EXP = `'EXP: textAlign:right NOT ${RET}`;
+    var _a_Wt_stub = i => 25 + i * 10; // (i)->EXP: 0<ndx<
+// CODE UNDER TEST
+    var _appendPercent = (n) => `${n}%`;  // DO NOT UNDERSTAND HOW TO MAKE THIS Pointless ?
+    var _divide100 = R.flip(R.divide)(100);// WORKS
+    var _new_fontSize = R.compose(R.always, _appendPercent, _a_Wt_stub);
+    var _new_opacity = R.compose(R.always, _divide100, _a_Wt_stub);
+    var _new_Str = (s)=>R.always(s);
+    // update_properties:: I want to apply the current index to _new_... functions
+    // the two _new_fontSize AND _new_opacity WANT 1st an index 2nd an obj
+    var update_properties = (i) => {
+        var x = _new_fontSize(i);
+        var y = _new_opacity(i);
+
+        var transformStyleProperties = {
+            fontSize: x,
+            opacity: y,
+            textAlign: _new_Str('right'),
+        };
+        return R.evolve(transformStyleProperties);
+    };
+// ASSERT
+    RET = update_properties(0)(fut_StylProps_stub);
+    TST = R.equals("right")(R.prop('textAlign', RET))
+        && R.equals(0.25)(R.prop('opacity', RET));
+    EXP = `'EXP: textAlign: right NOT ${RET}`;
+    console.assert(TST, EXP);
+
+    ///**
+    // *          a cBFN:: {obj}-> Elem:a -> Elem:a MUTATED
+    // * there are two basic functions required to actually mutate a Verse.style object
+    // * NOTE: I have been using _verb to mean partially applied verb
+    // * (1) update_theStyleObj as f(baseStylObj, ndx, coll) -> stylObj
+    // *      (a) calc_Wt (VerseClassPropertyDict)(ndx, coll) -> Num: wt
+    // *      (b) set_ each property f(base, prop1, prop2,...) WITH its weight
+    // *      NOTE: the _set_PropertyKey class functions can be Partialled with (aPropValue)
+    // *      THEN they JUST NEED a_stylObj TO set
+    // *      (c) merge them into one style obj by compose/pipe each set object
+    // * (2) assign_thisStyleObj_to_thisElement.
+    // */
+    //let styl_oneVerse = R.curry(function styl_One_Verse(styleObj, node) {
+    //    //NOTE: the target styleObj IS RETURNED MUTATED !!
+    //    return Object.assign(node['style'], styleObj);
+    //});
+    //
+    ///**
+    // *          a cBFn:: partially applied w/ a new style obj set as a function of this_verse: ndx and coll.
+    // * @param cBFn
+    // * @param coll
+    // */
+    //let map_theseVerses = (cBFn, coll) => R.map(cBFn)(coll);
+    //var cBFn = styl_oneVerse(_set_fontSize_Wt(1)(fut_StylProps_stub));
+    //// ASSERT
+    //RET = map_theseVerses(cBFn, theseVerses_Coll_stub);
+    //TST = R.isArrayLike(RET);
+    //EXP = `'EXP: array of 6 CSSStyleDeclarations NOT ${RET}`;
     //console.assert(TST, EXP);
-    //C_Both(MSG);
+    ////C_Both(MSG);
     var noop = '';
 };
 main();
