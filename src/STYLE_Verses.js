@@ -105,17 +105,18 @@ var main = function () {
         /**
          *      styl_theseVerses::
          * @param cBFn
-         * @param coll
+         * @param verseColl
          * @returns [verses]
          */
-        function styl_theseVerses(cBFn, coll) {
-            return R.addIndex(R.map)(cBFn)(coll)
+        function styl_theseVerses(stylObj, verseColl) {
+            return R.addIndex(R.map)(styl_oneVerse(stylObj), verseColl)
         });
+
     /**
      *          CONFIRMATION OUTPUT & ASSERTS
      */
     RET = styl_theseVerses(
-        styl_oneVerse(fut_StylProps_stub)
+        fut_StylProps_stub
         , R.reverse(theseVerses_Coll_stub)
     );
     MSG += 'opacities:';
