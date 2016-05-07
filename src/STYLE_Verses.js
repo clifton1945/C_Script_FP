@@ -68,7 +68,7 @@ var main = function () {
      * @param i
      * @private
      */
-    let _a_Wt_stub = i => 35 + i * 10; // (i)->EXP: 0<ndx<
+    let _a_Wt_stub = i => 55 + i * 10; // (i)->EXP: 0<ndx<
     var _appendPercent = (n) => `${n}%`;  // DO NOT UNDERSTAND HOW TO MAKE THIS Pointless ?
     var _divide100 = R.flip(R.divide)(100);// WORKS
     var _eager_fontSize = R.compose(_appendPercent, _a_Wt_stub);// a -> b
@@ -79,7 +79,7 @@ var main = function () {
             // the R.always returns a FUNC returning the satisfied _eager by n
             fontSize: R.always(_eager_fontSize(n)), // must be a -> (*-> b)
             opacity: R.always(_eager_opacity(n)),
-            textAlign: _new_Str('right')
+            textAlign: _new_Str('center')
         }
     };
     let update_properties = R.curry(
