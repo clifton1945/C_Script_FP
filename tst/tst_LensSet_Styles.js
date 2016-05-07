@@ -37,6 +37,7 @@ var _new_Str = (s)=>R.always(s);
 //  SO the two eager for ndx functions need to be satisfied BEFORE the .always
 // HEY FYI: .always -> a->(*-> a) i.e. a func  ; .identity:: a -> a i.e.
 
+// THERE IS another var transformers in simpleTests.js
 var transformers = (n)=> {    // (n) -> {}
     return {// trans... REQUIRE a transformer FUNC
         // the R.always returns a FUNC returning the satisfied _eager by n
