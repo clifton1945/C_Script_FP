@@ -97,31 +97,31 @@ var main = function () {
         return Object.assign(node['style'], styleObj);
     });
     let styl_oneVerse = R.curry(function styl_One_Verse(styleObj, val, ndx, col) {
-        // remember, this is a cBFn
-        //var x = update_properties(styleObj)(ndx); // updateProps
-        //assign Style
-        return assign_Style(update_properties(styleObj)(ndx), val);
+        // remember, this is a cBFn which returns the_mutatedVerse
+        assign_Style(update_properties(styleObj)(ndx), val);
+        return val
     });
     let styl_theseVerses = R.curry(
         /**
          *      styl_theseVerses::
          * @param cBFn
          * @param coll
-         * @returns {*}
+         * @returns [verses]
          */
         function styl_theseVerses(cBFn, coll) {
             return R.addIndex(R.map)(cBFn)(coll)
         });
     /**
-     *          CONFIRMATION ASSERTS
+     *          CONFIRMATION OUTPUT & ASSERTS
      */
     RET = styl_theseVerses(
-        styl_oneVerse(fut_StylProps_stub),
-        theseVerses_Coll_stub
+        styl_oneVerse(fut_StylProps_stub)
+        , R.reverse(theseVerses_Coll_stub)
     );
-    MSG += R.pluck('opacity')(RET);
-    // ASSERT // TODO figure better assert test
-    TST = R.isArrayLike(RET) && R.length(RET);
+    MSG += 'opacities:';
+    MSG += R.map((v)=>`${v.style.opacity}`)(RET);
+    //          ASSERTS
+    TST = R.isArrayLike(RET) && R.equals(6, R.length(RET));
     EXP = `'EXP: array of 6 CSSStyleDeclarations NOT ${RET}`;
     console.assert(TST, EXP);
     C_Both(MSG);
