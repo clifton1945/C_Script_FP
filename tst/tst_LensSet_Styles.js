@@ -1,10 +1,11 @@
 "use strict";
 //var R = require('ramda');
-//import { C_It } from '..//src//modules-compiled';
+//import { C_It } from '.
+// .//src//modules-compiled';
 var C_It = (txt) => {
     return console.log(txt)
 };
-var CUT, _CUT, ret, _ret;
+var CUT, _CUT, ret, _ret, RET, EXP, TST;
 
 /**
  *          StyleDict
@@ -16,34 +17,42 @@ const StyleDict = {
 var baseStyle = StyleDict.property;
 // CODE:
 /**
- *              TEST STUB ONLY >> _a_Wt:: NUM -> NUM
+ *              TEST STUB ONLY >> _a_Wt_stub:: NUM -> NUM
  * @param i
  * @private
  */
+var _a_Wt_stub = i => 35 + i * 10; // (i)->EXP: 0<ndx<
 // CODE UNDER TEST
-//var _divide100 = (n) => R.divide(n, 100);//WORKS
-var _a_Wt = i => 35 + i * 10; // EXP ndx
 var _appendPercent = (n) => `${n}%`;  // DO NOT UNDERSTAND HOW TO MAKE THIS Pointless ?
 var _divide100 = R.flip(R.divide)(100);// WORKS
-var _new_fontSize = R.compose(R.always, _appendPercent, _a_Wt);
-var _new_opacity = R.compose(R.always, _divide100, _a_Wt);
-// var _newStr = (s)=>R.always(s);
+var _eager_fontSize = R.compose(_appendPercent, _a_Wt_stub);// a -> b
+var _eager_opacity = R.compose(_divide100, _a_Wt_stub);
+var _new_Str = (s)=>R.always(s);
 
-//var opacity_lens = R.lensProp('opacity');
-//ret = R.set(opacity_lens)(.1234)(baseStyle);// good> 0.1234
-//var _set_opac = R.set(opacity_lens);
-//ret = R.flip(_set_opac)(baseStyle)(.3456);//good> 0.3456
-//var _set_opacity = R.set(R.lensProp('opacity'));
-var _set_opacity = R.compose(R.set, R.lensProp)('opacity');
-//ret = _set_opacity(_a_Wt(3))(baseStyle);// good>>65
-var _set_opacity_Wt = R.compose(_set_opacity, _divide100, _a_Wt);
-ret = _set_opacity_Wt(2)(baseStyle);// good> 0.55
+//NOTE: NOW how update transformation functions WITH an index????
+//  these functions are applied TO the property object
+// here what happens now
+//      _new_fontSize(ndx) returns a FUNCTION: that returns the str || valu
+//      _newer_fontSize(ndx) returns a VALUE thus ng
+//  SO the two eager for ndx functions need to be satisfied BEFORE the .always
+// HEY FYI: .always -> a->(*-> a) i.e. a func  ; .identity:: a -> a i.e.
 
-var _set_fontSize = R.compose(R.set, R.lensProp)('fontSize');
-//ret = _set_fontSize(_a_Wt(3))(baseStyle);// good>>65
-var _set_fontSize_Wt = R.compose(_set_fontSize, _appendPercent, _a_Wt);
-ret = _set_fontSize_Wt(2)(ret);// good> fontSize: '0.55%' AND opacity: 0.55
-
+// THERE IS another var transformers in simpleTests.js
+var transformers = (n)=> {    // (n) -> {}
+    return {// trans... REQUIRE a transformer FUNC
+        // the R.always returns a FUNC returning the satisfied _eager by n
+        fontSize: R.always(_eager_fontSize(n)), // must be a -> (*-> b)
+        opacity: R.always(_eager_opacity(n)),
+        textAlign: _new_Str('right')
+    }
+};
+// hey, ret is a NEW object
+//ret = R.evolve(transformers(0), baseStyle);
+//// ASSERT
+//RET = ret;
+//TST = R.equals('35%', R.prop('fontSize', RET));
+//EXP = `'EXP: textAlign: '35%' NOT ${RET}`;
+//console.assert(TST, EXP);
 //C_It(ret);
 //C_It(JSON.stringify(ret));
 
