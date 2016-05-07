@@ -109,18 +109,16 @@ var tstCode = function (tst = false) {
             textAlign: _new_Str('right')
         }
     };
-    /**
-     *              update_thisStylObj_cBFn({so}, ndx, [coll])=>{so}
-     * (1) update_theStyleObj as f(baseStylObj, ndx, coll) -> stylObj
-     *      (a) calc_Wt (VerseClassPropertyDict)(ndx, coll) -> Num: wt
-     *      (b) set_ each property f(base, prop1, prop2,...) WITH its weight
-     *      NOTE: the _set_PropertyKey class functions can be Partialled with (aPropValue)
-     *      THEN they JUST NEED a_stylObj TO set
-     *      (c) merge them into one style obj by compose/pipe each set object
-     */
-    var update_properties = (base) => (i) => {
+    var update_properties = R.curry(
+        /**
+         *      *              update_properties({so}, ndx, [coll])=>{so}
+         * @param base style property object: CSSStyleDeclaration
+         * @param i  this verse index in its collection
+         * @returns  [modified CSSStyleDeclarations]
+         */
+        function update_properties(base, i) {
         return R.evolve(transformers(i), base);
-    };
+        });
 
     let assign_Style = R.curry(function assign_Style(styleObj, node) {
         //NOTE: the target styleObj IS RETURNED MUTATED !!
@@ -129,18 +127,25 @@ var tstCode = function (tst = false) {
 
     let styl_oneVerse = R.curry(function styl_One_Verse(styleObj, val, ndx, col) {
         // remember, this is a cBFn
-        var x = update_properties(styleObj)(ndx); // updateProps
+        //var x = update_properties(styleObj)(ndx); // updateProps
         //assign Style
-        var y = assign_Style(x, val);
+        var y = assign_Style(update_properties(styleObj)(ndx),
+            val);
+        return y
     });
 
-    /**
-     *          a cBFn:: partially applied w/ a new style obj set as a function of this_verse: ndx and coll.
-     * @param cBFn
-     * @param coll
-     */
-    let map_theseVerses = (cBFn) => (coll) => R.addIndex(R.map)(cBFn)(coll);
-    ret = R.addIndex(R.map)(
+
+    let styl_theseVerses = R.curry(
+        /**
+         *      styl_theseVerses::
+         * @param cBFn
+         * @param coll
+         * @returns {*}
+         */
+        function styl_theseVerses(cBFn, coll) {
+            return R.addIndex(R.map)(cBFn)(coll)
+        });
+    ret = styl_theseVerses(
         styl_oneVerse(fut_StylProps_stub),
         theseVerses_Coll_stub
     );
@@ -148,7 +153,7 @@ var tstCode = function (tst = false) {
     RET = ret;
     TST = R.isArrayLike(RET);
     EXP = `'EXP: array of 6 CSSStyleDeclarations NOT ${RET}`;
-    //console.assert(TST, EXP);
+    console.assert(TST, EXP);
     C_Both(MSG);
     var noop = '';
 };
