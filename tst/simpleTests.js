@@ -38,7 +38,7 @@ var tstCode = function (tst = false) {
      * _qSelectAll :: String -> Node -> NodeList
      * Note: NodeList is array-like so you can run ramda list functions on it.
      */
-    MSG = 'style_theseVerses';
+    MSG = 'style_theseVerses/';
     /**
      *           CODE UNDER TEST
      * @type {string}
@@ -100,32 +100,26 @@ var tstCode = function (tst = false) {
      * @param i
      * @private
      */
-    var _a_Wt_stub = i => 25 + i * 10; // (i)->EXP: 0<ndx<
-// CODE UNDER TEST
-    var _appendPercent = (n) => `${n}%`;  // DO NOT UNDERSTAND HOW TO MAKE THIS Pointless ?
-    var _divide100 = R.flip(R.divide)(100);// WORKS
-    var _new_fontSize = R.compose(R.always, _appendPercent, _a_Wt_stub);
-    var _new_opacity = R.compose(R.always, _divide100, _a_Wt_stub);
-    var _new_Str = (s)=>R.always(s);
+    var _a_Wt_stub = i => 35 + i * 10; // (i)->EXP: 0<ndx<
+// CODE UNDER TEST IS LOCATED IN tst_LensSetStyles.js
+//    var _appendPercent = (n) => `${n}%`;  // DO NOT UNDERSTAND HOW TO MAKE THIS Pointless ?
+//    var _divide100 = R.flip(R.divide)(100);// WORKS
+    //var _new_fontSize = R.compose(R.always, _appendPercent, _a_Wt_stub);
+    //var _new_opacity = R.compose(R.always, _divide100, _a_Wt_stub);
+    //var _new_Str = (s)=>R.always(s);
     // update_properties:: I want to apply the current index to _new_... functions
     // the two _new_fontSize AND _new_opacity WANT 1st an index 2nd an obj
-    var update_properties = (i) => {
-        var x = _new_fontSize(i);
-        var y = _new_opacity(i);
 
-        var transformStyleProperties = {
-            fontSize: x,
-            opacity: y,
-            textAlign: _new_Str('right'),
-        };
-        return R.evolve(transformStyleProperties);
+    var update_properties = (i) => (base) => {
+        return R.evolve(transformers(i), base);
     };
-// ASSERT
+// ASSERT: for one index::0
     RET = update_properties(0)(fut_StylProps_stub);
     TST = R.equals("right")(R.prop('textAlign', RET))
-        && R.equals(0.25)(R.prop('opacity', RET));
-    EXP = `'EXP: textAlign: right NOT ${RET}`;
+        && R.equals(0.35)(R.prop('opacity', RET));
+    EXP = `EXP: textAlign: right NOT ${RET}`;
     console.assert(TST, EXP);
+    MSG += JSON.stringify(RET);
 
     ///**
     // *          a cBFN:: {obj}-> Elem:a -> Elem:a MUTATED
@@ -149,14 +143,16 @@ var tstCode = function (tst = false) {
     // * @param cBFn
     // * @param coll
     // */
-    //let map_theseVerses = (cBFn, coll) => R.map(cBFn)(coll);
-    //var cBFn = styl_oneVerse(_set_fontSize_Wt(1)(fut_StylProps_stub));
+    //let map_theseVerses = (cBFn, coll) => R.addIndex(R.map(cBFn)(coll));
+    //
+    //var cBFn = (val, ndx, col) => { return styl_oneVerse(update_properties(ndx)( fut_StylProps_stub), val)};
+    ////var cBFn = styl_oneVerse(update_properties(0, fut_StylProps_stub)); // this passes test
     //// ASSERT
     //RET = map_theseVerses(cBFn, theseVerses_Coll_stub);
     //TST = R.isArrayLike(RET);
     //EXP = `'EXP: array of 6 CSSStyleDeclarations NOT ${RET}`;
     //console.assert(TST, EXP);
-    ////C_Both(MSG);
+    C_Both(MSG);
     var noop = '';
 };
 main();
