@@ -1,55 +1,132 @@
 /**
- * STYLE_Verses.js WAS set_verse_styles.js WAS h_SET_All_verse_Styles/js
- * Created by CLIF on 20160307
+ * Created by CLIF on 5/5/2016.
  */
 "use strict";
-// ***** GLOBAL FOR THIS file
-var TRACE_C_GrpStateCnt = C_GrpStateCnt;
+//var R = require('ramda-maybe');
+//import { testStr } from '..//src//modules-compiled'; // WORKS but throws Inspection 'can't resolve
 
 /**
- * UPDATES  the global VerseObj FOR this vers elem.
- * @param vO:  the global VerseObj
- * @constructor
+ *  a Book has three ChapterClasses [ClassOfChptrs]: .pst, .cur, .fut. Each is a Collection of 0->N Chapters AT any one time.
+ *  a ChapterClass [ClassOfChptrs]: is a Collection of 0->N Chapters AT any one time.
+ *  a Chapter has three VerseClasses [ClassOfVerses]: .pst, .cur, .fut. Each with a Collection of 0->N Verses AT any one time.
+ *  a VerseClass [ClassOfVerses] is a Collection of 0->N Verses AT any one time.
+ *  a Verse has 1-N Sentences, each with 1-N clauses, each with 0-N phrases,....
+ *
+ *  BUT ONLY the cur_ChptrClass IS READ. Though any or all Chapters may at any on time be in the cur_ChptrClass
  */
-const UPDATE_VerseObject = (vO) => (vers) => {
-    vO.val = vers[0];
-    vO.ndx = vers[1];
-    vO.ary = vers[2];
-    return vO
-};
 
-// returns after each verse has it's style updated.
-//  using
-const SET_1_Verse_Style =
-    function SET_1_Verse_Style(styleObj, verse) {
-        let vO = UPDATE_VerseObject(VerseObj)(verse);
-        // styleObj now HAVE both styleObj && verseObj
-        let wt = styleObj.calcWt(styleObj, vO);
-        //C_Both(`wt:${wt}`);
-        //AND FINISH with SET_verse_style_Attribute
-        let v_style = vO.val.style;
-        v_style.fontSize = `${wt * 100}%`;
-        //v_style.textAlign = 'center';
-        //C_Both(vO.toStr())
+/**
+ *          GLOBAL vars
+ * require functions-compiled.js, objects-compiled.js
+ * */
+//  *********** DOM  DATA    REQUIRE functions.js
+
+var main = function () {
+    var MSG, RET, EXP, TST, noop;
+    MSG = 'style_theseVerses / ';
+
+    /**
+     *          TEST STUBS
+     * @type {{chptr: {fut: {name: string, styleProps: {fontSize: string, opacity: number, textAlign: string, backgroundColor: string}}, cur: {name: string, styleProps: {fontSize: string, opacity: number, textAlign: string}}, pst: {name: string, styleProps: {fontSize: string, opacity: number, textAlign: string, backgroundColor: string}}}}}
+     */
+    const baseStylProp_Dict_stub = {
+        chptr: {
+            fut: {
+                name: 'fut'
+                , styleProps: {
+                    fontSize: "90%",
+                    opacity: 0.9,
+                    textAlign: "CENTER",
+                    backgroundColor: "rgba(145, 248, 29, 0.29)"
+                }
+            }
+            , cur: {
+                name: 'cur'
+                , styleProps: {
+                    fontSize: "100%",
+                    opacity: 1.0,
+                    textAlign: "CENTER",
+                }
+            }
+            , pst: {
+                name: 'pst'
+                , styleProps: {
+                    fontSize: "80%",
+                    opacity: 0.8,
+                    textAlign: "CENTER",
+                    backgroundColor: "rgba(255, 0, 0, 0.24)"
+                }
+            }
+        }
     };
-// returns style for all n verse in this Grp.
-const SET_1_VerseGrp_Styles =
-    function SET_1_verseGrp_Styles(styleObj, vrGrp) {
-        let TRACE_sObj = R.prop('name', styleObj);
-        TRACE_Both(`    SET_One_VerseGrp_Styles: thisVrsGrp:${TRACE_sObj}`);
-        R.map(SET_1_Verse_Style(styleObj, vrGrp));  // returns style for all n verse in this Grp.
+    var fut_StylProps_stub = baseStylProp_Dict_stub.chptr.fut.styleProps;
+    //var aVerse_stub = _aDoc_Node('.ChptrReadGrps .cur .VerseReadGrps .fut').children[1];
+    var theseVerses_Coll_stub = _aDoc_Node('.ChptrReadGrps .cur .VerseReadGrps .fut').children;
+
+    /**
+     *          HELPER FUNCTIONS
+     * @param i
+     * @private
+     */
+    let _a_Wt_stub = i => 35 + i * 10; // (i)->EXP: 0<ndx<
+    var _appendPercent = (n) => `${n}%`;  // DO NOT UNDERSTAND HOW TO MAKE THIS Pointless ?
+    var _divide100 = R.flip(R.divide)(100);// WORKS
+    var _eager_fontSize = R.compose(_appendPercent, _a_Wt_stub);// a -> b
+    var _eager_opacity = R.compose(_divide100, _a_Wt_stub);
+    var _new_Str = (s)=>R.always(s);
+    var transformers = (n)=> {    // (n) -> {}
+        return {// trans... REQUIRE a transformer FUNC
+            // the R.always returns a FUNC returning the satisfied _eager by n
+            fontSize: R.always(_eager_fontSize(n)), // must be a -> (*-> b)
+            opacity: R.always(_eager_opacity(n)),
+            textAlign: _new_Str('right')
+        }
     };
-// returns all verses with updated styles.
-const SET_All_Verse_Styles =
-    function SET_All_Verse_Styles(vGrpsNL) {
-        var fn = function fn(val, ndx, arr) {
-            // children IS one VGrp HTMLCollection of Verses.
-            var children = R.prop('children', val); // could have used arr[ndx]
-            TRACE_Both('thisVGrp HTMLCollection HAS ' + R.prop('length', children) + ' children');
-            // styleObj IS the Styles ASSOCIATED WITH this verse Grp children
-            var styleObj = TST_StyleObj[ndx]; // now styles of One div.class
-            SET_1_VerseGrp_Styles(styleObj, children);
-        };
-        TRACE_C_GrpStateCnt('SET_All_Verse_Styles', vGrpsNL); // TRACE exp 3 div.class
-        R.mapObjIndexed(fn, vGrpsNL);
-    };
+    let update_properties = R.curry(
+        /**
+         *      *              update_properties({so}, ndx, [coll])=>{so}
+         * @param base style property object: CSSStyleDeclaration
+         * @param i  this verse index in its collection
+         * @returns  [modified CSSStyleDeclarations]
+         */
+        function update_properties(base, i) {
+            return R.evolve(transformers(i), base);
+        });
+    let assign_Style = R.curry(function assign_Style(styleObj, node) {
+        //NOTE: the target styleObj IS RETURNED MUTATED !!
+        return Object.assign(node['style'], styleObj);
+    });
+    let styl_oneVerse = R.curry(function styl_One_Verse(styleObj, val, ndx, col) {
+        // remember, this is a cBFn
+        //var x = update_properties(styleObj)(ndx); // updateProps
+        //assign Style
+        return assign_Style(update_properties(styleObj)(ndx), val);
+    });
+    let styl_theseVerses = R.curry(
+        /**
+         *      styl_theseVerses::
+         * @param cBFn
+         * @param coll
+         * @returns {*}
+         */
+        function styl_theseVerses(cBFn, coll) {
+            return R.addIndex(R.map)(cBFn)(coll)
+        });
+    /**
+     *          CONFIRMATION ASSERTS
+     */
+    RET = styl_theseVerses(
+        styl_oneVerse(fut_StylProps_stub),
+        theseVerses_Coll_stub
+    );
+    MSG += R.pluck('opacity')(RET);
+    // ASSERT // TODO figure better assert test
+    TST = R.isArrayLike(RET) && R.length(RET);
+    EXP = `'EXP: array of 6 CSSStyleDeclarations NOT ${RET}`;
+    console.assert(TST, EXP);
+    C_Both(MSG);
+    noop = '';
+};
+main();
+
+

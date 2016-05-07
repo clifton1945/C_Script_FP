@@ -101,7 +101,7 @@ var tstCode = function (tst = false) {
 // these are local copies for ease of testing and changing; declared in tst_LensSet_Styles.js
     _a_Wt = i => 35 + i * 10; // (i)->EXP: 0<ndx<
 
-    transformers = (n)=> {    // (n) -> {}
+    var transformers = (n)=> {    // (n) -> {}
         return {// trans... REQUIRE a transformer FUNC
             // the R.always returns a FUNC returning the satisfied _eager by n
             fontSize: R.always(_eager_fontSize(n)), // must be a -> (*-> b)
