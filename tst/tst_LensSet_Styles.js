@@ -25,22 +25,33 @@ var _a_Wt_stub = i => 35 + i * 10; // (i)->EXP: 0<ndx<
 // CODE UNDER TEST
 var _appendPercent = (n) => `${n}%`;  // DO NOT UNDERSTAND HOW TO MAKE THIS Pointless ?
 var _divide100 = R.flip(R.divide)(100);// WORKS
-var _new_fontSize = R.compose(R.always, _appendPercent, _a_Wt_stub);
-var _new_opacity = R.compose(R.always, _divide100, _a_Wt_stub);
+var _eager_fontSize = R.compose(_appendPercent, _a_Wt_stub);// a -> b
+var _eager_opacity = R.compose(_divide100, _a_Wt_stub);
 var _new_Str = (s)=>R.always(s);
 
-//NOTE:  USING .evolve I can reset the property style obj IN ONE Call
-var transformStyleProperties = {
-    fontSize: _new_fontSize(7),
-    opacity: _new_opacity(4),
-    textAlign: _new_Str('right'),
+//NOTE: NOW how update transformation functions WITH an index????
+//  these functions are applied TO the property object
+// here what happens now
+//      _new_fontSize(ndx) returns a FUNCTION: that returns the str || valu
+//      _newer_fontSize(ndx) returns a VALUE thus ng
+//  SO the two eager for ndx functions need to be satisfied BEFORE the .always
+// HEY FYI: .always -> a->(*-> a) i.e. a func  ; .identity:: a -> a i.e.
+
+var transformers = (n)=> {    // (n) -> {}
+    return {// trans... REQUIRE a transformer FUNC
+        // the R.always returns a FUNC returning the satisfied _eager by n
+        fontSize: R.always(_eager_fontSize(n)), // must be a -> (*-> b)
+        opacity: R.always(_eager_opacity(n)),
+        textAlign: _new_Str('right')
+    }
 };
-ret = R.evolve(transformStyleProperties, baseStyle);
-// ASSERT
-RET = ret;
-TST = R.equals('right', R.prop('textAlign', RET));
-EXP = `'EXP: textAlign: right NOT ${RET}`;
-console.assert(TST, EXP);
+// hey, ret is a NEW object
+//ret = R.evolve(transformers(0), baseStyle);
+//// ASSERT
+//RET = ret;
+//TST = R.equals('35%', R.prop('fontSize', RET));
+//EXP = `'EXP: textAlign: '35%' NOT ${RET}`;
+//console.assert(TST, EXP);
 //C_It(ret);
 //C_It(JSON.stringify(ret));
 
