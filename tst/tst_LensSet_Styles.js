@@ -1,5 +1,5 @@
 "use strict";
-//var R = require('ramda');
+var R = require('ramda');
 //import { C_It } from '.
 // .//src//modules-compiled';
 var C_It = (txt) => {
@@ -47,14 +47,14 @@ var transformers = (n)=> {    // (n) -> {}
     }
 };
 // hey, ret is a NEW object
-//ret = R.evolve(transformers(0), baseStyle);
-//// ASSERT
-//RET = ret;
-//TST = R.equals('35%', R.prop('fontSize', RET));
-//EXP = `'EXP: textAlign: '35%' NOT ${RET}`;
-//console.assert(TST, EXP);
-//C_It(ret);
-//C_It(JSON.stringify(ret));
+ret = R.evolve(transformers(0), baseStyle);
+// ASSERT
+RET = ret;
+TST = R.equals('35%', R.prop('fontSize', RET));
+EXP = `'EXP: textAlign: '35%' NOT ${RET}`;
+console.assert(TST, EXP);
+C_It(ret);
+C_It(JSON.stringify(ret));
 
 
 
