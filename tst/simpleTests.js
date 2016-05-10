@@ -98,7 +98,7 @@ var tstCode = function (tst = false) {
         // update_properties:: I want to apply the current index to _new_... functions
         // the two _new_fontSize AND _new_opacity WANT 1st an index 2nd an obj
 
-// these are local copies for ease of testing and changing; declared in tst_LensSet_Styles.js
+// these are local copies for ease of testing and changing; declared in tst_cssStyleDecl_Obj.js
     _a_Wt = i => 35 + i * 10; // (i)->EXP: 0<ndx<
 
     var transformers = (n)=> {    // (n) -> {}
