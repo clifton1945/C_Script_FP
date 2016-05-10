@@ -68,65 +68,75 @@ var main = function () {
      * @param i
      * @private
      */
-    let _a_Wt_stub = i => 55 + i * 10; // (i)->EXP: 0<ndx<
-    var _appendPercent = (n) => `${n}%`;  // DO NOT UNDERSTAND HOW TO MAKE THIS Pointless ?
-    var _divide100 = R.flip(R.divide)(100);// WORKS
-    var _eager_fontSize = R.compose(_appendPercent, _a_Wt_stub);// a -> b
-    var _eager_opacity = R.compose(_divide100, _a_Wt_stub);
-    var _new_Str = (s)=>R.always(s);
-    var transformers = (n)=> {    // (n) -> {}
-        return {// trans... REQUIRE a transformer FUNC
-            // the R.always returns a FUNC returning the satisfied _eager by n
-            fontSize: R.always(_eager_fontSize(n)), // must be a -> (*-> b)
-            opacity: R.always(_eager_opacity(n)),
-            textAlign: _new_Str('center')
-        }
-    };
-    let update_properties = R.curry(
-        /**
-         *      *              update_properties({so}, ndx, [coll])=>{so}
-         * @param base style property object: CSSStyleDeclaration
-         * @param i  this verse index in its collection
-         * @returns  [modified CSSStyleDeclarations]
-         */
-        function update_properties(base, i) {
-            return R.evolve(transformers(i), base);
-        });
-    let assign_Style = R.curry(function assign_Style(styleObj, node) {
-        //NOTE: the target styleObj IS RETURNED MUTATED !!
-        return Object.assign(node['style'], styleObj);
-    });
-    let styl_oneVerse = R.curry(function styl_One_Verse(styleObj, val, ndx, col) {
-        // remember, this is a cBFn which returns the_mutatedVerse
-        assign_Style(update_properties(styleObj)(ndx), val);
-        return val
-    });
-    let styl_theseVerses = R.curry(
-        /**
-         *      styl_theseVerses::
-         * @param cBFn
-         * @param coll
-         * @returns [verses]
-         */
-        function styl_theseVerses(cBFn, coll) {
-            return R.addIndex(R.map)(cBFn)(coll)
-        });
     /**
      *          CONFIRMATION OUTPUT & ASSERTS
      */
-    RET = styl_theseVerses(
-        styl_oneVerse(fut_StylProps_stub)
-        , R.reverse(theseVerses_Coll_stub)
-    );
-    MSG += 'opacities:';
-    MSG += R.map((v)=>`${v.style.opacity}`)(RET);
-    //          ASSERTS
-    TST = R.isArrayLike(RET) && R.equals(6, R.length(RET));
-    EXP = `'EXP: array of 6 CSSStyleDeclarations NOT ${RET}`;
-    console.assert(TST, EXP);
+    /**
+     *      PLAN: 1TAAT MERGE individual CssStylDeclares
+     *      NEXT: ALTER a Verse
+     */
+    var lst = [_fontSize_cssSO_eagerNdx, _opacity_cssSObj_eagerNdx];
+    var i = 0;
+    var cBFn = R.curry((n, f) => f(n));
+    var cssSO_Lst_eager_Lst = R.map(cBFn(i)); //
+    CUT = R.merge(cssSO_Lst_eager_Lst(lst));
+    C_It(CUT);
+    C_It(JSON.stringify(CUT));
+    MSG = CUT;
+// ASSERT
+//    KEY = fontSize_Key;
+//    EXP = '35%';
+//    TST = R.propEq(KEY, EXP)(CUT);
+//    STR = `EXP ${KEY}==${EXP} NOT ${R.prop(KEY, CUT)}`;
+//    console.assert(TST, STR);
+
     C_Both(MSG);
     noop = '';
 };
 main();
+//let _a_Wt_stub = i => 55 + i * 10; // (i)->EXP: 0<ndx<
+//var _appendPercent = (n) => `${n}%`;  // DO NOT UNDERSTAND HOW TO MAKE THIS Pointless ?
+//var _divide100 = R.flip(R.divide)(100);// WORKS
+//var _eager_fontSize = R.compose(_appendPercent, _a_Wt_stub);// a -> b
+//var _eager_opacity = R.compose(_divide100, _a_Wt_stub);
+//var _new_Str = (s)=>R.always(s);
+//var transformers = (n)=> {    // (n) -> {}
+//    return {// trans... REQUIRE a transformer FUNC
+//        // the R.always returns a FUNC returning the satisfied _eager by n
+//        fontSize: R.always(_eager_fontSize(n)), // must be a -> (*-> b)
+//        opacity: R.always(_eager_opacity(n)),
+//        textAlign: _new_Str('center')
+//    }
+//};
+//let update_properties = R.curry(
+//    /**
+//     *      *              update_properties({so}, ndx, [coll])=>{so}
+//     * @param base style property object: CSSStyleDeclaration
+//     * @param i  this verse index in its collection
+//     * @returns  [modified CSSStyleDeclarations]
+//     */
+//    function update_properties(base, i) {
+//        return R.evolve(transformers(i), base);
+//    });
+//let assign_Style = R.curry(function assign_Style(styleObj, node) {
+//    //NOTE: the target styleObj IS RETURNED MUTATED !!
+//    return Object.assign(node['style'], styleObj);
+//});
+//let styl_oneVerse = R.curry(function styl_One_Verse(styleObj, val, ndx, col) {
+//    // remember, this is a cBFn which returns the_mutatedVerse
+//    assign_Style(update_properties(styleObj)(ndx), val);
+//    return val
+//});
+//let styl_theseVerses = R.curry(
+//    /**
+//     *      styl_theseVerses::
+//     * @param cBFn
+//     * @param coll
+//     * @returns [verses]
+//     */
+//    function styl_theseVerses(cBFn, coll) {
+//        return R.addIndex(R.map)(cBFn)(coll)
+//    });
+
 
 

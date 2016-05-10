@@ -7,9 +7,7 @@ var CUT, _CUT, ret, _ret, RET, EXP, TST, STR, KEY;
 var C_It = (txt) => {
     return console.log(txt)
 };
-var say = a => console.log(`t:${a}`);
-var tapIt = R.tap(say);
-
+var tIt = a => console.log(`t:${a}`);
 /**
  *          StyleDict
  * @type {{property: {fontSize: string, opacity: number, textAlign: string, backgroundColor: string}}}
@@ -38,11 +36,11 @@ var _opacity_Valu_eagerWt = opacity_Valu(opacity_Key, R.__, baseStyle); //NOTE: 
  *          _opacity_cssSObj_eagerNdx:: (Num: ndx) -> {Obj: cssStyleDec}.
  *
  */
-var _opacity_cssSObj_eagerNdx = R.compose(tapIt, _opacity_Valu_eagerWt, _divide100, _a_Wt_stub);
+var _opacity_cssSObj_eagerNdx = R.compose(_opacity_Valu_eagerWt, _divide100, _a_Wt_stub);
 
 CUT = _opacity_cssSObj_eagerNdx(0); // test @ ndx==0
 //C_It(CUT);
-C_It(JSON.stringify(CUT));
+//C_It(JSON.stringify(CUT));
 // ASSERT
 KEY = opacity_Key;
 EXP = 0.35;
@@ -58,7 +56,7 @@ var _fontSize_Valu_eagerWt = fontSize_Valu(fontSize_Key, R.__, baseStyle); //NOT
 /**
  *          _fontSize_cssSO_eagerNdx:: (Num: ndx) -> Obj:cssStyleDec.
  */
-var _fontSize_cssSO_eagerNdx = R.compose(_fontSize_Valu_eagerWt, tapIt, _appendPercent, _a_Wt_stub);
+var _fontSize_cssSO_eagerNdx = R.compose(_fontSize_Valu_eagerWt, _appendPercent, _a_Wt_stub);
 
 
 CUT = _fontSize_cssSO_eagerNdx(0); // test @ ndx==0
