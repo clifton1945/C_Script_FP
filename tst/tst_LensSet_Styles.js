@@ -39,10 +39,10 @@ var _fontSizeValu_eagerWt = fontSize_Valu('fontSize', baseStyle, R.__);
 // ASSERT
 _ret = R.compose(_fontSizeValu_eagerWt, _fontSizeWtObj_eagerNdx);
 RET = _ret(0);
-TST = R.equals('35%', R.prop('fontSize', RET));
-EXP = `'EXP: textAlign: '35%' NOT ${RET}`;
+TST = R.propEq('fontSize', '35%');
+EXP = `'EXP: textAlign: '35%' NOT ${R.prop('fontSize', RET)}`;
 console.assert(TST, EXP);
-ret = RET;
+ret = _ret(0);
 C_It(ret);
 C_It(JSON.stringify(ret));
 
