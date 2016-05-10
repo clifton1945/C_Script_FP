@@ -79,7 +79,7 @@ var main = function () {
     var i = 0;
     var cBFn = R.curry((n, f) => f(n));
     var cssSO_Lst_eager_Lst = R.map(cBFn(i)); //
-    CUT = R.merge(cssSO_Lst_eager_Lst(lst));
+    CUT = " I do not know how to set each property = maybe Lens";
     C_It(CUT);
     C_It(JSON.stringify(CUT));
     MSG = CUT;
