@@ -48,7 +48,12 @@ TST = R.propEq(KEY, EXP)(CUT);
 STR = `EXP ${KEY}== ${EXP} NOT ${R.prop(KEY, CUT)}`;
 console.assert(TST, STR);
 
-
+var _aDoc_Node = function _aDoc_Node(divStr) {
+    return _qSelect(divStr)(document)
+};
+var _aDoc_NodeList = function _aDoc_NodeList(divStr) {
+    return _qSelectAll(divStr)(document)
+};
 // fontSize Value
 var fontSize_Key = 'fontSize';
 var fontSize_Valu = R.assoc(); // (propStr, propValu, cssSO)-> {};

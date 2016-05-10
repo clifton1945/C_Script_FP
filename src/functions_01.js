@@ -77,7 +77,7 @@ var _newStylOBJ = R.curry(function _newStylOBJ (propName, propValu, trgStylObj) 
     return R.assoc(propName, propValu, trgStylObj)
 });
 
-// WIP   _STYL_aVerse ()  IS IN tst_STYL_aVerse.js
+// WIP   _STYL_aVerse ()  IS IN tst_STYLE_Verses.js
 //var STYL_aVerse = function STYL_aVerse(stylObj, elem, ndx, coll) {
 //    // once inside this function, use ndx to WEIGHT some styles
 //    //_WEIGHT_someStyles(weightedStylesLST);
