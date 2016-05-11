@@ -1,5 +1,6 @@
 "use strict";
-var R = require('ramda');
+//var R = require('ramda');
+
 //import { C_It } from '.
 // .//src//modules-compiled';
 

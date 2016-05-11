@@ -78,7 +78,7 @@ var main = function () {
      *      NEXT: ALTER a Verse
      */
     var _fontSizeLen = R.lensProp(fontSize_Key);
-    var _set_fontSize_eager_cssSO = R.set(_fontSizeLen, _opacity_cssSObj_eagerNdx(0)); // *** NOTICE  ndx=0
+    var _set_fontSize_eager_cssSO = R.set(_fontSizeLen, "106%");
     CUT = _set_fontSize_eager_cssSO(StyleDict.property); // from tst_cssStyleDecl_Obj.js
     C_It(CUT);
     C_It(JSON.stringify(CUT));
