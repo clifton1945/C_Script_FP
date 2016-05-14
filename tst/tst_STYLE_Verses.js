@@ -77,12 +77,44 @@ var main = function () {
      *      PLAN: 1TAAT MERGE individual CssStylDeclares
      *      NEXT: ALTER a Verse
      */
-    var _fontSizeLen = R.lensProp(fontSize_Key);
-    var _set_fontSize_eager_cssSO = R.set(_fontSizeLen, "106%");
-    CUT = _set_fontSize_eager_cssSO(StyleDict.property); // from tst_cssStyleDecl_Obj.js
+
+    /**
+     *     R.lens AND R.set WORK-well TO PRODUCE one_cssStylDecl
+     *     However, it is hard coded.
+     */
+    var CUT, the_cssSDecls, U, V, W, X, Y, Z;
+    // WHAT IF I had a list of Values [123, 321] && a list [ _fontSize
+    //CUT =  R.compose(Z,Y,X)({cve:12345});//WORKS >> X..Z form R.lensProp(propKey. propValu)(eager cssSD)
+    var _lens_key = R.lensProp;
+    var _val_ndx = _a_Wt; // ????????????? how make and use for a specific class ??
+
+//TEST DATA STUBS:
+    var init_SD_trgt = fut_StylProps_stub;
+    var propKeys = ['fontSize', 'opacity', 'textAlign']; // list of prop keys:: [fs, op, ta]
+    var propVals = ['125%', 70, 'center']; // a list of prop values:: [fs_val, op_val, ta_val]
+    var a_Node = _aDoc_NodeList('.ChptrReadGrps .cur .VerseReadGrps .fut')[0].children[2];
+
+// HELPER FUNCTIONS
+    var lens_keys = R.map(_lens_key)(propKeys); // a list of props:: prop key lenses [fs, op, ta] -> [fs_lns, op_lns, ta_lns]
+    var key_val_pairs = R.zip(lens_keys, propVals);  // a list of [k,v]:: [[fs_ln,fs_v], [op_ln,op_v],...]
+    var _set_a_cssSD_wo_trgt = (a)=>R.set(a[0], a[1], R.__);
+    var cssSDs_wo_SD_ = R.map(_set_a_cssSD_wo_trgt, key_val_pairs); // a list of partial set property cssStyleDecl eager trgt cssSD
+
+    var reduce_the_cssSDs = R.reduce(function F(acc, val) {
+        return val(acc)
+    });
+    var a_cssSD = reduce_the_cssSDs(init_SD_trgt)(cssSDs_wo_SD_);
+
+    let assign_Style = R.curry(function assign_Style(styleObj, node) {
+        return Object.assign(node['style'], styleObj);
+    });
+    var a_styled_Node = assign_Style(a_cssSD)(a_Node);
+
+// OK the above STYLES aVerse:; ([propKey],[propVals], {init_SD_trgt}, {a_Node} -> a_Node}
+
+    CUT = a_styled_Node;
     C_It(CUT);
-    C_It(JSON.stringify(CUT));
-    MSG = CUT;
+    MSG = JSON.stringify(CUT);
 // ASSERT
 //    KEY = fontSize_Key;
 //    EXP = '35%';
@@ -95,7 +127,7 @@ var main = function () {
 };
 main();
 //let _a_Wt_stub = i => 55 + i * 10; // (i)->EXP: 0<ndx<
-//var _appendPercent = (n) => `${n}%`;  // DO NOT UNDERSTAND HOW TO MAKE THIS Pointless ?
+//var-- _appendPercent = (n) => `${n}%`;  // DO NOT UNDERSTAND HOW TO MAKE THIS Pointless ?
 //var _divide100 = R.flip(R.divide)(100);// WORKS
 //var _eager_fontSize = R.compose(_appendPercent, _a_Wt_stub);// a -> b
 //var _eager_opacity = R.compose(_divide100, _a_Wt_stub);
@@ -108,20 +140,7 @@ main();
 //        textAlign: _new_Str('center')
 //    }
 //};
-//let update_properties = R.curry(
-//    /**
-//     *      *              update_properties({so}, ndx, [coll])=>{so}
-//     * @param base style property object: CSSStyleDeclaration
-//     * @param i  this verse index in its collection
-//     * @returns  [modified CSSStyleDeclarations]
-//     */
-//    function update_properties(base, i) {
-//        return R.evolve(transformers(i), base);
-//    });
-//let assign_Style = R.curry(function assign_Style(styleObj, node) {
-//    //NOTE: the target styleObj IS RETURNED MUTATED !!
-//    return Object.assign(node['style'], styleObj);
-//});
+
 //let styl_oneVerse = R.curry(function styl_One_Verse(styleObj, val, ndx, col) {
 //    // remember, this is a cBFn which returns the_mutatedVerse
 //    assign_Style(update_properties(styleObj)(ndx), val);
