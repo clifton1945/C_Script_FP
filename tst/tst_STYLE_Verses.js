@@ -89,28 +89,40 @@ var main = function () {
     var _val_ndx = _a_Wt; // ????????????? how make and use for a specific class ??
 
 //TEST DATA STUBS:
-    var init_SD_trgt = fut_StylProps_stub;
-    var propKeys = ['fontSize', 'opacity', 'textAlign']; // list of prop keys:: [fs, op, ta]
-    var propVals = ['125%', 70, 'center']; // a list of prop values:: [fs_val, op_val, ta_val]
+    var a_init_SD_trgt = fut_StylProps_stub;
     var a_Node = _aDoc_NodeList('.ChptrReadGrps .cur .VerseReadGrps .fut')[0].children[2];
+    var propKeys = ['fontSize', 'opacity', 'textAlign']; // list of prop keys:: [fs, op, ta]
+
+    /**
+     *          CSSStyleDeclaration HELPER FUNCTIONS
+     * @param i
+     * @private
+     */
+    let _a_Wt_stub = i =>  35 + i * 10; // (i)->EXP: 0<ndx<
+    var _appendPercent = (n) => `${n}%`;  // DO NOT UNDERSTAND HOW TO MAKE THIS Pointless ?
+    var _divide100 = R.flip(R.divide)(100);// WORKS
+
+    var _eager_fontSize = R.compose(_appendPercent, _a_Wt_stub);// a -> b
+    var _eager_opacity = R.compose(_divide100, _a_Wt_stub);
+    // BUILD a list of propVals
+    var propVals = ['125%', 70, 'center']; // a list of prop values:: [fs_val, op_val, ta_val]
 
 // HELPER FUNCTIONS
     var lens_keys = R.map(_lens_key)(propKeys); // a list of props:: prop key lenses [fs, op, ta] -> [fs_lns, op_lns, ta_lns]
     var key_val_pairs = R.zip(lens_keys, propVals);  // a list of [k,v]:: [[fs_ln,fs_v], [op_ln,op_v],...]
-    var _set_a_cssSD_wo_trgt = (a)=>R.set(a[0], a[1], R.__);
-    var cssSDs_wo_SD_ = R.map(_set_a_cssSD_wo_trgt, key_val_pairs); // a list of partial set property cssStyleDecl eager trgt cssSD
+    var cssSDs_wo_SD_ = R.map((a)=>R.set(a[0], a[1], R.__))(key_val_pairs); // a list of partial set property cssStyleDecl eager trgt cssSD
 
     var reduce_the_cssSDs = R.reduce(function F(acc, val) {
         return val(acc)
     });
-    var a_cssSD = reduce_the_cssSDs(init_SD_trgt)(cssSDs_wo_SD_);
+    var a_cssSD = reduce_the_cssSDs(a_init_SD_trgt)(cssSDs_wo_SD_);
 
     let assign_Style = R.curry(function assign_Style(styleObj, node) {
         return Object.assign(node['style'], styleObj);
     });
     var a_styled_Node = assign_Style(a_cssSD)(a_Node);
 
-// OK the above STYLES aVerse:; ([propKey],[propVals], {init_SD_trgt}, {a_Node} -> a_Node}
+// OK the above STYLES aVerse:; ([propKey],[propVals], {a_init_SD_trgt}, {a_Node} -> a_Node}
 
     CUT = a_styled_Node;
     C_It(CUT);
