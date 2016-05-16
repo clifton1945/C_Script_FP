@@ -87,17 +87,19 @@ var main = function () {
     var Lst_propVals_STUB = ['75%', 70, 'center']; // a list of prop values:: [fs_val, op_val, ta_val]
 
 // HELPER FUNCTIONS: _->eagerFunction, Abc -> Obj
-    var _a_lensKey_e4_Str = R.lensProp; //Str -> Lens s a.
-    var Lst_lensKeys = R.map(_a_lensKey_e4_Str)(propKeys);     //-> Functions List:: [fs_lns, op_lns, ta_lns]
-    var Lst_propVals = Lst_propVals_STUB;                       //-> Values List:: [fs_Vals, op_Vals, ta_Vals];
+    var _a_lensKey_e4_Str = R.lensProp; //Str ->
+    // Lens s a.
+    // var Lst_lensKeys = R.map(_a_lensKey_e4_Str)(propKeys);     //-> Functions List:: [fs_lns, op_lns, ta_lns]
+    var _map_propKey_LensFns = R.map(_a_lensKey_e4_Str);     //-> Functions List:: [fs_lns, op_lns, ta_lns]
+    var Lst_lensKeys = _map_propKey_LensFns(propKeys);     //-> Functions List:: [fs_lns, op_lns, ta_lns]
+    var _map_propVals_STUB = R.map(x=>x);
+    var Lst_propVals = _map_propVals_STUB(Lst_propVals_STUB);        //-> Values List:: [fs_Vals, op_Vals, ta_Vals];
     var Lst_Key_Val_pairs = R.zip(Lst_lensKeys, Lst_propVals);  //-> Values[lensFn,v]:: [[fs_ln,fs_v], [op_ln,op_v],...]
     // var lst_Key_Val_pairs = R.zip(R.map( R.lensProp));       //-> a list of [lensFn,v]:: [[fs_ln,fs_v], [op_ln,op_v],...]
     // var lensFney_val_pairs = Lst_Key_Val_pairs(propKeys)(lst_propVals_STUB);  //-> a list of [lensFn,v]:: [[fs_ln,fs_v], [op_ln,op_v],...]
 
     var _set_a_SD_e4_SD = (a)=>R.set(a[0], a[1]);      //-> _set_a_SD_e4_trgtSD.
-    var tst_one_set_a = _set_a_SD_e4_SD(Lst_Key_Val_pairs[0])({cve: true});//-> {cve:true, fontSize:"75%"}
     var Lst_fn_SDs_e4_trgtSD = R.map(_set_a_SD_e4_SD)(Lst_Key_Val_pairs); //-> a list partial cssStyleDecl e4 trgtSDs.
-    var tst_Lst_fn_SDs_e4_trgtSD = Lst_fn_SDs_e4_trgtSD[0]({}); // -> {fontSize:"75%"}
     var _reduce_SDs_to_SD = (acc, val) => {
         return val(acc)
     };
@@ -108,23 +110,34 @@ var main = function () {
     });
     var a_styled_Node = _assign_Style_e4_SD_Node(a_SD)(a_Node);//-> Node/Elem mutated
 
-    // DO Lists COMPOSE easily?? CAN I REPLACE all the Lists WITH functions???
+// OK the above STYLES aVerse:; 
+//  USING TEST STUBS:  
+//     var a_init_SD_trgt = fut_StylProps_stub;
+//     var a_Node = _aDoc_NodeList('.ChptrReadGrps .cur .VerseReadGrps .fut')[0].children[2];
+// MUST BECOME Fn(PropertyObj, verseCollection.length, ndx) var propKeys = ['fontSize', 'opacity', 'textAlign']; // list of prop keys:: [fs, op, ta]
+//     var trgt_cssStyleDecl = {};var a_Node = _aDoc_NodeList('.ChptrReadGrps .cur .VerseReadGrps .fut')[0].children[2];
+//     var propKeys = ['fontSize', 'opacity', 'textAlign']; // list of prop keys:: [fs, op, ta]
+//     var trgt_cssStyleDecl = {};
+
+// DO Lists COMPOSE easily?? CAN I REPLACE all the Lists WITH functions???
     // RET = R.equals(key_val_pairs, X); //-> true
     // X = R.pipe(R.zip(_lensKeys_e4_Lst), _SDs_wo_SD_, _reduce_the_SDs)(Lst_propVals_STUB);//-> [ fn, fn, fn]
     // RET = R.equals(SDs_wo_SD_, X);
 
-
-// OK the above STYLES aVerse:; ([propKey],[Lst_propVals_STUB], {a_init_SD_trgt}, {a_Node} -> a_Node}
-
-    CUT = a_styled_Node;
+    CUT = a_SD;
     C_It(CUT);
     MSG = JSON.stringify(CUT);
+
+    var tst_one_set_a = _set_a_SD_e4_SD(Lst_Key_Val_pairs[0])({cve: true});//-> {cve:true, fontSize:"75%"}
+    var tst_Lst_fn_SDs_e4_trgtSD = Lst_fn_SDs_e4_trgtSD[0]({}); // -> {fontSize:"75%"}
+
 // ASSERT
-//    KEY = fontSize_Key;
-//    EXP = '35%';
-//    TST = R.propEq(KEY, EXP)(CUT);
-//    STR = `EXP ${KEY}==${EXP} NOT ${R.prop(KEY, CUT)}`;
-//    console.assert(TST, STR);
+    CUT = a_styled_Node;
+    KEY = fontSize_Key;
+    EXP = '75%';
+    TST = R.propEq(KEY, EXP)(CUT);
+    STR = `EXP ${KEY}==${EXP} NOT ${R.prop(KEY, CUT)}`;
+    console.assert(TST, STR);
 
     C_Both(MSG);
     noop = '';
