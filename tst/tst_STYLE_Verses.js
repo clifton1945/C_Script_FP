@@ -84,7 +84,7 @@ var main = function () {
     var _eager_fontSize = R.compose(_appendPercent, _a_Wt_stub);// a -> b
     var _eager_opacity = R.compose(_divide100, _a_Wt_stub);
     // BUILD a list of Lst_propVals_STUB
-    var Lst_propVals_STUB = ['75%', 70, 'center']; // a list of prop values:: [fs_val, op_val, ta_val]
+    var Lst_propVals_STUB = ['75%', 60, 'left']; // a list of prop values:: [fs_val, op_val, ta_val]
 
 // HELPER FUNCTIONS: _->eagerFunction, Abc -> Obj
     var _a_lensKey_e4_Str = R.lensProp; //Str ->
