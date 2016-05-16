@@ -61,9 +61,9 @@ var main = function () {
     //var aVerse_stub = _aDoc_Node('.ChptrReadGrps .cur .VerseReadGrps .fut').children[1];
     //var theseVerses_Coll_stub = _aDoc_Node('.ChptrReadGrps .cur .VerseReadGrps .fut').children;
 
-    var CUT, the_cssSDecls, U, V, W, X, Y, Z;
+    var CUT, the_SDecls, U, V, W, X, Y, Z;
 
-    var _lens_key = R.lensProp;
+
     var _val_ndx = _a_Wt; // ????????????? how make and use for a specific class ??
 
 //TEST DATA STUBS:
@@ -71,7 +71,7 @@ var main = function () {
     // hey Why a_Node DERIVED _FROM aNodeLIST??
     var a_Node = _aDoc_NodeList('.ChptrReadGrps .cur .VerseReadGrps .fut')[0].children[2];
     var propKeys = ['fontSize', 'opacity', 'textAlign']; // list of prop keys:: [fs, op, ta]
-
+    var trgt_cssStyleDecl = {};
     /**
      *          CSSStyleDeclaration HELPER FUNCTIONS
      * @param i
@@ -83,25 +83,38 @@ var main = function () {
 
     var _eager_fontSize = R.compose(_appendPercent, _a_Wt_stub);// a -> b
     var _eager_opacity = R.compose(_divide100, _a_Wt_stub);
-    // BUILD a list of propVals
-    var propVals = ['75%', 70, 'center']; // a list of prop values:: [fs_val, op_val, ta_val]
+    // BUILD a list of Lst_propVals_STUB
+    var Lst_propVals_STUB = ['75%', 70, 'center']; // a list of prop values:: [fs_val, op_val, ta_val]
 
-// HELPER FUNCTIONS
-    var lens_keys = R.map(_lens_key)(propKeys); //-> a list of props:: prop key lenses [fs, op, ta] -> [fs_lns, op_lns, ta_lns]
-    var key_val_pairs = R.zip(lens_keys, propVals);  //-> a list of [k,v]:: [[fs_ln,fs_v], [op_ln,op_v],...]
-    var cssSDs_wo_SD_ = R.map((a)=>R.set(a[0], a[1], R.__))(key_val_pairs); //-> a list of partial set property cssStyleDecl eager trgt cssSD
+// HELPER FUNCTIONS: _->eagerFunction, Abc -> Obj
+    var _a_lensKey_e4_Str = R.lensProp; //Str -> Lens s a.
+    var Lst_lensKeys = R.map(_a_lensKey_e4_Str)(propKeys);     //-> Functions List:: [fs_lns, op_lns, ta_lns]
+    var Lst_propVals = Lst_propVals_STUB;                       //-> Values List:: [fs_Vals, op_Vals, ta_Vals];
+    var Lst_Key_Val_pairs = R.zip(Lst_lensKeys, Lst_propVals);  //-> Values[lensFn,v]:: [[fs_ln,fs_v], [op_ln,op_v],...]
+    // var lst_Key_Val_pairs = R.zip(R.map( R.lensProp));       //-> a list of [lensFn,v]:: [[fs_ln,fs_v], [op_ln,op_v],...]
+    // var lensFney_val_pairs = Lst_Key_Val_pairs(propKeys)(lst_propVals_STUB);  //-> a list of [lensFn,v]:: [[fs_ln,fs_v], [op_ln,op_v],...]
 
-    var reduce_the_cssSDs = R.reduce(function F(acc, val) {
+    var _set_a_SD_e4_SD = (a)=>R.set(a[0], a[1]);      //-> _set_a_SD_e4_trgtSD.
+    var tst_one_set_a = _set_a_SD_e4_SD(Lst_Key_Val_pairs[0])({cve: true});//-> {cve:true, fontSize:"75%"}
+    var Lst_fn_SDs_e4_trgtSD = R.map(_set_a_SD_e4_SD)(Lst_Key_Val_pairs); //-> a list partial cssStyleDecl e4 trgtSDs.
+    var tst_Lst_fn_SDs_e4_trgtSD = Lst_fn_SDs_e4_trgtSD[0]({}); // -> {fontSize:"75%"}
+    var _reduce_SDs_to_SD = (acc, val) => {
         return val(acc)
-    });
-    var a_cssSD = reduce_the_cssSDs(a_init_SD_trgt)(cssSDs_wo_SD_); //-> Obj works
+    };
+    var a_SD = R.reduce(_reduce_SDs_to_SD, trgt_cssStyleDecl)(Lst_fn_SDs_e4_trgtSD); //-> Obj works NOTE: trgt
 
-    let assign_Style = R.curry(function assign_Style(styleObj, node) {
+    let _assign_Style_e4_SD_Node = R.curry(function assign_Style(styleObj, node) {
         return Object.assign(node['style'], styleObj);
     });
-    var a_styled_Node = assign_Style(a_cssSD)(a_Node);//-> Node/Elem mutated
+    var a_styled_Node = _assign_Style_e4_SD_Node(a_SD)(a_Node);//-> Node/Elem mutated
 
-// OK the above STYLES aVerse:; ([propKey],[propVals], {a_init_SD_trgt}, {a_Node} -> a_Node}
+    // DO Lists COMPOSE easily?? CAN I REPLACE all the Lists WITH functions???
+    // RET = R.equals(key_val_pairs, X); //-> true
+    // X = R.pipe(R.zip(_lensKeys_e4_Lst), _SDs_wo_SD_, _reduce_the_SDs)(Lst_propVals_STUB);//-> [ fn, fn, fn]
+    // RET = R.equals(SDs_wo_SD_, X);
+
+
+// OK the above STYLES aVerse:; ([propKey],[Lst_propVals_STUB], {a_init_SD_trgt}, {a_Node} -> a_Node}
 
     CUT = a_styled_Node;
     C_It(CUT);
