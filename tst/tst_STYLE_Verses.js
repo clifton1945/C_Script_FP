@@ -61,15 +61,6 @@ var main = function () {
     //var aVerse_stub = _aDoc_Node('.ChptrReadGrps .cur .VerseReadGrps .fut').children[1];
     //var theseVerses_Coll_stub = _aDoc_Node('.ChptrReadGrps .cur .VerseReadGrps .fut').children;
 
-    /**
-     *      NEXT: ALTER all Verses in the current Chapter
-     *      TODAY PLAN 20160516: ALTER all verses in a class
-     *          GIVEN
-     *          (1)aClass_of_Verses - I WILL USE the the fut Verses.
-     *          (2)the classPropObj _   for that Class
-     *          
-     */
-
     var CUT, the_cssSDecls, U, V, W, X, Y, Z;
 
     var _lens_key = R.lensProp;
