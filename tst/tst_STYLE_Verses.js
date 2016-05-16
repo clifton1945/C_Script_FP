@@ -2,9 +2,9 @@
  * Created by CLIF on 5/5/2016.
  */
 "use strict";
-//var R = require('ramda');
+// var R = require('ramda');
 //import { testStr } from '..//src//modules-compiled'; // WORKS but throws Inspection 'can't resolve
-
+// import {C_It} from "..//src//functions_01-compiled"
 /**
  *  a Book has three ChapterClasses [ClassOfChptrs]: .pst, .cur, .fut. Each is a Collection of 0->N Chapters AT any one time.
  *  a ChapterClass [ClassOfChptrs]: is a Collection of 0->N Chapters AT any one time.
@@ -25,10 +25,6 @@ var main = function () {
     var MSG, RET, EXP, TST, noop;
     MSG = 'style_theseVerses / ';
 
-    /**
-     *          TEST STUBS
-     * @type {{chptr: {fut: {name: string, styleProps: {fontSize: string, opacity: number, textAlign: string, backgroundColor: string}}, cur: {name: string, styleProps: {fontSize: string, opacity: number, textAlign: string}}, pst: {name: string, styleProps: {fontSize: string, opacity: number, textAlign: string, backgroundColor: string}}}}}
-     */
     const baseStylProp_Dict_stub = {
         chptr: {
             fut: {
@@ -66,30 +62,22 @@ var main = function () {
     //var theseVerses_Coll_stub = _aDoc_Node('.ChptrReadGrps .cur .VerseReadGrps .fut').children;
 
     /**
-     *          HELPER FUNCTIONS
-     * @param i
-     * @private
-     */
-    /**
-     *          CONFIRMATION OUTPUT & ASSERTS
-     */
-    /**
-     *      PLAN: 1TAAT MERGE individual CssStylDeclares
-     *      NEXT: ALTER a Verse
+     *      NEXT: ALTER all Verses in the current Chapter
+     *      TODAY PLAN 20160516: ALTER all verses in a class
+     *          GIVEN
+     *          (1)aClass_of_Verses - I WILL USE the the fut Verses.
+     *          (2)the classPropObj _   for that Class
+     *          
      */
 
-    /**
-     *     R.lens AND R.set WORK-well TO PRODUCE one_cssStylDecl
-     *     However, it is hard coded.
-     */
     var CUT, the_cssSDecls, U, V, W, X, Y, Z;
-    // WHAT IF I had a list of Values [123, 321] && a list [ _fontSize
-    //CUT =  R.compose(Z,Y,X)({cve:12345});//WORKS >> X..Z form R.lensProp(propKey. propValu)(eager cssSD)
+
     var _lens_key = R.lensProp;
     var _val_ndx = _a_Wt; // ????????????? how make and use for a specific class ??
 
 //TEST DATA STUBS:
     var a_init_SD_trgt = fut_StylProps_stub;
+    // hey Why a_Node DERIVED _FROM aNodeLIST??
     var a_Node = _aDoc_NodeList('.ChptrReadGrps .cur .VerseReadGrps .fut')[0].children[2];
     var propKeys = ['fontSize', 'opacity', 'textAlign']; // list of prop keys:: [fs, op, ta]
 
@@ -105,22 +93,22 @@ var main = function () {
     var _eager_fontSize = R.compose(_appendPercent, _a_Wt_stub);// a -> b
     var _eager_opacity = R.compose(_divide100, _a_Wt_stub);
     // BUILD a list of propVals
-    var propVals = ['125%', 70, 'center']; // a list of prop values:: [fs_val, op_val, ta_val]
+    var propVals = ['75%', 70, 'center']; // a list of prop values:: [fs_val, op_val, ta_val]
 
 // HELPER FUNCTIONS
-    var lens_keys = R.map(_lens_key)(propKeys); // a list of props:: prop key lenses [fs, op, ta] -> [fs_lns, op_lns, ta_lns]
-    var key_val_pairs = R.zip(lens_keys, propVals);  // a list of [k,v]:: [[fs_ln,fs_v], [op_ln,op_v],...]
-    var cssSDs_wo_SD_ = R.map((a)=>R.set(a[0], a[1], R.__))(key_val_pairs); // a list of partial set property cssStyleDecl eager trgt cssSD
+    var lens_keys = R.map(_lens_key)(propKeys); //-> a list of props:: prop key lenses [fs, op, ta] -> [fs_lns, op_lns, ta_lns]
+    var key_val_pairs = R.zip(lens_keys, propVals);  //-> a list of [k,v]:: [[fs_ln,fs_v], [op_ln,op_v],...]
+    var cssSDs_wo_SD_ = R.map((a)=>R.set(a[0], a[1], R.__))(key_val_pairs); //-> a list of partial set property cssStyleDecl eager trgt cssSD
 
     var reduce_the_cssSDs = R.reduce(function F(acc, val) {
         return val(acc)
     });
-    var a_cssSD = reduce_the_cssSDs(a_init_SD_trgt)(cssSDs_wo_SD_);
+    var a_cssSD = reduce_the_cssSDs(a_init_SD_trgt)(cssSDs_wo_SD_); //-> Obj works
 
     let assign_Style = R.curry(function assign_Style(styleObj, node) {
         return Object.assign(node['style'], styleObj);
     });
-    var a_styled_Node = assign_Style(a_cssSD)(a_Node);
+    var a_styled_Node = assign_Style(a_cssSD)(a_Node);//-> Node/Elem mutated
 
 // OK the above STYLES aVerse:; ([propKey],[propVals], {a_init_SD_trgt}, {a_Node} -> a_Node}
 
