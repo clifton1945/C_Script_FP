@@ -1,5 +1,6 @@
 /**
- * Created by CLIF on 5/5/2016.
+ * USE OF a StylePropertiesDict
+ * CHANGED by CLIF on 5/17
  */
 "use strict";
 //var R = require('ramda-maybe');
