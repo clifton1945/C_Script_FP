@@ -145,12 +145,12 @@ var tstCode = function (tst = false) {
         function styl_theseVerses(cBFn, coll) {
             return R.addIndex(R.map)(cBFn)(coll)
         });
-    ret = styl_theseVerses(
+    RET = styl_theseVerses(
         styl_oneVerse(fut_StylProps_stub),
         theseVerses_Coll_stub
     );
     // ASSERT
-    RET = ret;
+    RET = RET;
     TST = R.isArrayLike(RET);
     EXP = `'EXP: array of 6 CSSStyleDeclarations NOT ${RET}`;
     console.assert(TST, EXP);

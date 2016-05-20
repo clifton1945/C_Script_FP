@@ -111,13 +111,17 @@ const StyleObj = {
  */
 const StyleDict = {
     properties: {
-        _fontSize:function _fontSize(x) {return x + '%'}
-        ,_opacity:function _opacity(x) {return '' + x / 100}
-        ,textAlign: "center"
+        _fontSize: function _fontSize(x) {
+            return x + '%'
+        }
+        , _opacity: function _opacity(x) {
+            return '' + x / 100
+        }
+        , textAlign: "center"
     },
     2: {
         name: 'fut'
-        ,smlWt: .4
+        , smlWt: .4
         , lrgWt: .95
         , calcWt: (sObj, vObj) => {
             //noinspection JSUnusedLocalSymbols

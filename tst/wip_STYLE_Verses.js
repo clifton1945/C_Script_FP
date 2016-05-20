@@ -3,7 +3,10 @@
  * CHANGED by CLIF on 5/17
  */
 "use strict";
-//var R = require('ramda-maybe');
+var C_It = function C_It(txt) {
+    return console.log(txt);
+};
+var R = require('ramda');
 //import { testStr } from '..//src//modules-compiled'; // WORKS but throws Inspection 'can't resolve
 
 /**
@@ -23,8 +26,8 @@
 //  *********** DOM  DATA    REQUIRE functions.js
 
 //var main = function () {
-var MSG, RET, EXP, TST, noop;
-MSG = 'wip_STYLE_Verses / ';
+var MSG, RET, EXP, CUT, _CUT, TST, noop;
+MSG = 'calc Wt from C,F,L,N / ';
 
 /**
  *          TEST STUBS
@@ -61,109 +64,86 @@ const baseStylProp_Dict_stub = {
     }
 };
 var fut_StylProps_stub = baseStylProp_Dict_stub.chptr.fut.styleProps;
-//var aVerse_stub = _aDoc_Node('.ChptrReadGrps .cur .VerseReadGrps .fut').children[1];
-var theseVerses_Coll_stub = _aDoc_Node('.ChptrReadGrps .cur .VerseReadGrps .fut').children;
+//var aVerse_stub = _aDoc_TIMES_Node('.ChptrReadGrps .cur .VerseReadGrps .fut').children[1];
+// var theseVerses_Coll_stub = _aDoc_TIMES_Node('.ChptrReadGrps .cur .VerseReadGrps .fut').children;
 
 /**
  *          HELPER FUNCTIONS
  * @param i
  * @private
  */
-let _a_Wt_stub = i =>  35 + i * 10; // (i)->EXP: 0<ndx<
-var _appendPercent = (n) => `${n}%`;  // DO NOT UNDERSTAND HOW TO MAKE THIS Pointless ?
-var _divide100 = R.flip(R.divide)(100);// WORKS
-var _eager_fontSize = R.compose(_appendPercent, _a_Wt_stub);// a -> b
-var _eager_opacity = R.compose(_divide100, _a_Wt_stub);
-var _new_Str = (s)=>R.always(s);  // REFACT TO ()=>{}s then R.always
-var transformers = function transformers(n) {    // (n) -> {}
-    return {// trans... REQUIRE a transformer FUNC
-        // the R.always returns a FUNC returning the satisfied _eager by n
-        fontSize: R.always(_eager_fontSize(n)), // must be a -> (*-> b)
-        opacity: R.always(_eager_opacity(n)),
-        textAlign: _new_Str('center')
-    }
+// start with  a StylePropertyDict
+var aSPD = {
+    cls: {
+        name: 'fut'
+        , smlWt: .4
+        , lrgWt: .95
+        , calcWt: (sObj, vObj) => {
+            //noinspection JSUnusedLocalSymbols
+            let {ver, ndx, ary} = vObj;
+            let {smlWt, lrgWt} = sObj;
+            let len = ary.length - 1;
+            return (len > 0)
+                ? (-(lrgWt - smlWt) / len * ndx + lrgWt)
+                : lrgWt;  // always lrgWt
+        }
+        , styleTmpl: {
+            backgroundColor: "rgba(145, 248, 29, 0.29)"
+            , opacity: ".75"
+            , fontSize: "75%"
+        }
+    },
+    fn: (x)=> x * x
 };
-let _updated_properties = R.curry(
-    /**
-     *      cssStyl, ndx EAGER_updated_properties({so} -> ndx -> {so}
-     * @param base style property object: CSSStyleDeclaration
-     * @eager i  this verse index in its collection
-     * @returns  {*} CSSStyleDeclarations]
-     * @param i
-     */
-    function update_properties(base, i) {
-        return R.evolve(transformers(i), base);
-    });
+// here if the procedural calcWt
+var C, F, L, N;
+var calcWt_1 = (C, F, L)=>(N)=>(C - F) * N / (L - 1) + F;
+// some test data
+C = 90;
+F = 50;
+L = 5;
+N = 2;
+TST = calcWt_1(C, F, L)(N);//->N:70
+
+var This = x => console.log('t:' + x);
+var tap_This = R.tap(This);
+//-------------------------
+C = 90;
+F = 50;
+L = 5;
+N = 2;
+// -----------------------
+// var subtract_CF = (c, f)=> R.subtract(c, f);
+// var deltaCF = subtract_CF(C, F);//-> Num: 40
+// CUT = deltaCF; //-> 40
+var numerator = R.multiply(R.subtract(C, F));
+// RET = R.compose( numerator)(N); //->80
+var denominator = R.dec(L);//-> 4
 /**
- *      ndx, cssStyl EAGER_transformed Properties ndx -> {so} -> {so)
- * @param i  this verse index in its collection
- * @eager base style property object: CSSStyleDeclaration
- * @returns  [modified CSSStyleDeclarations]
+ *      eager  Numerator:(C-F)*egN / Denominator:(L-1) AND index:egN
  */
-let _transformed_Properties = R.flip(_updated_properties);
-
-
-let assign_Style = R.curry(function assign_Style(styleObj, node) {
-    //NOTE: the target styleObj IS RETURNED MUTATED !!
-    return Object.assign(node['style'], styleObj);
-});
-//
-let _styl_oneVerse = R.curry(
-    /**
-     *          sets an Element` cssStyle::
-     * @param styleObj
-     * @param val EAGER
-     * @param ndx
-     * @param coll
-     * @returns {*}
-     */
-    function _styl_One_Verse(styleObj, val, ndx, coll) {
-        // remember, this is a cBFn which returns the_mutatedVerse
-        assign_Style(_updated_properties(styleObj)(ndx), val);
-        return val
-    });
-let _styl_VERSE_STUB = R.curry(
-    /**
-     *          sets an Element` cssStyle::
-     * @param styleObj
-     * @param val EAGER
-     * @param ndx
-     * @param coll
-     * @returns {*}
-     */
-    function _styl_VERSE_STUB(styleObj, val, ndx, coll) {
-        var X = R.pipe(
-            _a_Wt_stub(coll)
-            , _updated_properties(styleObj));
-        // remember, this is a cBFn which returns the_mutatedVerse
-        //assign_Style(_updated_properties(styleObj)(ndx), val);
-        return X
-    });
-let styl_theseVerses = R.curry(
-    /**
-     *      styl_theseVerses::
-     * @param cBFn
-     * @param coll
-     * @returns [verses]
-     */
-    function styl_theseVerses(cBFn, coll) {
-        return R.addIndex(R.map)(cBFn)(coll)
-    });
-
-var ret, X, Y;
-X = _eager_fontSize;
-
+var divide_Numer_by_Denom = R.flip(R.divide)(denominator);
+// RET = divide_Numer_by_Denom(CUT); //-> 80/4->20
+// CUT = R.compose( divide_Numer_by_Denom, numerator);
+// RET = CUT(N);//-> 20
+var add_Far = R.add(F);
+/**
+ *      Wt eager index:N -> (C-F)* egN / (L-1) + F
+ */
+var Wt = R.compose(add_Far, divide_Numer_by_Denom, numerator);
+RET = Wt(N); //-> 70
 /**
  *          CONFIRMATION OUTPUT & ASSERTS
  */
-ret = X(0);
-C_It(ret);
-C_It(JSON.stringify(ret));
+C_It(RET);
+C_It(JSON.stringify(RET));
 // ASSERT
-RET = ret;
-TST = R.equals('35%', R.prop('fontSize', RET));
-EXP = `'EXP: textAlign: '35%' NOT ${RET}`;
-//console.assert(TST, EXP);
+EXP = `'EXP: ${TST} NOT ${RET}`;
+TST = R.equals(TST, RET);
+console.assert(TST, EXP);
+// some more Index
+RET = Wt(0); //-> 50
+RET = Wt(L - 1); //-> 90
 
 noop = '';
 //};
