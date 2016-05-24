@@ -22,15 +22,17 @@ var cur_chpt_elem =
     /**
      *          CODE UNDER TEST
      */
+    
     /**
      *          CONFIRMATION OUTPUT & ASSERTS
      */
     C_It(RET);
 C_It(JSON.stringify(RET));
 // ASSERT
-EXP = `'EXP: ${TST} NOT ${RET}`;
-TST = R.equals(TST, RET);
-console.assert(TST, EXP);
+EXP = 0;
+TST = R.equals(EXP, RET);
+MSG = `'EXP: ${TST} NOT ${RET}`;
+console.assert(TST, MSG);
 
 noop = 1;
 
