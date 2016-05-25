@@ -16,7 +16,7 @@
 "use strict";
 // var R = require('ramda');
 
-var MSG, RET, EXP, CUT, _CUT, TST, noop = 0;
+var MSG, RET, EXP, TRGT, CUT, _CUT, TST, noop = 0;
 /**
  *          HELPER FUNCTIONS
  */
@@ -38,20 +38,24 @@ var slctr = '.book .ChptrReadGrps .cur  .VerseReadGrps .fut > .vers ';
 // NAMING THINGS
 var a_fut_trgt_elemS_sTUB = NodER(slctr);//->
 
-RET = a_fut_trgt_elemS_sTUB;
-CUT = R.prop('previousElementSibling')(RET);//-> null
-CUT = R.prop('nextElementSibling')(RET);//-> innerText: chptr:2 verse:5 ndx:4
-CUT = R.prop('parentNode')(RET);//-> div.fut with  verse
-CUT = R.compose(R.prop('children'), R.prop('parentNode'))(RET);//-> HTMLCollection[6]
+TRGT = a_fut_trgt_elemS_sTUB;
+CUT = R.prop('previousElementSibling')(TRGT);//-> null
+CUT = R.prop('nextElementSibling')(TRGT);//-> innerText: chptr:2 verse:5 ndx:4
+var _parnt = R.prop('parentNode');//-> div.fut with  verse
+_CUT = _parnt(TRGT);
+RET = R.prop('className', _parnt(TRGT));
+C_It(RET);
+CUT = R.compose(R.prop('children'), R.prop('parentNode'))(TRGT);//-> HTMLCollection[6]
 var _fut_clss_trgt_elemS = R.compose(R.prop('children'), R.prop('parentNode'));//-> HTMLCollection[3]:: _fut_clss_trgt_elemS AKA cur_chpt_elem.children
 _CUT = _fut_clss_trgt_elemS;
+RET = _CUT(TRGT);
+
 // a cur_chpt_elem div
 // var cur_chpt_elem = NodER(slctr);//-> div.VerseReadGrps
 // // a cur_chpt_elem HAS 3 children:: each a div w/ a name: pst, cur, fut
 // // each _fut_clss_trgt_elemS KNOWS its clss name. USE it In STYLING
 // var fut_clss_elem_sTUB = _fut_clss_trgt_elemS.item(2);//-> this div.fut ISa elem WITH a HTMLCollection::
 
-RET = _CUT(RET);
 
 /**
  *          CONFIRMATION OUTPUT & ASSERTS
