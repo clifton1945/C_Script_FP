@@ -18,8 +18,7 @@ var MSG, RET, EXP, CUT, _CUT, TST, noop = 0;
 /**
  *          TEST DATA
  */
-var cur_chpt_elem =
-    /**
+/**
      *          CODE UNDER TEST
      */
     
