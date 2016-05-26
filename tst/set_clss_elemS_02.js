@@ -7,6 +7,14 @@
  *      (0)a few specific style Properties: e.g. font, opacity, color, etc
  *      (1)location relative to its Siblings
  *      (2)the  reading class: pst, cur, fut
+ *
+ * 160525 end of the day
+ *
+ *   // OK i HAVE enough To SEE it Works.
+ *   // Can get trgt parent name. Used to retrieve style weight limits used in calc wt.numer;
+ *   //                       AND Used to retrieve style csds
+ *   // Can get parentNode.children.length. used in weight calc.denom
+ *   // Can get trgt index in sibling collection. Used in weight calc.numer
  * 160525  new paradign
  * start with a/any verse element - a trgt_elem.
  *  It has internal context: its Properties, in this case its CSSStyleDeclarations.
@@ -61,11 +69,6 @@ RET = R.indexOf(TRGT)(CUT);//-> 0
 var TRGT_plusOne = R.prop('nextElementSibling')(TRGT);//-> innerText: chptr:2 verse:5 ndx:4
 RET = R.indexOf(TRGT_plusOne)(CUT);//-> 1
 
-// OK i HAVE enough To SEE it Works.
-// Can get trgt parent name. Used to retrieve style weight limits used in calc wt.numer;
-//                       AND Used to retrieve style csds
-// Can get parentNode.children.length. used in weight calc.denom
-// Can get trgt index in sibling collection. Used in weight calc.numer
 
 /**
  *          CONFIRMATION OUTPUT & ASSERTS
