@@ -29,14 +29,23 @@
 "use strict";
 // var R = require('ramda');
 
-var MSG, RET, EXP, TRGT, CUT, _CUT, TST, noop = 0;
+var MSG,
+    RET,
+    EXP,
+    TRGT,
+    CUT,
+    _CUT,
+    TST,
+    noop = 0;
 /**
  *          HELPER FUNCTIONS
  */
-var msg = s => console.log('t:' + s);
+var msg = function msg(s) {
+  return console.log('t:' + s);
+};
 var tIt = R.tap(msg);
 var C_It = function C_It(txt) {
-    return console.log(txt);
+  return console.log(txt);
 };
 
 var cssQuery_ = R.invoker(1, 'querySelector');
@@ -52,11 +61,12 @@ TRGT = a_fut_trgt_elemS_sTUB;
 /**
  *          CODE UNDER TEST
  */
-// parent Name -> prop: parentNode
+// _my_clss: El:a -> Str;s
 var _my_clss = R.compose(R.prop('className'), R.prop('parentNode'));
-CUT = _my_clss(TRGT);
-RET = CUT;
+RET = _my_clss(TRGT);
+console.assert(RET === "fut");
 C_It(RET);
+// _me:
 
 /**
  *          CONFIRMATION OUTPUT & ASSERTS
@@ -66,4 +76,4 @@ C_It(JSON.stringify(RET));
 
 noop = 0;
 
-
+//# sourceMappingURL=set_clss_elemS_03-compiled.js.map
