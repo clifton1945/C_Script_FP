@@ -72,16 +72,19 @@ N = 2;
 
 /**
  *  _numerator: (N:c, N:f) -> egrN:n -> N:w
+ *
  */
-var _numerator = R.compose(R.multiply, R.subtract);//
+var _numerator = R.curry(R.compose(R.multiply, R.subtract));//
 // RET = _numerator(C,F); //-> 40
-RET = _numerator(C, F)(N); //->80
-assert(80, _numerator(C, F)(N));
-var denominator = R.dec(L);//-> 4
+// RET = _numerator(C, F)(N); //->80
+assert(80, _numerator(C)(F)(N));//-> 80
+
+var _denominator = R.dec(L);//-> 4
+
 /**
- *      eager  Numerator:(C-F)*egN / Denominator:(L-1) AND index:egN
+ *      eager step:  Numerator:(C-F)*egN / Denominator:(L-1)
  */
-var divide_Numer_by_Denom = R.flip(R.divide)(denominator);
+var divide_Numer_by_Denom = R.flip(R.divide)(_denominator);
 // RET = divide_Numer_by_Denom(CUT); //: n-> n 80/4->20
 // CUT = R.compose( divide_Numer_by_Denom, _numerator);
 // RET = CUT(N);//-> 20
