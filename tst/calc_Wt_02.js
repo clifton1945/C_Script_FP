@@ -26,19 +26,34 @@ var assert = (exp, ret)=> console.assert(R.equals(exp, ret), `${ret}!=${exp}`);
 // start with  a StylePropertyDict
 var dflt_wt_dict = {
     clss: {
-        name: 'fut'
-        , wts: {
-            far_wt: 40
-            , ner_wt: 95
+        fut: {
+            wts: {
+                far_wt: 50,
+                ner_wt: 95
+            }
         }
-        , styleTmpl: {
-            backgroundColor: "rgba(145, 248, 29, 0.29)"
-            , opacity: ".75"
-            , fontSize: "75%"
+        ,
+        cur: {
+            wts: {
+                far_wt: 100,
+                ner_wt: 100
+            }
+        }
+        ,
+        pst: {
+            wts: {
+                far_wt: 30,
+                ner_wt: 80
+            }
         }
     },
-    fn: (x)=> x * x
+    styleTmpl: {
+        backgroundColor: "rgba(145, 248, 29, 0.29)"
+        , opacity: ".75"
+        , fontSize: "75%"
+    }
 };
+
 var RET, EXP, CUT, TST, noop;
 //var C, F, L, N; CloseWt, FarWt, Length of Siblings, my Ndex in sibling list
 var C, F, L, N;
@@ -56,12 +71,16 @@ C = 90, F = 50, L = 5, N = 2;
  */
 
 /**
- *
+ *      wt_rng_lens: Str:k -> Lens
  */
-const wt_rng_lens = R.lensPath(['clss', 'wts']);// [Str] -> Lens s a
-const wt_range = R.view(wt_rng_lens, dflt_wt_dict);// -> Num
-RET = wt_range;
-C_It("RET:" + RET);
+let wt_rng_lens = (key) => R.lensPath(['clss', key, 'wts']);// [Str] -> Lens s a
+RET = wt_rng_lens('fut');// Lens s a -> f{k} -> v
+const wts_fut = R.view(wt_rng_lens('fut'), dflt_wt_dict);// -> Num
+RET = wts_fut;
+assert(50, wts_fut['far_wt']);
+assert(95, wts_fut['ner_wt']);
+C_It("wts_fut:" + RET);
+C_It(JSON.stringify(RET));
 noop = 1;
 
 // var subtract_CF = (c, f)=> R.subtract(c, f);
