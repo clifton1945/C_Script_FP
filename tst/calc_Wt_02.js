@@ -24,19 +24,12 @@ var assert = (exp, ret)=> console.assert(R.equals(exp, ret), `${ret}!=${exp}`);
  * @private
  */
 // start with  a StylePropertyDict
-var aSPD = {
-    cls: {
+var dflt_wt_dict = {
+    clss: {
         name: 'fut'
-        , smlWt: .4
-        , lrgWt: .95
-        , calcWt: (sObj, vObj) => {
-            //noinspection JSUnusedLocalSymbols
-            let {ver, ndx, ary} = vObj;
-            let {smlWt, lrgWt} = sObj;
-            let len = ary.length - 1;
-            return (len > 0)
-                ? (-(lrgWt - smlWt) / len * ndx + lrgWt)
-                : lrgWt;  // always lrgWt
+        , wts: {
+            far_wt: 40
+            , ner_wt: 95
         }
         , styleTmpl: {
             backgroundColor: "rgba(145, 248, 29, 0.29)"
@@ -49,23 +42,28 @@ var aSPD = {
 var RET, EXP, CUT, TST, noop;
 //var C, F, L, N; CloseWt, FarWt, Length of Siblings, my Ndex in sibling list
 var C, F, L, N;
-// math procedural style
-var calcWt_1 = (C, F, L)=>(N)=>(C - F) * N / (L - 1) + F;
-// some test data
-C = 90;
-F = 50;
-L = 5;
-N = 2;
-TST = calcWt_1(C, F, L)(N);//->N:70
-
 var This = x => console.log('t:' + x);
 var tap_This = R.tap(This);
 //-------------------------
-C = 90;
-F = 50;
-L = 5;
-N = 2;
+C = 90, F = 50, L = 5, N = 2;
 // -----------------------
+/**
+ *      _retrieve_dflt_wts: ({D:d}) -> (S:s) -> {d}
+ *      _retrieve this class default small and la
+ * @param dct
+ * @param key
+ * @private
+ */
+
+/**
+ *
+ */
+const wt_rng_lens = R.lensPath(['clss', 'wts']);// [Str] -> Lens s a
+const wt_range = R.view(wt_rng_lens, dflt_wt_dict);// -> Num
+RET = wt_range;
+C_It("RET:" + RET);
+noop = 1;
+
 // var subtract_CF = (c, f)=> R.subtract(c, f);
 // var deltaCF = subtract_CF(C, F);//-> Num: 40
 // CUT = deltaCF; //-> 40
@@ -106,7 +104,10 @@ assert(50, Wt(0));
 assert(90, Wt(L - 1));
 
 noop = '';
-//};
-//main();
 
+// math procedural style
+var calcWt_0 = (C, F, L)=>(N)=>(C - F) * N / (L - 1) + F;
+// some test data
+C = 90, F = 50, L = 5, N = 2;
+assert(70, calcWt_0(C, F, L)(N));//->N:70
 
