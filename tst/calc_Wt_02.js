@@ -1,5 +1,14 @@
 /**
  * calc_Wt_02.js
+ *  160527 Leaving off here to switch to Viral Mode from Prescribed Mode
+ *
+ *  @ ed1a2776538d8e5b0f62f681d7d336d1a50764d9
+ *    STABLE WIP  wt_rng_lens() AND wts_fut()    TO GET the two weight range values for a given read class
+
+ SWITCHED TO   Lenses to get/view default weighting ranges as f(clss_key)
+
+ WIP tst/SET_clss_elemS_03.js
+ *
  *
  * calc_Wt_01 fn: N:n -> n
  * calc_Wt_01 fn: params: (CloseWt, FarWt, Length of Siblings)(NumeratorIndex) -> weight
