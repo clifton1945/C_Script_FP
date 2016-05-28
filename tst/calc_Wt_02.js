@@ -85,39 +85,42 @@ const _init_clssWghtLimits = clssWghtLimits(clssWght_Dict);
 let fut_clssWghtLimits = _init_clssWghtLimits('fut');
 // tests
 RET = fut_clssWghtLimits;
+C_It(JSON.stringify(fut_clssWghtLimits));
+
 TST = {far_wt: 50, ner_wt: 90};
 var far = R.prop('far_wt');
 var ner = R.prop('ner_wt');
 assert(50, far(TST));
 assert(90, ner(TST));
-C_It(JSON.stringify(RET));
+const _delta = (dict) => R.subtract
+    (R.prop('ner_wt')(dict))
+    (R.prop('far_wt')(dict))
+    ;// WHOA  subtract(ner(dict), far(dict))
+RET = _delta(TST);
+assert(40, _delta(TST));
 
 /**
  *  _numerator: D:{N:c, N:f} -> (N:ndx) -> N:numerator
  *
  */
-
-var _numerator = R.curry(R.compose(R.multiply, R.subtract));//
-
+// var _numerator = R.curry(R.compose(R.multiply, R.subtract));//
+var _numerator = R.curry(R.compose(R.multiply, _delta));//
 // RET = _numerator(C,F); //-> 40
-RET = _numerator(ner(TST), far(TST))(N); //->80
-assert(80, _numerator(ner(TST))(far(TST))(N));//-> 80
+RET = _numerator(TST)(N); //->80
+assert(80, _numerator(TST)(N));//-> 80
 
 /**
- *      _denominator: L:sibs -> N:den
+ *      _denominator: L:[sibs] -> N:den
  */
-var _denominator = R.dec(L);//-> 4
+var _denominator = R.dec;//-> 4
+assert(4, _denominator(L));
 
 /**
- *      divide_Numer_by_Denom: N:n -> N:n
+ *      STEP_ER:(N:a)->(N:b) -> N:a/b
  */
-var divide_Numer_by_Denom = R.flip(R.divide)(_denominator);
-
-/**
- *      STEP_ER:
- */
-const STEP_ER = R.compose(divide_Numer_by_Denom, _numerator(C, F));
-RET = STEP_ER(N); //-> 20
+// const STEP_ER = R.divide(80)(4);
+const STEP_ER = R.divide(_numerator(TST)(N))(_denominator(L));
+RET = STEP_ER; //-> 20
 assert(20, RET);
 /**
  *          CONFIRMATION OUTPUT & ASSERTS
