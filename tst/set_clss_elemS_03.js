@@ -41,20 +41,31 @@ var NodeListER = R.flip(cssQuery_all)(document);
  */
 var slctr = '.book .ChptrReadGrps .cur  .VerseReadGrps .fut > .vers ';
 var a_fut_trgt_elemS_sTUB = NodER(slctr);
+
 TRGT = a_fut_trgt_elemS_sTUB;
 var fut_trgt_nl = NodeListER(slctr);
-// TRGT = fut_trgt_nl;
+var NL = fut_trgt_nl;
 /**
  *          CODE UNDER TEST
  */
 RET = TRGT;
-
-var style = window.getComputedStyle(TRGT, null);// might be useful in future
-RET = style;//-> CSSStyleDeclaration. But do not see css background-color
+/**
+ *          MAPPINg a List
+ * @type {CSSStyleDeclaration}
+ */
+const _innerText = R.prop("innerText");
+const inspect = (itm, ndx, lst) => {
+    C_It(_innerText(itm))
+};
+var node = NodER(slctr);
+RET = NL;
+RET = _innerText(node);
+let mapIndexed = R.addIndex(R.map);
+RET = mapIndexed(inspect, NL);// WORKS -> C_It of 6 innerTexts
+noop = 2;
 /**
  *      wt_rng_lens: Str:k -> Lens
  */
-
 let _lens = (key) => R.lensPath(['style', key]);// [Str] -> Lens s a
 const fontSize_lens = _lens('fontSize');
 const set_fontSize = (val)=> R.set(fontSize_lens, val);// a:v -> Elem:{}
@@ -64,8 +75,10 @@ EXP = '115%';
 RET = set_fontSize(EXP)(TRGT);
 RET = get_fontSize(RET);
 assert(EXP, RET);
-EXP = '85%';
-RET = set_fontSize('85%')(RET);
+EXP = '55%';
+RET = set_fontSize(EXP)(RET);
+Object.assign(TRGT.style, RET.style);// YEAH  NEEDED RET.style
+// TRGT.style = RET.style;
 RET = get_fontSize(RET);
 assert(EXP, RET);
 C_It("fontSize:" + RET);
@@ -79,3 +92,9 @@ noop = 1;
 // C_It(JSON.stringify(RET));
 
 noop = 0;
+/**
+ *          maybe useful in future
+ * @type {CSSStyleDeclaration}
+ */
+var style = window.getComputedStyle(TRGT, null);// might be useful in future
+// RET = style;//-> CSSStyleDeclaration. But do not see css background-color
