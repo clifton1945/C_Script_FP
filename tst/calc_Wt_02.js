@@ -29,7 +29,7 @@ let clssWght_Dict = {
         fut: {
             wts: {
                 far_wt: 50,
-                ner_wt: 95
+                ner_wt: 90
             }
         }
         ,
@@ -82,22 +82,26 @@ let fut_clssWght_Lens = clssWght_Lens('fut');// Lens s a -> f{k} -> v
  */
 let clssWghtLimits = (dict) => (clssKey) => R.view(clssWght_Lens(clssKey), dict);// -> Num
 const _init_clssWghtLimits = clssWghtLimits(clssWght_Dict);
-let fut_clssWgthLimits = _init_clssWghtLimits('fut');
+let fut_clssWghtLimits = _init_clssWghtLimits('fut');
 // tests
-RET = fut_clssWgthLimits;
-assert(50, RET['far_wt']);
-assert(95, RET['ner_wt']);
+RET = fut_clssWghtLimits;
+TST = {far_wt: 50, ner_wt: 90};
+var far = R.prop('far_wt');
+var ner = R.prop('ner_wt');
+assert(50, far(TST));
+assert(90, ner(TST));
 C_It(JSON.stringify(RET));
-noop = 1;
 
 /**
- *  _numerator: (N:c, N:f) -> egrN:n -> N:w
+ *  _numerator: D:{N:c, N:f} -> (N:ndx) -> N:numerator
  *
  */
+
 var _numerator = R.curry(R.compose(R.multiply, R.subtract));//
+
 // RET = _numerator(C,F); //-> 40
-// RET = _numerator(C, F)(N); //->80
-assert(80, _numerator(C)(F)(N));//-> 80
+RET = _numerator(ner(TST), far(TST))(N); //->80
+assert(80, _numerator(ner(TST))(far(TST))(N));//-> 80
 
 /**
  *      _denominator: L:sibs -> N:den
