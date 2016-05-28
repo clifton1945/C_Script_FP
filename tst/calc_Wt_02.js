@@ -1,5 +1,16 @@
+"use strict";
 /**
  * calc_Wt_02.js
+ *  160528  back to rebuild a WEIGHTER: (D:propDct)(S:clssKey)(L:sibs)(N:ndx) -> N:0>=w<=1
+ *      other functions: a propINIT_ER, propWEIGHT_ER, a prop_FORMAT_ER, propCSD_SETT_ER.
+ *      STYLER: (D:propDct) (S:clssKey) (L:[elms]) -> L
+ *
+ *     INIT_ER: (D:propDct)(S:propKey) -> {propVals}
+ *      want to unpack init obj,
+ *     STEP_ER: (D: wts)-> (egrL: sibs) -> N:step
+ *      compose denominator, triage denominator, compose numerator, complete the step.
+ *      NOTE:
+ *
  *  160527 Leaving off here to switch to Viral Mode from Prescribed Mode
  *
  *  @ ed1a2776538d8e5b0f62f681d7d336d1a50764d9
@@ -20,20 +31,19 @@
  * 1. wt = gtOne? calcWt: closeWt
  *
  */
-"use strict";
 var R = require('ramda');
 
 var C_It = function C_It(txt) {
     return console.log(txt);
 };
-var assert = (exp, ret)=> console.assert(R.equals(exp, ret), `${ret}!=${exp}`);
+const assert = (exp, ret)=> console.assert(R.equals(exp, ret), `${ret}!=${exp}`);
 /**
  *          HELPER FUNCTIONS
  * @param i
  * @private
  */
 // start with  a StylePropertyDict
-var dflt_wt_dict = {
+let dflt_wt_dict = {
     clss: {
         fut: {
             wts: {
@@ -80,7 +90,7 @@ C = 90, F = 50, L = 5, N = 2;
  */
 
 /**
- *      wt_rng_lens: Str:k -> Lens
+ *      wt_rng_Lenses: Str:k -> Lens
  */
 let wt_rng_lens = (key) => R.lensPath(['clss', key, 'wts']);// [Str] -> Lens s a
 RET = wt_rng_lens('fut');// Lens s a -> f{k} -> v

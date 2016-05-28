@@ -29,3 +29,33 @@
  *  It has external context in the DOM: siblings, parents, css , etc
  *
  */
+
+/**
+ * calc_Wt_02.js    160528
+ *  160528  back to rebuild a WEIGHTER: (D:propDct)(S:clssKey)(L:sibs)(N:ndx) -> N:0>=w<=1
+ *      other functions: a propINIT_ER, propWEIGHT_ER, a prop_FORMAT_ER, propCSD_SETT_ER.
+ *      STYLER: (D:propDct) (S:clssKey) (L:[elms]) -> L
+ *
+ *     INIT_ER: (D:propDct)(S:propKey) -> {propVals}
+ *      want
+ *
+ *  160527 Leaving off here to switch to Viral Mode from Prescribed Mode
+ *
+ *  @ ed1a2776538d8e5b0f62f681d7d336d1a50764d9
+ *    STABLE WIP  wt_rng_lens() AND wts_fut()    TO GET the two weight range values for a given read class
+
+ SWITCHED TO   Lenses to get/view default weighting ranges as f(clss_key)
+
+ WIP tst/SET_clss_elemS_03.js
+ *
+ *
+ * calc_Wt_01 fn: N:n -> n
+ * calc_Wt_01 fn: params: (CloseWt, FarWt, Length of Siblings)(NumeratorIndex) -> weight
+ * calc_Wt_01 uses global arguments. FIX
+ * calc_Wt_01 works but does not handle sibling NodeList of Length < 2. FIX
+ * aSPD a cssStyle property dictionary is include in file but not used.
+ * TO CHANGE by CLIF on 5/26
+ * 0. convert _numerator() to function
+ * 1. wt = gtOne? calcWt: closeWt
+ *
+ */
