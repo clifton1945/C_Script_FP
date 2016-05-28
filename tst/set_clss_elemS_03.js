@@ -49,22 +49,9 @@ var NL = fut_trgt_nl;
  *          CODE UNDER TEST
  */
 RET = TRGT;
+
 /**
- *          MAPPINg a List
- * @type {CSSStyleDeclaration}
- */
-const _innerText = R.prop("innerText");
-const inspect = (itm, ndx, lst) => {
-    C_It(_innerText(itm))
-};
-var node = NodER(slctr);
-RET = NL;
-RET = _innerText(node);
-let mapIndexed = R.addIndex(R.map);
-RET = mapIndexed(inspect, NL);// WORKS -> C_It of 6 innerTexts
-noop = 2;
-/**
- *      wt_rng_lens: Str:k -> Lens
+ *      set_fontSize AND get_fontSize USing Lenses WORKS.
  */
 let _lens = (key) => R.lensPath(['style', key]);// [Str] -> Lens s a
 const fontSize_lens = _lens('fontSize');
@@ -84,6 +71,21 @@ assert(EXP, RET);
 C_It("fontSize:" + RET);
 C_It(JSON.stringify(RET));
 noop = 1;
+
+/**
+ *          MAPPINg a List
+ * @type {CSSStyleDeclaration}
+ */
+const _innerText = R.prop("innerText");
+const inspect = (itm, ndx, lst) => { // wt: far + delta * ndx / list.length - 1) 
+    C_It(40 + ndx * 50 / (lst.length - 1))
+};
+var node = NodER(slctr);
+RET = NL;
+RET = _innerText(node);
+let mapIndexed = R.addIndex(R.map);
+RET = mapIndexed(inspect, NL);// WORKS -> C_It of 6 innerTexts
+noop = 2;
 
 /**
  *          CONFIRMATION OUTPUT & ASSERTS
