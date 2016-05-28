@@ -1,44 +1,35 @@
+"use strict";
 /**
  * calc_Wt_02.js
- *  160527 Leaving off here to switch to Viral Mode from Prescribed Mode
+ *  160528  back to rebuild a WEIGHTER: (D:clssWghtDct)(S:clssKey)(L:sibs)(N:ndx) -> N:0>=w<=1
+ *      other functions: a clssWghtINIT_ER, clssWghtWEIGHT_ER, a clssWght_FORMAT_ER, clssWghtCSD_SETT_ER.
+ *      STYLER: (D:clssWghtDct) (S:clssKey) (L:[elms]) -> L
  *
- *  @ ed1a2776538d8e5b0f62f681d7d336d1a50764d9
- *    STABLE WIP  wt_rng_lens() AND wts_fut()    TO GET the two weight range values for a given read class
-
- SWITCHED TO   Lenses to get/view default weighting ranges as f(clss_key)
-
- WIP tst/SET_clss_elemS_03.js
- *
- *
- * calc_Wt_01 fn: N:n -> n
- * calc_Wt_01 fn: params: (CloseWt, FarWt, Length of Siblings)(NumeratorIndex) -> weight
- * calc_Wt_01 uses global arguments. FIX
- * calc_Wt_01 works but does not handle sibling NodeList of Length < 2. FIX
- * aSPD a cssStyle property dictionary is include in file but not used.
- * TO CHANGE by CLIF on 5/26
- * 0. convert _numerator() to function
- * 1. wt = gtOne? calcWt: closeWt
- *
+ *     INIT_ER: (D:clssWghtDct)(S:clssWghtKey) -> {clssWghtVals}
+ *      want to unpack init obj,
+ *     STEP_ER: (D: wts)-> (egrL: sibs) -> N:step
+ *      compose denominator, triage denominator, compose numerator, complete the step.
+ *      NOTE:
+ **
  */
-"use strict";
 var R = require('ramda');
 
 var C_It = function C_It(txt) {
     return console.log(txt);
 };
-var assert = (exp, ret)=> console.assert(R.equals(exp, ret), `${ret}!=${exp}`);
+const assert = (exp, ret)=> console.assert(R.equals(exp, ret), `${ret}!=${exp}`);
 /**
  *          HELPER FUNCTIONS
  * @param i
  * @private
  */
-// start with  a StylePropertyDict
-var dflt_wt_dict = {
+// start with  a clssWghtDict
+let clssWght_Dict = {
     clss: {
         fut: {
             wts: {
                 far_wt: 50,
-                ner_wt: 95
+                ner_wt: 90
             }
         }
         ,
@@ -72,6 +63,8 @@ var tap_This = R.tap(This);
 C = 90, F = 50, L = 5, N = 2;
 // -----------------------
 /**
+ *       INIT_ER: (D:clssWghtDct)(S:clssWghtKey) -> {clssWghtVals}
+ *       CssStyleDeclaration 
  *      _retrieve_dflt_wts: ({D:d}) -> (S:s) -> {d}
  *      _retrieve this class default small and la
  * @param dct
@@ -79,63 +72,67 @@ C = 90, F = 50, L = 5, N = 2;
  * @private
  */
 
+let clssWght_Lens = (key) => R.lensPath(['clss', key, 'wts']);// [Str] -> Lens s a
+let fut_clssWght_Lens = clssWght_Lens('fut');// Lens s a -> f{k} -> v
+
+
 /**
- *      wt_rng_lens: Str:k -> Lens
+ *      clssWghtLimits: D:dct -> S:clssKet -> D:wtLimits
+ * @param dict
  */
-let wt_rng_lens = (key) => R.lensPath(['clss', key, 'wts']);// [Str] -> Lens s a
-RET = wt_rng_lens('fut');// Lens s a -> f{k} -> v
-const wts_fut = R.view(wt_rng_lens('fut'), dflt_wt_dict);// -> Num
-RET = wts_fut;
-assert(50, wts_fut['far_wt']);
-assert(95, wts_fut['ner_wt']);
-C_It("wts_fut:" + RET);
+let clssWghtLimits = (dict) => (clssKey) => R.view(clssWght_Lens(clssKey), dict);// -> Num
+const _init_clssWghtLimits = clssWghtLimits(clssWght_Dict);
+let fut_clssWghtLimits = _init_clssWghtLimits('fut');
+// tests
+RET = fut_clssWghtLimits;
+TST = {far_wt: 50, ner_wt: 90};
+var far = R.prop('far_wt');
+var ner = R.prop('ner_wt');
+assert(50, far(TST));
+assert(90, ner(TST));
 C_It(JSON.stringify(RET));
-noop = 1;
-
-// var subtract_CF = (c, f)=> R.subtract(c, f);
-// var deltaCF = subtract_CF(C, F);//-> Num: 40
-// CUT = deltaCF; //-> 40
 
 /**
- *  _numerator: (N:c, N:f) -> egrN:n -> N:w
+ *  _numerator: D:{N:c, N:f} -> (N:ndx) -> N:numerator
  *
  */
-var _numerator = R.curry(R.compose(R.multiply, R.subtract));//
-// RET = _numerator(C,F); //-> 40
-// RET = _numerator(C, F)(N); //->80
-assert(80, _numerator(C)(F)(N));//-> 80
 
+var _numerator = R.curry(R.compose(R.multiply, R.subtract));//
+
+// RET = _numerator(C,F); //-> 40
+RET = _numerator(ner(TST), far(TST))(N); //->80
+assert(80, _numerator(ner(TST))(far(TST))(N));//-> 80
+
+/**
+ *      _denominator: L:sibs -> N:den
+ */
 var _denominator = R.dec(L);//-> 4
 
 /**
- *      eager step:  Numerator:(C-F)*egN / Denominator:(L-1)
+ *      divide_Numer_by_Denom: N:n -> N:n
  */
 var divide_Numer_by_Denom = R.flip(R.divide)(_denominator);
-// RET = divide_Numer_by_Denom(CUT); //: n-> n 80/4->20
-// CUT = R.compose( divide_Numer_by_Denom, _numerator);
-// RET = CUT(N);//-> 20
-var add_Far = R.add(F);//: n -> n
 
 /**
- *      Wt eager index:N -> (C-F)* egN / (L-1) + F
+ *      STEP_ER:
  */
-var Wt = R.compose(add_Far, divide_Numer_by_Denom, _numerator(C, F));
-RET = Wt(N); //-> 70
-assert(70, RET);
+const STEP_ER = R.compose(divide_Numer_by_Denom, _numerator(C, F));
+RET = STEP_ER(N); //-> 20
+assert(20, RET);
 /**
  *          CONFIRMATION OUTPUT & ASSERTS
  */
 C_It(RET);
 C_It(JSON.stringify(RET));
 // some more Indexs
-assert(50, Wt(0));
-assert(90, Wt(L - 1));
+assert(0, STEP_ER(0));
+assert(40, STEP_ER(L - 1));
 
 noop = '';
 
 // math procedural style
-var calcWt_0 = (C, F, L)=>(N)=>(C - F) * N / (L - 1) + F;
+var calcWt_0 = (C, F, L)=>(N)=>(C - F) * N / (L - 1);
 // some test data
 C = 90, F = 50, L = 5, N = 2;
-assert(70, calcWt_0(C, F, L)(N));//->N:70
+assert(20, calcWt_0(C, F, L)(N));//->N:20
 

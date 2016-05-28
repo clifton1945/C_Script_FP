@@ -23,6 +23,9 @@ var MSG,
 var msg = function msg(s) {
   return console.log('t:' + s);
 };
+var assert = function assert(exp, ret) {
+    return console.assert(R.equals(exp, ret), ret + "!=" + exp);
+};
 var tIt = R.tap(msg);
 var C_It = function C_It(txt) {
   return console.log(txt);
@@ -38,31 +41,51 @@ var NodeListER = R.flip(cssQuery_all)(document);
  */
 var slctr = '.book .ChptrReadGrps .cur  .VerseReadGrps .fut > .vers ';
 var a_fut_trgt_elemS_sTUB = NodER(slctr);
+
 TRGT = a_fut_trgt_elemS_sTUB;
 var fut_trgt_nl = NodeListER(slctr);
-// TRGT = fut_trgt_nl;
+var NL = fut_trgt_nl;
 /**
  *          CODE UNDER TEST
  */
 RET = TRGT;
 
-var style = window.getComputedStyle(TRGT, null);// might be useful in future
-RET = style;//-> CSSStyleDeclaration. But do not see css background-color
 /**
- *      wt_rng_lens: Str:k -> Lens
+ *      set_fontSize AND get_fontSize USing Lenses WORKS.
  */
-
 let _lens = (key) => R.lensPath(['style', key]);// [Str] -> Lens s a
-RET = _lens('fontSize');
-const set_elem_ = R.set(RET, "62%");// -> Num
-const get_elem_ = R.view(RET);// -> Num
-RET = set_elem_(TRGT);
-RET = get_elem_(RET);
-// assert(50, wts_fut['far_wt']);
-// assert(95, wts_fut['ner_wt']);
-C_It("wts_fut:" + RET);
+const fontSize_lens = _lens('fontSize');
+const set_fontSize = (val)=> R.set(fontSize_lens, val);// a:v -> Elem:{}
+const get_fontSize = R.view(_lens('fontSize'));// Elem:a -> a
+
+EXP = '115%';
+RET = set_fontSize(EXP)(TRGT);
+RET = get_fontSize(RET);
+assert(EXP, RET);
+EXP = '55%';
+RET = set_fontSize(EXP)(RET);
+Object.assign(TRGT.style, RET.style);// YEAH  NEEDED RET.style
+// TRGT.style = RET.style;
+RET = get_fontSize(RET);
+assert(EXP, RET);
+C_It("fontSize:" + RET);
 C_It(JSON.stringify(RET));
 noop = 1;
+
+/**
+ *          MAPPINg a List
+ * @type {CSSStyleDeclaration}
+ */
+const _innerText = R.prop("innerText");
+const inspect = (itm, ndx, lst) => { // wt: far + delta * ndx / list.length - 1) 
+    C_It(40 + ndx * 50 / (lst.length - 1))
+};
+var node = NodER(slctr);
+RET = NL;
+RET = _innerText(node);
+let mapIndexed = R.addIndex(R.map);
+RET = mapIndexed(inspect, NL);// WORKS -> C_It of 6 innerTexts
+noop = 2;
 
 /**
  *          CONFIRMATION OUTPUT & ASSERTS
@@ -71,5 +94,9 @@ noop = 1;
 // C_It(JSON.stringify(RET));
 
 noop = 0;
-
-//# sourceMappingURL=set_clss_elemS_03-compiled.js.map
+/**
+ *          maybe useful in future
+ * @type {CSSStyleDeclaration}
+ */
+var style = window.getComputedStyle(TRGT, null);// might be useful in future
+// RET = style;//-> CSSStyleDeclaration. But do not see css background-color
