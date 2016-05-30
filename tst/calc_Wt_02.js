@@ -1,6 +1,16 @@
 "use strict";
 /**
- * calc_Wt_02.js
+ * file: calc_Wt_02.js
+ * STABLE:  a STEP_ER( list_of_this_read_class_siblings, ndx_of_this_elem)
+ *     CAN Be USED to weight a style property.
+ *     GIVEN a readClass, the cLssWght_Dict, AND a CssStyle Property and Lens
+ *     this function can produce a step, add the step to properties near or far weight
+ *     then applying a format depending on the Property
+ *     finally use its Lense to set the CssStyleDeclaration of an element.
+ *     Usually by indexed mapping.
+ *
+ *  160630  this is now calc_step. A step IS ADDED To the close weight to be the weight factor
+ *          It is working and tested
  *  160528  back to rebuild a WEIGHTER: (D:clssWghtDct)(S:clssKey)(L:sibs)(N:ndx) -> N:0>=w<=1
  *      other functions: a clssWghtINIT_ER, clssWghtWEIGHT_ER, a clssWght_FORMAT_ER, clssWghtCSD_SETT_ER.
  *      STYLER: (D:clssWghtDct) (S:clssKey) (L:[elms]) -> L
@@ -13,11 +23,10 @@
  **
  */
 var R = require('ramda');
-
 var C_It = function C_It(txt) {
     return console.log(txt);
 };
-const assert = (exp, ret)=> console.assert(R.equals(exp, ret), `${ret}!=${exp}`);
+const assert = (exp, ret)=> console.assert(R.equals(exp, ret), `${ret}!=${exp} @ ${noop}`);
 /**
  *          HELPER FUNCTIONS
  * @param i
@@ -61,79 +70,103 @@ var This = x => console.log('t:' + x);
 var tap_This = R.tap(This);
 //-------------------------
 C = 90, F = 50, L = 5, N = 2;
+TST = {far_wt: 50, ner_wt: 90};
 // -----------------------
 /**
  *       INIT_ER: (D:clssWghtDct)(S:clssWghtKey) -> {clssWghtVals}
- *       CssStyleDeclaration 
+ *       CssStyleDeclaration
  *      _retrieve_dflt_wts: ({D:d}) -> (S:s) -> {d}
  *      _retrieve this class default small and la
  * @param dct
  * @param key
  * @private
  */
+var far = R.prop('far_wt');
+var ner = R.prop('ner_wt');
+assert(50, far(TST));
+assert(90, ner(TST));
 
+/**
+ *       clssWght_Lens: S:clssKey -> Lens s a
+ * @param key
+ */
 let clssWght_Lens = (key) => R.lensPath(['clss', key, 'wts']);// [Str] -> Lens s a
+/**
+ *       a future clssWght_Lens: () -> Lens fut a
+ */
 let fut_clssWght_Lens = clssWght_Lens('fut');// Lens s a -> f{k} -> v
-
 
 /**
  *      clssWghtLimits: D:dct -> S:clssKet -> D:wtLimits
  * @param dict
  */
 let clssWghtLimits = (dict) => (clssKey) => R.view(clssWght_Lens(clssKey), dict);// -> Num
-const _init_clssWghtLimits = clssWghtLimits(clssWght_Dict);
-let fut_clssWghtLimits = _init_clssWghtLimits('fut');
-// tests
-RET = fut_clssWghtLimits;
+
+/**
+ *          _init_clssWghtLimits: D:dict -> S:clss -> D:lmts
+ */
+let init_clssWghtLimits = clssWghtLimits(clssWght_Dict);
+
+/**
+ *          fut_clssWghtLimits:  -> D: fut: {K:a, K:b...}
+ */
+let fut_clssWghtLimits = init_clssWghtLimits('fut');
 C_It(JSON.stringify(fut_clssWghtLimits));
 
-TST = {far_wt: 50, ner_wt: 90};
-var far = R.prop('far_wt');
-var ner = R.prop('ner_wt');
-assert(50, far(TST));
-assert(90, ner(TST));
+/**
+ *          delta: D:{N:c, N:f} -> N:ndx -> N:step
+ * @param dict
+ * @private
+ */
 const _delta = (dict) => R.subtract
     (R.prop('ner_wt')(dict))
     (R.prop('far_wt')(dict))
     ;// WHOA  subtract(ner(dict), far(dict))
-RET = _delta(TST);
 assert(40, _delta(TST));
 
 /**
- *  _numerator: D:{N:c, N:f} -> (N:ndx) -> N:numerator
+ *      _numerator: D:{N:c, N:f} -> (N:ndx) -> N:numerator
  *
  */
+const numerator = R.curry(R.compose(R.multiply, _delta));//
 // var _numerator = R.curry(R.compose(R.multiply, R.subtract));//
-var _numerator = R.curry(R.compose(R.multiply, _delta));//
 // RET = _numerator(C,F); //-> 40
-RET = _numerator(TST)(N); //->80
-assert(80, _numerator(TST)(N));//-> 80
+// RET = _numerator(TST)(N); //->80
+assert(80, numerator(TST)(N));//-> 80
 
 /**
- *      _denominator: L:[sibs] -> N:den
+ *      _denominator: L:[sibs] -> N:denominator
  */
-var _denominator = R.compose(R.dec, R.length);//-> 4
-RET = _denominator([1, 2, 3, 4, 5]);
-assert(4, RET);
+var denominator = R.compose(R.dec, R.length);//-> 4
+var lst = [1, 2, 3, 4, 5];
+// RET = _denominator([1, 2, 3, 4, 5]);
+assert(4, denominator(lst));
 
 /**
- *      STEP_ER:(N:a)->(N:b) -> N:a/b
+ *      STEP_ER:(L:sibList)->(N:meNdx) -> N:step
  */
-// const STEP_ER = R.divide(80)(4);
-const STEP_ER = R.divide(_numerator(TST)(N))(_denominator(L));
-RET = STEP_ER; //-> 20
-assert(20, RET);
+const STEP_ER =
+    (lst)=> (ndx)=> R.divide(
+        numerator(TST)(ndx),
+        denominator(lst)
+    );
+// const STEP_ER = R.divide(80)(4)->20;
+/**
+ *      clssSTEP_ER: (N:ndx) - N:step
+ * returns a weight step GIVEN a curried sibling list - which is fixed by the classKey
+ */
+const clssWght_LinearSTEP_ER = STEP_ER([1, 2, 3, 4, 5]);
+assert(20, clssWght_LinearSTEP_ER(2));
+assert(0, clssWght_LinearSTEP_ER(0));
+assert(40, clssWght_LinearSTEP_ER(L - 1));
+
 /**
  *          CONFIRMATION OUTPUT & ASSERTS
  */
-C_It(RET);
-C_It(JSON.stringify(RET));
+// C_It(RET);
+// C_It(JSON.stringify(RET));
 // some more Indexs
-assert(0, STEP_ER(0));
-assert(40, STEP_ER(L - 1));
-
-noop = '';
-
+noop = 'done';
 // math procedural style
 var calcWt_0 = (C, F, L)=>(N)=>(C - F) * N / (L - 1);
 // some test data
