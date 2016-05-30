@@ -1,5 +1,14 @@
 "use strict";
 /**
+ *      *** USE all import NOT 'require' AND import
+ *      can not combine var R = require('ramda')
+ *      with
+ *      import { assert } from '../src/modules-compiled';
+ */
+
+import * as R from "ramda"
+// var R = require('ramda');
+/**
  * file: calc_Wt_02.js
  * STABLE:  a STEP_ER( list_of_this_read_class_siblings, ndx_of_this_elem)
  *     CAN Be USED to weight a style property.
@@ -22,11 +31,12 @@
  *      NOTE:
  **
  */
-var R = require('ramda');
-var C_It = function C_It(txt) {
-    return console.log(txt);
-};
-const assert = (exp, ret)=> console.assert(R.equals(exp, ret), `${ret}!=${exp} @ ${noop}`);
+import {assert} from '../src/modules-compiled';
+// const assert = (exp, ret)=> console.assert(R.equals(exp, ret), `${ret}!=${exp} @ ${noop}`);
+import {C_It} from '../src/modules-compiled';
+// var C_It = function C_It(txt) {    return console.log(txt);};
+
+
 /**
  *          HELPER FUNCTIONS
  * @param i
