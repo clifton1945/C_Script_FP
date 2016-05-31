@@ -2,16 +2,13 @@
  * Created by CLIF on 12/30/2015.
  */
 "use strict";
-//var R = require('ramda');
-import * as R from '../node_modules/ramda';
-import { testStr } from '..//src//modules-compiled'; // WORKS but throws Inspection 'can't resolve
-import { C_It } from '..//src//modules-compiled'; // WORKS but throws Inspection 'can't resolve
-//import { C_It } from '..//src//functions-compiled'; // WORKS but throws Inspection 'can't resolve
-// Modules
-//import * as fn from '../src/modules-compiled.js'; // WORKS
+//var R = require('ramda'); USE import * as R from .......
+import * as R from 'ramda';
+
+import {testStr, C_It} from '../src/modules-compiled';
+import {assert} from  '../src/modules-compiled';
 C_It(testStr);  // OK
 // Ramda style:
-var x = R.add(1,'EEDD',3); //> 3 Adds 2 numbers, not n numbers.
-x = R.add(11); //> function
-x = R.prop('x', { id: 'foo', x: 333 }); // returns 333
-C_It(x); //> '');
+var CUT = R.add(30); //: N:a -> N:a -> N:a
+// assert(CUT(3), 33);
+C_It(CUT(3)); // -> 33
