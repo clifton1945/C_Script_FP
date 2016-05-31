@@ -1,15 +1,24 @@
-"use strict";
-/**
- *      *** USE all import NOT 'require' AND import
- *      can not combine var R = require('ramda')
- *      with
- *      import { assert } from '../src/modules-compiled';
- */
-
-import * as R from "ramda"
-// var R = require('ramda');
 /**
  * file: calc_Wt_02.js
+ *  160531
+ *      SPLIT the Style Property functions AND the Weight functions.
+ *      Style Properties are universal to 'styling' a verse
+ *          their presence, their list of names/keys, are listed in the StyleProperty Dict.
+ *          their values are set by
+ *      a Weight functions specific to the individual element and its siblings.
+
+ *              (1) a Weight function: (N:elemNdx, L:SiblingList)-> N:wghtFactor
+ *              (2) StyleStep: (D:dict) ->(clssKey)-> {N:lo, N:hi}-> N:step
+ *              (3) then Style formatter is applied
+ *      SO the sequence to style one Element of one rClass is
+ *          (a) L:styleProperty_Lst:  ['fontSize', 'opacity',...]
+ *          (a) D:styleProperty_Dct:  {fontSize:'100%', opacity: 1.0, textAlignment:'left'}
+ *          (b) D:rClassWeight_Dct: {fut: {wts: {beg: 90, end:40}}, wfunc: 'lin'}
+ *          stepper: (key) -> {b,e} -> N:step
+ *          weighter: (S:type)->(L:sib_lst)->(N:ndx)->N:wt
+ *          (d) (L:[props]) -> (stepper,weighter)->(formatter) -> the final CssStyleDeclaration
+ *          (e)
+ *  160630
  * STABLE:  a STEP_ER( list_of_this_read_class_siblings, ndx_of_this_elem)
  *     CAN Be USED to weight a style property.
  *     GIVEN a readClass, the cLssWght_Dict, AND a CssStyle Property and Lens
@@ -18,7 +27,7 @@ import * as R from "ramda"
  *     finally use its Lense to set the CssStyleDeclaration of an element.
  *     Usually by indexed mapping.
  *
- *  160630  this is now calc_step. A step IS ADDED To the close weight to be the weight factor
+ *    this is now calc_step. A step IS ADDED To the close weight to be the weight factor
  *          It is working and tested
  *  160528  back to rebuild a WEIGHTER: (D:clssWghtDct)(S:clssKey)(L:sibs)(N:ndx) -> N:0>=w<=1
  *      other functions: a clssWghtINIT_ER, clssWghtWEIGHT_ER, a clssWght_FORMAT_ER, clssWghtCSD_SETT_ER.
@@ -31,8 +40,17 @@ import * as R from "ramda"
  *      NOTE:
  **
  */
-import {assert} from '../src/modules-compiled';
-// const assert = (exp, ret)=> console.assert(R.equals(exp, ret), `${ret}!=${exp} @ ${noop}`);
+"use strict";
+/**
+ *      *** USE all import NOT 'require' AND import
+ *      can not combine var R = require('ramda')
+ *      with  import { assert } from '../src/modules-compiled';
+ *      160531:  PROBLEM with import * ...ramda AND import assert from module ????
+ */
+import * as R from "../node_modules/ramda"
+// var R = require('node_modules/ramda');
+// import {assert} from '../src/modules-compiled';
+const assert = (exp, ret)=> console.assert(R.equals(exp, ret), `${ret}!=${exp} @ ${noop}`);
 import {C_It} from '../src/modules-compiled';
 // var C_It = function C_It(txt) {    return console.log(txt);};
 
