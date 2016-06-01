@@ -1,5 +1,6 @@
 "use strict";
 /**
+ * 0810 USING fontSize as test trgt: compose a final set_new_fontSize: S:val -> CSD:{k:v}
  * WIP MOVE To initialize a rClass style THEN evolve it with a Weighter.
  * 6/1/2016
  * WOW, SUCCESSFUL--  USE  R.evolve AND R.replace AND R.set TO MUTATE a verse CssStyleDeclaration
@@ -19,7 +20,7 @@ var MSG = '', RET, EXP, TST, noop;
  * @private
  */
 
-var styleProps = {
+const styleProps = {
     fut: {
         fontSize: "90%",
         opacity: 0.9,
@@ -33,23 +34,27 @@ var styleProps = {
         backgroundColor: "rgba(255, 0, 0, 0.24)"
     }
 };
-var fut_styleProps = R.prop('fut')(styleProps);
+// USING fontSize as test trgt: compose a final set_new_fontSize: S:val -> CSD:{k:v}
+var fut_styleProps = R.flip(R.prop)(styleProps)('fut');
+var fontSize_init = R.prop('fontSize')(fut_styleProps);
+var fontSizer = R.replace(fontSize_init);
+var fontSize_new = '60%'; // WEIGHTED AND FORMATTED. Though  could do without formatter
 
 var transformers = {// NOTE: USING .replace For string!
-    fontSize: R.replace('90', '130'), // yeah, it works
+    fontSize: fontSizer(fontSize_new), // yeah, it works
     opacity: R.multiply(.5),
-    textAlign: R.replace('CENTER', 'right')
+    // textAlign: R.replace('CENTER', 'right')// yeah, this works if uncommented
 };
 // EVOLVER
 let EVOLVER = R.evolve(transformers);
 RET = EVOLVER(fut_styleProps);
 noop = 1;
-assert((RET.fontSize == '130%' && RET.opacity == 0.45), true);
+assert((RET.fontSize == '60%' && RET.opacity == 0.45), true);
 
 // now apply new csd to an element.
 var new_elem = document.querySelector('div #tst1');
 Object.assign(new_elem.style, RET);// IT WORKS html altered!!
-
+// RESULTS
 C_It(JSON.stringify(RET.fontSize));
 noop = 0;
 
