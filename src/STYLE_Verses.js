@@ -79,10 +79,10 @@ var main = function () {
     var i = 0;
     var cBFn = R.curry((n, f) => f(n));
     var cssSO_Lst_eager_Lst = R.map(cBFn(i)); //
-    CUT = " I do not know how to set each property = maybe Lens";
-    C_It(CUT);
-    C_It(JSON.stringify(CUT));
-    MSG = CUT;
+    var _rClssKeys = " I do not know how to set each property = maybe Lens";
+    C_It(_rClssKeys);
+    C_It(JSON.stringify(_rClssKeys));
+    MSG = _rClssKeys;
 // ASSERT
 //    KEY = fontSize_Key;
 //    EXP = '35%';
