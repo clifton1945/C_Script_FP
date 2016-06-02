@@ -14,7 +14,7 @@
 "use strict";
 // import {C_It} from '../src/modules-compiled';  //NO GOOD
 //var R = require('ramda-maybe');
-var C_It = (txt) => console.log(txt);
+// var C_It = (txt) => console.log(txt);
 var assert = (exp, ret)=> console.assert(R.equals(exp, ret), `${ret}!=${exp} @ ${noop}`);
 var MSG = '', RET, EXP, TST, noop;
 
@@ -53,13 +53,13 @@ const EVOLVER = R.evolve(transformers);
 // EVOLVER
 RET = EVOLVER(fut_styleProps);
 noop = 1;
-assert((RET.fontSize == '60%' && RET.opacity == 0.45), true);
+// assert((RET.fontSize == '60%' && RET.opacity == 0.45), true);
 
 // now apply new csd to an element.
 var new_elem = document.querySelector('div #tst1');
 
 Object.assign(new_elem.style, RET);// IT WORKS html altered!!
 // RESULTS
-C_It(JSON.stringify(RET.fontSize));
+// C_It(JSON.stringify(RET.fontSize));
 noop = 0;
 

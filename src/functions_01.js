@@ -4,7 +4,7 @@
 
 "use strict";
 //var R = require('ramda');
-import * as R from "ramda"
+// import * as R from "ramda"
 
 /**
  *      assert: a, b -> B:
@@ -12,7 +12,7 @@ import * as R from "ramda"
  * @param exp
  * @param ret
  */
-export const assert = (exp, ret)=> console.assert(R.equals(exp, ret), `${ret}!=${exp} @ ${noop}`);
+const assert = (exp, ret)=> console.assert(R.equals(exp, ret), `${ret}!=${exp} @ ${noop}`);
 const msg = (msg) => ` ${msg}`;
 const Doc_It = (txt) => document.querySelector(".console").textContent = txt;
 const C_It = (txt) => console.log(txt);
