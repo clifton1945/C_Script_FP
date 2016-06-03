@@ -13,7 +13,7 @@
  */
 // var MSG = '', CUT, _CUT, RET, EXP, TST, tNum = 0;
 
- /**
+/**
  *      styleProps: D:{{},{},{}}
  * @type {{fut: {fontSize: string, opacity: number, textAlign: string, backgroundColor: string}, cur: {fontSize: string, opacity: number, textAlign: string}, pst: {fontSize: string, opacity: number, textAlign: string, backgroundColor: string}}}
  */
@@ -43,22 +43,37 @@ const styleProps = {
  */
 var nl = cur_Chptr_rClss_NL;
 
-// the  rClass  O:{CSD}. USED IN mutating each trgt verse style
-const _rClssKey = (rcE) => R.prop('className')(rcE);//: E:e -> S:e.classNameKey
-const _a_init_cssStylDecl = R.flip(R.prop)(styleProps);// S:key -> D:propDict NOTE: styleProps hard coded into this
-
 /**
- *      _my_init_rClss_CSD: E:rcE -> D:this rClss's cssStylDecl
+ *          HELPERS for _my_init_rClss_CSD
  */
-let _my_init_rClss_CSD = R.compose(_a_init_cssStylDecl, _rClssKey);
+const _rClssKey = (rcE) => R.prop('className')(rcE);//: E:e -> S:e.classNameKey
+// NOTE: styleProps hard coded into _a_init_cssStylDecl
+const _a_init_cssStylDecl = R.flip(R.prop)(styleProps);// S:key -> D:propDict
+
+var transformers = {// NOTE: USING .replace For string!
+    // fontSize: fontSizer(fontSize_new), // yeah, it works
+    opacity: R.multiply(.75),
+    textAlign: R.replace('center', 'right')// works FOR any rClss WITH initial 'center'
+};
+let EVOLVER;  //R.evolve:: {k:(v->v)} -> {k:v} ->{k:v}
+EVOLVER = R.evolve(transformers); //  {k:v} ->{k:v}
 
 // now EVOLVE init TO weighted CSD
+/**      _my_rClss_CSD( elem, ndx, col)
+ *          pipe(
+ *          _rClssKey,              //  E:e -> S:k
+ *          _a_init_cssStylDecl     // S:k -> D:csd
+ *                  WEIGHT CSD_values   // (D:dct) -> (E:e, N:ndx, L:col)
+ *                  FORMAT CSD_values
+ *          EVOLVE the CSD          // D:csd
+ */
+let _my_rClss_CSD = R.pipe(_rClssKey, _a_init_cssStylDecl, EVOLVER);
 
-
-// the target list of Verse Elements to mutate
 /**
  *      rClss_Elem_Children: E:e -> L:[e, e,..]
  *      an rClss Element:e -> a list of its verse elements.
+ *      This is the target list of Verse Elements to mutate
+ *
  */
 let rClss_Elem_Children = R.prop("children");// E:e -> L:[e, e,..]
 // test
@@ -74,7 +89,7 @@ let rClss_Elem_Children = R.prop("children");// E:e -> L:[e, e,..]
 let _RESTYLE_trgts = R.forEach(
     (eClss) => {
         R.addIndex(R.forEach)(
-            (trgt, ndx, col)=> Object.assign(trgt.style, _my_init_rClss_CSD(eClss)),
+            (trgt, ndx, col)=> Object.assign(trgt.style, _my_rClss_CSD(eClss)),
             rClss_Elem_Children(eClss)
         )
     }
@@ -100,7 +115,7 @@ function TestMe() {
 
 //tests  _my_init_rClss_CSD
     tNum = 2;
-    let _stub_my_init_rClss_CSD_List = R.map(_my_init_rClss_CSD);//  L:nl -> [[D:d, D:d, D:d]]
+    let _stub_my_init_rClss_CSD_List = R.map(_my_rClss_CSD);//  L:nl -> [[D:d, D:d, D:d]]
     RET = _stub_my_init_rClss_CSD_List(nl);//  ->  [[D:d, D:d, D:d]]
     assert(RET[0].fontSize, "80%");
     assert(RET[2].fontSize, "90%");
@@ -110,4 +125,7 @@ function TestMe() {
     nl = cur_Chptr_rClss_NL;
     assert(nl[2].className, 'fut');
     assert(nl[2].childElementCount, 6);
+// final MSG
+    MSG = 'TestMe: completed';
+    C_Both(MSG);
 }
