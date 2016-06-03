@@ -42,7 +42,7 @@ const GET_V_Grp_NL =
     };
 
 
-const assert = (exp, ret, tNum)=> console.assert(R.equals(exp, ret), `${ret}!=${exp} @ ${tNum}`);
+const assert = (ret, exp, tNum)=> console.assert(R.equals(ret, exp), `${ret}. EXP:${exp} @ ${tNum}`);
 
 
 // *********** OLD BUT STILL IN USE
