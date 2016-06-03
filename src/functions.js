@@ -31,6 +31,7 @@ const bookTmpl = '.book';
 const C_Grp_Tmpl = '.ChptrReadGrps > div';
 const V_Grp_Tmpl = '.ChptrReadGrps .cur  .VerseReadGrps > div';
 const cur_Chptr_rClss_NL = document.querySelectorAll(V_Grp_Tmpl);
+const cur_Chptr_cur_rClss_Verse_tst1_Elem = document.querySelector('div #tst1');
 //var C_Grp_NL = book.querySelectorAll(C_Grp_Tmpl); // NL:: 3 div.classes: pst, cur, fut
 //var V_Grp_NL = book.querySelectorAll(V_Grp_Tmpl); // NL:: 3 div.classes: pst, cur, fut
 const GET_book =
@@ -45,6 +46,10 @@ const GET_V_Grp_NL =
     function GET_V_Grp_NL(book) {
         return book.querySelectorAll(V_Grp_Tmpl)
     };
+
+
+const assert = (exp, ret)=> console.assert(R.equals(exp, ret), `${ret}!=${exp} @ ${tNum}`);
+
 
 // *********** OLD BUT STILL IN USE
 const Doc_It = (txt) => document.querySelector(".console").textContent = txt;
