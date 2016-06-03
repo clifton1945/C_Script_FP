@@ -1,12 +1,19 @@
 "use strict";
 /**
- * 6/2/2016
- * core functions for EVOLVER  are now in tst/tst_EVOLVER.js
+ * 6/3/2016
+ *      _RESTYLE_trgts: L: nodelist -> all Elements in all rClasses RESTYLED =f(trgt)
+ *      this relies on helper function: _my_init_rClass_CSD( elem)
+ *      NOW  REFACT it TO ->
+ *      _my_rClss_CSD( elem, ndx, col)
+ *          get INIT CSD
+ *          WEIGHT CSD_values
+ *          FORMAT CSD_values
+ *          EVOLVE the CSD
+ *
  */
+ var MSG = '', CUT, _CUT, RET, EXP, TST, tNum = 0;
 
-var MSG = '', CUT, _CUT, RET, EXP, TST, tNum = 0;
-
-/**
+ /**
  *      styleProps: D:{{},{},{}}
  * @type {{fut: {fontSize: string, opacity: number, textAlign: string, backgroundColor: string}, cur: {fontSize: string, opacity: number, textAlign: string}, pst: {fontSize: string, opacity: number, textAlign: string, backgroundColor: string}}}
  */
@@ -76,6 +83,10 @@ assert(RET.length, 2);
 // now mutate a trgt element style
 /**
  *      _RESTYLE_trgts: L: nodelist -> all Elements in all rClasses RESTYLED =f(trgt)
+ *      this relies on helper function:
+ *      _my_init_rClass_CSD( elem)
+ *      WHICH NOW  needs to BECOME -> _my_rClss_CSD( elem, ndx, col)
+ *
  */
 let _RESTYLE_trgts = R.forEach(
     (eClss) => {
