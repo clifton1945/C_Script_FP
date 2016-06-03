@@ -11,7 +11,7 @@
  *          EVOLVE the CSD
  *
  */
- var MSG = '', CUT, _CUT, RET, EXP, TST, tNum = 0;
+// var MSG = '', CUT, _CUT, RET, EXP, TST, tNum = 0;
 
  /**
  *      styleProps: D:{{},{},{}}
@@ -37,35 +37,22 @@ const styleProps = {
         backgroundColor: "rgba(255, 0, 0, 0.24)"
     }
 };
-
 const myTap = R.tap(s=>C_Both(s));
-
-// now apply new csd to an element.
-
 
 /**
  *      cur_Chptr_rClss_NL: a nodelist of rClasses: NL: pst, cur, fut
  */
 var nl = cur_Chptr_rClss_NL;
-// test
-tNum = 1;
-assert(nl[2].className, 'fut');
-assert(nl[2].childElementCount, 6);
 
 // the  rClass  O:{CSD}. USED IN mutating each trgt verse style
 const _rClssKey = (rcE) => R.prop('className')(rcE);//: E:e -> S:e.classNameKey
 const _a_init_cssStylDecl = R.flip(R.prop)(styleProps);// S:key -> D:propDict NOTE: styleProps hard coded into this
+
 /**
  *      _my_init_rClss_CSD: E:rcE -> D:this rClss's cssStylDecl
  */
-let _my_init_rClss_CSD = R.compose(_a_init_cssStylDecl, _rClssKey);//:(rcE)->D:this rClss's cssStylDecl
+let _my_init_rClss_CSD = R.compose(_a_init_cssStylDecl, _rClssKey);
 // test
-//tests
-tNum = 2;
-let _stub_my_init_rClss_CSD_List = R.map(_my_init_rClss_CSD);//  L:nl -> [[D:d, D:d, D:d]]
-RET = _stub_my_init_rClss_CSD_List(nl);//  ->  [[D:d, D:d, D:d]]
-assert(RET[0].fontSize, "80%");
-assert(RET[2].fontSize, "90%");
 
 // the target list of Verse Elements to mutate
 /**
@@ -74,11 +61,6 @@ assert(RET[2].fontSize, "90%");
  */
 let rClss_Elem_Children = R.prop("children");// E:e -> L:[e, e,..]
 // test
-// tests
-tNum = 3;
-let stub_rClss_Elem = document.querySelector('div #cur_VerseReadGrp');//
-RET = rClss_Elem_Children(stub_rClss_Elem);// -> HTMLCollection[2]
-assert(RET.length, 2);
 
 // now mutate a trgt element style
 /**
@@ -96,10 +78,35 @@ let _RESTYLE_trgts = R.forEach(
         )
     }
 );
-//tests
-tNum = 4;
-RET = _RESTYLE_trgts(nl);
-var trgt = cur_Chptr_cur_rClss_Verse_tst1_Elem;
-RET = trgt.style.textAlign;
-assert('center', RET);
-C_Both(JSON.stringify(RET));
+
+var REStylED_trgts = _RESTYLE_trgts(nl);
+C_Both(JSON.stringify(REStylED_trgts));
+TestMe();
+
+function TestMe() {
+    var MSG = '', CUT, _CUT, RET, EXP, TST, tNum = 0;
+//tests  _RESTYLE_trgts
+    tNum = 4;
+    RET = _RESTYLE_trgts(nl);
+    var trgt = cur_Chptr_cur_rClss_Verse_tst1_Elem;
+    RET = trgt.style.textAlign;
+    assert('center', RET);
+// tests  rClss_Elem_Children
+    tNum = 3;
+    let stub_rClss_Elem = document.querySelector('div #cur_VerseReadGrp');//
+    RET = rClss_Elem_Children(stub_rClss_Elem);// -> HTMLCollection[2]
+    assert(RET.length, 2, tNum);
+
+//tests  _my_init_rClss_CSD
+    tNum = 2;
+    let _stub_my_init_rClss_CSD_List = R.map(_my_init_rClss_CSD);//  L:nl -> [[D:d, D:d, D:d]]
+    RET = _stub_my_init_rClss_CSD_List(nl);//  ->  [[D:d, D:d, D:d]]
+    assert(RET[0].fontSize, "80%");
+    assert(RET[2].fontSize, "90%");
+
+// test   cur_Chptr_rClss_NL
+    tNum = 1;
+    nl = cur_Chptr_rClss_NL;
+    assert(nl[2].className, 'fut');
+    assert(nl[2].childElementCount, 6);
+}

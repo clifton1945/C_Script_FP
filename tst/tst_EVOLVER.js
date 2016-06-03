@@ -12,8 +12,9 @@
  * MODIFIED by CLIF on 5/31/2016.
  */
 "use strict";
+// var R = require('ramda');
+// import * as R from 'node_modules/ramda';
 // import {C_It} from '../src/modules-compiled';  //NO GOOD
-//var R = require('ramda-maybe');
 // var C_It = (txt) => console.log(txt);
 var assert = (exp, ret)=> console.assert(R.equals(exp, ret), `${ret}!=${exp} @ ${noop}`);
 var MSG = '', RET, EXP, TST, noop;
@@ -23,13 +24,19 @@ var MSG = '', RET, EXP, TST, noop;
  * @param i
  * @private
  */
-const styleProps = {
+var styleProps = {
     fut: {
         fontSize: "90%",
         opacity: 0.9,
-        textAlign: "CENTER",
+        textAlign: "left",
         backgroundColor: "rgba(145, 248, 29, 0.29)"
     },
+    cur: {
+        fontSize: "100%",
+        opacity: 1.0,
+        textAlign: "center"
+    },
+    // backgroundColor: "rgba(255, 0, 0, 0.24)"
     pst: {
         fontSize: "80%",
         opacity: 0.8,
@@ -50,10 +57,10 @@ var transformers = {// NOTE: USING .replace For string!
     // textAlign: R.replace('CENTER', 'right')// yeah, this works if uncommented
 };
 const EVOLVER = R.evolve(transformers);
-// EVOLVER
+// EVOLVER tests
 RET = EVOLVER(fut_styleProps);
 noop = 1;
-// assert((RET.fontSize == '60%' && RET.opacity == 0.45), true);
+assert((RET.fontSize == '60%' && RET.opacity == 0.45), true);
 
 // now apply new csd to an element.
 var new_elem = document.querySelector('div #tst1');
