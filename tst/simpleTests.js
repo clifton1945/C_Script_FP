@@ -1,12 +1,12 @@
 "use strict";
 /**
  * 6/3/2016 @ 16:54
- *      _RESTYLE_trgts: L: nodelist -> all Elements in all rClasses RESTYLED =f(trgt)
- *       ADDED EVOLVER to _my_rClss_CSD = R.compose( EVOLVER, _a_init_cssStylDecl, _rClssKey);
+ *      ADDED EVOLVER to _my_rClss_CSD = R.compose( EVOLVER, _a_init_cssStylDecl, _rClssKey);
  *        it is a start; BEGAN working with a '+/1 stepSize' and an initial fontSize and opacity.
  *        There is probably a better way
  *        the work will be in the transformers functions
  *        *        do not have WEIGHTER yet
+ *     GOAL:    _RESTYLE_trgts: L: nodelist -> all Elements in all rClasses RESTYLED =f(trgt)
  */
 // var RET, MSG = '', CUT, _CUT,  EXP, TST, tNum = 0;
 
