@@ -44,38 +44,35 @@ noop = 1;
 assert(nl[2].className, 'fut');
 assert(nl[2].childElementCount, 6);
 
-//
+// the  rClass  O:{CSD}. USED IN mutating each trgt verse style
 const _rClssKey = (rcE) => R.prop('className')(rcE);//: E:e -> S:e.classNameKey
-const _get_my_cssStylDecl = R.flip(R.prop)(key)(dct);// D:propDict -> S:key -> D:propDict
-const _my_cssStylDecl = _get_my_cssStylDecl(styleProps);// S:key -> D:propDict
-const _rClssCSD_init = R.compose(_my_cssStylDecl, _rClssKey);//:(rcE)->D:this rClss's cssStylDecl
+const _a_init_cssStylDecl = R.flip(R.prop)(styleProps);// S:key -> D:propDict NOTE: styleProps hard coded into this
+const _my_init_rClss_CSD = R.compose(_a_init_cssStylDecl, _rClssKey);//:(rcE)->D:this rClss's cssStylDecl
 // test
-const rClssCSD_init = R.map(_rClssCSD_init);//  L:nl -> [D:d, D:d, D:d]
-RET = rClssCSD_init(nl);
+let _stub_my_init_rClss_CSD_List = R.map(_my_init_rClss_CSD);//  L:nl -> [[D:d, D:d, D:d]]
+RET = _stub_my_init_rClss_CSD_List(nl);//  ->  [[D:d, D:d, D:d]]
 noop = 2;
 assert(RET[0].fontSize, "80%");
+assert(RET[2].fontSize, "90%");
 
-// the target list of verses to mutate
+// the target list of Verse Elements to mutate
 const rClss_Elem_Children = R.prop("children");// E:e -> L:[e, e,..]
 // test
-var stub_rClss_Elem = document.querySelector('div #cur_VerseReadGrp');//
+let stub_rClss_Elem = document.querySelector('div #cur_VerseReadGrp');//
 RET = rClss_Elem_Children(stub_rClss_Elem);// -> HTMLCollection[2]
 noop = 3;
 assert(RET.length, 2);
-// now altr the style
-// var set = Object.assign(elem.style, dct(elem));//:(D:dct)(E:elem, N:ndx, L:col) ->  E.elem.style
-var CUT = R.forEach( //
-    eClss => { // uses _rClssCSD_init(eClss), rClssElem_Children(eClss)
-        R.forEach(
-            (trgt, ndx, col)=> Object.assign(trgt.style, _rClssCSD_init(eClss)),
+
+// now mutate a trgt element style
+let _MUTATE_trgts = R.forEach(
+    (eClss) => {
+        R.addIndex(R.forEach)(
+            (trgt, ndx, col)=> Object.assign(trgt.style, _my_init_rClss_CSD(eClss)),
             rClss_Elem_Children(eClss)
         )
-    },
-    stub_rClss_Elem
+    }
 );
 
-// _CUT = (dct, elem, ndx, col)=>{Object.assign(elem.style, dct(elem));};//:(D:dct)(E:elem, N:ndx, L:col) ->  E.elem.style
-// CUT = R.addIndex(R.map)(_CUT)();
-RET = rClssCSD_init(nl);
+RET = _MUTATE_trgts(nl);
 C_Both(JSON.stringify(RET));
 noop = 3;
