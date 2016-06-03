@@ -6,14 +6,8 @@
 //var R = require('ramda');
 //VERBS: MODIFY, UPDATE, APPLY,ADMINISTER,COMPLETE,FULFILL,AFFECT,ALTER
 
-/**
- * an indexed forEach function:
- * R.forEach():: (a->*)->[a]->[a]
- *     Iterate over an input list, calling a provided function fn for each element in the list.  fn receives one argument: (value). Returns THE ORIGINAL array!!
- * addIndex() Returns function.
- *      An altered list iteration function that passes (item, index, list) to its callback
- */
-var R_forEachIndexed = R.addIndex(R.forEach);
+//160603
+const myTap = R.tap(s=>C_Both(s));
 
 // *********** TEST HELPERS
 var Cnt = R.curry(

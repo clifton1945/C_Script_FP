@@ -37,7 +37,6 @@ const styleProps = {
         backgroundColor: "rgba(255, 0, 0, 0.24)"
     }
 };
-const myTap = R.tap(s=>C_Both(s));
 
 /**
  *      cur_Chptr_rClss_NL: a nodelist of rClasses: NL: pst, cur, fut
@@ -52,7 +51,9 @@ const _a_init_cssStylDecl = R.flip(R.prop)(styleProps);// S:key -> D:propDict NO
  *      _my_init_rClss_CSD: E:rcE -> D:this rClss's cssStylDecl
  */
 let _my_init_rClss_CSD = R.compose(_a_init_cssStylDecl, _rClssKey);
-// test
+
+// now EVOLVE init TO weighted CSD
+
 
 // the target list of Verse Elements to mutate
 /**
