@@ -12,7 +12,8 @@
  * 
  */
 // let _stepER, _fontSizER;
-let _stepER = R.replace(50);
+let _stepER = R.replace(/\d+/im);// Str->Str->Str
+
 /**
  *          _fontSizER:: Str->Str->Str
  * @type {void|XML|string|*}
@@ -21,6 +22,9 @@ let _stepER = R.replace(50);
  */
 // let _fontSizER = R.replace(/\d+/im);//any one or more digits, transformer Fn  S: valu ->
 let _fontSizER = R.replace('40');//any one or more digits, transformer Fn  S: valu ->
+
+let stepSizER = ()=> {
+};// thisClssCSD -> (elem, ndx, col) -> 
 
 let transformers = {// NOTE: USING .replace For string!
     stepSize: R.multiply(1.5), //-> 75

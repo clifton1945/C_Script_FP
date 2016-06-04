@@ -3,6 +3,16 @@
 // import {transformers} from 'tst/transformers_tests-compiled';
 
 /**
+ * 6/4/16 @ 19:30
+ *  WIP:  STABLE:  setting up where to put a function: stepSiZER (d, e, n
+ *  IN transformers.js
+ *  AND began REFACT set_a_Style() to use in a compose with
+ *      set_Step,
+ *      evolve
+ *      set_Style
+ *
+ *
+ *
  * 6/4/16 @ 19:00
  * WIP:
  CANNOT USE import
@@ -115,6 +125,8 @@ _EVOLVE_clss_CSD = R.evolve(transformers); //  {k:v} ->{k:v}
  */
 let _new_clss_CSD = R.compose(_EVOLVE_clss_CSD, _base_clss_CSD, _rClssKey);
 
+let _set_a_Style = R.curry((e_clss, trgt)=> Object.assign(trgt.style, _new_clss_CSD(e_clss)));
+
 /**
  *          _rClss_Elem_Children: E:e -> L:[e, e,..]
  *      an rClss Element:e -> a list of its verse elements.
@@ -124,6 +136,7 @@ let _new_clss_CSD = R.compose(_EVOLVE_clss_CSD, _base_clss_CSD, _rClssKey);
 let _rClss_Elem_Children = R.prop("children");// E:e -> L:[e, e,..]
 // test
 
+
 /**
  *          _RESTYLE_trgts: L:nodelist ->  L:nodelist
  *      all Elements in all rClasses are RESTYLED =f(trgt)
@@ -132,7 +145,7 @@ let _rClss_Elem_Children = R.prop("children");// E:e -> L:[e, e,..]
 let _RESTYLE_all_trgts = R.forEach(
     (eClss) => {
         R.addIndex(R.forEach)(
-            (trgt, ndx, col)=> Object.assign(trgt.style, _new_clss_CSD(eClss)),
+            (trgt, ndx, col)=>_set_a_Style(eClss, trgt),
             _rClss_Elem_Children(eClss)
         )
     }
