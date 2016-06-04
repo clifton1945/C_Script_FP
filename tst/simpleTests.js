@@ -1,12 +1,10 @@
 "use strict";
 /**
- * 6/3/2016 @ 16:54
- *      ADDED EVOLVER to _my_rClss_CSD = R.compose( EVOLVER, _a_init_cssStylDecl, _rClssKey);
- *        it is a start; BEGAN working with a '+/1 stepSize' and an initial fontSize and opacity.
- *        There is probably a better way
- *        the work will be in the transformers functions
- *        *        do not have WEIGHTER yet
- *     GOAL:    _RESTYLE_trgts: L: nodelist -> all Elements in all rClasses RESTYLED =f(trgt)
+ * 6/4/2016 @ 07:02
+ *      CLEANED UP code and doc for    stable _RESTYLE_all_trgts: L: nodelist -> L:nl
+ *      all Elements in all rClasses RESTYLED =f(trgt)
+ *
+ *      READY now TO MODIFY / WEIGHT the transformers WITH ndx and sibling list
  */
 // var RET, MSG = '', CUT, _CUT,  EXP, TST, tNum = 0;
 
@@ -14,7 +12,7 @@
  *      styleProps: D:{{},{},{}}
  * @type {{fut: {fontSize: string, opacity: number, textAlign: string, backgroundColor: string}, cur: {fontSize: string, opacity: number, textAlign: string}, pst: {fontSize: string, opacity: number, textAlign: string, backgroundColor: string}}}
  */
-var styleProps = { //
+var CssStylDecl_Dict = { //
     fut: {
         stepSize: -50, //  90 - 50 -> 40
         fontSize: "90%",
@@ -26,7 +24,7 @@ var styleProps = { //
         stepSize: 0, // start gig  stay big
         fontSize: "100%",
         opacity: 1.0,
-        textAlign: "center",
+        textAlign: "right",
         // backgroundColor: "rgba(255, 0, 0, 0.24)"
     },
     pst: {
@@ -37,106 +35,127 @@ var styleProps = { //
         backgroundColor: "rgba(255, 0, 0, 0.24)"
     }
 };
+const CSD_D = CssStylDecl_Dict; // -> D:csd
 
 /**
- *      cur_Chptr_rClss_NL: a nodelist of rClasses: NL: pst, cur, fut
+ *      cur_Chptr_rClss_NL:: L:nodelist
+ *      a nodelist of rClasses: NL: pst, cur, fut
  */
 var nl = cur_Chptr_rClss_NL;
 
 /**
- *          HELPERS for _my_init_rClss_CSD
+ *          HELPERS for _RESTYLE_trgts
  */
-const _CSD_Dct = R.always(styleProps); // -> D:csd
-const CSD_Dct = _CSD_Dct(); // -> D:csd
-const _rClssKey = (rcE) => R.prop('className')(rcE);//: E:e -> S:e.classNameKey
-// NOTE: styleProps hard coded into _a_init_cssStylDecl
-const _a_init_cssStylDecl = R.flip(R.prop)(CSD_Dct);// S:key -> D:propDict
-// const _a_init_cssStylDecl = R.compose(R.flip, R.prop, _CSD_Dct);// S:key -> D:propDict
 
 /**
- *          transformers:
+ *      _CSD_D: () -> D:CSD_D i.e. style properties dictionary
+ */
+const _CSD_D = R.always(CssStylDecl_Dict);
+
+/**
+ *      _rClssKey:  E:e -> S:e.classNameKey
+ * @param rcE
+ * @private
+ */
+const _rClssKey = (rcE) => R.prop('className')(rcE);
+/**
+ *      _base_clss_CSD: S:key -> D:CSD_D i.e. CssStyleDeclarations  Dict
+ *      NOTE: styleProps hard coded into _base_clss_CSD
+ */
+const _base_clss_CSD = R.flip(R.prop)(CSD_D);
+// const _base_clss_CSD = R.compose(R.prop, R.partialRight);
+// const a_init_cssStylDecl = _base_clss_CSD( CSD_D);// brokEN  S:key -> D:propDict
+// const _base_clss_CSD = R.compose(R.flip, R.prop)( CSD_D);// brokEN  S:key -> D:propDict
+
+/**
+ *                  transformers:
  * @type {{fontSize, opacity: *, textAlign: (void|XML|string|*)}}
  */
 let _stepER, _fontSizER;
 _stepER = R.replace(50);//TODO clunky, this requires me to know the stepSize: default value NG
-_fontSizER = R.replace('80%');//GIVEN: init==80% transformer Fn  S: valu ->
-
-var transformers = {// NOTE: USING .replace For string!
+_fontSizER = R.replace('40%');//GIVEN: init==80% transformer Fn  S: valu ->
+var transformers;
+transformers = {// NOTE: USING .replace For string!
     stepSize: R.multiply(1.5), //-> 75
-    fontSize: _fontSizER('180%'), // -> 180% GIVEN initCSD == 80%
-    opacity: R.multiply(.75),
-    textAlign: R.replace('center', 'right')// works FOR any rClss WITH initial 'center'
+    fontSize: _fontSizER('60%'), // -> 180% GIVEN initCSD == 80%
+    opacity: R.multiply(2),
+    textAlign: R.replace('right', 'center')// works FOR any rClss WITH initial 'center'
 };
-let EVOLVER;  //R.evolve:: {k:(v->v)} -> {k:v} ->{k:v}
-EVOLVER = R.evolve(transformers); //  {k:v} ->{k:v}
 
-// now EVOLVE init TO weighted CSD
 /**
- *          _my_rClss_CSD( elem, ndx, col)
- *          pipe(
- *          _rClssKey,              //  E:e -> S:k
- *          _a_init_cssStylDecl     // S:k -> D:csd
- *                  WEIGHT CSD_values   // (D:dct) -> (E:e, N:ndx, L:col)
- *                  FORMAT CSD_values
- *          EVOLVE the CSD          // D:csd
+ *      _EVOLVE_clss_CSD:: {k:v} -> {k:v}
+ *   EVOLVES base_CSD INTO new_CSD
+ *   NOTE:   R.evolve:: {k:(v->v)} -> {k:v} ->{k:v}
+ *          where the above {k:(v->v)} IS the transformers object
  */
-let _my_rClss_CSD = R.compose(EVOLVER, _a_init_cssStylDecl, _rClssKey);
+let _EVOLVE_clss_CSD;
+_EVOLVE_clss_CSD = R.evolve(transformers); //  {k:v} ->{k:v}
 
 /**
- *      rClss_Elem_Children: E:e -> L:[e, e,..]
+ *          _new_clss_CSD: E:e -> D:CSD
+ *          compose(
+ *          _rClssKey,              //  E:e -> S:k
+ *          _base_clss_CSD          // S:k -> D:csd
+ *          _EVOLVE_clss_CSD        // D:csd -> D:csd
+ *          )
+ */
+let _new_clss_CSD = R.compose(_EVOLVE_clss_CSD, _base_clss_CSD, _rClssKey);
+
+/**
+ *          _rClss_Elem_Children: E:e -> L:[e, e,..]
  *      an rClss Element:e -> a list of its verse elements.
  *      This is the target list of Verse Elements to mutate
  *
  */
-let rClss_Elem_Children = R.prop("children");// E:e -> L:[e, e,..]
+let _rClss_Elem_Children = R.prop("children");// E:e -> L:[e, e,..]
 // test
 
-// now mutate a trgt element style
 /**
- *      _RESTYLE_trgts: L: nodelist -> all Elements in all rClasses RESTYLED =f(trgt)
- *      this relies on helper function:
- *      _my_init_rClass_CSD( elem)
- *      WHICH NOW  needs to BECOME -> _my_rClss_CSD( elem, ndx, col)
+ *          _RESTYLE_trgts: L:nodelist ->  L:nodelist
+ *      all Elements in all rClasses are RESTYLED =f(trgt)
  *
  */
-let _RESTYLE_trgts = R.forEach(
+let _RESTYLE_all_trgts = R.forEach(
     (eClss) => {
         R.addIndex(R.forEach)(
-            (trgt, ndx, col)=> Object.assign(trgt.style, _my_rClss_CSD(eClss)),
-            rClss_Elem_Children(eClss)
+            (trgt, ndx, col)=> Object.assign(trgt.style, _new_clss_CSD(eClss)),
+            _rClss_Elem_Children(eClss)
         )
     }
 );
 
-var REStylED_trgts = _RESTYLE_trgts(nl);
-C_Both(JSON.stringify(REStylED_trgts));
-TestMe();
+var REStylED_trgts = _RESTYLE_all_trgts(nl);
 
+C_Both('textAlign was: ' + JSON.stringify(CSD_D.cur.textAlign));
+C_Both('textAlign now: ' + JSON.stringify(REStylED_trgts[1].children[0].style.textAlign));
+
+TestMe();
 function TestMe() {
     var MSG = '', CUT, _CUT, RET, EXP, TST, tNum = 0;
+    var trgt;
 //tests  transformers With stepSize and stepER
     tNum = 5;
-    RET = _RESTYLE_trgts(nl);
-    var trgt = cur_Chptr_cur_rClss_Verse_tst1_Elem;
+    CUT = _RESTYLE_all_trgts(nl); //INVOKEd
+    trgt = document.querySelector('div #tst1');
     RET = trgt.style.stepSize;
     assert(RET, 0, tNum);
 //tests  _RESTYLE_trgts
     tNum = 4;
-    RET = _RESTYLE_trgts(nl);
-    var trgt = cur_Chptr_cur_rClss_Verse_tst1_Elem;
+    CUT = _RESTYLE_all_trgts(nl); // INVOKED
+    trgt = document.querySelector('div #tst1');
     RET = trgt.style.textAlign;
-    assert(RET, 'right', tNum);
-// tests  rClss_Elem_Children
+    assert(RET, 'center', tNum);
+// tests  _rClss_Elem_Children
     tNum = 3;
     let stub_rClss_Elem = document.querySelector('div #cur_VerseReadGrp');//
-    RET = rClss_Elem_Children(stub_rClss_Elem);// -> HTMLCollection[2]
+    RET = _rClss_Elem_Children(stub_rClss_Elem);// -> HTMLCollection[2]
     assert(RET.length, 2, tNum);
 
 //tests  _my_init_rClss_CSD
     tNum = 2;
-    let _stub_my_init_rClss_CSD_List = R.map(_my_rClss_CSD);//  L:nl -> [[D:d, D:d, D:d]]
+    let _stub_my_init_rClss_CSD_List = R.map(_new_clss_CSD);//  L:nl -> [[D:d, D:d, D:d]]
     RET = _stub_my_init_rClss_CSD_List(nl);//  ->  [[D:d, D:d, D:d]]
-    assert(RET[0].fontSize, "40%", tNum);
+    assert(RET[0].fontSize, "60%", tNum);
     assert(RET[2].fontSize, "90%", tNum);
 
 // test   cur_Chptr_rClss_NL
