@@ -6,14 +6,8 @@
 //var R = require('ramda');
 //VERBS: MODIFY, UPDATE, APPLY,ADMINISTER,COMPLETE,FULFILL,AFFECT,ALTER
 
-/**
- * an indexed forEach function:
- * R.forEach():: (a->*)->[a]->[a]
- *     Iterate over an input list, calling a provided function fn for each element in the list.  fn receives one argument: (value). Returns THE ORIGINAL array!!
- * addIndex() Returns function.
- *      An altered list iteration function that passes (item, index, list) to its callback
- */
-var R_forEachIndexed = R.addIndex(R.forEach);
+//160603
+const myTap = R.tap(s=>C_Both(s));
 
 // *********** TEST HELPERS
 var Cnt = R.curry(
@@ -31,6 +25,8 @@ const bookTmpl = '.book';
 const C_Grp_Tmpl = '.ChptrReadGrps > div';
 const V_Grp_Tmpl = '.ChptrReadGrps .cur  .VerseReadGrps > div';
 const cur_Chptr_rClss_NL = document.querySelectorAll(V_Grp_Tmpl);
+const cur_Chptr_cur_rClss_Verse_tst1_Elem = document.querySelector('div #tst1');
+const div_tst1_E = document.querySelector('div #tst1');
 //var C_Grp_NL = book.querySelectorAll(C_Grp_Tmpl); // NL:: 3 div.classes: pst, cur, fut
 //var V_Grp_NL = book.querySelectorAll(V_Grp_Tmpl); // NL:: 3 div.classes: pst, cur, fut
 const GET_book =
@@ -45,6 +41,16 @@ const GET_V_Grp_NL =
     function GET_V_Grp_NL(book) {
         return book.querySelectorAll(V_Grp_Tmpl)
     };
+
+
+/**
+ *      assert:: a:exp, a:ret, S:b -> true:  | false S:b
+ * @param ret
+ * @param exp
+ * @param tNum
+ */
+const assert = (exp, ret, tNum)=> console.assert(R.equals(exp, ret), ` EXP:${exp}; RET:${ret}. @ ${tNum}`);
+
 
 // *********** OLD BUT STILL IN USE
 const Doc_It = (txt) => document.querySelector(".console").textContent = txt;
