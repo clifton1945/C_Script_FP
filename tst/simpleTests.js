@@ -4,6 +4,7 @@
 
 /**
  * 6/6/16 @ 5.26
+ *
  * 6/4/16 @ 19:30
  *  WIP:  STABLE:  setting up where to put a function: stepSiZER (d, e, n
  *  IN transformers.js
@@ -12,23 +13,7 @@
  *      evolve
  *      set_Style
  *
- *
- *
- * 6/4/16 @ 19:00
- * WIP:
- CANNOT USE import
- CAN ADD <script src="tst/transformers_tests-compiled.js"></script>0
- BEFORE   <script src="tst/simpleTests-compiled.js"></script>
- IN simpleTests.html
- AND  WIP / LEARN transformers stuff in its own file:  transformers_tests.js
-
- REFACT:  REVERSED parameters IN assert()  IN  functions.js AND simpleTests.js
-
- * 6/4/2016 @ 07:02
- *      CLEANED UP code and doc for    stable _RESTYLE_all_trgts: L: nodelist -> L:nl
- *      all Elements in all rClasses RESTYLED =f(trgt)
- *
- *      READY now TO MODIFY / WEIGHT the transformers WITH ndx and sibling list
+ *  READY now TO MODIFY / WEIGHT the transformers WITH ndx and sibling list
  */
 // var RET, MSG = '', CUT, _CUT,  EXP, TST, tNum = 0;
 
@@ -83,16 +68,13 @@ const _CSD_D = R.always(CssStylDecl_Dict);
  */
 const _rClssKey = (rcE) => R.prop('className')(rcE);
 /**
- *      _base_clss_CSD: S:key -> D:CSD_D i.e. CssStyleDeclarations  Dict
+ *      S:key -> D:CSD_D i.e. CssStyleDeclarations  Dict
  *      NOTE: styleProps hard coded into _base_clss_CSD
  */
 const _base_clss_CSD = R.flip(R.prop)(CSD_D);
-// const _base_clss_CSD = R.compose(R.prop, R.partialRight);
-// const a_init_cssStylDecl = _base_clss_CSD( CSD_D);// brokEN  S:key -> D:propDict
-// const _base_clss_CSD = R.compose(R.flip, R.prop)( CSD_D);// brokEN  S:key -> D:propDict
 
 /**
- *                  transformers: now located in transformers.js
+ *       transformers: now located in transformers.js
  * as REF R.replace:: RegExp|String -> String -> String -> String
  * @type {{fontSize, opacity: *, textAlign: (void|XML|string|*)}}
  */
@@ -108,16 +90,14 @@ const _base_clss_CSD = R.flip(R.prop)(CSD_D);
 // };
 
 /**
- *      _EVOLVE_clss_CSD:: {k:v} -> {k:v}
+ *         :: CSD{k:v} -> CSD{k:v} NOTE: CODE IN transformers.js
  *   EVOLVES base_CSD INTO new_CSD
  *   NOTE:   R.evolve:: {k:(v->v)} -> {k:v} ->{k:v}
  *          where the above {k:(v->v)} IS the transformers object
  */
-let _EVOLVE_clss_CSD;
-_EVOLVE_clss_CSD = R.evolve(transformers); //  {k:v} ->{k:v}
-
+// let _EVOLVE_clss_CSD;
 /**
- *          _new_clss_CSD: E:e -> D:CSD
+ *          :: E:e -> D:CSD
  *          compose(
  *          _rClssKey,              //  E:e -> S:k
  *          _base_clss_CSD          // S:k -> D:csd
@@ -125,19 +105,18 @@ _EVOLVE_clss_CSD = R.evolve(transformers); //  {k:v} ->{k:v}
  *          )
  */
 let _new_clss_CSD = R.compose(_EVOLVE_clss_CSD, _base_clss_CSD, _rClssKey);
-
-let _set_a_Style = R.curry((e_clss, trgt)=> Object.assign(trgt.style, _new_clss_CSD(e_clss)));
-
 /**
- *          _rClss_Elem_Children: E:e -> L:[e, e,..]
+ *          :: (eClss, eVers) -> eVers.styl_ED
+ */
+let _set_a_Style = R.curry((e_clss, e_trgt)=> Object.assign(e_trgt.style, _new_clss_CSD(e_clss)));
+/**
+ *          :: E:e -> L:[e, e,..]
  *      an rClss Element:e -> a list of its verse elements.
  *      This is the target list of Verse Elements to mutate
  *
  */
 let _rClss_Elem_Children = R.prop("children");// E:e -> L:[e, e,..]
 // test
-
-
 /**
  *          _RESTYLE_trgts: L:nodelist ->  L:nodelist
  *      all Elements in all rClasses are RESTYLED =f(trgt)
@@ -145,15 +124,15 @@ let _rClss_Elem_Children = R.prop("children");// E:e -> L:[e, e,..]
  */
 let _RESTYLE_all_trgts = R.forEach(
     (eClss) => {
+        var x = _set_a_Style(eClss, R.__);
+        var y = _rClss_Elem_Children(eClss);
         R.addIndex(R.forEach)(
-            (trgt, ndx, col)=>_set_a_Style(eClss, trgt),
-            _rClss_Elem_Children(eClss)
+            (trgt, ndx, col)=>x(trgt), y
+
         )
     }
 );
-
 var REStylED_trgts = _RESTYLE_all_trgts(nl);
-
 C_Both('textAlign was: ' + JSON.stringify(CSD_D.cur.textAlign));
 C_Both('textAlign now: ' + JSON.stringify(REStylED_trgts[1].children[0].style.textAlign));
 
@@ -162,6 +141,12 @@ function TestMe() {
     var MSG = '', CUT, _CUT, RET, EXP, TST, tNum = 0;
     var trgt;
 //tests  transformers With stepSize and stepER
+    tNum = 6;
+    CUT = _RESTYLE_all_trgts(nl); //INVOKEd
+    trgt = document.querySelector('div #tst1');
+    RET = trgt.style.stepSize;
+    assert(0, RET, tNum);
+//tests  transformers WithOut stepSize and stepER
     tNum = 5;
     CUT = _RESTYLE_all_trgts(nl); //INVOKEd
     trgt = document.querySelector('div #tst1');
