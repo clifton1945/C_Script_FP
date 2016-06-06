@@ -131,10 +131,11 @@ let _RESTYLE_all_trgts = R.forEach(
 
         )
     }
+
 );
 var REStylED_trgts = _RESTYLE_all_trgts(nl);
-C_Both('textAlign was: ' + JSON.stringify(CSD_D.cur.textAlign));
-C_Both('textAlign now: ' + JSON.stringify(REStylED_trgts[1].children[0].style.textAlign));
+C_Both('stepSize was: ' + JSON.stringify(CSD_D.fut.stepSize));
+C_Both('stepSize  is: ' + JSON.stringify(REStylED_trgts[2].children[0].style.stepSize));
 
 TestMe();
 function TestMe() {
