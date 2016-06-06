@@ -3,6 +3,7 @@
 // import {transformers} from 'tst/transformers_tests-compiled';
 
 /**
+ * 6/6/16 @ 5.26
  * 6/4/16 @ 19:30
  *  WIP:  STABLE:  setting up where to put a function: stepSiZER (d, e, n
  *  IN transformers.js
