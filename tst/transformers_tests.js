@@ -19,7 +19,7 @@ var RET, CUT, tstN = 0;
 let _denom = R.compose(R.dec, R.length); // [L:col] -> N:n
 let _denom1 = R.compose(R.dec); // N:n -> N:n
 tstN = 11;
-assert(-1, _denom(0), tstN);
+assert(-1, _denom1(0), tstN);
 /**
  *      ::  L:col -> N:ndx -> 0 | N:n
  */
