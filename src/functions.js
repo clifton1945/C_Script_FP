@@ -7,7 +7,7 @@
 //VERBS: MODIFY, UPDATE, APPLY,ADMINISTER,COMPLETE,FULFILL,AFFECT,ALTER
 
 //160603
-const myTap = R.tap(s=>C_Both(s));
+const myTap = R.tap(s=>C_Both('mTap: ' + s));
 
 // *********** TEST HELPERS
 var Cnt = R.curry(
