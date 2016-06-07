@@ -21,30 +21,15 @@ var RET, CUT, tstN = 0;
  */
 
 /**
- *          :: clssE -> L:[trgtE, trgtE, ...]
- *      an rClss Element:e -> a list of its verse elements.
- *      This is the target list of Verse Elements to mutate
- *
- */
-const _rClss_Chldren = R.prop("children");// clssE -> L:[e, e,..]
-
-/**
- *      :: E:{div.rClssE} -> N:ndx -> N:wght factor
- *  partials _StepER(N)
- *
- */
-const _this_rClss_StepER = R.compose(_StepER, R.prop('length'), myTap, _rClss_Chldren);
-
-/**
  *         :: Str->Str->Str by _CONVERT_fontSize
  * @type {void|XML|string|*}
  * NOTE: using a broad regex like - /\d+/im - transforms All fontstyles
  * NOTE: using a specific Str like - 40 - transforms in this case just the clss:cur
  */
 let _CONVERT_fontSize = R.replace('90');// this sets which rClss: in this case:fut-> fontSize:90
-
+C_Both(_rClss_StepER(5));
 let transformers = {
-    fontSize: _CONVERT_fontSize(R.multiply(_this_rClss_StepER(5))), // STUB  fixed Index: N -> N
+    fontSize: _CONVERT_fontSize(R.multiply(_rClss_StepER(5))), // STUB BROKEN -rClss.. does not have partialed clssE
     opacity: R.multiply(3),
     textAlign: R.replace('right', 'center')// works FOR any rClss WITH initial 'center'
 };

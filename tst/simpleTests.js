@@ -96,6 +96,23 @@ const _rClssE_CSD = R.flip(R.prop)(CSD_D);
  */
 
 /**
+ *          :: clssE -> L:[trgtE, trgtE, ...]
+ *      an rClss Element:e -> a list of its verse elements.
+ *      This is the target list of Verse Elements to mutate
+ *
+ */
+const _rClss_Chldren = R.prop("children");// clssE -> L:[e, e,..]
+
+/**
+ *      :: E:{div.rClssE} -> N:ndx -> N:wght factor
+ *  partials _StepER(N)
+ *
+ */
+const _this_rClss_StepER = R.compose(_StepER, R.prop('length'), myTap, _rClss_Chldren);
+
+const _rClss_StepER = (clssE)=>_this_rClss_StepER(clssE);
+
+/**
  *         :: CSD{k:v} -> CSD{k:v} NOTE: CODE IN transformers.js
  *   EVOLVES base_CSD INTO new_CSD
  *   NOTE:   R.evolve:: {k:(v->v)} -> {k:v} ->{k:v}
@@ -126,7 +143,7 @@ let _set_a_Style = R.curry(
 let _RESTYLE_all_trgtEs = R.forEach(
     (clssE) => {
         var rClss_Children = _rClss_Chldren(clssE);
-        var _rClss_StepER = _this_rClss_StepER(clssE, R.__);    // partial:: N:trgtCount -> N.wt: 0>= wt <=1
+        // _rClss_StepER = _this_rClss_StepER(clssE, R.__);    // partial:: N:trgtCount -> N.wt: 0>= wt <=1
         var _set_this_rClss_trgt_CSD = _set_a_Style(clssE, R.__);     // E:trgtE -> E: newE
         R.addIndex(R.forEach)(
             (trgtE, ndx, col)=> {
