@@ -32,8 +32,7 @@ var RET, CUT, tstN = 0;
  * NOTE: using a broad regex like - /\d+/im - transforms All fontstyles
  * NOTE: using a specific Str like - 40 - transforms in this case just the clss:cur
  */
-let _fontSizER = R.replace('40');//any one or more digits, transformer Fn  S: valu ->
-
+let _fontSizER = R.replace('90');// rClss:fut
 
 let transformers = {
     fontSize: _fontSizER(60), // Str -> Str

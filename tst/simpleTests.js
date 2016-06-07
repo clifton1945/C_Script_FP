@@ -46,11 +46,16 @@ var CssStylDecl_Dict = { //
         backgroundColor: "rgba(255, 0, 0, 0.24)"
     }
 };
+
+/**
+ *      :: D:(k:CSD}    CSD's for each of the three rClasss
+ * @type {{fut: {fontSize: string, opacity: number, textAlign: string, backgroundColor: string}, cur: {fontSize: string, opacity: number, textAlign: string}, pst: {fontSize: string, opacity: number, textAlign: string, backgroundColor: string}}}
+ */
 const CSD_D = CssStylDecl_Dict; // -> D:csd
 
 /**
- *      cur_Chptr_rClss_NL:: L:nodelist
- *      a nodelist of rClasses: NL: pst, cur, fut
+ *      :: L:[E,E,E]
+ *      a nodeList of rClass Elements: NL: pst, cur, fut
  */
 var nl = cur_Chptr_rClss_NL;
 
@@ -58,38 +63,37 @@ var nl = cur_Chptr_rClss_NL;
  *          HELPERS for _RESTYLE_trgts
  */
 
-/**
- *      _CSD_D: () -> D:CSD_D i.e. style properties dictionary
- */
-const _CSD_D = R.always(CssStylDecl_Dict);
+// /**
+//  *      _CSD_D: () -> D:CSD_D i.e. style properties dictionary
+//  */
+// const _CSD_D = R.always(CssStylDecl_Dict);
 
 /**
- *      _rClssKey:  E:e -> S:e.classNameKey
+ *          :: clssE -> L:[trgtE, trgtE, ...]
+ *      an rClss Element:e -> a list of its verse elements.
+ *      This is the target list of Verse Elements to mutate
+ *
+ */
+const _rClss_Chldren = R.prop("children");// clssE -> L:[e, e,..]
+
+/**
+ *      _rClssE_key:  clssE -> S:e.classNameKey
  * @param rcE
  * @private
  */
-const _rClssKey = (rcE) => R.prop('className')(rcE);
+const _rClssE_key = (rcE) => R.prop('className')(rcE);
+
 /**
  *      S:key -> D:CSD_D i.e. CssStyleDeclarations  Dict
- *      NOTE: styleProps hard coded into _base_clss_CSD
+ *      NOTE: styleProps hard coded into _rClssE_CSD
  */
-const _base_clss_CSD = R.flip(R.prop)(CSD_D);
+const _rClssE_CSD = R.flip(R.prop)(CSD_D);
 
 /**
  *       transformers: now located in transformers.js
  * as REF R.replace:: RegExp|String -> String -> String -> String
  * @type {{fontSize, opacity: *, textAlign: (void|XML|string|*)}}
  */
-// let _stepER, _fontSizER;
-// _stepER = R.replace(50);// Str -> Str -> Str
-// _fontSizER = R.replace('40%');//GIVEN: init==80% transformer Fn  S: valu ->
-// var transformers;
-// transformers = {// NOTE: USING .replace For string!
-//     stepSize: R.multiply(1.5), //-> 75
-//     fontSize: _fontSizER('60%'), // -> 180% GIVEN initCSD == 80%
-//     opacity: R.multiply(2),
-//     textAlign: R.replace('right', 'center')// works FOR any rClss WITH initial 'center'
-// };
 
 /**
  *         :: CSD{k:v} -> CSD{k:v} NOTE: CODE IN transformers.js
@@ -99,42 +103,36 @@ const _base_clss_CSD = R.flip(R.prop)(CSD_D);
  */
 // let _EVOLVE_clss_CSD;
 /**
- *          :: E:e -> D:CSD
+ *          :: clssE -> D:CSD
  *          compose(
- *          _rClssKey,              //  E:e -> S:k
- *          _base_clss_CSD          // S:k -> D:csd
+ *          _rClssE_key,              //  clssE -> S:k
+ *          _rClssE_CSD          // S:k -> D:csd
  *          _EVOLVE_clss_CSD        // D:csd -> D:csd
  *          )
  */
-let _new_clss_CSD = R.compose(_EVOLVE_clss_CSD, _base_clss_CSD, _rClssKey);
+let _new_clss_CSD = R.compose(_EVOLVE_clss_CSD, _rClssE_CSD, _rClssE_key);
 /**
- *          :: (eClss, eVers) -> eVers.styl_ED
+ *          :: (clssE, trgt_E) -> trgt_E.styl_ED
  */
-let _set_a_Style = R.curry((e_clss, e_trgt)=> Object.assign(e_trgt.style, _new_clss_CSD(e_clss)));
-/**
- *          :: E:e -> L:[e, e,..]
- *      an rClss Element:e -> a list of its verse elements.
- *      This is the target list of Verse Elements to mutate
- *
- */
-let _rClss_Elem_Children = R.prop("children");// E:e -> L:[e, e,..]
+let _set_a_Style = R.curry(
+    (e_clss, e_trgt)=> Object.assign(e_trgt.style, _new_clss_CSD(e_clss)));
+
 // test
 /**
- *          _RESTYLE_trgts: L:nodelist ->  L:nodelist
+ *          _RESTYLE_trgtEs: L:nodeList ->  L:nodeList
  *      all Elements in all rClasses are RESTYLED =f(trgt)
  *
  */
-let _RESTYLE_all_trgts = R.forEach(
-    (eClss) => {
-        var x = _set_a_Style(eClss, R.__);
-        var y = _rClss_Elem_Children(eClss);
+let _RESTYLE_all_trgtEs = R.forEach(
+    (clssE) => {
+        var x = _set_a_Style(clssE, R.__);
         R.addIndex(R.forEach)(
-            (trgt, ndx, col)=>x(trgt), y
+            (trgtE, ndx, col)=>x(trgtE),
+            _rClss_Chldren(clssE)
         )
     }
-
 );
-var REStylED_trgts = _RESTYLE_all_trgts(nl);
+var REStylED_trgts = _RESTYLE_all_trgtEs(nl);
 C_Both('stepSize was: ' + JSON.stringify(CSD_D.fut.fontSize));
 C_Both('stepSize  is: ' + JSON.stringify(REStylED_trgts[2].children[0].style.fontSize));
 
@@ -145,22 +143,22 @@ function TestMe() {
 
 //tests  _RESTYLE_trgts
     tNum = 4;
-    CUT = _RESTYLE_all_trgts(nl); // INVOKED
+    CUT = _RESTYLE_all_trgtEs(nl); // INVOKED
     trgt = document.querySelector('div #tst1');
     RET = trgt.style.textAlign;
     assert('center', RET, tNum);
-// tests  _rClss_Elem_Children
+// tests  _rClss_Chldren
     tNum = 3;
-    let stub_rClss_Elem = document.querySelector('div #cur_VerseReadGrp');//
-    RET = _rClss_Elem_Children(stub_rClss_Elem);// -> HTMLCollection[2]
+    let stub_rclssElem = document.querySelector('div #cur_VerseReadGrp');//
+    RET = _rClss_Chldren(stub_rclssElem);// -> HTMLCollection[2]
     assert(2, RET.length, tNum);
 
 //tests  _my_init_rClss_CSD
     tNum = 2;
     let _stub_my_init_rClss_CSD_List = R.map(_new_clss_CSD);//  L:nl -> [[D:d, D:d, D:d]]
     RET = _stub_my_init_rClss_CSD_List(nl);//  ->  [[D:d, D:d, D:d]]
-    assert("60%", RET[0].fontSize, tNum);
-    assert("90%", RET[2].fontSize, tNum);
+    assert("40%", RET[0].fontSize, tNum);
+    assert("60%", RET[2].fontSize, tNum);
 
 // test   cur_Chptr_rClss_NL
     tNum = 1;
