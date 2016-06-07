@@ -1,3 +1,9 @@
+/**
+ * 160607 WIP BROKEN  not stable; NEED TO update the transformers OBj
+ * WITH a clssE initWtER(clssE) in the 1st forEach AND a finalWtER(trgtE) in the second forEacher
+ * AND USE the finalWtER ON at least the opacity and fontSize transformers functions.
+ * Then evolve the old TO new CSD
+ */
 "use strict";
 
 // import {transformers} from 'tst/transformers_tests-compiled';
@@ -110,7 +116,9 @@ const _rClss_Chldren = R.prop("children");// clssE -> L:[e, e,..]
  */
 const _this_rClss_StepER = R.compose(_StepER, R.prop('length'), myTap, _rClss_Chldren);
 
-const _rClss_StepER = (clssE)=>_this_rClss_StepER(clssE);
+var _rClss_StepER = _this_rClss_StepER(clssE)(R.__);// ?? I need R.__ ??
+
+// OK NOW SET the transform_ERs like ()(ndx) ->
 
 /**
  *         :: CSD{k:v} -> CSD{k:v} NOTE: CODE IN transformers.js
@@ -119,15 +127,26 @@ const _rClss_StepER = (clssE)=>_this_rClss_StepER(clssE);
  *          where the above {k:(v->v)} IS the transformers object
  */
 // let _EVOLVE_clss_CSD;
+
+
 /**
  *          :: clssE -> D:CSD
+ *  basis for evolving into _new_clss_CSD
  *          compose(
  *          _rClssE_key,              //  clssE -> S:k
  *          _rClssE_CSD          // S:k -> D:csd
- *          _EVOLVE_clss_CSD        // D:csd -> D:csd
  *          )
  */
-let _new_clss_CSD = R.compose(_EVOLVE_clss_CSD, _rClssE_CSD, _rClssE_key);
+let _base_clss_CSD = R.compose(_rClssE_CSD, _rClssE_key);
+
+/**
+ *          :: D:oldCSD -> D:newCSD
+ *  will need something like compose( _EVOLVE_(oldCSD), setTransform_ERs, setWt_ER) (trgt_Ndx)
+ * @private
+ */
+let _new_clss_CSD = ()=> {
+};// D:CSD -> D:CSD
+
 /**
  *          :: (clssE, trgt_E) -> trgt_E.styl_ED
  */
@@ -143,10 +162,11 @@ let _set_a_Style = R.curry(
 let _RESTYLE_all_trgtEs = R.forEach(
     (clssE) => {
         var rClss_Children = _rClss_Chldren(clssE);
-        // _rClss_StepER = _this_rClss_StepER(clssE, R.__);    // partial:: N:trgtCount -> N.wt: 0>= wt <=1
+        _rClss_StepER(clssE);
         var _set_this_rClss_trgt_CSD = _set_a_Style(clssE, R.__);     // E:trgtE -> E: newE
         R.addIndex(R.forEach)(
             (trgtE, ndx, col)=> {
+                _rClss_StepER(clssE, ndx);
                 _set_this_rClss_trgt_CSD(trgtE)(rClss_Children)
             }
         )
