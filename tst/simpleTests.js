@@ -15,6 +15,8 @@
  *
  *  READY now TO MODIFY / WEIGHT the transformers WITH ndx and sibling list
  */
+
+
 // var RET, MSG = '', CUT, _CUT,  EXP, TST, tNum = 0;
 
 /**
@@ -128,31 +130,19 @@ let _RESTYLE_all_trgts = R.forEach(
         var y = _rClss_Elem_Children(eClss);
         R.addIndex(R.forEach)(
             (trgt, ndx, col)=>x(trgt), y
-
         )
     }
 
 );
 var REStylED_trgts = _RESTYLE_all_trgts(nl);
-C_Both('stepSize was: ' + JSON.stringify(CSD_D.fut.stepSize));
-C_Both('stepSize  is: ' + JSON.stringify(REStylED_trgts[2].children[0].style.stepSize));
+C_Both('stepSize was: ' + JSON.stringify(CSD_D.fut.fontSize));
+C_Both('stepSize  is: ' + JSON.stringify(REStylED_trgts[2].children[0].style.fontSize));
 
 TestMe();
 function TestMe() {
     var MSG = '', CUT, _CUT, RET, EXP, TST, tNum = 0;
     var trgt;
-//tests  transformers With stepSize and stepER
-    tNum = 6;
-    CUT = _RESTYLE_all_trgts(nl); //INVOKEd
-    trgt = document.querySelector('div #tst1');
-    RET = trgt.style.stepSize;
-    assert(0, RET, tNum);
-//tests  transformers WithOut stepSize and stepER
-    tNum = 5;
-    CUT = _RESTYLE_all_trgts(nl); //INVOKEd
-    trgt = document.querySelector('div #tst1');
-    RET = trgt.style.stepSize;
-    assert(0, RET, tNum);
+
 //tests  _RESTYLE_trgts
     tNum = 4;
     CUT = _RESTYLE_all_trgts(nl); // INVOKED
