@@ -1,5 +1,11 @@
 /**
- * 160607 WIP BROKEN  not stable; NEED TO update the transformers OBj
+ * 160607
+ * :0905 OK, centering now on _trgtE_CSD() AND _trgtE_CSD()
+ * also:  figure out how to do an assert after _RESTYLE_all_trgtEs()
+ * /
+ *
+ /**
+ * :0545 WIP BROKEN  not stable; NEED TO update the transformers OBj
  * WITH a clssE initWtER(clssE) in the 1st forEach AND a finalWtER(trgtE) in the second forEacher
  * AND USE the finalWtER ON at least the opacity and fontSize transformers functions.
  * Then evolve the old TO new CSD
@@ -127,6 +133,10 @@ var _rClss_StepER = (eclss)=>_StepER(eclss)(R.__);// ?? I need R.__ ??
  *          where the above {k:(v->v)} IS the transformers object
  */
 // let _EVOLVE_clss_CSD;
+// in essence:
+// (1) get this rClass - pst|cur|fut - CSD.
+// (2) evolve it to this_CSD
+// (3) assign this_CSD to this trgtE
 
 
 /**
@@ -140,18 +150,22 @@ var _rClss_StepER = (eclss)=>_StepER(eclss)(R.__);// ?? I need R.__ ??
 let _base_clss_CSD = R.compose(_rClssE_CSD, _rClssE_key);
 
 /**
- *          :: D:oldCSD -> D:newCSD
+ *          :: D:base CSD -> D:new CSD
+ *  FIX STUB now just returns the base CSD  REFACT should mutate the CSD
  *  will need something like compose( _EVOLVE_(oldCSD), setTransform_ERs, setWt_ER) (trgt_Ndx)
  * @private
  */
-let _new_clss_CSD = ()=> {
-};// D:CSD -> D:CSD
+let _trgtE_CSD = function _trgtE_CSD(clssE) {
+    return _base_clss_CSD(clssE)
+};
 
 /**
  *          :: (clssE, trgt_E) -> trgt_E.styl_ED
+ *
+ *  REF: Object.assign( to target, from ...sources)
  */
 let _set_a_Style = R.curry(
-    (e_clss, e_trgt)=> Object.assign(e_trgt.style, _new_clss_CSD(e_clss)));
+    (e_clss, e_trgt)=> Object.assign(e_trgt.style, _trgtE_CSD(e_clss)));
 
 // test
 // var _this_rClss_StepER;// currently declared in transformers
@@ -167,7 +181,7 @@ let _RESTYLE_all_trgtEs = R.forEach(
         R.addIndex(R.forEach)(
             (trgtE, ndx, col)=> {
                 // this_rClss_Step = _rClss_StepER(clssE)(ndx);
-                _set_a_Style(clssE)(trgtE)
+                _set_a_Style(clssE)(trgtE); // THIS IS THE WORKER !!!
             },
             _rClss_Chldren(clssE)
         )
@@ -197,7 +211,7 @@ function TestMe() {
 
 //tests  _my_init_rClss_CSD
     tNum = 2;
-    let _stub_my_init_rClss_CSD_List = R.map(_new_clss_CSD);//  L:nl -> [[D:d, D:d, D:d]]
+    let _stub_my_init_rClss_CSD_List = R.map(_trgtE_CSD);//  L:nl -> [[D:d, D:d, D:d]]
     RET = _stub_my_init_rClss_CSD_List(nl);//  ->  [[D:d, D:d, D:d]]
     assert("40%", RET[0].fontSize, tNum);
     assert("60%", RET[2].fontSize, tNum);
