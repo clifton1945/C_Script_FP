@@ -27,12 +27,11 @@ var RET, CUT, tstN = 0;
  * NOTE: using a specific Str like - 40 - transforms in this case just the clss:cur
  */
 let _CONVERT_fontSize = (wt_ER) => R.replace('90')(wt_ER);// this sets which rClss: in this case:fut-> fontSize:90
-C_Both(_rClss_StepER);
 
 let transformers = {
-    fontSize: _CONVERT_fontSize(R.multiply(_rClss_StepER)), // STUB BROKEN -rClss.. does not have partialed clssE
+    // fontSize: _CONVERT_fontSize(R.multiply(_rClss_StepER(3)(1))), // STUB BROKEN -rClss.. does not have partialed clssE
     opacity: R.multiply(3),
-    textAlign: R.replace('right', 'center')// works FOR any rClss WITH initial 'center'
+    textAlign: R.replace("right", 'center')// works FOR any rClss WITH initial 'center'
 };
 /**
  *      :: CSD:{k:v) -> CSD{k:v}
@@ -40,6 +39,6 @@ let transformers = {
  */
 let _EVOLVE_clss_CSD;
 /**
- *          :: D:transformers -> D:oldCSD -> D:newCSD
+ *      :: D:transformers -> D:oldCSD -> D:newCSD
  */
 _EVOLVE_clss_CSD = R.evolve(transformers); //  {k:v} -> {k:v}

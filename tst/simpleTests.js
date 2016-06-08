@@ -114,9 +114,9 @@ const _rClss_Chldren = R.prop("children");// clssE -> L:[e, e,..]
  *  partials _StepER(N)
  *
  */
-const _this_rClss_StepER = R.compose(_StepER, R.prop('length'), myTap, _rClss_Chldren);
+const _StepER = R.compose(_StepER, R.prop('length'), myTap, _rClss_Chldren);
 
-var _rClss_StepER = _this_rClss_StepER(clssE)(R.__);// ?? I need R.__ ??
+var _rClss_StepER = (eclss)=>_StepER(eclss)(R.__);// ?? I need R.__ ??
 
 // OK NOW SET the transform_ERs like ()(ndx) ->
 
@@ -154,6 +154,7 @@ let _set_a_Style = R.curry(
     (e_clss, e_trgt)=> Object.assign(e_trgt.style, _new_clss_CSD(e_clss)));
 
 // test
+// var _this_rClss_StepER;// currently declared in transformers
 /**
  *          _RESTYLE_trgtEs: L:nodeList ->  L:nodeList
  *      all Elements in all rClasses are RESTYLED =f(trgt)
@@ -161,20 +162,21 @@ let _set_a_Style = R.curry(
  */
 let _RESTYLE_all_trgtEs = R.forEach(
     (clssE) => {
-        var rClss_Children = _rClss_Chldren(clssE);
-        _rClss_StepER(clssE);
-        var _set_this_rClss_trgt_CSD = _set_a_Style(clssE, R.__);     // E:trgtE -> E: newE
+        // var rClss_Children = _rClss_Chldren(clssE);
+        // var _set_this_rClss_trgt_CSD = _set_a_Style(clssE, R.__);     // E:trgtE -> E: newE
         R.addIndex(R.forEach)(
             (trgtE, ndx, col)=> {
-                _rClss_StepER(clssE, ndx);
-                _set_this_rClss_trgt_CSD(trgtE)(rClss_Children)
-            }
+                // this_rClss_Step = _rClss_StepER(clssE)(ndx);
+                _set_a_Style(clssE)(trgtE)
+            },
+            _rClss_Chldren(clssE)
         )
     }
 );
+
 var REStylED_trgts = _RESTYLE_all_trgtEs(nl);
-C_Both('stepSize was: ' + JSON.stringify(CSD_D.fut.fontSize));
-C_Both('stepSize  is: ' + JSON.stringify(REStylED_trgts[2].children[0].style.fontSize));
+C_Both('opacity was: ' + JSON.stringify(CSD_D.fut.opacity));
+C_Both('opacity  is: ' + JSON.stringify(REStylED_trgts[2].children[0].style.opacity));
 
 TestMe();
 function TestMe() {
