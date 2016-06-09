@@ -4,12 +4,17 @@
  * END GET the trgt ndx into weighting fontSize and opacity
  */
 /**
+ * 160609 BEGIN WIP TO evolve the baseCSD -> trgtCSD USING ndx, etc
+ *
+ * MOVED FN: _trgt_clss_CSD TO transformers_tests.js FROM simpleTests.js
+ */
+
+/**
  * 6/6/2016.1755
  *      I am using transformers func: stepSizER() as my learning and testing USING _EVOLE_clss_CSD()
  *      (1) i AM GETTING CLOSER as it is configured. But clss_step does not seem to do what I want.
  *      (2) But still not sure how to pass ndx to code
  *      (3) Maybe evolve() is not the right or best function - it is bases on String replacement
- *
  */
 "use strict";
 //GLOBAL:
@@ -19,6 +24,18 @@ var RET, CUT, tstN = 0;
  * @type {{fontSize, opacity: *, textAlign: (void|XML|string|*)}}
  *
  */
+
+/**
+ *          :: D:base CSD -> D:new CSD
+ *  FIX STUB now just returns the base CSD  REFACT this IN transformers.js
+ *  will need something like compose( _EVOLVE_(oldCSD), setTransform_ERs, setWt_ER) (trgt_Ndx)
+ * @private
+ */
+const _trgt_clss_CSD = function _trgt_clss_CSD(csd) {
+    // do some work here. like evolve
+    var stub = csd;
+    return stub
+};
 
 /**
  *         :: Str->Str->Str by _CONVERT_fontSize

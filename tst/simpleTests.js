@@ -120,17 +120,17 @@ const _StepER = R.compose(_StepER, R.prop('length'), myTap, _rClss_Chldren);
  *          )
  */
 const _base_clss_CSD = R.compose(_rClssE_CSD, _rClssE_key);
-/**
- *          :: D:base CSD -> D:new CSD
- *  FIX STUB now just returns the base CSD  REFACT this IN transformers.js
- *  will need something like compose( _EVOLVE_(oldCSD), setTransform_ERs, setWt_ER) (trgt_Ndx)
- * @private
- */
-const _trgt_clss_CSD = function _trgt_clss_CSD(csd) {
-    // do some work here. like evolve
-    var stub = csd;
-    return stub
-};
+// /**
+//  *          :: D:base CSD -> D:new CSD
+//  *  FIX STUB now just returns the base CSD  REFACT this IN transformers.js
+//  *  will need something like compose( _EVOLVE_(oldCSD), setTransform_ERs, setWt_ER) (trgt_Ndx)
+//  * @private
+//  */
+// const _trgt_clss_CSD = function _trgt_clss_CSD(csd) {
+//     // do some work here. like evolve
+//     var stub = csd;
+//     return stub
+// };
 /**
  *          :: (base_CSD, trgt_E) -> trgt_CSD
  *
