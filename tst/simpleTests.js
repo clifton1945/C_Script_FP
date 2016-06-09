@@ -40,9 +40,9 @@ const CssStylDecl_Dict = { //
         // backgroundColor: "rgba(255, 0, 0, 0.24)"
     },
     pst: {
-        stepSize: 40, // start small 40 + 40  -> 80
+        stepSize: 70, // start small 70 + 40  -> 80
         fontSize: "70%", // TEST VALUE FIX
-        opacity: 0.4,
+        opacity: 0.7,
         textAlign: "right",
         backgroundColor: "rgba(255, 0, 0, 0.24)"
     }
@@ -171,16 +171,18 @@ function testMe() {
     var MSG = '', CUT, _CUT, RET, EXP, TST, tNum = 0;
     var trgt;
 
-//tests  _RESTYLE_trgts
-    tNum = 4;
-    CUT = _RESTYLE_all_trgtEs(NL); // INVOKED
-    trgt = document.querySelector('div #tst1');
-    RET = trgt.style.textAlign;
-    assert('right', RET, tNum);
+// //tests  _RESTYLE_trgts
+//     tNum = 4;
+//     CUT = _RESTYLE_all_trgtEs(NL); // INVOKED
+//     trgt = document.querySelector('div #tst1');
+//     RET = trgt.style.textAlign;
+//     assert('right', RET, tNum);
+
 // tests  _rClss_Chldren
     tNum = 3;
+    CUT = _rClss_Chldren;
     const stub_rclssElem = document.querySelector('div #cur_VerseReadGrp');//
-    RET = _rClss_Chldren(stub_rclssElem);// -> HTMLCollection[2]
+    RET = CUT(stub_rclssElem);// -> HTMLCollection[2]
     assert(2, RET.length, tNum);
 
 //tests  __base_rClss_CSD
@@ -188,7 +190,7 @@ function testMe() {
     CUT = _base_clss_CSD;
     var test_CSDs = R.map(CUT);//  L:nl -> [[D:d, D:d, D:d]]
     RET = test_CSDs(NL);//  ->  [[D:d, D:d, D:d]]
-    assert("40%", RET[0].fontSize, tNum);
+    assert("70%", RET[0].fontSize, tNum);
     assert("90%", RET[2].fontSize, tNum);
 
 // test   cur_Chptr_rClss_NL

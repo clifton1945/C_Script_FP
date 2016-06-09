@@ -5,7 +5,7 @@
  */
 /**
  * 160609 BEGIN WIP TO evolve the baseCSD -> trgtCSD USING ndx, etc
- * 09.0..  COMMENTED OUT the setWeight_tests.js, IOts tests were INVOKING _EVOLE_clss_CSD !! and confusing me.
+ * 09.2..  removed tstN 4. It was INVOKING evoke(transformers) confusing my test WHICH still does not have a good test.
  * 08:2.. _EVOLVE_clss_CSD WORKS!! AND  IS INVOKED BY just including src=transformers_tests.js in simpleTests.html
  * 07:22 MOVED FN: _trgt_clss_CSD TO transformers_tests.js FROM simpleTests.js
  */
@@ -50,8 +50,9 @@ let _EVOLVE_clss_CSD;
  */
 let _trgt_clss_CSD = (csd) => {
     // do some work here. like evolve
-    // var ret = R.evolve(transformers)(csd);// {k:v} -> {k:v}
-    var ret = csd;// {k:v} -> {k:v}
+    var CUT = R.evolve(transformers);
+    // var ret = CUT(csd);// TRGT:{k:v} -> {k:v}
+    var ret = csd;// BASE:  {k:v} -> {k:v}
     return ret
 };
 // _EVOLVE_clss_CSD = R.evolve(transformers); //  {k:v} -> {k:v}
