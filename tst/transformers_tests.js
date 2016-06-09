@@ -12,47 +12,52 @@
 "use strict";
 //GLOBAL:
 var RET, CUT, tstN = 0;
-/**
- *                  transformers: USED in simpleTests.js
- * @type {{fontSize, opacity: *, textAlign: (void|XML|string|*)}}
- *
- */
-
 
 /**
- *         :: Str->Str->Str by _CONVERT_fontSize
+ *         :: ???  Str->Str this works only on CSD.fontSize
  * @type {void|XML|string|*}
  * NOTE: using a broad regex like - /\d+/im - transforms All fontstyles
  * NOTE: using a specific Str like - 40 - transforms in this case just the clss:cur
  */
-let _CONVERT_fontSize = (wt_ER) => R.replace('90')(wt_ER);// this sets which rClss: in this case:fut-> fontSize:90
+let y = (x)=> x * 10 + 15;// (N:x) -> N:y
+let _f = R.compose(R.always, y);// N:y -> N:x ->{a-> a}
+var f = _f();
+// let _fontSizER = (i)=> R.replace('90', half(i));// CSD_D:fut:fontSize:90
+// let _fontSizER = (i)=> R.replace('90', half(i));// CSD_D:fut:fontSize:90
 
-let transformers = {
-    // fontSize: _CONVERT_fontSize(R.multiply(_rClss_StepER(3)(1))), // STUB BROKEN -rClss.. does not have partialed clssE
-    // opacity: R.multiply(3),
-    textAlign: R.replace("right", 'center')// works FOR any rClss WITH initial 'center'
-};
 /**
- *      :: CSD:{k:v) -> CSD{k:v}
- *  evolves the base CSD BY weighting some of the  properties.
+ *          :: {k:()}   Obj: func used in evolve.
+ * @type {{fontSize: *, opacity: *, textAlign: (XML|string|void|*)}}
  */
-let _EVOLVE_clss_CSD;
+let transformers = {
+    fontSize: R.replace('90')(R.always(4)),
+    opacity: R.multiply(3),
+    textAlign: R.replace("right", 'center')// NOTE:  ON ANY CSD WITH textAlign:'center'
+};
+// /**
+//  *      :: CSD:{k:v) -> CSD{k:v}
+//  *  evolves the base CSD BY weighting some of the  properties.
+//  */
+// let _EVOLVE_clss_CSD;
 /**
  *      :: D:transformers -> D:oldCSD -> D:newCSD
  */
 
-/**
- *          :: D:base CSD -> D:trgt CSD
- *  This IS the function that DOES all the WORK of restyling each element/
- *  USED IN: simpleTests.js
- *  will need something like compose( _EVOLVE_(oldCSD), setTransform_ERs, setWt_ER) (trgt_Ndx)
- * @private
- */
-let _trgt_clss_CSD = (csd) => {
-    // do some work here. like evolve
-    var CUT = R.evolve(transformers);
-    var ret = CUT(csd);// TRGT:{k:v} -> {k:v}
-    // var ret = csd;// BASE:  {k:v} -> {k:v}
-    return ret
-};
-// _EVOLVE_clss_CSD = R.evolve(transformers); //  {k:v} -> {k:v}
+// /**
+//  *          :: D:base CSD -> D:trgt CSD
+//  *  This IS the function that DOES all the WORK of restyling each element/
+//  *  USED IN: simpleTests.js
+//  *  will need something like compose( _EVOLVE_(oldCSD), setTransform_ERs, setWt_ER) (trgt_Ndx)
+//  * @private
+//  */
+// let _trgt_clss_CSD = R.curry(
+//     (csd, ndx) => {
+//         assert(false, 'in let _trgt_clss_CSD');
+//         // A simple way to test is Breakpoint the RET. Then step thru and watch the Browser
+//         // var stp = _fontSizER(ndx);
+//         var CUT = R.evolve(transformers);
+//         RET = csd;// BASE:  {k:v} -> {k:v}
+//         // RET = CUT(csd);// TRGT:{k:v} -> {k:v}
+//         return RET
+//     }
+// );

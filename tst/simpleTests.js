@@ -1,12 +1,11 @@
 /**
- * 160608   simplifying simpconstests.js
- *  WIP NEXT FOCUS? trying to figure a test maybe of a test list of csd properties
- *      maybe use the stepSize fake k:v for testing.
- *  WIP not YET evolving base CSD -> trgt CSDs yet.
- *  BUT nearly ready
- *  recognizing that I CAN PASS both clssE AND ndx BACK UP the src= chain
- *      thus declare a func in transformers_tests with an ndc param
- *      thus declare a func in setWeight_tests with a step/range
+ * 160609   CLUTTERING simpleTests.js
+ *  @14:30
+ *  JUST TOOK stuff FROM transformers.js TP simpleTests.js
+ *  WIP: USING fn:_trgt_clss_CSD,  how to GET trgtE.ndx INTO transformer
+ *  STABLE w/ _base_clss_CSD
+ *  NOT STABLE w/ _trgt_clss_CSD
+ *
  */
 "use strict";
 // import {_trgt_clss_CSD } from "transformers_tests-compiled.js";
@@ -93,7 +92,7 @@ const _rClss_Chldren = R.prop("children");// clssE -> L:[e, e,..]
  *  partials _StepER(N)
  *
  */
-const _StepER = R.compose(_StepER, R.prop('length'), myTap, _rClss_Chldren);
+// const _StepER = R.compose(_StepER, R.prop('length'), myTap, _rClss_Chldren);
 
 // const _rClss_StepER = _StepER(eclss);
 
@@ -120,17 +119,44 @@ const _StepER = R.compose(_StepER, R.prop('length'), myTap, _rClss_Chldren);
  *          )
  */
 const _base_clss_CSD = R.compose(_rClssE_CSD, _rClssE_key);
-// /**
-//  *          :: D:base CSD -> D:new CSD
-//  *  FIX STUB now just returns the base CSD  REFACT this IN transformers.js
-//  *  will need something like compose( _EVOLVE_(oldCSD), setTransform_ERs, setWt_ER) (trgt_Ndx)
-//  * @private
-//  */
-// const _trgt_clss_CSD = function _trgt_clss_CSD(csd) {
-//     // do some work here. like evolve
-//     var stub = csd;
-//     return stub
-// };
+
+let _y = (x)=> x * 10 + 15;// (N:x) -> N:y
+let _f = R.compose(R.always, y);// N:x ->{*->y}
+assert(45, _y(3), "@ _y:");
+assert(35, _f(2)(), "@ _f:");
+var z = (i)=> JSON.stringify(_f(2));
+assert(35, z(), "@ z:");
+
+let transformer = {
+    fontSize: R.replace('90', z),
+    textAlign: R.replace("right", 'center'), // NOTE:  ON ANY CSD WITH textAlign:'center'
+    // opacity: R.multiply(3),
+};
+
+/**
+ *      :: CSD:{k:v) -> CSD{k:v}
+ *  evolves the base CSD BY weighting some of the  properties.
+ */
+// let _EVOLVE_clss_CSD;
+
+/**
+ *          :: D:base CSD -> D:trgt CSD
+ *  This IS the function that DOES all the WORK of restyling each element/
+ *  USED IN: simpleTests.js
+ *  will need something like compose( _EVOLVE_(oldCSD), setTransform_ERs, setWt_ER) (trgt_Ndx)
+ * @private
+ */
+let _trgt_clss_CSD = R.curry(
+    (csd, ndx) => {
+        assert(R.not(R.isNil(ndx)), 'ndx isNil IN _trgt_clss_CSD');
+
+        var CUT = R.evolve(transform);
+        //simple testing is Breakpoint the RET. Then step thru and watch the Browser
+        RET = csd;// BASE:  {k:v} -> {k:v}
+        // RET = CUT(csd);// TRGT:{k:v} -> {k:v}
+        return RET
+    }
+);
 /**
  *          :: (base_CSD, trgt_E) -> trgt_CSD
  *
@@ -154,8 +180,8 @@ const _RESTYLE_all_trgtEs = R.forEach(
                 // this_rClss_Step = _rClss_StepER(clssE)(ndx);
                 // below is a pipe()
                 var base = _base_clss_CSD(clssE);
-                var trgt = _trgt_clss_CSD(base);// ->  THIS IS THE WORKER FUNCTION !!!
-                _set_a_Style(trgt)(trgtE);
+                var trgt = _trgt_clss_CSD(base, ndx);// ->  THIS IS THE WORKER FUNCTION !!!
+                _set_a_Style(_trgt_clss_CSD(base, ndx))(trgtE);
             },
             _rClss_Chldren(clssE)
         )
