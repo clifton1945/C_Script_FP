@@ -41,8 +41,8 @@ const CssStylDecl_Dict = { //
     },
     pst: {
         stepSize: 40, // start small 40 + 40  -> 80
-        fontSize: "50%",
-        opacity: 0.5,
+        fontSize: "40%",
+        opacity: 0.4,
         textAlign: "right",
         backgroundColor: "rgba(255, 0, 0, 0.24)"
     }
@@ -164,10 +164,10 @@ const _RESTYLE_all_trgtEs = R.forEach(
 
 C_Both('stepSize was: ' + JSON.stringify(CSD_D.fut.stepSize));
 var REStylED_trgts = _RESTYLE_all_trgtEs(NL);
-C_Both('opacity  is: ' + JSON.stringify(REStylED_trgts[2].children[0].style.opacity));
+// C_Both('opacity  is: ' + JSON.stringify(REStylED_trgts[2].children[0].style.opacity));
 
 // var testMe = function testMe() {
-var testMe = ()=> {
+function testMe() {
     var MSG = '', CUT, _CUT, RET, EXP, TST, tNum = 0;
     var trgt;
 
@@ -176,27 +176,28 @@ var testMe = ()=> {
     CUT = _RESTYLE_all_trgtEs(NL); // INVOKED
     trgt = document.querySelector('div #tst1');
     RET = trgt.style.textAlign;
-    assert('center', RET, tNum);
+    assert('right', RET, tNum);
 // tests  _rClss_Chldren
     tNum = 3;
     const stub_rclssElem = document.querySelector('div #cur_VerseReadGrp');//
     RET = _rClss_Chldren(stub_rclssElem);// -> HTMLCollection[2]
-    assert(2222, RET.length, tNum);
+    assert(2, RET.length, tNum);
 
-//tests  _my_init_rClss_CSD
+//tests  __base_rClss_CSD
     tNum = 2;
-    const _stub_my_init_rClss_CSD_List = R.map(_trgt_clss_CSD);//  L:nl -> [[D:d, D:d, D:d]]
-    RET = _stub_my_init_rClss_CSD_List(NL);//  ->  [[D:d, D:d, D:d]]
+    CUT = _base_clss_CSD;
+    var test_CSDs = R.map(CUT);//  L:nl -> [[D:d, D:d, D:d]]
+    RET = test_CSDs(NL);//  ->  [[D:d, D:d, D:d]]
     assert("40%", RET[0].fontSize, tNum);
-    assert("60%", RET[2].fontSize, tNum);
+    assert("90%", RET[2].fontSize, tNum);
 
 // test   cur_Chptr_rClss_NL
     tNum = 1;
     // var nl = cur_Chptr_rClss_NL;
-    assert('fut', CSD_D[2].className, tNum);
-    assert(6, CSD_D[2].childElementCount, tNum);
+    assert('fut', NL[2].className, tNum);
+    assert(6, NL[2].childElementCount, tNum);
 // final MSG
-    MSG = 'TestMe: compconsted';
+    MSG = 'testMe: completed';
     C_Both(MSG);
-};
+}
 testMe();
