@@ -9,7 +9,7 @@
  *      thus declare a func in setWeight_tests with a step/range
  */
 "use strict";
-
+// import {_trgt_clss_CSD } from "transformers_tests-compiled.js";
 /**
  *                  DATA:
  */
@@ -36,12 +36,12 @@ const CssStylDecl_Dict = { //
         stepSize: 0, // start gig  stay big
         fontSize: "100%",
         opacity: 1.0,
-        textAlign: "right",
+        textAlign: "center",
         // backgroundColor: "rgba(255, 0, 0, 0.24)"
     },
     pst: {
         stepSize: 40, // start small 40 + 40  -> 80
-        fontSize: "40%",
+        fontSize: "70%", // TEST VALUE FIX
         opacity: 0.4,
         textAlign: "right",
         backgroundColor: "rgba(255, 0, 0, 0.24)"

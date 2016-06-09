@@ -5,16 +5,9 @@
  */
 /**
  * 160609 BEGIN WIP TO evolve the baseCSD -> trgtCSD USING ndx, etc
- *
- * MOVED FN: _trgt_clss_CSD TO transformers_tests.js FROM simpleTests.js
- */
-
-/**
- * 6/6/2016.1755
- *      I am using transformers func: stepSizER() as my learning and testing USING _EVOLE_clss_CSD()
- *      (1) i AM GETTING CLOSER as it is configured. But clss_step does not seem to do what I want.
- *      (2) But still not sure how to pass ndx to code
- *      (3) Maybe evolve() is not the right or best function - it is bases on String replacement
+ * 09.0..  COMMENTED OUT the setWeight_tests.js, IOts tests were INVOKING _EVOLE_clss_CSD !! and confusing me.
+ * 08:2.. _EVOLVE_clss_CSD WORKS!! AND  IS INVOKED BY just including src=transformers_tests.js in simpleTests.html
+ * 07:22 MOVED FN: _trgt_clss_CSD TO transformers_tests.js FROM simpleTests.js
  */
 "use strict";
 //GLOBAL:
@@ -25,17 +18,6 @@ var RET, CUT, tstN = 0;
  *
  */
 
-/**
- *          :: D:base CSD -> D:new CSD
- *  FIX STUB now just returns the base CSD  REFACT this IN transformers.js
- *  will need something like compose( _EVOLVE_(oldCSD), setTransform_ERs, setWt_ER) (trgt_Ndx)
- * @private
- */
-const _trgt_clss_CSD = function _trgt_clss_CSD(csd) {
-    // do some work here. like evolve
-    var stub = csd;
-    return stub
-};
 
 /**
  *         :: Str->Str->Str by _CONVERT_fontSize
@@ -47,7 +29,7 @@ let _CONVERT_fontSize = (wt_ER) => R.replace('90')(wt_ER);// this sets which rCl
 
 let transformers = {
     // fontSize: _CONVERT_fontSize(R.multiply(_rClss_StepER(3)(1))), // STUB BROKEN -rClss.. does not have partialed clssE
-    opacity: R.multiply(3),
+    // opacity: R.multiply(3),
     textAlign: R.replace("right", 'center')// works FOR any rClss WITH initial 'center'
 };
 /**
@@ -58,4 +40,18 @@ let _EVOLVE_clss_CSD;
 /**
  *      :: D:transformers -> D:oldCSD -> D:newCSD
  */
-_EVOLVE_clss_CSD = R.evolve(transformers); //  {k:v} -> {k:v}
+
+/**
+ *          :: D:base CSD -> D:trgt CSD
+ *  This IS the function that DOES all the WORK of restyling each element/
+ *  USED IN: simpleTests.js
+ *  will need something like compose( _EVOLVE_(oldCSD), setTransform_ERs, setWt_ER) (trgt_Ndx)
+ * @private
+ */
+let _trgt_clss_CSD = (csd) => {
+    // do some work here. like evolve
+    // var ret = R.evolve(transformers)(csd);// {k:v} -> {k:v}
+    var ret = csd;// {k:v} -> {k:v}
+    return ret
+};
+// _EVOLVE_clss_CSD = R.evolve(transformers); //  {k:v} -> {k:v}
