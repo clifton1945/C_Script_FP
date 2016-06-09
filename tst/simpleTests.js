@@ -1,5 +1,5 @@
 /**
- * 160608   simplifying simpleTests.js
+ * 160608   simplifying simpconstests.js
  *  WIP NEXT FOCUS? trying to figure a test maybe of a test list of csd properties
  *      maybe use the stepSize fake k:v for testing.
  *  WIP not YET evolving base CSD -> trgt CSDs yet.
@@ -11,10 +11,20 @@
 "use strict";
 
 /**
+ *                  DATA:
+ */
+
+/**
+ *      :: L:[E,E,E]
+ *      a nodeList of rClass Elements: NL: pst, cur, fut
+ */
+const NL = cur_Chptr_rClss_NL;
+
+/**
  *      styleProps: D:{{},{},{}}
  * @type {{fut: {fontSize: string, opacity: number, textAlign: string, backgroundColor: string}, cur: {fontSize: string, opacity: number, textAlign: string}, pst: {fontSize: string, opacity: number, textAlign: string, backgroundColor: string}}}
  */
-var CssStylDecl_Dict = { //
+const CssStylDecl_Dict = { //
     fut: {
         stepSize: -50, //  90 - 50 -> 40
         fontSize: "90%",
@@ -37,18 +47,15 @@ var CssStylDecl_Dict = { //
         backgroundColor: "rgba(255, 0, 0, 0.24)"
     }
 };
+/**
+ *      ShortCut -> CssStylDecl_Dict
+ */
+var CSD_D = CssStylDecl_Dict; // -> D:csd
 
 /**
- *      :: D:(k:CSD}    CSD's for each of the three rClasss
- * @type {{fut: {fontSize: string, opacity: number, textAlign: string, backgroundColor: string}, cur: {fontSize: string, opacity: number, textAlign: string}, pst: {fontSize: string, opacity: number, textAlign: string, backgroundColor: string}}}
+ *                  FUMCTIONS
  */
-const CSD_D = CssStylDecl_Dict; // -> D:csd
 
-/**
- *      :: L:[E,E,E]
- *      a nodeList of rClass Elements: NL: pst, cur, fut
- */
-var nl = cur_Chptr_rClss_NL;
 
 /**
  *          HELPERS for _RESTYLE_trgts
@@ -59,7 +66,7 @@ var nl = cur_Chptr_rClss_NL;
  * @param rcE
  * @private
  */
-const _rClssE_key = (rcE) => R.prop('className')(rcE);
+const _rClssE_key = R.prop('className');
 
 /**
  *      S:key -> D:CSD_D i.e. CssStyleDeclarations  Dict
@@ -88,7 +95,7 @@ const _rClss_Chldren = R.prop("children");// clssE -> L:[e, e,..]
  */
 const _StepER = R.compose(_StepER, R.prop('length'), myTap, _rClss_Chldren);
 
-var _rClss_StepER = (eclss)=>_StepER(eclss)(R.__);// ?? I need R.__ ??
+// const _rClss_StepER = _StepER(eclss);
 
 // OK NOW SET the transform_ERs like ()(ndx) ->
 
@@ -98,12 +105,11 @@ var _rClss_StepER = (eclss)=>_StepER(eclss)(R.__);// ?? I need R.__ ??
  *   NOTE:   R.evolve:: {k:(v->v)} -> {k:v} ->{k:v}
  *          where the above {k:(v->v)} IS the transformers object
  */
-// let _EVOLVE_clss_CSD;
+// const _EVOLVE_clss_CSD;
 // in essence:
 // (1) get this rClass - pst|cur|fut - CSD.
 // (2) evolve it to this_CSD
 // (3) assign this_CSD to this trgtE
-
 
 /**
  *          :: clssE -> D:CSD
@@ -113,14 +119,14 @@ var _rClss_StepER = (eclss)=>_StepER(eclss)(R.__);// ?? I need R.__ ??
  *          _rClssE_CSD          // S:k -> D:csd
  *          )
  */
-let _base_clss_CSD = R.compose(_rClssE_CSD, _rClssE_key);
+const _base_clss_CSD = R.compose(_rClssE_CSD, _rClssE_key);
 /**
  *          :: D:base CSD -> D:new CSD
  *  FIX STUB now just returns the base CSD  REFACT this IN transformers.js
  *  will need something like compose( _EVOLVE_(oldCSD), setTransform_ERs, setWt_ER) (trgt_Ndx)
  * @private
  */
-let _trgt_clss_CSD = function _trgtE_CSD(csd) {
+const _trgt_clss_CSD = function _trgt_clss_CSD(csd) {
     // do some work here. like evolve
     var stub = csd;
     return stub
@@ -130,7 +136,7 @@ let _trgt_clss_CSD = function _trgtE_CSD(csd) {
  *
  *  REF: Object.assign( to target, from ...sources) -> trgt
  */
-let _set_a_Style = R.curry(
+const _set_a_Style = R.curry(
     (csd, e_trgt)=> Object.assign(e_trgt.style, csd));
 
 /**
@@ -138,7 +144,7 @@ let _set_a_Style = R.curry(
  *      all Elements in all rClasses are RESTYLED =f(trgt)
  *
  */
-let _RESTYLE_all_trgtEs = R.forEach(
+const _RESTYLE_all_trgtEs = R.forEach(
     (clssE) => {
         // var rClss_Children = _rClss_Chldren(clssE);
         // var _set_this_rClss_trgt_CSD = _set_a_Style(clssE, R.__);     // E:trgtE -> E: newE
@@ -157,39 +163,40 @@ let _RESTYLE_all_trgtEs = R.forEach(
 );
 
 C_Both('stepSize was: ' + JSON.stringify(CSD_D.fut.stepSize));
-var REStylED_trgts = _RESTYLE_all_trgtEs(nl);
+var REStylED_trgts = _RESTYLE_all_trgtEs(NL);
 C_Both('opacity  is: ' + JSON.stringify(REStylED_trgts[2].children[0].style.opacity));
 
-TestMe();
-function TestMe() {
+// var testMe = function testMe() {
+var testMe = ()=> {
     var MSG = '', CUT, _CUT, RET, EXP, TST, tNum = 0;
     var trgt;
 
 //tests  _RESTYLE_trgts
     tNum = 4;
-    CUT = _RESTYLE_all_trgtEs(nl); // INVOKED
+    CUT = _RESTYLE_all_trgtEs(NL); // INVOKED
     trgt = document.querySelector('div #tst1');
     RET = trgt.style.textAlign;
     assert('center', RET, tNum);
 // tests  _rClss_Chldren
     tNum = 3;
-    let stub_rclssElem = document.querySelector('div #cur_VerseReadGrp');//
+    const stub_rclssElem = document.querySelector('div #cur_VerseReadGrp');//
     RET = _rClss_Chldren(stub_rclssElem);// -> HTMLCollection[2]
-    assert(2, RET.length, tNum);
+    assert(2222, RET.length, tNum);
 
 //tests  _my_init_rClss_CSD
     tNum = 2;
-    let _stub_my_init_rClss_CSD_List = R.map(_trgt_clss_CSD);//  L:nl -> [[D:d, D:d, D:d]]
-    RET = _stub_my_init_rClss_CSD_List(nl);//  ->  [[D:d, D:d, D:d]]
+    const _stub_my_init_rClss_CSD_List = R.map(_trgt_clss_CSD);//  L:nl -> [[D:d, D:d, D:d]]
+    RET = _stub_my_init_rClss_CSD_List(NL);//  ->  [[D:d, D:d, D:d]]
     assert("40%", RET[0].fontSize, tNum);
     assert("60%", RET[2].fontSize, tNum);
 
 // test   cur_Chptr_rClss_NL
     tNum = 1;
-    nl = cur_Chptr_rClss_NL;
-    assert('fut', nl[2].className, tNum);
-    assert(6, nl[2].childElementCount, tNum);
+    // var nl = cur_Chptr_rClss_NL;
+    assert('fut', CSD_D[2].className, tNum);
+    assert(6, CSD_D[2].childElementCount, tNum);
 // final MSG
-    MSG = 'TestMe: completed';
+    MSG = 'TestMe: compconsted';
     C_Both(MSG);
-}
+};
+testMe();
