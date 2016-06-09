@@ -1,35 +1,14 @@
 /**
- * 160607
- * :0905 OK, centering now on _trgtE_CSD() AND _trgtE_CSD()
- * also:  figure out how to do an assert after _RESTYLE_all_trgtEs()
- * /
- *
- /**
- * :0545 WIP BROKEN  not stable; NEED TO update the transformers OBj
- * WITH a clssE initWtER(clssE) in the 1st forEach AND a finalWtER(trgtE) in the second forEacher
- * AND USE the finalWtER ON at least the opacity and fontSize transformers functions.
- * Then evolve the old TO new CSD
+ * 160608   simplifying simpleTests.js
+ *  WIP NEXT FOCUS? trying to figure a test maybe of a test list of csd properties
+ *      maybe use the stepSize fake k:v for testing.
+ *  WIP not YET evolving base CSD -> trgt CSDs yet.
+ *  BUT nearly ready
+ *  recognizing that I CAN PASS both clssE AND ndx BACK UP the src= chain
+ *      thus declare a func in transformers_tests with an ndc param
+ *      thus declare a func in setWeight_tests with a step/range
  */
 "use strict";
-
-// import {transformers} from 'tst/transformers_tests-compiled';
-
-/**
- * 6/6/16 @ 5.26
- *
- * 6/4/16 @ 19:30
- *  WIP:  STABLE:  setting up where to put a function: stepSiZER (d, e, n
- *  IN transformers.js
- *  AND began REFACT set_a_Style() to use in a compose with
- *      set_Step,
- *      evolve
- *      set_Style
- *
- *  READY now TO MODIFY / WEIGHT the transformers WITH ndx and sibling list
- */
-
-
-// var RET, MSG = '', CUT, _CUT,  EXP, TST, tNum = 0;
 
 /**
  *      styleProps: D:{{},{},{}}
@@ -52,8 +31,8 @@ var CssStylDecl_Dict = { //
     },
     pst: {
         stepSize: 40, // start small 40 + 40  -> 80
-        fontSize: "40%",
-        opacity: 0.4,
+        fontSize: "50%",
+        opacity: 0.5,
         textAlign: "right",
         backgroundColor: "rgba(255, 0, 0, 0.24)"
     }
@@ -74,19 +53,6 @@ var nl = cur_Chptr_rClss_NL;
 /**
  *          HELPERS for _RESTYLE_trgts
  */
-
-// /**
-//  *      _CSD_D: () -> D:CSD_D i.e. style properties dictionary
-//  */
-// const _CSD_D = R.always(CssStylDecl_Dict);
-
-// /**
-//  *          :: clssE -> L:[trgtE, trgtE, ...]
-//  *      an rClss Element:e -> a list of its verse elements.
-//  *      This is the target list of Verse Elements to mutate
-//  *
-//  */
-// const _rClss_Chldren = R.prop("children");// clssE -> L:[e, e,..]
 
 /**
  *      _rClssE_key:  clssE -> S:e.classNameKey
@@ -148,27 +114,25 @@ var _rClss_StepER = (eclss)=>_StepER(eclss)(R.__);// ?? I need R.__ ??
  *          )
  */
 let _base_clss_CSD = R.compose(_rClssE_CSD, _rClssE_key);
-
 /**
  *          :: D:base CSD -> D:new CSD
- *  FIX STUB now just returns the base CSD  REFACT should mutate the CSD
+ *  FIX STUB now just returns the base CSD  REFACT this IN transformers.js
  *  will need something like compose( _EVOLVE_(oldCSD), setTransform_ERs, setWt_ER) (trgt_Ndx)
  * @private
  */
-let _trgtE_CSD = function _trgtE_CSD(clssE) {
-    return _base_clss_CSD(clssE)
+let _trgt_clss_CSD = function _trgtE_CSD(csd) {
+    // do some work here. like evolve
+    var stub = csd;
+    return stub
 };
-
 /**
- *          :: (clssE, trgt_E) -> trgt_E.styl_ED
+ *          :: (base_CSD, trgt_E) -> trgt_CSD
  *
- *  REF: Object.assign( to target, from ...sources)
+ *  REF: Object.assign( to target, from ...sources) -> trgt
  */
 let _set_a_Style = R.curry(
-    (e_clss, e_trgt)=> Object.assign(e_trgt.style, _trgtE_CSD(e_clss)));
+    (csd, e_trgt)=> Object.assign(e_trgt.style, csd));
 
-// test
-// var _this_rClss_StepER;// currently declared in transformers
 /**
  *          _RESTYLE_trgtEs: L:nodeList ->  L:nodeList
  *      all Elements in all rClasses are RESTYLED =f(trgt)
@@ -178,18 +142,22 @@ let _RESTYLE_all_trgtEs = R.forEach(
     (clssE) => {
         // var rClss_Children = _rClss_Chldren(clssE);
         // var _set_this_rClss_trgt_CSD = _set_a_Style(clssE, R.__);     // E:trgtE -> E: newE
+
         R.addIndex(R.forEach)(
             (trgtE, ndx, col)=> {
                 // this_rClss_Step = _rClss_StepER(clssE)(ndx);
-                _set_a_Style(clssE)(trgtE); // THIS IS THE WORKER !!!
+                // below is a pipe()
+                var base = _base_clss_CSD(clssE);
+                var trgt = _trgt_clss_CSD(base);// ->  THIS IS THE WORKER FUNCTION !!!
+                _set_a_Style(trgt)(trgtE);
             },
             _rClss_Chldren(clssE)
         )
     }
 );
 
+C_Both('stepSize was: ' + JSON.stringify(CSD_D.fut.stepSize));
 var REStylED_trgts = _RESTYLE_all_trgtEs(nl);
-C_Both('opacity was: ' + JSON.stringify(CSD_D.fut.opacity));
 C_Both('opacity  is: ' + JSON.stringify(REStylED_trgts[2].children[0].style.opacity));
 
 TestMe();
@@ -211,7 +179,7 @@ function TestMe() {
 
 //tests  _my_init_rClss_CSD
     tNum = 2;
-    let _stub_my_init_rClss_CSD_List = R.map(_trgtE_CSD);//  L:nl -> [[D:d, D:d, D:d]]
+    let _stub_my_init_rClss_CSD_List = R.map(_trgt_clss_CSD);//  L:nl -> [[D:d, D:d, D:d]]
     RET = _stub_my_init_rClss_CSD_List(nl);//  ->  [[D:d, D:d, D:d]]
     assert("40%", RET[0].fontSize, tNum);
     assert("60%", RET[2].fontSize, tNum);
