@@ -1,14 +1,16 @@
 /**
- * 160609   CLUTTERING simpleTests.js
- *  @14:30
- *  JUST TOOK stuff FROM transformers.js TP simpleTests.js
- *  WIP: USING fn:_trgt_clss_CSD,  how to GET trgtE.ndx INTO transformer
+ * 160609   WORKS ndx INTO transformer  AND CLUTTERING simpleTests.js
+ *  @16:35
+ *  STABLE _RESTYLE_all_trgtEs()  WORKS. Will need functions rather than Code to modify with ndx
+ *  STABLE: _EVOLVE_CSD() and CHANGE the template.fontSize AS a function of trgtE.ndx
+ *  WIP: though tedious I have one way GET trgtE.ndx INTO transformer
  *  STABLE w/ _base_clss_CSD
  *  NOT STABLE w/ _trgt_clss_CSD
+ *  JUST TOOK stuff FROM transformers.js TP simpleTests.js
  *
  */
 "use strict";
-// import {_trgt_clss_CSD } from "transformers_tests-compiled.js";
+// import {_trgt_clss_CSD } from "transformers_tests-compiled.js"; //BREAKS
 /**
  *                  DATA:
  */
@@ -93,22 +95,7 @@ const _rClss_Chldren = R.prop("children");// clssE -> L:[e, e,..]
  *
  */
 // const _StepER = R.compose(_StepER, R.prop('length'), myTap, _rClss_Chldren);
-
 // const _rClss_StepER = _StepER(eclss);
-
-// OK NOW SET the transform_ERs like ()(ndx) ->
-
-/**
- *         :: CSD{k:v} -> CSD{k:v} NOTE: CODE IN transformers.js
- *   EVOLVES base_CSD INTO new_CSD
- *   NOTE:   R.evolve:: {k:(v->v)} -> {k:v} ->{k:v}
- *          where the above {k:(v->v)} IS the transformers object
- */
-// const _EVOLVE_clss_CSD;
-// in essence:
-// (1) get this rClass - pst|cur|fut - CSD.
-// (2) evolve it to this_CSD
-// (3) assign this_CSD to this trgtE
 
 /**
  *          :: clssE -> D:CSD
@@ -120,27 +107,27 @@ const _rClss_Chldren = R.prop("children");// clssE -> L:[e, e,..]
  */
 const _base_clss_CSD = R.compose(_rClssE_CSD, _rClssE_key);
 
-let _y = (x)=> x * 10 + 15;// (N:x) -> N:y
-let _f = R.compose(R.always, y);// N:x ->{*->y}
-assert(45, _y(3), "@ _y:");
-assert(35, _f(2)(), "@ _f:");
-var z = (i)=> JSON.stringify(_f(2));
-assert(35, z(), "@ z:");
-
-let transformer = {
-    fontSize: R.replace('90', z),
-    textAlign: R.replace("right", 'center'), // NOTE:  ON ANY CSD WITH textAlign:'center'
+let transformer;
+transformer = {
+    fontSize: R.replace('100', '55'),
+    textAlign: R.replace("right", "center"), // NOTE:  ON ANY CSD WITH textAlign:'center'
     // opacity: R.multiply(3),
 };
+// simple 1SAAT
+let _y = (x)=> 20 * x + 15;// (N:x) -> N:y
+assert(75, _y(3), "@ _y:");
+_y = (x)=>-50 / 5 * (x) + 90;
+assert(40, _y(5), "@ _y:");
+assert(90, _y(0), "@ _y:");
 
 /**
  *      :: CSD:{k:v) -> CSD{k:v}
  *  evolves the base CSD BY weighting some of the  properties.
  */
-// let _EVOLVE_clss_CSD;
+let _EVOLVE_CSD;
 
 /**
- *          :: D:base CSD -> D:trgt CSD
+ *          :: D:base CSD -> N:ndx -> D:trgt CSD
  *  This IS the function that DOES all the WORK of restyling each element/
  *  USED IN: simpleTests.js
  *  will need something like compose( _EVOLVE_(oldCSD), setTransform_ERs, setWt_ER) (trgt_Ndx)
@@ -148,12 +135,13 @@ let transformer = {
  */
 let _trgt_clss_CSD = R.curry(
     (csd, ndx) => {
-        assert(R.not(R.isNil(ndx)), 'ndx isNil IN _trgt_clss_CSD');
-
-        var CUT = R.evolve(transform);
+        assert(false, R.isNil(ndx), 'ndx isNil IN _trgt_clss_CSD');
+        // BY HAND transformer.fontSize = R.replace('100')('175');//OK that WORKS!!
+        transformer.fontSize = R.replace('90')(R.toString(_y(ndx)));//OK works BY HAND
+        _EVOLVE_CSD = R.evolve(transformer);//   CSD:old -> CSD:new
         //simple testing is Breakpoint the RET. Then step thru and watch the Browser
-        RET = csd;// BASE:  {k:v} -> {k:v}
-        // RET = CUT(csd);// TRGT:{k:v} -> {k:v}
+        // RET = csd;// i.e. NO CHANGE just return BASE:  {k:v} -> {k:v}
+        RET = _EVOLVE_CSD(csd);// TRGT:{k:v} -> {k:v}
         return RET
     }
 );
@@ -172,16 +160,11 @@ const _set_a_Style = R.curry(
  */
 const _RESTYLE_all_trgtEs = R.forEach(
     (clssE) => {
-        // var rClss_Children = _rClss_Chldren(clssE);
-        // var _set_this_rClss_trgt_CSD = _set_a_Style(clssE, R.__);     // E:trgtE -> E: newE
-
         R.addIndex(R.forEach)(
             (trgtE, ndx, col)=> {
-                // this_rClss_Step = _rClss_StepER(clssE)(ndx);
-                // below is a pipe()
-                var base = _base_clss_CSD(clssE);
-                var trgt = _trgt_clss_CSD(base, ndx);// ->  THIS IS THE WORKER FUNCTION !!!
-                _set_a_Style(_trgt_clss_CSD(base, ndx))(trgtE);
+                var base = _base_clss_CSD(clssE);// E -> CSD
+                var trgt = _trgt_clss_CSD(base);// (CSD, N)-> CSD THIS IS THE WORKER FUNCTION !!!
+                _set_a_Style(trgt(ndx), trgtE);
             },
             _rClss_Chldren(clssE)
         )
