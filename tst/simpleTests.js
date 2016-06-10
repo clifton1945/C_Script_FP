@@ -1,4 +1,13 @@
 /**
+ * 160610 0700
+ * SWITCH TO Lens
+ *  They are built for Objects: CSD in my case.
+ *  DROP evolve and transform.
+ *  They are having a hard time with opacity Numbers.
+ *  They are built for Strings
+ *  They probably are too complicated
+ *  They DO HAVE a Plus: They do all mutating in one place,
+ *
  * 160609   WIP ndx INTO transformer Problem with replace opacity ???
  *  @19:45
  *  BROKEN for opacity >> Uncaught TypeError: str.replace is not a function
@@ -69,6 +78,7 @@ let CSD_D = CssStylDecl_Dict; // -> D:csd
 
 /**
  *          :: clssE -> D:CSD
+ *  requires a CssStylDecl_Dict aka CSD_D
  *  basis for evolving into _new_clss_CSD
  *          compose(
  *          _rClssE_key,              //  clssE -> S:k
@@ -80,10 +90,7 @@ const _base_clss_CSD = R.compose(R.flip(R.prop)(CSD_D), R.prop('className'));
 
 // simple 1SAAT
 let _y = (x)=> 20 * x + 15;// (N:x) -> N:y
-assert(75, _y(3), "@ _y:");
 _y = (x)=>-50 / 5 * (x) + 90;
-assert(40, _y(5), "@ _y:");
-assert(90, _y(0), "@ _y:");
 let _opac = (x)=> -0.50 / 5 * (x) + 0.90;
 assert('0.4', R.toString(_opac(5)), " _opac:");
 assert(0.9, _opac(0), " _opac:");
