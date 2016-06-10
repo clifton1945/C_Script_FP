@@ -1,26 +1,24 @@
 /**
- * 160609   WORKS ndx INTO transformer  AND CLUTTERING simpleTests.js
- *  @16:35
+ * 160609   WIP ndx INTO transformer Problem with replace opacity ???
+ *  @19:45
+ *  BROKEN for opacity >> Uncaught TypeError: str.replace is not a function
  *  STABLE _RESTYLE_all_trgtEs()  WORKS. Will need functions rather than Code to modify with ndx
  *  STABLE: _EVOLVE_CSD() and CHANGE the template.fontSize AS a function of trgtE.ndx
  *  WIP: though tedious I have one way GET trgtE.ndx INTO transformer
  *  STABLE w/ _base_clss_CSD
  *  NOT STABLE w/ _trgt_clss_CSD
- *  JUST TOOK stuff FROM transformers.js TP simpleTests.js
- *
+ *  JUST TOOK stuff FROM transformers.js TP simpleTests.js *
  */
 "use strict";
 // import {_trgt_clss_CSD } from "transformers_tests-compiled.js"; //BREAKS
 /**
- *                  DATA:
+ *       --------------------------DATA:
  */
-
 /**
  *      :: L:[E,E,E]
  *      a nodeList of rClass Elements: NL: pst, cur, fut
  */
 const NL = cur_Chptr_rClss_NL;
-
 /**
  *      styleProps: D:{{},{},{}}
  * @type {{fut: {fontSize: string, opacity: number, textAlign: string, backgroundColor: string}, cur: {fontSize: string, opacity: number, textAlign: string}, pst: {fontSize: string, opacity: number, textAlign: string, backgroundColor: string}}}
@@ -51,51 +49,23 @@ const CssStylDecl_Dict = { //
 /**
  *      ShortCut -> CssStylDecl_Dict
  */
-var CSD_D = CssStylDecl_Dict; // -> D:csd
+let CSD_D = CssStylDecl_Dict; // -> D:csd
 
 /**
- *                  FUMCTIONS
+ *      --------------------------HELPERS for _RESTYLE_trgts
  */
-
-
-/**
- *          HELPERS for _RESTYLE_trgts
- */
-
 /**
  *      _rClssE_key:  clssE -> S:e.classNameKey
  * @param rcE
  * @private
  */
-const _rClssE_key = R.prop('className');
+// const _rClssE_key = R.prop('className');
 
 /**
- *      S:key -> D:CSD_D i.e. CssStyleDeclarations  Dict
- *      NOTE: styleProps hard coded into _rClssE_CSD
+ *      S:key -> CSD:base -> CSD:clss
+ *  i.e. base CSD: CssStyleDeclarations a Dict of ALL Classes
  */
-const _rClssE_CSD = R.flip(R.prop)(CSD_D);
-
-/**
- *       transformers: now located in transformers.js
- * as REF R.replace:: RegExp|String -> String -> String -> String
- * @type {{fontSize, opacity: *, textAlign: (void|XML|string|*)}}
- */
-
-/**
- *          :: clssE -> L:[trgtE, trgtE, ...]
- *      an rClss Element:e -> a list of its verse elements.
- *      This is the target list of Verse Elements to mutate
- *
- */
-const _rClss_Chldren = R.prop("children");// clssE -> L:[e, e,..]
-
-/**
- *      :: E:{div.rClssE} -> N:ndx -> N:wght factor
- *  partials _StepER(N)
- *
- */
-// const _StepER = R.compose(_StepER, R.prop('length'), myTap, _rClss_Chldren);
-// const _rClss_StepER = _StepER(eclss);
+// const _rClss_ = R.flip(R.prop);
 
 /**
  *          :: clssE -> D:CSD
@@ -105,20 +75,27 @@ const _rClss_Chldren = R.prop("children");// clssE -> L:[e, e,..]
  *          _rClssE_CSD          // S:k -> D:csd
  *          )
  */
-const _base_clss_CSD = R.compose(_rClssE_CSD, _rClssE_key);
+// const _base_clss_CSD = R.compose(_rClss_(CSD_D), _rClssE_key);
+const _base_clss_CSD = R.compose(R.flip(R.prop)(CSD_D), R.prop('className'));
 
-let transformer;
-transformer = {
-    fontSize: R.replace('100', '55'),
-    textAlign: R.replace("right", "center"), // NOTE:  ON ANY CSD WITH textAlign:'center'
-    // opacity: R.multiply(3),
-};
 // simple 1SAAT
 let _y = (x)=> 20 * x + 15;// (N:x) -> N:y
 assert(75, _y(3), "@ _y:");
 _y = (x)=>-50 / 5 * (x) + 90;
 assert(40, _y(5), "@ _y:");
 assert(90, _y(0), "@ _y:");
+let _opac = (x)=> -0.50 / 5 * (x) + 0.90;
+assert('0.4', R.toString(_opac(5)), " _opac:");
+assert(0.9, _opac(0), " _opac:");
+/**
+ *          ::{K:(v->v)}
+ * @type {{fontSize: (XML|string|void|*), textAlign: (XML|string|void|*)}}
+ */
+let transformer = {
+    fontSize: R.replace('100', '55'),
+    textAlign: R.replace("right", "center"), // NOTE:  ON ANY CSD WITH textAlign:'center'
+    // opacity: R.replace("0.9", "0.4"), // this is really for strings
+};
 
 /**
  *      :: CSD:{k:v) -> CSD{k:v}
@@ -137,7 +114,9 @@ let _trgt_clss_CSD = R.curry(
     (csd, ndx) => {
         assert(false, R.isNil(ndx), 'ndx isNil IN _trgt_clss_CSD');
         // BY HAND transformer.fontSize = R.replace('100')('175');//OK that WORKS!!
-        transformer.fontSize = R.replace('90')(R.toString(_y(ndx)));//OK works BY HAND
+        transformer.fontSize = R.replace('90')(_y(ndx));//OK works BY HAND
+        // transformer.opacity = R.replace("0.9")("0.4");//???
+        // transformer.opacity = R.replace(0.9)(_y(ndx)/100);// BY HAND NG???
         _EVOLVE_CSD = R.evolve(transformer);//   CSD:old -> CSD:new
         //simple testing is Breakpoint the RET. Then step thru and watch the Browser
         // RET = csd;// i.e. NO CHANGE just return BASE:  {k:v} -> {k:v}
@@ -154,28 +133,44 @@ const _set_a_Style = R.curry(
     (csd, e_trgt)=> Object.assign(e_trgt.style, csd));
 
 /**
+ *          :: clssE -> L:[trgtE, trgtE, ...]
+ *      an rClss Element:e -> a list of its verse elements.
+ *      This is the target list of Verse Elements to mutate
+ *
+ */
+const _rClss_Chldren = R.prop("children");// clssE -> L:[e, e,..]
+
+/**
  *          _RESTYLE_trgtEs: L:nodeList ->  L:nodeList
  *      all Elements in all rClasses are RESTYLED =f(trgt)
  *
  */
-const _RESTYLE_all_trgtEs = R.forEach(
+const _RESTYLE_all_trgtEs = R.map(
     (clssE) => {
-        R.addIndex(R.forEach)(
+        return R.addIndex(R.map)(
             (trgtE, ndx, col)=> {
                 var base = _base_clss_CSD(clssE);// E -> CSD
                 var trgt = _trgt_clss_CSD(base);// (CSD, N)-> CSD THIS IS THE WORKER FUNCTION !!!
-                _set_a_Style(trgt(ndx), trgtE);
+                return _set_a_Style(trgt(ndx), trgtE);
             },
             _rClss_Chldren(clssE)
         )
     }
 );
+var cee = R.map((v)=>R.values(R.values(v)));
+/**
+ *      ---------------------------- INVOKE and TEST
+ */
+// C_Both('vals were: ' + JSON.stringify( cee(CSD_D.fut)));
+var fut0 = R.map(R.props(['fontSize', 'opacity']))(CSD_D);// BROKEN
+C_Both('vals were: ' + JSON.stringify(R.values(fut0)));
 
-C_Both('stepSize was: ' + JSON.stringify(CSD_D.fut.stepSize));
 var REStylED_trgts = _RESTYLE_all_trgtEs(NL);
-// C_Both('opacity  is: ' + JSON.stringify(REStylED_trgts[2].children[0].style.opacity));
+var fut1 = REStylED_trgts[2];// ->[csd, csd ...]
+var fut2 = R.map(R.props(['fontSize', 'opacity']))(fut1);
+// C_Both(cee(fut));
+C_Both('vals  are: ' + JSON.stringify(R.values(fut2)));
 
-// var testMe = function testMe() {
 function testMe() {
     var MSG = '', CUT, _CUT, RET, EXP, TST, tNum = 0;
     var trgt;
@@ -207,6 +202,7 @@ function testMe() {
     // var nl = cur_Chptr_rClss_NL;
     assert('fut', NL[2].className, tNum);
     assert(6, NL[2].childElementCount, tNum);
+
 // final MSG
     MSG = 'testMe: completed';
     C_Both(MSG);

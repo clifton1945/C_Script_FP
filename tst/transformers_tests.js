@@ -14,50 +14,18 @@
 var RET, CUT, tstN = 0;
 
 /**
- *         :: ???  Str->Str this works only on CSD.fontSize
- * @type {void|XML|string|*}
- * NOTE: using a broad regex like - /\d+/im - transforms All fontstyles
- * NOTE: using a specific Str like - 40 - transforms in this case just the clss:cur
+ *      --------------------------HELPERS for _RESTYLE_trgts
  */
-let y = (x)=> x * 10 + 15;// (N:x) -> N:y
-let _f = R.compose(R.always, y);// N:y -> N:x ->{a-> a}
-var f = _f();
-// let _fontSizER = (i)=> R.replace('90', half(i));// CSD_D:fut:fontSize:90
-// let _fontSizER = (i)=> R.replace('90', half(i));// CSD_D:fut:fontSize:90
-
 /**
- *          :: {k:()}   Obj: func used in evolve.
- * @type {{fontSize: *, opacity: *, textAlign: (XML|string|void|*)}}
+ *      _rClssE_key:  clssE -> S:e.classNameKey
+ * @param rcE
+ * @private
  */
-let transformers = {
-    fontSize: R.replace('90')(R.always(4)),
-    opacity: R.multiply(3),
-    textAlign: R.replace("right", 'center')// NOTE:  ON ANY CSD WITH textAlign:'center'
-};
+// const _rClssE_key = R.prop('className');
 // /**
-//  *      :: CSD:{k:v) -> CSD{k:v}
-//  *  evolves the base CSD BY weighting some of the  properties.
+//  *      S:key -> D:CSD_D i.e. CssStyleDeclarations  Dict
+//  *      NOTE: styleProps hard coded into _rClssE_CSD
 //  */
-// let _EVOLVE_clss_CSD;
-/**
- *      :: D:transformers -> D:oldCSD -> D:newCSD
- */
+//ORIG const _rClssE_ = R.flip(R.prop)(CSD_D);
+// const _rClssE_CSD = R.flip(R.prop);
 
-// /**
-//  *          :: D:base CSD -> D:trgt CSD
-//  *  This IS the function that DOES all the WORK of restyling each element/
-//  *  USED IN: simpleTests.js
-//  *  will need something like compose( _EVOLVE_(oldCSD), setTransform_ERs, setWt_ER) (trgt_Ndx)
-//  * @private
-//  */
-// let _trgt_clss_CSD = R.curry(
-//     (csd, ndx) => {
-//         assert(false, 'in let _trgt_clss_CSD');
-//         // A simple way to test is Breakpoint the RET. Then step thru and watch the Browser
-//         // var stp = _fontSizER(ndx);
-//         var CUT = R.evolve(transformers);
-//         RET = csd;// BASE:  {k:v} -> {k:v}
-//         // RET = CUT(csd);// TRGT:{k:v} -> {k:v}
-//         return RET
-//     }
-// );
