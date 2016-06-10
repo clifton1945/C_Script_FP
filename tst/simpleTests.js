@@ -1,6 +1,8 @@
 /**
- * 160610 0700
- * SWITCH TO Lens
+ * 160610
+ * @0745 ready to rebuild fn: _set_trgt_CSD
+ * @0700
+ * WILL SWITCH TO Lens
  *  They are built for Objects: CSD in my case.
  *  DROP evolve and transform.
  *  They are having a hard time with opacity Numbers.
@@ -10,7 +12,7 @@
  *
  * 160609   WIP ndx INTO transformer Problem with replace opacity ???
  *  @19:45
- *  BROKEN for opacity >> Uncaught TypeError: str.replace is not a function
+ *  ROKEN for opacity >> Uncaught TypeError: str.replace is not a function
  *  STABLE _RESTYLE_all_trgtEs()  WORKS. Will need functions rather than Code to modify with ndx
  *  STABLE: _EVOLVE_CSD() and CHANGE the template.fontSize AS a function of trgtE.ndx
  *  WIP: though tedious I have one way GET trgtE.ndx INTO transformer
@@ -24,12 +26,12 @@
  *       --------------------------DATA:
  */
 /**
- *      :: L:[E,E,E]
+ *      cur_Chptr_rClss_NL:: L:[E,E,E]
  *      a nodeList of rClass Elements: NL: pst, cur, fut
  */
 const NL = cur_Chptr_rClss_NL;
 /**
- *      styleProps: D:{{},{},{}}
+ *      CssStylDecl_Dict:: D:{{},{},{}}
  * @type {{fut: {fontSize: string, opacity: number, textAlign: string, backgroundColor: string}, cur: {fontSize: string, opacity: number, textAlign: string}, pst: {fontSize: string, opacity: number, textAlign: string, backgroundColor: string}}}
  */
 const CssStylDecl_Dict = { //
@@ -56,7 +58,7 @@ const CssStylDecl_Dict = { //
     }
 };
 /**
- *      ShortCut -> CssStylDecl_Dict
+ *      CSD+D :: ShortCut -> CssStylDecl_Dict
  */
 let CSD_D = CssStylDecl_Dict; // -> D:csd
 
@@ -65,27 +67,20 @@ let CSD_D = CssStylDecl_Dict; // -> D:csd
  */
 /**
  *      _rClssE_key:  clssE -> S:e.classNameKey
+ * const _rClssE_key = R.prop('className');
  * @param rcE
- * @private
  */
-// const _rClssE_key = R.prop('className');
-
 /**
- *      S:key -> CSD:base -> CSD:clss
- *  i.e. base CSD: CssStyleDeclarations a Dict of ALL Classes
+ *      _rClss_:: _rClss_S:: key -> CSD:base -> CSD:clss
+ *  const _rClss_ = R.flip(R.prop);
+ *  requires base CSD: CssStyleDeclarations a Dict of ALL Classes
  */
-// const _rClss_ = R.flip(R.prop);
-
 /**
- *          :: clssE -> D:CSD
+ *      _base_clss_CSD:: clssE -> D:CSD
+ *  more understandable version is
+ *     const _base_clss_CSD = R.compose(_rClss_(CSD_D), _rClssE_key);
  *  requires a CssStylDecl_Dict aka CSD_D
- *  basis for evolving into _new_clss_CSD
- *          compose(
- *          _rClssE_key,              //  clssE -> S:k
- *          _rClssE_CSD          // S:k -> D:csd
- *          )
  */
-// const _base_clss_CSD = R.compose(_rClss_(CSD_D), _rClssE_key);
 const _base_clss_CSD = R.compose(R.flip(R.prop)(CSD_D), R.prop('className'));
 
 // simple 1SAAT
@@ -95,29 +90,29 @@ let _opac = (x)=> -0.50 / 5 * (x) + 0.90;
 assert('0.4', R.toString(_opac(5)), " _opac:");
 assert(0.9, _opac(0), " _opac:");
 /**
- *          ::{K:(v->v)}
+ *          transformer::{K:(v->v)}
  * @type {{fontSize: (XML|string|void|*), textAlign: (XML|string|void|*)}}
  */
 let transformer = {
     fontSize: R.replace('100', '55'),
     textAlign: R.replace("right", "center"), // NOTE:  ON ANY CSD WITH textAlign:'center'
-    // opacity: R.replace("0.9", "0.4"), // this is really for strings
+    // opacity: R.replace("0.9", "0.4"), // REFACT: DOES NOT PLAY WELL WITH transformer
 };
 
 /**
- *      :: CSD:{k:v) -> CSD{k:v}
+ *      _EVOLVE_CSD:: CSD:{k:v) -> CSD{k:v}
  *  evolves the base CSD BY weighting some of the  properties.
  */
 let _EVOLVE_CSD;
 
 /**
- *          :: D:base CSD -> N:ndx -> D:trgt CSD
+ *      _trgt_clss_CSD:: D:base CSD -> N:ndx -> D:trgt CSD
  *  This IS the function that DOES all the WORK of restyling each element/
  *  USED IN: simpleTests.js
  *  will need something like compose( _EVOLVE_(oldCSD), setTransform_ERs, setWt_ER) (trgt_Ndx)
  * @private
  */
-let _trgt_clss_CSD = R.curry(
+let _set_trgt_CSD = R.curry( // ?why is this private symbol in Structure window?
     (csd, ndx) => {
         assert(false, R.isNil(ndx), 'ndx isNil IN _trgt_clss_CSD');
         // BY HAND transformer.fontSize = R.replace('100')('175');//OK that WORKS!!
@@ -132,15 +127,15 @@ let _trgt_clss_CSD = R.curry(
     }
 );
 /**
- *          :: (base_CSD, trgt_E) -> trgt_CSD
+ *       _set_a_Style:: (base_CSD, trgt_E) -> trgt_CSD
  *
  *  REF: Object.assign( to target, from ...sources) -> trgt
  */
-const _set_a_Style = R.curry(
+const _set_trgt_Style = R.curry(
     (csd, e_trgt)=> Object.assign(e_trgt.style, csd));
 
 /**
- *          :: clssE -> L:[trgtE, trgtE, ...]
+ *       _rClss_Chldren:: clssE -> L:[trgtE, trgtE, ...]
  *      an rClss Element:e -> a list of its verse elements.
  *      This is the target list of Verse Elements to mutate
  *
@@ -148,7 +143,7 @@ const _set_a_Style = R.curry(
 const _rClss_Chldren = R.prop("children");// clssE -> L:[e, e,..]
 
 /**
- *          _RESTYLE_trgtEs: L:nodeList ->  L:nodeList
+ *       _RESTYLE_trgtEs: L:nodeList ->  L:nodeList
  *      all Elements in all rClasses are RESTYLED =f(trgt)
  *
  */
@@ -157,8 +152,8 @@ const _RESTYLE_all_trgtEs = R.map(
         return R.addIndex(R.map)(
             (trgtE, ndx, col)=> {
                 var base = _base_clss_CSD(clssE);// E -> CSD
-                var trgt = _trgt_clss_CSD(base);// (CSD, N)-> CSD THIS IS THE WORKER FUNCTION !!!
-                return _set_a_Style(trgt(ndx), trgtE);
+                var trgt = _set_trgt_CSD(base);// (CSD, N)-> CSD THIS IS THE WORKER FUNCTION !!!
+                return _set_trgt_Style(trgt(ndx), trgtE);
             },
             _rClss_Chldren(clssE)
         )
