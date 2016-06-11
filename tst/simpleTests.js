@@ -113,7 +113,7 @@ assert(0.9, _opac(0), " _opac:");
  *  lade_baseValu::   (a:base, N:wt) -> a:trgt
  *  set_trgtValu::  (lens, valu, baseCSD) -> trgtCSD
  *
- * tst_
+ * tsts: lets look at before and after for a property csd. Use lens
  *
  * NOTE:@private SET in opening Doc SEEN AS private symbol seen in Structure Tool
  */
@@ -122,16 +122,19 @@ _set_one_trgtCSD = R.curry(
     (baseCSD, trgt_ndx, trgt_sibs) => {
 
         assert(false, R.isNil(trgt_ndx), 'ndx isNil IN _trgt_clss_CSD');
-
-        var _propLens = R.lensProp('opacity');// -> Lens
+        var _propLens = R.lens('opacity');// -> Lens
         var _baseValu = R.view(_propLens);// (baseCSD) -> a:baseValu
         var lade_baseValu = (valu, wght)=> R.multiply(valu);// (wght) -> a:valu
         var frmt_trgtValu = (a)=>a;// STUB -> a:trgtValu
         var _set_trgtCSD = R.set(_propLens)(lade_baseValu);// (baseCSD) -> trgtCSD
-        // var _set_a_lens = R.set(_propLens);
+// a test
         var _trgtCSD = _set_trgtCSD(0.3009);//CSD_D -> CSD_D
         var trgtCSD = _trgtCSD(baseCSD);
         assert(0.3.toFixed(2), _baseValu(trgtCSD).toFixed(2), '103');// true for new csd.opacity: a long number
+// another test
+        var CUT = R.view(R.lensPath(['fut', 'opacity']));
+        var RET0 = CUT(CSD_D);
+        assert(0.190, RET0.toFixed(4), 137);
         return trgtCSD
     }
 );
@@ -162,7 +165,7 @@ const _RESTYLE_all_trgtEs = R.map(
             (trgtE, ndx, col)=> {
                 var base = _base_clss_CSD(clssE);// E -> CSD
                 var trgt = _set_one_trgtCSD(base);// (CSD, N)-> CSD THIS IS THE WORKER FUNCTION !!!
-                return _set_trgtStyles(trgt(ndx), trgtE);
+                return _set_trgtStyles(trgt, trgtE);
             },
             _rClss_Chldren(clssE)
         )
