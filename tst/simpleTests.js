@@ -1,17 +1,8 @@
 /**
- * 160610
- * @2200 structure roughed out for _set_one_trgtCSD(): SEE its Doc
+ * 160611
+ * @0550 structure roughed out for _set_one_trgtCSD(): SEE its Doc
  *  It still is stable, in that the old tests pass.
- * @0700
- * WILL SWITCH TO Lens
- *  They are built for Objects: CSD in my case.
- *  DROP evolve and transform.
- *  They are having a hard time with opacity Numbers.
- *  They are built for Strings
- *  They probably are too complicated
- *  They DO HAVE a Plus: They do all mutating in one place,
- *
- * 160609   WIP ndx INTO transformer Problem with replace opacity ???
+ *  BUT _set_one_trgt() IS a STUB ONLY; CODE ACYUALLY BROKEN
  */
 "use strict";
 // import {_trgt_clss_CSD } from "transformers_tests-compiled.js"; //BREAKS
@@ -120,22 +111,22 @@ assert(0.9, _opac(0), " _opac:");
 let _set_one_trgtCSD;
 _set_one_trgtCSD = R.curry(
     (baseCSD, trgt_ndx, trgt_sibs) => {
-
         assert(false, R.isNil(trgt_ndx), 'ndx isNil IN _trgt_clss_CSD');
-        var _propLens = R.lens('opacity');// -> Lens
-        var _baseValu = R.view(_propLens);// (baseCSD) -> a:baseValu
-        var lade_baseValu = (valu, wght)=> R.multiply(valu);// (wght) -> a:valu
-        var frmt_trgtValu = (a)=>a;// STUB -> a:trgtValu
-        var _set_trgtCSD = R.set(_propLens)(lade_baseValu);// (baseCSD) -> trgtCSD
-// a test
-        var _trgtCSD = _set_trgtCSD(0.3009);//CSD_D -> CSD_D
-        var trgtCSD = _trgtCSD(baseCSD);
-        assert(0.3.toFixed(2), _baseValu(trgtCSD).toFixed(2), '103');// true for new csd.opacity: a long number
-// another test
-        var CUT = R.view(R.lensPath(['fut', 'opacity']));
-        var RET0 = CUT(CSD_D);
-        assert(0.190, RET0.toFixed(4), 137);
-        return trgtCSD
+//         var _propLens = R.lens('opacity');// -> Lens
+//         var _baseValu = R.view(_propLens);// (baseCSD) -> a:baseValu
+//         var lade_baseValu = (valu, wght)=> R.multiply(valu);// (wght) -> a:valu
+//         var frmt_trgtValu = (a)=>a;// STUB -> a:trgtValu
+//         var _set_trgtCSD = R.set(_propLens)(lade_baseValu);// (baseCSD) -> trgtCSD
+// // a test
+//         var _trgtCSD = _set_trgtCSD(0.3009);//CSD_D -> CSD_D
+//         var trgtCSD = _trgtCSD(baseCSD);
+//         // assert(0.3.toFixed(2), _baseValu(trgtCSD).toFixed(2), '103');// true for new csd.opacity: a long number
+// // another test
+//         var CUT = R.view(R.lensPath(['fut', 'opacity']));
+//         var RET0 = CUT(CSD_D);
+//         assert(0.190, RET0.toFixed(4), 137);
+//         return trgtCSD
+        return baseCSD
     }
 );
 /**
@@ -164,7 +155,7 @@ const _RESTYLE_all_trgtEs = R.map(
         return R.addIndex(R.map)(
             (trgtE, ndx, col)=> {
                 var base = _base_clss_CSD(clssE);// E -> CSD
-                var trgt = _set_one_trgtCSD(base);// (CSD, N)-> CSD THIS IS THE WORKER FUNCTION !!!
+                var trgt = _set_one_trgtCSD(base, ndx, col);// (CSD, N)-> CSD THIS IS THE WORKER FUNCTION !!!
                 return _set_trgtStyles(trgt, trgtE);
             },
             _rClss_Chldren(clssE)
