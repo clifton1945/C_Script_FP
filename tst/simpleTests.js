@@ -1,6 +1,7 @@
 /**
  * 160610
- * @0745 ready to rebuild fn: _set_trgt_CSD
+ * @2200 structure roughed out for _set_one_trgtCSD(): SEE its Doc
+ *  It still is stable, in that the old tests pass.
  * @0700
  * WILL SWITCH TO Lens
  *  They are built for Objects: CSD in my case.
@@ -11,14 +12,6 @@
  *  They DO HAVE a Plus: They do all mutating in one place,
  *
  * 160609   WIP ndx INTO transformer Problem with replace opacity ???
- *  @19:45
- *  ROKEN for opacity >> Uncaught TypeError: str.replace is not a function
- *  STABLE _RESTYLE_all_trgtEs()  WORKS. Will need functions rather than Code to modify with ndx
- *  STABLE: _EVOLVE_CSD() and CHANGE the template.fontSize AS a function of trgtE.ndx
- *  WIP: though tedious I have one way GET trgtE.ndx INTO transformer
- *  STABLE w/ _base_clss_CSD
- *  NOT STABLE w/ _trgt_clss_CSD
- *  JUST TOOK stuff FROM transformers.js TP simpleTests.js *
  */
 "use strict";
 // import {_trgt_clss_CSD } from "transformers_tests-compiled.js"; //BREAKS
@@ -38,7 +31,7 @@ const CssStylDecl_Dict = { //
     fut: {
         stepSize: -50, //  90 - 50 -> 40
         fontSize: "90%",
-        opacity: 0.9,
+        opacity: 0.9001,
         textAlign: "left",
         backgroundColor: "rgba(145, 248, 29, 0.29)"
     },
@@ -50,7 +43,7 @@ const CssStylDecl_Dict = { //
         // backgroundColor: "rgba(255, 0, 0, 0.24)"
     },
     pst: {
-        stepSize: 70, // start small 70 + 40  -> 80
+        stepSize: 70, 
         fontSize: "70%", // TEST VALUE FIX
         opacity: 0.7,
         textAlign: "right",
@@ -83,12 +76,6 @@ let CSD_D = CssStylDecl_Dict; // -> D:csd
  */
 const _base_clss_CSD = R.compose(R.flip(R.prop)(CSD_D), R.prop('className'));
 
-// simple 1SAAT
-let _y = (x)=> 20 * x + 15;// (N:x) -> N:y
-_y = (x)=>-50 / 5 * (x) + 90;
-let _opac = (x)=> -0.50 / 5 * (x) + 0.90;
-assert('0.4', R.toString(_opac(5)), " _opac:");
-assert(0.9, _opac(0), " _opac:");
 /**
  *          transformer::{K:(v->v)}
  * @type {{fontSize: (XML|string|void|*), textAlign: (XML|string|void|*)}}
@@ -105,33 +92,55 @@ let transformer = {
  */
 let _EVOLVE_CSD;
 
+// _wghtER::
+let _y = (x)=> 20 * x + 15;// (N:x) -> N:y
+_y = (x)=>-50 / 5 * (x) + 90;
+let _opac = (x)=> -0.50 / 5 * (x) + 0.90;
+assert('0.4', R.toString(_opac(5)), " _opac:");
+assert(0.9, _opac(0), " _opac:");
+
 /**
- *      _trgt_clss_CSD:: D:base CSD -> N:ndx -> D:trgt CSD
+ *      _set_one_trgtCSD:: (D:base CSD -> N:ndx -> L:sibs) -> D:trgt CSD
+ *      as of now this sets_oneCSD; in series it sets_alt_trgtCSD
  *  This IS the function that DOES all the WORK of restyling each element/
  *  USED IN: simpleTests.js
- *  will need something like compose( _EVOLVE_(oldCSD), setTransform_ERs, setWt_ER) (trgt_Ndx)
- * @private
+ *  its csd param IS 1of3 specific rClss Elems: fut, cur, pst- each with specific csd {k:values} s.
+ *  my plan is [see code for a better implementation]
+ *  wghtER:: (N:ndx, L:[sibs])-> N:wt
+ *  csdER::     compose
+ *  set_csdLens::       Str:key -> Lens fn:keyLens
+ *  get_baseValu::  (D:CSD, Lens:keyLens, D:CSD)-> a:valu
+ *  lade_baseValu::   (a:base, N:wt) -> a:trgt
+ *  set_trgtValu::  (lens, valu, baseCSD) -> trgtCSD
+ *
+ * tst_
+ *
+ * NOTE:@private SET in opening Doc SEEN AS private symbol seen in Structure Tool
  */
-let _set_trgt_CSD = R.curry( // ?why is this private symbol in Structure window?
-    (csd, ndx) => {
-        assert(false, R.isNil(ndx), 'ndx isNil IN _trgt_clss_CSD');
-        // BY HAND transformer.fontSize = R.replace('100')('175');//OK that WORKS!!
-        transformer.fontSize = R.replace('90')(_y(ndx));//OK works BY HAND
-        // transformer.opacity = R.replace("0.9")("0.4");//???
-        // transformer.opacity = R.replace(0.9)(_y(ndx)/100);// BY HAND NG???
-        _EVOLVE_CSD = R.evolve(transformer);//   CSD:old -> CSD:new
-        //simple testing is Breakpoint the RET. Then step thru and watch the Browser
-        // RET = csd;// i.e. NO CHANGE just return BASE:  {k:v} -> {k:v}
-        RET = _EVOLVE_CSD(csd);// TRGT:{k:v} -> {k:v}
-        return RET
+let _set_one_trgtCSD;
+_set_one_trgtCSD = R.curry(
+    (baseCSD, trgt_ndx, trgt_sibs) => {
+
+        assert(false, R.isNil(trgt_ndx), 'ndx isNil IN _trgt_clss_CSD');
+
+        var _propLens = R.lensProp('opacity');// -> Lens
+        var _baseValu = R.view(_propLens);// (baseCSD) -> a:baseValu
+        var lade_baseValu = (valu, wght)=> R.multiply(valu);// (wght) -> a:valu
+        var frmt_trgtValu = (a)=>a;// STUB -> a:trgtValu
+        var _set_trgtCSD = R.set(_propLens)(lade_baseValu);// (baseCSD) -> trgtCSD
+        // var _set_a_lens = R.set(_propLens);
+        var _trgtCSD = _set_trgtCSD(0.3009);//CSD_D -> CSD_D
+        var trgtCSD = _trgtCSD(baseCSD);
+        assert(0.3.toFixed(2), _baseValu(trgtCSD).toFixed(2), '103');// true for new csd.opacity: a long number
+        return trgtCSD
     }
 );
 /**
- *       _set_a_Style:: (base_CSD, trgt_E) -> trgt_CSD
+ *       _set_trgtStyles:: (base_CSD, trgt_E) -> trgt_CSD
  *
  *  REF: Object.assign( to target, from ...sources) -> trgt
  */
-const _set_trgt_Style = R.curry(
+const _set_trgtStyles = R.curry(
     (csd, e_trgt)=> Object.assign(e_trgt.style, csd));
 
 /**
@@ -152,23 +161,24 @@ const _RESTYLE_all_trgtEs = R.map(
         return R.addIndex(R.map)(
             (trgtE, ndx, col)=> {
                 var base = _base_clss_CSD(clssE);// E -> CSD
-                var trgt = _set_trgt_CSD(base);// (CSD, N)-> CSD THIS IS THE WORKER FUNCTION !!!
-                return _set_trgt_Style(trgt(ndx), trgtE);
+                var trgt = _set_one_trgtCSD(base);// (CSD, N)-> CSD THIS IS THE WORKER FUNCTION !!!
+                return _set_trgtStyles(trgt(ndx), trgtE);
             },
             _rClss_Chldren(clssE)
         )
     }
 );
-var cee = R.map((v)=>R.values(R.values(v)));
 /**
  *      ---------------------------- INVOKE and TEST
  */
+var cee = R.map((v)=>R.values(R.values(v)));
 // C_Both('vals were: ' + JSON.stringify( cee(CSD_D.fut)));
 var fut0 = R.map(R.props(['fontSize', 'opacity']))(CSD_D);// BROKEN
-C_Both('vals were: ' + JSON.stringify(R.values(fut0)));
+C_Both('Clss base props: ' + JSON.stringify(R.values(fut0)));
 
-var REStylED_trgts = _RESTYLE_all_trgtEs(NL);
-var fut1 = REStylED_trgts[2];// ->[csd, csd ...]
+var REStylED_trgts = _RESTYLE_all_trgtEs(NL);// THIS IS THE CODE UNDER TEST: CUT
+
+var fut1 = REStylED_trgts[1];// ->[csd, csd ...]
 var fut2 = R.map(R.props(['fontSize', 'opacity']))(fut1);
 // C_Both(cee(fut));
 C_Both('vals  are: ' + JSON.stringify(R.values(fut2)));
