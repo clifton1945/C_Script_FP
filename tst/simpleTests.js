@@ -1,6 +1,6 @@
 /**
  * 160611
- * @0702 STABLE:  TST ing WIP moving towards modifying the baseCSD = trgtCSD
+ * @0900 STABLE:  WIP moving towards modifying the baseCSD WITH _lade_baseValu()
  * AND using WS annotating the BreakPoints YEAH
  */
 "use strict";
@@ -112,14 +112,16 @@ _set_one_trgtCSD = R.curry(
     (baseCSD, trgt_ndx, trgt_sibs) => {
         var TST;
         assert(false, R.isNil(trgt_ndx), 'ndx isNil IN _trgt_clss_CSD');
-        var _propLens = R.lensProp('opacity');// -> Lens
-        var _baseValu = R.view(_propLens);// (baseCSD) -> a:baseValu
+        var _propLens = R.lensProp;// -> Lens
+        var _baseValu = R.compose(R.view, _propLens);// (baseCSD) -> a:baseValu
+        var _lade_baseValu = (wght) => R.multiply(wght);// (wght) -> (a:baseValu)-> a:valu
 
-        var lade_baseValu = (valu, wght)=> R.multiply(valu);// (wght) -> a:valu
 //         var frmt_trgtValu = (a)=>a;// STUB -> a:trgtValu
 //         var _set_trgtCSD = R.set(_propLens)(lade_baseValu);// (baseCSD) -> trgtCSD
-        var _set_trgtCSD = R.set(_propLens)(_baseValu);// FIX STUB (baseCSD) -> trgtCSD
-        TST = _set_trgtCSD(baseCSD);
+        var _set_trgtCSD = R.set(_propLens)(_baseValu);// FIX STUB ADD lading(baseCSD) -> trgtCSD
+        // TST = (_baseValu('opacity'))(baseCSD);
+        // TST = _lade_baseValu(.2)(30);
+        TST = _lade_baseValu(trgt_ndx / 5)(_baseValu('opacity')(baseCSD));
 
         return baseCSD
     }
