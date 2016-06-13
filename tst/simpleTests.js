@@ -1,5 +1,9 @@
 /**
  * 160613
+ * @1406  working stable  actually mutating the verse div opacity!!
+ * @1117   setWeight_tests._StepER IS WORKING!!
+ * @1051  CUT now IS _set_one_trgtCSD()
+ *      CAN I USE setWeight.js ???
  * @1036  STABLE:  a lot of trouble and work to get simpleTests working again;
  *  the problem continues to be  using requires in .js node test BUT not .html
  *  a lot of fiddling with the <script src=  calls
@@ -121,17 +125,21 @@ _set_one_trgtCSD = R.curry(
         var TST;
         assert(false, R.isNil(trgt_ndx), 'ndx isNil IN _trgt_clss_CSD');
         var _propLens = R.lensProp;// -> Lens
-        var _baseValu = R.compose(R.view, _propLens);// (baseCSD) -> a:baseValu
-        var _lade_baseValu = (wght) => R.multiply(wght);// (wght) -> (a:baseValu)-> a:valu
+        var _opacLens = _propLens('opacity');
+        var _baseValu = R.view(_propLens('opacity'));// (baseCSD) -> a:baseValu
+        var wt = _StepER(R.length(trgt_sibs))(trgt_ndx);
+        assert(true, R.is(Number)(wt), 'expect all numbers');
+        var _lade_baseValu = R.multiply;// (wght) -> csd -> (a:baseValu)-> a:valu
+        // TST = _lade_baseValu(wt)(_opacLens(baseCSD));// specific base valu
+        TST = _lade_baseValu(wt)(1);
 
 //         var frmt_trgtValu = (a)=>a;// STUB -> a:trgtValu
 //         var _set_trgtCSD = R.set(_propLens)(lade_baseValu);// (baseCSD) -> trgtCSD
-        var _set_trgtCSD = R.set(_propLens)(_baseValu);// FIX STUB ADD lading(baseCSD) -> trgtCSD
+        var _set_trgtCSD = R.set(_opacLens)(TST);// FIX STUB ADD lading(baseCSD) -> trgtCSD
         // TST = (_baseValu('opacity'))(baseCSD);
         // TST = _lade_baseValu(.2)(30);
-        TST = _lade_baseValu(trgt_ndx / 5)(_baseValu('opacity')(baseCSD));
 
-        return baseCSD
+        return _set_trgtCSD(baseCSD)
     }
 );
 /**
