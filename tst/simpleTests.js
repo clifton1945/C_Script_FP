@@ -1,6 +1,6 @@
 /**
  * 160613
- * @1406  working stable  actually mutating the verse div opacity!!
+ * @1435  working stable  actually mutating the verse div opacity!!
  * @1117   setWeight_tests._StepER IS WORKING!!
  * @1051  CUT now IS _set_one_trgtCSD()
  *      CAN I USE setWeight.js ???
@@ -94,10 +94,10 @@ let transformer = {
  */
 let _EVOLVE_CSD;
 
-// _wghtER::
-let _y = (x)=> 20 * x + 15;// (N:x) -> N:y
-_y = (x)=>-50 / 5 * (x) + 90;
-let _opac = (x)=> -0.50 / 5 * (x) + 0.90;
+// // _wghtER::
+// let _y = (x)=> 20 * x + 15;// (N:x) -> N:y
+// _y = (x)=>-50 / 5 * (x) + 90;
+// let _opac = (x)=> -0.50 / 5 * (x) + 0.90;
 // assert('0.4', R.toString(_opac(5)), " _opac:");
 // assert(0.9, _opac(0), " _opac:");
 
@@ -107,7 +107,7 @@ let _opac = (x)=> -0.50 / 5 * (x) + 0.90;
  *  This IS the function that DOES all the WORK of restyling each element/
  *  USED IN: simpleTests.js
  *  its csd param IS 1of3 specific rClss Elems: fut, cur, pst- each with specific csd {k:values} s.
- *  my plan is [see code for a better implementation]
+ *  is [see code for a better implementation]
  *  wghtER:: (N:ndx, L:[sibs])-> N:wt
  *  csdER::     compose
  *  set_csdLens::       Str:key -> Lens fn:keyLens
@@ -180,10 +180,10 @@ const _RESTYLE_all_trgtEs = R.map(
  */
 var cee = R.map((v)=>R.values(R.values(v)));
 // C_Both('vals were: ' + JSON.stringify( cee(CSD_D.fut)));
-var fut0 = R.map(R.props(['fontSize', 'opacity']))(CSD_D);// BROKEN
+var fut0 = R.map(R.props(['fontSize', 'opacity']))(CSD_D);//
 C_Both('Clss base props: ' + JSON.stringify(R.values(fut0)));
 
-var REStylED_trgts = _RESTYLE_all_trgtEs(NL);// THIS IS THE CODE UNDER TEST: CUT
+var REStylED_trgts = _RESTYLE_all_trgtEs(NL);
 
 var fut1 = REStylED_trgts[1];// ->[csd, csd ...]
 var fut2 = R.map(R.props(['fontSize', 'opacity']))(fut1);
