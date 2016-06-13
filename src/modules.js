@@ -8,8 +8,8 @@ export {testStr};
 var C_It = (txt) => console.log(txt);
 export { C_It }
 
-var assert = (exp, ret)=> console.assert(R.equals(exp, ret), `${ret}!=${exp}`);
-export {assert}
+var DEPREC_assert = (exp, ret)=> console.assert(R.equals(exp, ret), `${ret}!=${exp}`);
+// export {assert}
 
 // now ramda
 var add3 = R.add(3);

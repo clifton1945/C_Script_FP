@@ -7,19 +7,19 @@
 //VERBS: MODIFY, UPDATE, APPLY,ADMINISTER,COMPLETE,FULFILL,AFFECT,ALTER
 
 //160603
-const myTap = R.tap(s=>C_Both('mTap: ' + s));
+// const myTap = R.tap(s=>C_Both('mTap: ' + s));
 
 // *********** TEST HELPERS
-var Cnt = R.curry(
-    function (NDX, coll) {
-        return R.prop('childElementCount', coll[NDX]);
-    });
-var C_GrpStateCnt = R.curry(
-    // NOTE: this function requires indexs:PST, CUR, FUT as 0,1,2 repectively.
-    function (nameStr, coll) {
-        C_Both(`${nameStr}.div.class Cnt:p,c,f [${Cnt([PST], coll)},${Cnt([CUR], coll)},${Cnt([FUT], coll)}]`);
-        return coll
-    });
+// var Cnt = R.curry(
+//     function (NDX, coll) {
+//         return R.prop('childElementCount', coll[NDX]);
+//     });
+// var C_GrpStateCnt = R.curry(
+//     // NOTE: this function requires indexs:PST, CUR, FUT as 0,1,2 repectively.
+//     function (nameStr, coll) {
+//         C_Both(`${nameStr}.div.class Cnt:p,c,f [${Cnt([PST], coll)},${Cnt([CUR], coll)},${Cnt([FUT], coll)}]`);
+//         return coll
+//     });
 // ***********  CODE DOM && DATA REFERENCE
 const bookTmpl = '.book';
 const C_Grp_Tmpl = '.ChptrReadGrps > div';
@@ -72,18 +72,18 @@ const MSG_It = (msg) => C_Both(msg);
  * @returns {*}
  * @constructor
  */
-const TRACE = R.curry(
-    function TRACE(txt, obj) {
-        C_Both(`${txt}: ${obj}`);
-        return obj
-    }
-);
-const TRACE_ = R.curry(
-    function TRACE_(fn, obj) {
-        C_Both(fn(obj));
-        return obj
-    });
-
-const round2 = x => Math.round(x * 100) / 100;
-const msg = (msg) => ` ${msg}`;
+// const TRACE = R.curry(
+//     function TRACE(txt, obj) {
+//         C_Both(`${txt}: ${obj}`);
+//         return obj
+//     }
+// );
+// const TRACE_ = R.curry(
+//     function TRACE_(fn, obj) {
+//         C_Both(fn(obj));
+//         return obj
+//     });
+//
+// const round2 = x => Math.round(x * 100) / 100;
+// const msg = (msg) => ` ${msg}`;
 

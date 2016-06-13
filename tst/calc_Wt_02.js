@@ -49,8 +49,8 @@
  */
 import * as R from "../node_modules/ramda"
 // var R = require('node_modules/ramda');
-// import {assert} from '../src/modules-compiled';
-const assert = (exp, ret)=> console.assert(R.equals(exp, ret), `${ret}!=${exp} @ ${noop}`);
+import {assert} from '../src/modules-compiled';
+// const assert = (exp, ret)=> console.assert(R.equals(exp, ret), `${ret}!=${exp} @ ${noop}`);
 import {C_It} from '../src/modules-compiled';
 // var C_It = function C_It(txt) {    return console.log(txt);};
 

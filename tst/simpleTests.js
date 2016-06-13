@@ -1,10 +1,18 @@
 /**
+ * 160613
+ * @1036  STABLE:  a lot of trouble and work to get simpleTests working again;
+ *  the problem continues to be  using requires in .js node test BUT not .html
+ *  a lot of fiddling with the <script src=  calls
+ * taking stuff out of the two functions and function_01
+ * trying to import - or the equivent - setWeight_tests
+ *
  * 160611
- * @0900 STABLE:  WIP moving towards modifying the baseCSD WITH _lade_baseValu()
+ * WIP moving towards modifying the baseCSD WITH _lade_baseValu()
  * AND using WS annotating the BreakPoints YEAH
  */
 "use strict";
-// import {_trgt_clss_CSD } from "transformers_tests-compiled.js"; //BREAKS
+
+// import { _StepER, assert} from "tst/setWeight_tests-compiled"; //??
 /**
  *       --------------------------DATA:
  */
@@ -86,8 +94,8 @@ let _EVOLVE_CSD;
 let _y = (x)=> 20 * x + 15;// (N:x) -> N:y
 _y = (x)=>-50 / 5 * (x) + 90;
 let _opac = (x)=> -0.50 / 5 * (x) + 0.90;
-assert('0.4', R.toString(_opac(5)), " _opac:");
-assert(0.9, _opac(0), " _opac:");
+// assert('0.4', R.toString(_opac(5)), " _opac:");
+// assert(0.9, _opac(0), " _opac:");
 
 /**
  *      _set_one_trgtCSD:: (D:base CSD -> N:ndx -> L:sibs) -> D:trgt CSD
