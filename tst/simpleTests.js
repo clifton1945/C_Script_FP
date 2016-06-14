@@ -1,6 +1,7 @@
 /**
- * 160614
- * @0525 _RESTYLE_all_trgtEs() IS STABLE.
+ * 160614  REFACT    _RESTYLE_all_trgtEs()
+ * @0636  STABLE BUT WIP
+ * @0525  IS STABLE.
  * PLAN: REFACTOR the working code; probably split _set_trgtCSD; improve tests.
  * 160613
  * @2140  STABLE WORKING actually styling - opacity in this case -
@@ -23,7 +24,7 @@ const NL = cur_Chptr_rClss_NL;
  */
 const CssStylDecl_Dict = { //
     fut: {
-        stepSize: -.7,
+        stepSize: -.8,
         fontSize: "90%",
         opacity: 0.9001,
         textAlign: "left",
@@ -86,21 +87,27 @@ _set_trgtCSD = R.curry(
         // get this rClass stepSize for use in weighting
 
         // some clss_CSD.values of this clss
-        var _propLens = R.lensProp;// (S:propKey)-> Lens
-        var _getValu = R.view();// (S:key) -> (baseCSD) -> a:baseValu
-        var _csdValu = R.compose(_getValu, _propLens);//(S:csdKey) -> (D:csd) -> a:csdValu
+        /**
+         *      _csdLens:: S:csdKey -> Lens:csdLens
+         */
+        var _csdLens = R.lensProp;// (S:propKey)-> Lens
+        var _get_baseCSD = R.view();// (S:key) -> (baseCSD) -> a:baseValu
+        var _csdValu = R.compose(_get_baseCSD, _csdLens);//(S:csdKey) -> (D:csd) -> a:csdValu
+
         var _csdStep = _csdValu('stepSize');
         var _csdOpacity = _csdValu('opacity');
         var _csdFontSize = _csdValu('fontSize');
+
         // now weighting:: stepSize * wt + the starting value of some new Property
         var wt = _StepER(R.length(trgt_sibs))(trgt_ndx);
         assert(true, R.is(Number)(wt), 'expect all numbers');
         var _lade_baseValu = R.multiply;// (N:wght) -> N:step -> N:lade
         // see 'lade:..
+
         var key = 'opacity';
         TST = _lade_baseValu(wt)(_csdStep(baseCSD));
         var opacValu = _csdOpacity(baseCSD) + TST;
-        var _set_trgtCSD = R.set(_propLens(key), opacValu);
+        var _set_trgtCSD = R.set(_csdLens(key), opacValu);
         TST = _set_trgtCSD(baseCSD);
         return TST
     }
