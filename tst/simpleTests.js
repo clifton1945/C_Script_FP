@@ -1,21 +1,13 @@
 /**
+ * 160614
+ * @0525 _RESTYLE_all_trgtEs() IS STABLE.
+ * PLAN: REFACTOR the working code; probably split _set_trgtCSD; improve tests.
  * 160613
  * @2140  STABLE WORKING actually styling - opacity in this case -
  * @1117   setWeight_tests._StepER IS WORKING!!
- * @1051  CUT now IS _set_one_trgtCSD()
- *      CAN I USE setWeight.js ???
- * @1036  STABLE:  a lot of trouble and work to get simpleTests working again;
- *  the problem continues to be  using requires in .js node test BUT not .html
- *  a lot of fiddling with the <script src=  calls
- * taking stuff out of the two functions and function_01
- * trying to import - or the equivent - setWeight_tests
- *
- * 160611
- * WIP moving towards modifying the baseCSD WITH _lade_baseValu()
- * AND using WS annotating the BreakPoints YEAH
+
  */
 "use strict";
-
 // import { _StepER, assert} from "tst/setWeight_tests-compiled"; //??
 /**
  *       --------------------------DATA:
@@ -61,31 +53,15 @@ let CSD_D = CssStylDecl_Dict; // -> D:csd
  *      --------------------------HELPERS for _RESTYLE_trgts
  */
 
+/**
+ *      _base_clss_CSD:: (E:clssElem) -> D:clssCSD
+ *  extracts the class style Dict -fut,cur,pst- from the class Element,
+ *  NOTE: the base css style declaration dictionary, CSD_D, is hard coded in.
+ */
 const _base_clss_CSD = R.compose(R.flip(R.prop)(CSD_D), R.prop('className'));
 
 /**
- *          transformer::{K:(v->v)}
- * @type {{fontSize: (XML|string|void|*), textAlign: (XML|string|void|*)}}
- */
-let transformer = {
-    fontSize: R.replace('100', '55'),
-    textAlign: R.replace("right", "center"), // NOTE:  ON ANY CSD WITH textAlign:'center'
-    // opacity: R.replace("0.9", "0.4"), // REFACT: DOES NOT PLAY WELL WITH transformer
-};
-/**
- *      _EVOLVE_CSD:: CSD:{k:v) -> CSD{k:v}
- *  evolves the base CSD BY weighting some of the  properties.
- */
-let _EVOLVE_CSD;
-// // _wghtER::
-// let _y = (x)=> 20 * x + 15;// (N:x) -> N:y
-// _y = (x)=>-50 / 5 * (x) + 90;
-// let _opac = (x)=> -0.50 / 5 * (x) + 0.90;
-// assert('0.4', R.toString(_opac(5)), " _opac:");
-// assert(0.9, _opac(0), " _opac:");
-
-/**
- *      _set_one_trgtCSD:: (D:base CSD -> N:ndx -> L:sibs) -> D:trgt CSD
+ *      _set_trgtCSD:: (D:base CSD -> N:ndx -> L:sibs) -> D:trgt CSD
  *      as of now this sets_oneCSD; in series it sets_alt_trgtCSD
  *  This IS the function that DOES all the WORK of restyling each element/
  *  USED IN: simpleTests.js
@@ -102,8 +78,8 @@ let _EVOLVE_CSD;
  *
  * NOTE:@private SET in opening Doc SEEN AS private symbol seen in Structure Tool
  */
-let _set_one_trgtCSD;
-_set_one_trgtCSD = R.curry(
+let _set_trgtCSD;
+_set_trgtCSD = R.curry(
     (baseCSD, trgt_ndx, trgt_sibs) => {
         assert(false, R.isNil(trgt_ndx), 'ndx isNil IN _trgt_clss_CSD');
         var TST;
@@ -157,7 +133,7 @@ const _RESTYLE_all_trgtEs = R.map(
         return R.addIndex(R.map)(
             (trgtE, ndx, col)=> {
                 var base = _base_clss_CSD(clssE);// E -> CSD
-                var trgt = _set_one_trgtCSD(base, ndx, col);// (CSD, N)-> CSD THIS IS THE WORKER FUNCTION !!!
+                var trgt = _set_trgtCSD(base, ndx, col);// (CSD, N)-> CSD THIS IS THE WORKER FUNCTION !!!
                 return _set_trgtStyles(trgt, trgtE);
             },
             _rClss_Chldren(clssE)
