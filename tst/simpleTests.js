@@ -1,12 +1,9 @@
 /**
  * 160614  REFACT    _RESTYLE_all_trgtEs()
+ * @0734  STABLE new _csdValu()
  * @0636  STABLE BUT WIP
  * @0525  IS STABLE.
  * PLAN: REFACTOR the working code; probably split _set_trgtCSD; improve tests.
- * 160613
- * @2140  STABLE WORKING actually styling - opacity in this case -
- * @1117   setWeight_tests._StepER IS WORKING!!
-
  */
 "use strict";
 // import { _StepER, assert} from "tst/setWeight_tests-compiled"; //??
@@ -84,15 +81,15 @@ _set_trgtCSD = R.curry(
     (baseCSD, trgt_ndx, trgt_sibs) => {
         assert(false, R.isNil(trgt_ndx), 'ndx isNil IN _trgt_clss_CSD');
         var TST;
-        // get this rClass stepSize for use in weighting
-
         // some clss_CSD.values of this clss
         /**
          *      _csdLens:: S:csdKey -> Lens:csdLens
          */
         var _csdLens = R.lensProp;// (S:propKey)-> Lens
-        var _get_baseCSD = R.view();// (S:key) -> (baseCSD) -> a:baseValu
-        var _csdValu = R.compose(_get_baseCSD, _csdLens);//(S:csdKey) -> (D:csd) -> a:csdValu
+        /**
+         *      _csdValu:: S:csdKey -> D:csdValu
+         */
+        var _csdValu = R.compose(R.view(R.__, baseCSD), _csdLens);// S:key -> D:keyCSD
 
         var _csdStep = _csdValu('stepSize');
         var _csdOpacity = _csdValu('opacity');
@@ -105,8 +102,8 @@ _set_trgtCSD = R.curry(
         // see 'lade:..
 
         var key = 'opacity';
-        TST = _lade_baseValu(wt)(_csdStep(baseCSD));
-        var opacValu = _csdOpacity(baseCSD) + TST;
+        TST = _lade_baseValu(wt)(_csdStep);
+        var opacValu = _csdOpacity + TST;
         var _set_trgtCSD = R.set(_csdLens(key), opacValu);
         TST = _set_trgtCSD(baseCSD);
         return TST

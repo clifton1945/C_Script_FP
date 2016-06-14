@@ -51,8 +51,8 @@
  *
  * calc_Wt_01 fn: N:n -> n
  * calc_Wt_01 fn: params: (CloseWt, FarWt, Length of Siblings)(NumeratorIndex) -> weight
- * calc_Wt_01 uses global arguments. FIX
- * calc_Wt_01 works but does not handle sibling NodeList of Length < 2. FIX
+ * calc_Wt_01 uses global arguments.
+ * calc_Wt_01 works but does not handle sibling NodeList of Length < 2.
  * aSPD a cssStyle property dictionary is include in file but not used.
  * TO CHANGE by CLIF on 5/26
  * 0. convert _numerator() to function
