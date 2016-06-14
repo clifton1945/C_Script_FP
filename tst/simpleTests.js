@@ -1,6 +1,6 @@
 /**
  * 160614  REFACT    _RESTYLE_all_trgtEs()
- * @0734  STABLE new _csdValu()
+ * @0830  STABLE new set_trgt_csd()  WIP need eliminate hard code
  * @0636  STABLE BUT WIP
  * @0525  IS STABLE.
  * PLAN: REFACTOR the working code; probably split _set_trgtCSD; improve tests.
@@ -59,25 +59,20 @@ let CSD_D = CssStylDecl_Dict; // -> D:csd
 const _base_clss_CSD = R.compose(R.flip(R.prop)(CSD_D), R.prop('className'));
 
 /**
- *      _set_trgtCSD:: (D:base CSD -> N:ndx -> L:sibs) -> D:trgt CSD
- *      as of now this sets_oneCSD; in series it sets_alt_trgtCSD
- *  This IS the function that DOES all the WORK of restyling each element/
- *  USED IN: simpleTests.js
- *  its csd param IS 1of3 specific rClss Elems: fut, cur, pst- each with specific csd {k:values} s.
- *  is [see code for a better implementation]
- *  wghtER:: (N:ndx, L:[sibs])-> N:wt
- *  csdER::     compose
- *  set_csdLens::       Str:key -> Lens fn:keyLens
- *  get_baseValu::  (D:CSD, Lens:keyLens, D:CSD)-> a:valu
- *  lade_baseValu::   (a:base, N:wt) -> a:trgt
- *  set_trgtValu::  (lens, valu, baseCSD) -> trgtCSD
- *
- * tsts: lets look at before and after for a property csd. Use lens
- *
- * NOTE:@private SET in opening Doc SEEN AS private symbol seen in Structure Tool
+ *      _set_trgtCSD:: D -> N -> L -> D:
+ * @param baseCSD
+ * @param trgt_ndx
+ * @param trgt_sibs
+ * @returns trgtCSD ready to be applied to an Element
  */
-let _set_trgtCSD;
-_set_trgtCSD = R.curry(
+let _set_trgtCSD = R.curry(
+    /**
+     *      _set_trgtCSD::
+     * @param baseCSD
+     * @param trgt_ndx
+     * @param trgt_sibs
+     * @returns {*}
+     */
     (baseCSD, trgt_ndx, trgt_sibs) => {
         assert(false, R.isNil(trgt_ndx), 'ndx isNil IN _trgt_clss_CSD');
         var TST;
@@ -85,15 +80,15 @@ _set_trgtCSD = R.curry(
         /**
          *      _csdLens:: S:csdKey -> Lens:csdLens
          */
-        var _csdLens = R.lensProp;// (S:propKey)-> Lens
+        const _csdLens = R.lensProp;// (S:propKey)-> Lens
         /**
-         *      _csdValu:: S:csdKey -> D:csdValu
+         *      get_base_csdValu:: S:csdKey -> D:csdValu
          */
-        var _csdValu = R.compose(R.view(R.__, baseCSD), _csdLens);// S:key -> D:keyCSD
+        const get_base_csdValu = R.compose(R.view(R.__, baseCSD), _csdLens);// S:key -> D:keyCSD
 
-        var _csdStep = _csdValu('stepSize');
-        var _csdOpacity = _csdValu('opacity');
-        var _csdFontSize = _csdValu('fontSize');
+        var _csdStep = get_base_csdValu('stepSize');
+        var _csdOpacity = get_base_csdValu('opacity');
+        var _csdFontSize = get_base_csdValu('fontSize');
 
         // now weighting:: stepSize * wt + the starting value of some new Property
         var wt = _StepER(R.length(trgt_sibs))(trgt_ndx);
@@ -102,19 +97,30 @@ _set_trgtCSD = R.curry(
         // see 'lade:..
 
         var key = 'opacity';
-        TST = _lade_baseValu(wt)(_csdStep(baseCSD));
-        var opacValu = _csdOpacity(baseCSD) + TST;
-        var _set_trgtCSD = R.set(_csdLens(key), opacValu);
-        TST = _set_trgtCSD(baseCSD);
-        return TST
+        TST = _lade_baseValu(wt)(_csdStep);
+        var opacValu = _csdOpacity + TST;
+
+        /**
+         *      set_trgt_csd::TESTING S:csdKey -> D:trgtCSD
+         */
+        const set_trgt_csd = R.compose(R.set(R.__, opacValu, baseCSD), _csdLens);//S:key -> D:
+        var noop = 110;
+        return set_trgt_csd('opacity')
     }
 );
 /**
- *       _set_trgtStyles:: (base_CSD, trgt_E) -> trgt_CSD
+ *      _set_trgtStyles: CSD D -> E: trgt -> mutated E:trgt
+ * @param csd
+ * @param e_trgt
  *
  *  REF: Object.assign( to target, from ...sources) -> trgt
  */
 const _set_trgtStyles = R.curry(
+    /**
+     *      _set_trgtStyles: CSD D -> E: trgt -> mutated E:trgt
+     * @param csd
+     * @param e_trgt
+     */
     (csd, e_trgt)=> Object.assign(e_trgt.style, csd)
     // (csd, e_trgt)=> e_trgt.style = csd
 );
