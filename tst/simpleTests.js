@@ -1,6 +1,6 @@
 /**
  * 160613
- * @1435  working stable  actually mutating the verse div opacity!!
+ * @2140  STABLE WORKING actually styling - opacity in this case -
  * @1117   setWeight_tests._StepER IS WORKING!!
  * @1051  CUT now IS _set_one_trgtCSD()
  *      CAN I USE setWeight.js ???
@@ -31,7 +31,7 @@ const NL = cur_Chptr_rClss_NL;
  */
 const CssStylDecl_Dict = { //
     fut: {
-        stepSize: -50, //  90 - 50 -> 40
+        stepSize: -.7,
         fontSize: "90%",
         opacity: 0.9001,
         textAlign: "left",
@@ -45,10 +45,10 @@ const CssStylDecl_Dict = { //
         // backgroundColor: "rgba(255, 0, 0, 0.24)"
     },
     pst: {
-        stepSize: 70, 
-        fontSize: "70%", // TEST VALUE FIX
-        opacity: 0.7,
-        textAlign: "right",
+        stepSize: .75,
+        fontSize: "60%",
+        opacity: 0.4,
+        textAlign: "left",
         backgroundColor: "rgba(255, 0, 0, 0.24)"
     }
 };
@@ -60,22 +60,7 @@ let CSD_D = CssStylDecl_Dict; // -> D:csd
 /**
  *      --------------------------HELPERS for _RESTYLE_trgts
  */
-/**
- *      _rClssE_key:  clssE -> S:e.classNameKey
- * const _rClssE_key = R.prop('className');
- * @param rcE
- */
-/**
- *      _rClss_:: _rClss_S:: key -> CSD:base -> CSD:clss
- *  const _rClss_ = R.flip(R.prop);
- *  requires base CSD: CssStyleDeclarations a Dict of ALL Classes
- */
-/**
- *      _base_clss_CSD:: clssE -> D:CSD
- *  more understandable version is
- *     const _base_clss_CSD = R.compose(_rClss_(CSD_D), _rClssE_key);
- *  requires a CssStylDecl_Dict aka CSD_D
- */
+
 const _base_clss_CSD = R.compose(R.flip(R.prop)(CSD_D), R.prop('className'));
 
 /**
@@ -87,13 +72,11 @@ let transformer = {
     textAlign: R.replace("right", "center"), // NOTE:  ON ANY CSD WITH textAlign:'center'
     // opacity: R.replace("0.9", "0.4"), // REFACT: DOES NOT PLAY WELL WITH transformer
 };
-
 /**
  *      _EVOLVE_CSD:: CSD:{k:v) -> CSD{k:v}
  *  evolves the base CSD BY weighting some of the  properties.
  */
 let _EVOLVE_CSD;
-
 // // _wghtER::
 // let _y = (x)=> 20 * x + 15;// (N:x) -> N:y
 // _y = (x)=>-50 / 5 * (x) + 90;
@@ -122,24 +105,28 @@ let _EVOLVE_CSD;
 let _set_one_trgtCSD;
 _set_one_trgtCSD = R.curry(
     (baseCSD, trgt_ndx, trgt_sibs) => {
-        var TST;
         assert(false, R.isNil(trgt_ndx), 'ndx isNil IN _trgt_clss_CSD');
-        var _propLens = R.lensProp;// -> Lens
-        var _opacLens = _propLens('opacity');
-        var _baseValu = R.view(_propLens('opacity'));// (baseCSD) -> a:baseValu
+        var TST;
+        // get this rClass stepSize for use in weighting
+
+        // some clss_CSD.values of this clss
+        var _propLens = R.lensProp;// (S:propKey)-> Lens
+        var _getValu = R.view();// (S:key) -> (baseCSD) -> a:baseValu
+        var _csdValu = R.compose(_getValu, _propLens);//(S:csdKey) -> (D:csd) -> a:csdValu
+        var _csdStep = _csdValu('stepSize');
+        var _csdOpacity = _csdValu('opacity');
+        var _csdFontSize = _csdValu('fontSize');
+        // now weighting:: stepSize * wt + the starting value of some new Property
         var wt = _StepER(R.length(trgt_sibs))(trgt_ndx);
         assert(true, R.is(Number)(wt), 'expect all numbers');
-        var _lade_baseValu = R.multiply;// (wght) -> csd -> (a:baseValu)-> a:valu
-        // TST = _lade_baseValu(wt)(_opacLens(baseCSD));// specific base valu
-        TST = _lade_baseValu(wt)(1);
-
-//         var frmt_trgtValu = (a)=>a;// STUB -> a:trgtValu
-//         var _set_trgtCSD = R.set(_propLens)(lade_baseValu);// (baseCSD) -> trgtCSD
-        var _set_trgtCSD = R.set(_opacLens)(TST);// FIX STUB ADD lading(baseCSD) -> trgtCSD
-        // TST = (_baseValu('opacity'))(baseCSD);
-        // TST = _lade_baseValu(.2)(30);
-
-        return _set_trgtCSD(baseCSD)
+        var _lade_baseValu = R.multiply;// (N:wght) -> N:step -> N:lade
+        // see 'lade:..
+        var key = 'opacity';
+        TST = _lade_baseValu(wt)(_csdStep(baseCSD));
+        var opacValu = _csdOpacity(baseCSD) + TST;
+        var _set_trgtCSD = R.set(_propLens(key), opacValu);
+        TST = _set_trgtCSD(baseCSD);
+        return TST
     }
 );
 /**
@@ -148,7 +135,9 @@ _set_one_trgtCSD = R.curry(
  *  REF: Object.assign( to target, from ...sources) -> trgt
  */
 const _set_trgtStyles = R.curry(
-    (csd, e_trgt)=> Object.assign(e_trgt.style, csd));
+    (csd, e_trgt)=> Object.assign(e_trgt.style, csd)
+    // (csd, e_trgt)=> e_trgt.style = csd
+);
 
 /**
  *       _rClss_Chldren:: clssE -> L:[trgtE, trgtE, ...]
@@ -181,14 +170,14 @@ const _RESTYLE_all_trgtEs = R.map(
 var cee = R.map((v)=>R.values(R.values(v)));
 // C_Both('vals were: ' + JSON.stringify( cee(CSD_D.fut)));
 var fut0 = R.map(R.props(['fontSize', 'opacity']))(CSD_D);//
-C_Both('Clss base props: ' + JSON.stringify(R.values(fut0)));
+// C_Both('Clss base props: ' + JSON.stringify(R.values(fut0)));
 
 var REStylED_trgts = _RESTYLE_all_trgtEs(NL);
 
-var fut1 = REStylED_trgts[1];// ->[csd, csd ...]
-var fut2 = R.map(R.props(['fontSize', 'opacity']))(fut1);
+// var fut1 = REStylED_trgts[1];// ->[csd, csd ...]
+// var fut2 = R.map(R.props(['fontSize', 'opacity']))(fut1);
 // C_Both(cee(fut));
-C_Both('vals  are: ' + JSON.stringify(R.values(fut2)));
+// C_Both('vals  are: ' + JSON.stringify(R.values(fut2)));
 
 function testMe() {
     var MSG = '', CUT, _CUT, RET, EXP, TST, tNum = 0;
@@ -206,14 +195,14 @@ function testMe() {
     CUT = _rClss_Chldren;
     const stub_rclssElem = document.querySelector('div #cur_VerseReadGrp');//
     RET = CUT(stub_rclssElem);// -> HTMLCollection[2]
-    assert(2, RET.length, tNum);
+    assert(1, RET.length, tNum);
 
 //tests  __base_rClss_CSD
     tNum = 2;
     CUT = _base_clss_CSD;
     var test_CSDs = R.map(CUT);//  L:nl -> [[D:d, D:d, D:d]]
     RET = test_CSDs(NL);//  ->  [[D:d, D:d, D:d]]
-    assert("70%", RET[0].fontSize, tNum);
+    assert("60%", RET[0].fontSize, tNum);
     assert("90%", RET[2].fontSize, tNum);
 
 // test   cur_Chptr_rClss_NL
