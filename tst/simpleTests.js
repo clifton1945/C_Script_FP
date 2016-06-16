@@ -1,12 +1,13 @@
 /**
- * 160616  simpleTests.js::  CUT= _set_trgtCSD    REFACT    _RESTYLE_all_trgtEs()
- * @0650  STABLE for 'opacity' NOW switching to 'fontSize
+ * 160616  simpleTests.js::  CUT= _set_trgtCSD
+ * @0728  STABLE for 'opacity' NOW switching to 'fontSize
  * @0630  ADDED JS parseFloat() TO get_base_csdValu()
  * WIP TO USE js parseFloat:: Str->Num.Float  conversion,
  *  it ignores the % Char in "80%", thus stripping the %
  *  it also seems to accept Numbers.
  *  I may not have to convert all CSD values to Strings
  * @0530     still stable and working for 'opacity' csdKey BUT mot for 'fontSize'
+ * REFACT    _RESTYLE_all_trgtEs()
  */
 "use strict";
 // import { _StepER, assert} from "tst/setWeight_tests-compiled"; //??
@@ -92,9 +93,10 @@ let _set_trgtCSD = R.curry(
             R.view(R.__, baseCSD),
             _csdLens);// S:key -> D:keyCSD
 
-        var _csdStep = get_base_csdValu('stepSize');
-        var _csdOpacity = get_base_csdValu('opacity');
-        var _csdFontSize = get_base_csdValu('fontSize');
+        var csdStep = get_base_csdValu('stepSize');
+        var csdOpacity = get_base_csdValu('opacity');
+        var csdFontSize = get_base_csdValu('fontSize');
+        assert(true, R.is(Number, csdFontSize));
 
         // now weighting:: stepSize * wt + the starting value of some new Property
         var wt = _StepER(R.length(trgt_sibs))(trgt_ndx);
@@ -102,16 +104,19 @@ let _set_trgtCSD = R.curry(
         var _lade_baseValu = R.multiply;// (N:wght) -> N:step -> N:lade
         // see 'lade:..
 
-        var key = 'fontSize';
-        TST = _lade_baseValu(wt)(_csdStep);
-        var opacValu = _csdOpacity + TST;
+        var csdKey = 'opacity';
+        var csdValu = get_base_csdValu(csdKey);
+        TST = _lade_baseValu(wt)(csdStep);
+        csdValu += TST;
 
         /**
          *      set_trgt_csd::TESTING S:csdKey -> D:trgtCSD
          */
-        const set_trgt_csd = R.compose(R.set(R.__, opacValu, baseCSD), _csdLens);//S:key -> D:
+        const set_trgt_csd = R.compose(
+            R.set(R.__, csdValu, baseCSD),
+            _csdLens);//S:key -> D:
         var noop = 110;
-        return set_trgt_csd('opacity')
+        return set_trgt_csd(csdKey)
     }
 );
 /**
