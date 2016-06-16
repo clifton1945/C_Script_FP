@@ -86,28 +86,30 @@ let _set_trgtCSD = R.curry(
          */
         const _csdLens = R.lensProp;// (S:propKey)-> Lens
         /**
-         *      get_base_csdValu:: S:csdKey -> D:csdValu
+         *      _base_csdValu:: S:csdKey -> D:csdValu
          */
-        const get_base_csdValu = R.compose(
+        const _base_csdValu = R.compose(
             parseFloat,
             R.view(R.__, baseCSD),
             _csdLens);// S:key -> D:keyCSD
 
-        var csdStep = get_base_csdValu('stepSize');
-        var csdOpacity = get_base_csdValu('opacity');
-        var csdFontSize = get_base_csdValu('fontSize');
-        assert(true, R.is(Number, csdFontSize));
+        var csdStep = _base_csdValu('stepSize');//MOVE below weighting
+        // var csdOpacity = _base_csdValu('opacity');
+        // var csdFontSize = _base_csdValu('fontSize');
+        assert(true, R.is(Number, _base_csdValu('fontSize')));
 
         // now weighting:: stepSize * wt + the starting value of some new Property
         var wt = _StepER(R.length(trgt_sibs))(trgt_ndx);
         assert(true, R.is(Number)(wt), 'expect all numbers');
         var _lade_baseValu = R.multiply;// (N:wght) -> N:step -> N:lade
-        // see 'lade:..
 
+        // var csdKey = 'fontSize';
         var csdKey = 'opacity';
-        var csdValu = get_base_csdValu(csdKey);
-        TST = _lade_baseValu(wt)(csdStep);
-        csdValu += TST;
+        //
+        var csdValu = _base_csdValu(csdKey);
+        csdStep = csdKey == 'fontSize' ? csdStep * 100 : csdStep;
+        csdValu += _lade_baseValu(wt)(csdStep);
+        csdValu = csdKey == 'fontSize' ? `${csdValu}%` : csdValu;
 
         /**
          *      set_trgt_csd::TESTING S:csdKey -> D:trgtCSD
@@ -133,7 +135,6 @@ const _set_trgtStyles = R.curry(
      * @param e_trgt
      */
     (csd, e_trgt)=> Object.assign(e_trgt.style, csd)
-    // (csd, e_trgt)=> e_trgt.style = csd
 );
 
 /**
