@@ -1,9 +1,6 @@
 /**
- * 160614  REFACT    _RESTYLE_all_trgtEs()
- * @0830  STABLE new set_trgt_csd()  WIP need eliminate hard code
- * @0636  STABLE BUT WIP
- * @0525  IS STABLE.
- * PLAN: REFACTOR the working code; probably split _set_trgtCSD; improve tests.
+ * 160616  CUT= _set_trgtCSD    REFACT    _RESTYLE_all_trgtEs()
+ * @0530     still stable and working for 'opacity' csdKey BUT mot for 'fontSize'
  */
 "use strict";
 // import { _StepER, assert} from "tst/setWeight_tests-compiled"; //??
