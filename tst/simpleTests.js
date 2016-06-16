@@ -1,6 +1,6 @@
 /**
  * 160616  simpleTests.js::  CUT= _set_trgtCSD
- * @0728  STABLE for 'opacity' NOW switching to 'fontSize
+ * @0801  STABLE for fontSize !!!
  * @0630  ADDED JS parseFloat() TO get_base_csdValu()
  * WIP TO USE js parseFloat:: Str->Num.Float  conversion,
  *  it ignores the % Char in "80%", thus stripping the %
@@ -103,8 +103,8 @@ let _set_trgtCSD = R.curry(
         assert(true, R.is(Number)(wt), 'expect all numbers');
         var _lade_baseValu = R.multiply;// (N:wght) -> N:step -> N:lade
 
-        // var csdKey = 'fontSize';
-        var csdKey = 'opacity';
+        var csdKey = 'fontSize';
+        // var csdKey = 'opacity';
         //
         var csdValu = _base_csdValu(csdKey);
         csdStep = csdKey == 'fontSize' ? csdStep * 100 : csdStep;
