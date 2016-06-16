@@ -1,6 +1,8 @@
 /**
- * 160616  CUT= _set_trgtCSD    REFACT    _RESTYLE_all_trgtEs()
- * @0630  WIP TO USE js parseFloat:: Str->Num.Float  conversion,
+ * 160616  simpleTests.js::  CUT= _set_trgtCSD    REFACT    _RESTYLE_all_trgtEs()
+ * @0650  STABLE for 'opacity' NOW switching to 'fontSize
+ * @0630  ADDED JS parseFloat() TO get_base_csdValu()
+ * WIP TO USE js parseFloat:: Str->Num.Float  conversion,
  *  it ignores the % Char in "80%", thus stripping the %
  *  it also seems to accept Numbers.
  *  I may not have to convert all CSD values to Strings
@@ -100,7 +102,7 @@ let _set_trgtCSD = R.curry(
         var _lade_baseValu = R.multiply;// (N:wght) -> N:step -> N:lade
         // see 'lade:..
 
-        var key = 'opacity';
+        var key = 'fontSize';
         TST = _lade_baseValu(wt)(_csdStep);
         var opacValu = _csdOpacity + TST;
 
