@@ -1,6 +1,7 @@
 /**
  * 160616  simpleTests.js::  CUT= _set_trgtCSD
  * @1908 Both fontSize and opacity WORK!
+ * next:  TESTS, COMPOSITION, SPLIT into a few big blocks: those associated w/ rClass and those of Verse divs
  * REFACT    _RESTYLE_all_trgtEs()
  */
 "use strict";
