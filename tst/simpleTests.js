@@ -1,16 +1,7 @@
 /**
  * 160616  simpleTests.js::  CUT= _set_trgtCSD
- * @1051  BROKEN NOW FOR opacity! BUT WORKS FOR fontSize !  - the str and num thing need works
- * @0830  PLAN: I need 2 things
- * (1) tests of so far;
- * (2) split/simplify set_trgtCSD call for both opacity and fontSize
- * @0805  STABLE for both csd properties and tweaked the two step values
- * @0630  ADDED JS parseFloat() TO get_base_csdValu()
- * WIP TO USE js parseFloat:: Str->Num.Float  conversion,
- *  it ignores the % Char in "80%", thus stripping the %
- *  it also seems to accept Numbers.
- *  I may not have to convert all CSD values to Strings
- * @0530     still stable and working for 'opacity' csdKey BUT mot for 'fontSize'
+ * @1908 Both fontSize and opacity WORK!
+ * next:  TESTS, COMPOSITION, SPLIT into a few big blocks: those associated w/ rClass and those of Verse divs
  * REFACT    _RESTYLE_all_trgtEs()
  */
 "use strict";
@@ -29,7 +20,7 @@ const NL = cur_Chptr_rClss_NL;
  */
 const CssStylDecl_Dict = { //
     fut: {
-        stepSize: -0.25,
+        stepSize: -0.750,
         fontSize: "90%",
         opacity: 0.9001,
         textAlign: "left",
@@ -88,13 +79,6 @@ let _set_trgtCSD = R.curry(
          *      _csdLens:: S:csdKey -> Lens:csdLens
          */
         const _csdLens = R.lensProp;// (S:propKey)-> Lens
-        /**
-         *      _base_csdValu:: S:csdKey -> D:csdValu
-         */
-        const _base_csdValu = R.compose(
-            parseFloat,
-            R.view(R.__, baseCSD),
-            _csdLens);// S:key -> D:keyCSD
 
         var wtSTUB = _StepER(R.length(trgt_sibs))(trgt_ndx); // uses _StepER() from setWeight_tests.js
 
@@ -106,8 +90,17 @@ let _set_trgtCSD = R.curry(
 
         // REFACT HARD CODED NOW call bth is next
 
-        var csdKey = 'fontSize';
-        // var csdKey = 'opacity';
+        // var csdKey = 'fontSize'; // these will soon be arguments
+        var csdKey = 'opacity';
+
+        /**
+         *      _base_csdValu:: S:csdKey -> D:csdValu
+         *      the param: baseCSD is already partial ed
+         */
+        const _base_csdValu = R.compose(
+            parseFloat,
+            R.view(R.__, baseCSD),//
+            _csdLens);// S:key -> D:keyCSD
 
         /**
          *      csdStep::: -> N: v1 || v2
@@ -115,8 +108,7 @@ let _set_trgtCSD = R.curry(
          */
         var csdStep = _base_csdValu('stepSize');
         csdStep = csdKey == 'fontSize' ? csdStep * 100 : csdStep;
-        var x = (x)=> R.or(R.equals(0.25, x), R.equals(0, x), R.equals(-0.25, x));
-        assert(true, x(csdStep), '@117 forced pst opacity csdStep as of 160616');
+        // to much trouble to test for all three steps since baseCSD is 'baked in'
 
         /**
          *      csdValu:: S:key -> N:v1 || v2
