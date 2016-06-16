@@ -62,7 +62,10 @@ var A_new = "55%";
  *CONVERT 'opacity value TO String abd use parseFloat() on both fontSize AND opacity
  *  OK parseFloat(Str). Makes '80%' -> Number
  */
-TST = R.is(Number, parseFloat(A_old));
+var isNumber = R.is(Number);
+TST = isNumber(parseFloat(A_old));
+assert(true, TST);
+TST = isNumber(parseFloat(0.123));// so I do not HAVE to convert all csd values to string
 assert(true, TST);
 noop = 0;
 //

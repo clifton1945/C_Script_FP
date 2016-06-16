@@ -1,5 +1,9 @@
 /**
  * 160616  CUT= _set_trgtCSD    REFACT    _RESTYLE_all_trgtEs()
+ * @0630  WIP TO USE js parseFloat:: Str->Num.Float  conversion,
+ *  it ignores the % Char in "80%", thus stripping the %
+ *  it also seems to accept Numbers.
+ *  I may not have to convert all CSD values to Strings
  * @0530     still stable and working for 'opacity' csdKey BUT mot for 'fontSize'
  */
 "use strict";
@@ -81,7 +85,10 @@ let _set_trgtCSD = R.curry(
         /**
          *      get_base_csdValu:: S:csdKey -> D:csdValu
          */
-        const get_base_csdValu = R.compose(R.view(R.__, baseCSD), _csdLens);// S:key -> D:keyCSD
+        const get_base_csdValu = R.compose(
+            parseFloat,
+            R.view(R.__, baseCSD),
+            _csdLens);// S:key -> D:keyCSD
 
         var _csdStep = get_base_csdValu('stepSize');
         var _csdOpacity = get_base_csdValu('opacity');
