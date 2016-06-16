@@ -1,15 +1,7 @@
 /**
- * 2 Jun 16 new name: tst/tst_EVOLVER.js
- * old name:  FROM tst/ set_clss_elemS_03.js
- *
- * old content was simpleTests.js
- * 6/2/16 GOAL: the whole STYLE all verses
- * 0810 USING fontSize as test trgt: compose a final set_new_fontSize: S:val -> CSD:{k:v}
- * WIP MOVE To initialize a rClass style THEN evolve it with a Weighter.
- * 6/1/2016
- * WOW, SUCCESSFUL--  USE  R.evolve AND R.replace AND R.set TO MUTATE a verse CssStyleDeclaration
- * DO NOT BOTHER USING Lenses, formatting strings
- * MODIFIED by CLIF on 5/31/2016.
+ * 160616 tst_regex.js
+ * @0645 tests of JS parseFloat:; Str->Num strips S:'80%' TO N:80
+ *  very useful in weighting fontSize:CSD
  */
 "use strict";
 // var R = require('ramda');
@@ -66,6 +58,9 @@ var isNumber = R.is(Number);
 TST = isNumber(parseFloat(A_old));
 assert(true, TST);
 TST = isNumber(parseFloat(0.123));// so I do not HAVE to convert all csd values to string
+assert(true, TST);
+var aFloat = 0.567;// hey, parseFloat accepts Numbers
+TST = isNumber(parseFloat(aFloat));// so I do not HAVE to convert all csd values to string
 assert(true, TST);
 noop = 0;
 //
