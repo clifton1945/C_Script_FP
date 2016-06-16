@@ -1,5 +1,9 @@
 /**
  * 160616  simpleTests.js::  CUT= _set_trgtCSD
+ * @1051  BROKEN NOW FOR opacity! BUT WORKS FOR fontSize !  - the str and num thing need works
+ * @0830  PLAN: I need 2 things
+ * (1) tests of so far;
+ * (2) split/simplify set_trgtCSD call for both opacity and fontSize
  * @0805  STABLE for both csd properties and tweaked the two step values
  * @0630  ADDED JS parseFloat() TO get_base_csdValu()
  * WIP TO USE js parseFloat:: Str->Num.Float  conversion,
@@ -25,7 +29,7 @@ const NL = cur_Chptr_rClss_NL;
  */
 const CssStylDecl_Dict = { //
     fut: {
-        stepSize: -.25,
+        stepSize: -0.25,
         fontSize: "90%",
         opacity: 0.9001,
         textAlign: "left",
@@ -39,7 +43,7 @@ const CssStylDecl_Dict = { //
         // backgroundColor: "rgba(255, 0, 0, 0.24)"
     },
     pst: {
-        stepSize: .25,
+        stepSize: 0.25,
         fontSize: "60%",
         opacity: 0.4,
         textAlign: "left",
@@ -80,7 +84,6 @@ let _set_trgtCSD = R.curry(
     (baseCSD, trgt_ndx, trgt_sibs) => {
         assert(false, R.isNil(trgt_ndx), 'ndx isNil IN _trgt_clss_CSD');
         var TST;
-        // some clss_CSD.values of this clss
         /**
          *      _csdLens:: S:csdKey -> Lens:csdLens
          */
@@ -93,26 +96,38 @@ let _set_trgtCSD = R.curry(
             R.view(R.__, baseCSD),
             _csdLens);// S:key -> D:keyCSD
 
-        var csdStep = _base_csdValu('stepSize');//MOVE below weighting
-        // var csdOpacity = _base_csdValu('opacity');
-        // var csdFontSize = _base_csdValu('fontSize');
-        assert(true, R.is(Number, _base_csdValu('fontSize')));
+        var wtSTUB = _StepER(R.length(trgt_sibs))(trgt_ndx); // uses _StepER() from setWeight_tests.js
 
-        // now weighting:: stepSize * wt + the starting value of some new Property
-        var wt = _StepER(R.length(trgt_sibs))(trgt_ndx);
-        assert(true, R.is(Number)(wt), 'expect all numbers');
+        /**
+         *      _lade_baseValu:: N:wtSTUB -> N:step -> N: wtSTUB*step
+         */
         var _lade_baseValu = R.multiply;// (N:wght) -> N:step -> N:lade
+        assert(true, R.is(Number)(wtSTUB), 'expect all numbers');
+
+        // REFACT HARD CODED NOW call bth is next
 
         var csdKey = 'fontSize';
         // var csdKey = 'opacity';
-        //
-        var csdValu = _base_csdValu(csdKey);
-        csdStep = csdKey == 'fontSize' ? csdStep * 100 : csdStep;
-        csdValu += _lade_baseValu(wt)(csdStep);
-        csdValu = csdKey == 'fontSize' ? `${csdValu}%` : csdValu;
 
         /**
-         *      set_trgt_csd::TESTING S:csdKey -> D:trgtCSD
+         *      csdStep::: -> N: v1 || v2
+         *      constant for each of three rClasses
+         */
+        var csdStep = _base_csdValu('stepSize');
+        csdStep = csdKey == 'fontSize' ? csdStep * 100 : csdStep;
+        var x = (x)=> R.or(R.equals(0.25, x), R.equals(0, x), R.equals(-0.25, x));
+        assert(true, x(csdStep), '@117 forced pst opacity csdStep as of 160616');
+
+        /**
+         *      csdValu:: S:key -> N:v1 || v2
+         */
+        var csdValu = _base_csdValu(csdKey);
+        csdValu += _lade_baseValu(wtSTUB)(csdStep);
+        csdValu = csdKey == 'fontSize' ? `${csdValu}%` : csdValu;
+        assert(true, R.is(Number, _base_csdValu('fontSize')), '@125 forced fontSize:Str->Num');
+
+        /**
+         *      set_trgt_csd:: S:csdKey -> D:trgtCSD
          */
         const set_trgt_csd = R.compose(
             R.set(R.__, csdValu, baseCSD),
@@ -122,13 +137,13 @@ let _set_trgtCSD = R.curry(
     }
 );
 /**
- *      _set_trgtStyles: CSD D -> E: trgt -> mutated E:trgt
+ *      _set_trgtElem: CSD D -> E: trgt -> mutated E:trgt
  * @param csd
  * @param e_trgt
  *
  *  REF: Object.assign( to target, from ...sources) -> trgt
  */
-const _set_trgtStyles = R.curry(
+const _set_trgtElem = R.curry(
     /**
      *      _set_trgtStyles: CSD D -> E: trgt -> mutated E:trgt
      * @param csd
@@ -152,11 +167,12 @@ const _rClss_Chldren = R.prop("children");// clssE -> L:[e, e,..]
  */
 const _RESTYLE_all_trgtEs = R.map(
     (clssE) => {
+        var base = _base_clss_CSD(clssE);// E -> CSD
+
         return R.addIndex(R.map)(
             (trgtE, ndx, col)=> {
-                var base = _base_clss_CSD(clssE);// E -> CSD
                 var trgt = _set_trgtCSD(base, ndx, col);// (CSD, N)-> CSD THIS IS THE WORKER FUNCTION !!!
-                return _set_trgtStyles(trgt, trgtE);
+                return _set_trgtElem(trgt, trgtE);
             },
             _rClss_Chldren(clssE)
         )
@@ -165,10 +181,10 @@ const _RESTYLE_all_trgtEs = R.map(
 /**
  *      ---------------------------- INVOKE and TEST
  */
-var cee = R.map((v)=>R.values(R.values(v)));
+// var cee = R.map((v)=>R.values(R.values(v)));
 // C_Both('vals were: ' + JSON.stringify( cee(CSD_D.fut)));
-var fut0 = R.map(R.props(['fontSize', 'opacity']))(CSD_D);//
-// C_Both('Clss base props: ' + JSON.stringify(R.values(fut0)));
+// var fut0 = R.map(R.props(['fontSize', 'opacity']))(CSD_D);//
+// // C_Both('Clss base props: ' + JSON.stringify(R.values(fut0)));
 
 var REStylED_trgts = _RESTYLE_all_trgtEs(NL);
 
