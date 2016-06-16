@@ -1,6 +1,6 @@
 /**
  * 160616  simpleTests.js::  CUT= _set_trgtCSD
- * @0801  STABLE for fontSize !!!
+ * @0805  STABLE for both csd properties and tweaked the two step values
  * @0630  ADDED JS parseFloat() TO get_base_csdValu()
  * WIP TO USE js parseFloat:: Str->Num.Float  conversion,
  *  it ignores the % Char in "80%", thus stripping the %
@@ -25,7 +25,7 @@ const NL = cur_Chptr_rClss_NL;
  */
 const CssStylDecl_Dict = { //
     fut: {
-        stepSize: -.8,
+        stepSize: -.25,
         fontSize: "90%",
         opacity: 0.9001,
         textAlign: "left",
@@ -39,7 +39,7 @@ const CssStylDecl_Dict = { //
         // backgroundColor: "rgba(255, 0, 0, 0.24)"
     },
     pst: {
-        stepSize: .75,
+        stepSize: .25,
         fontSize: "60%",
         opacity: 0.4,
         textAlign: "left",
