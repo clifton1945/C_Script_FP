@@ -1,6 +1,7 @@
 /**
  * 160617  simpleTests.js:: STABLE
- * @1139 BROKEN  ADDED _getValu-BY_.... code
+ * @1605  BROKEN  WIP  but slowly adding tests and code
+ *  USING:: _getValu_frm_csdKey(), _getValu_frm_csdDict()
  * NOW go thru and continue separation of code
  * @0823 STABLE with both N:opacity and S:fontSize csd s.
  *      whenStr_parseFloat() AND _get_Dict_Valu()
@@ -52,6 +53,7 @@ let CSD_D = CssStylDecl_Dict; // -> D:csd
 /**
  *      --------------------------HELPERS for _RESTYLE_trgts
  */
+
 /**
  *      whenStr_parseFloat:: S:v || N:v -> N:v
  */
@@ -59,21 +61,26 @@ const whenStr_parseFloat = R.when(R.is(String), parseFloat);
 assert(50, whenStr_parseFloat('50%'), ' whenStr_parseFloat()');
 assert(50, whenStr_parseFloat('50'), ' whenStr_parseFloat()');
 const _setView = R.compose(R.view, R.lensProp);//:: S;k -> a:{k:v) -> a:v
+
 /**
- *      _get_Valu:         S:key -> D:{k,v} -> N:v
+ *      _getValu_frm_csdKey::      S:key -> D:{k,v} -> N:v
  *      R.lensProp::            Str -> Lens s a
  *      R.view::                Lens s a -> s -> a
  *      whenStr_parseFloat::    Str | Num -> N
  */
-let _getValu_by_Dict = (lensKey) => (dict) => whenStr_parseFloat(R.view(R.lensProp(lensKey), dict));//NG
-assert(90, _getValu_by_Dict('fontSize')({fontSize: '90%'}), '_getValu_by_Dict');
-assert(-0.75, _getValu_by_Dict('stepSize')({stepSize: -0.75}), '_getValu_by_Dict');
-assert(0.9001, _getValu_by_Dict('opacity')({opacity: 0.9001}), '_getValu_by_Dict');
+let _getValu_frm_csdKey = R.curry(
+    (lensKey, dict) => whenStr_parseFloat(R.view(R.lensProp(lensKey), dict)));//NG
+assert(90, _getValu_frm_csdKey('fontSize')({fontSize: '90%'}), '_getValu_frm_csdKey');
+assert(-0.75, _getValu_frm_csdKey('stepSize')({stepSize: -0.75}), '_getValu_frm_csdKey');
+assert(0.9001, _getValu_frm_csdKey('opacity')({opacity: 0.9001}), '_getValu_frm_csdKey');
 
-let _getValu_by_lensKey = (dict) => (lensKey) => whenStr_parseFloat(R.view(R.lensProp(lensKey), dict));
-assert(90, _getValu_by_lensKey({fontSize: '90%'})('fontSize'), '_getValu_by_lensKey flip');
-assert(-0.75, _getValu_by_lensKey({stepSize: -0.75})('stepSize'), '_getValu_by_lensKey flip');
-assert(0.9001, _getValu_by_lensKey({opacity: 0.9001})('opacity'), '_getValu_by_lensKey flip');
+/**
+ *      _getValu_frm_csdDict::  = (D:dict) => (S:lensKey) =>  N:v
+ */
+let _getValu_frm_csdDict = R.flip(_getValu_frm_csdKey);
+assert(90, _getValu_frm_csdDict({fontSize: '90%'})('fontSize'), '_getValu_frm_csdDict flip');
+assert(-0.75, _getValu_frm_csdDict({stepSize: -0.75})('stepSize'), '_getValu_frm_csdDict flip');
+assert(0.9001, _getValu_frm_csdDict({opacity: 0.9001})('opacity'), '_getValu_frm_csdDict flip');
 
 /**
  *      _get_clss_CSD:: (E:clssElem) -> D:clssCSD
@@ -83,13 +90,13 @@ assert(0.9001, _getValu_by_lensKey({opacity: 0.9001})('opacity'), '_getValu_by_l
 const _get_clss_CSD = R.compose(R.flip(R.prop)(CSD_D), R.prop('className'));
 
 /**
- *      _set_trgtCSD:: D -> N -> L -> D:
+ *      _set_trgt_CSD:: D -> N -> L -> D:
  * @param baseCSD
  * @param trgt_ndx
  * @param trgt_sibs
  * @returns trgtCSD ready to be applied to an Element
  */
-let _set_trgtCSD = R.curry(
+let _set_trgt_CSD = R.curry(
     /**
      *      _set_trgtCSD::
      * @param baseCSD
@@ -107,6 +114,15 @@ let _set_trgtCSD = R.curry(
         var _lade_baseValu = R.multiply;// (N:wght) -> N:step -> N:lade
         assert(true, R.is(Number)(wtSTUB), 'expect all numbers');
 
+        /**
+         *      csdStep::: D:csd -> N: v1 || v2
+         *      constant for each of three rClasses
+         */
+        var csdStep = _getValu_frm_csdKey('stepSize');
+        csdStep = csdKey == 'fontSize' ? csdStep * 100 : csdStep;
+        assert(-0.75, csdStep({stepSize: -0.75}), 'csdStep:: tst csd');
+        
+        
         // var csdKey = 'fontSize'; // these will soon be arguments
         var csdKey = 'opacity';
 
@@ -117,27 +133,22 @@ let _set_trgtCSD = R.curry(
         const _csdLens = R.lensProp;// (S:propKey)-> Lens
 
         /**
-         *      _csdBase:: S:csdKey -> D:csdValu
-         *      the param: baseCSD is already partial ed
+         *      _csdValu_base:: S:csdKey -> D:csdValu
+         *
          */
-        const _csdBase = _getValu_by_Dict(baseCSD);
-        // assert();
-
-        /**
-         *      csdStep::: -> N: v1 || v2
-         *      constant for each of three rClasses
-         */
-        var csdStep = _csdBase('stepSize');
-        csdStep = csdKey == 'fontSize' ? csdStep * 100 : csdStep;
-        // to much trouble to test for all three steps since baseCSD is 'baked in'
+        const _csdValu_base = _getValu_frm_csdKey;
+        csdKey = 'fontSize';
+        assert(85, _csdValu_base(csdKey)({fontSize: '85%'}), '_csdValu_base >> tst csd');
+        var fontSize_csdBase = _getValu_frm_csdKey('fontSize');
+        assert(85, fontSize_csdBase({fontSize: '85%'}), 'fontSize_csdBase >> tst csd');
 
         /**
          *      csdValu:: S:key -> N:v1 || v2
          */
-        var csdValu = _csdBase(csdKey);
+        var csdValu = _csdValu_base(csdKey);
         csdValu += _lade_baseValu(wtSTUB)(csdStep);
         csdValu = csdKey == 'fontSize' ? `${csdValu}%` : csdValu;
-        assert(true, R.is(Number, _csdBase('fontSize')), 'csdValu > forced fontSize:Str->Num');
+        // assert(true, R.is(Number, _csdValu_base('fontSize')), 'csdValu > forced fontSize:Str->Num');
 
         /**
          *      set_trgt_csd:: S:csdKey -> D:trgtCSD
@@ -183,7 +194,7 @@ const _RESTYLE_all_trgtEs = R.map(
         var base = _get_clss_CSD(clssE);// E -> CSD
         return R.addIndex(R.map)(
             (trgtE, ndx, col)=> {
-                var trgt = _set_trgtCSD(base, ndx, col);// (CSD, N)-> CSD THIS IS THE WORKER FUNCTION !!!
+                var trgt = _set_trgt_CSD(base, ndx, col);// (CSD, N)-> CSD THIS IS THE WORKER FUNCTION !!!
                 return _set_trgtElem(trgt, trgtE);
             },
             _rClss_Chldren(clssE)
