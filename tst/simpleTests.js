@@ -1,5 +1,7 @@
 /**
  * 160617  simpleTests.js:: STABLE
+ * @0823 STABLE with both N:opacity and S:fontSize csd s.
+ *      whenStr_parseFloat() AND _get_Dict_Valu()
  * @0658 WIP CUT= _get_Dict_Valu IN _set_trgtCSD
  * REFACT    _RESTYLE_all_trgtEs()
  */
@@ -48,11 +50,20 @@ let CSD_D = CssStylDecl_Dict; // -> D:csd
 /**
  *      --------------------------HELPERS for _RESTYLE_trgts
  */
+const whenStr_parseFloat = R.when(R.is(String), parseFloat);
+assert(50, whenStr_parseFloat('50%'), ' whenStr_parseFloat()');
+assert(50, whenStr_parseFloat('50'), ' whenStr_parseFloat()');
 /**
  *      _get_Dict_Valu: S:key -> D:{k,v} -> N:v
+ *      R.lensProp::    Str -> Lens s a
+ *      R.view::        Lens s a -> s -> a
+ *      parseFloat::    Str | Num -> N
  */
-const _get_Dict_Valu = R.compose(parseFloat, R.view(R.lensProp));
-// assert(123, _get_Dict_Valu)('stepSize')(CSD_D['fut'], 56);
+const _get_Dict_Valu = R.compose(whenStr_parseFloat, R.view, R.lensProp);
+// const _get_Dict_Valu = R.compose( R.view, R.lensProp);
+assert(90, whenStr_parseFloat(_get_Dict_Valu('fontSize')({fontSize: '90%'})), '_get_Dict_Valu');
+assert(-0.75, _get_Dict_Valu('stepSize')({stepSize: -0.75}), '_get_Dict_Valu');
+assert(0.9001, _get_Dict_Valu('opacity')({opacity: 0.9001}), '_get_Dict_Valu');
 
 /**
  *      _get_clss_CSD:: (E:clssElem) -> D:clssCSD
