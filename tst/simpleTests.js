@@ -1,7 +1,6 @@
 /**
- * 160616  simpleTests.js::  CUT= _set_trgtCSD
- * @1908 Both fontSize and opacity WORK!
- * next:  TESTS, COMPOSITION, SPLIT into a few big blocks: those associated w/ rClass and those of Verse divs
+ * 160617  simpleTests.js:: STABLE
+ * @0658 WIP CUT= _get_Dict_Valu IN _set_trgtCSD
  * REFACT    _RESTYLE_all_trgtEs()
  */
 "use strict";
@@ -49,13 +48,18 @@ let CSD_D = CssStylDecl_Dict; // -> D:csd
 /**
  *      --------------------------HELPERS for _RESTYLE_trgts
  */
+/**
+ *      _get_Dict_Valu: S:key -> D:{k,v} -> N:v
+ */
+const _get_Dict_Valu = R.compose(parseFloat, R.view(R.lensProp));
+// assert(123, _get_Dict_Valu)('stepSize')(CSD_D['fut'], 56);
 
 /**
- *      _base_clss_CSD:: (E:clssElem) -> D:clssCSD
+ *      _get_clss_CSD:: (E:clssElem) -> D:clssCSD
  *  extracts the class style Dict -fut,cur,pst- from the class Element,
  *  NOTE: the base css style declaration dictionary, CSD_D, is hard coded in.
  */
-const _base_clss_CSD = R.compose(R.flip(R.prop)(CSD_D), R.prop('className'));
+const _get_clss_CSD = R.compose(R.flip(R.prop)(CSD_D), R.prop('className'));
 
 /**
  *      _set_trgtCSD:: D -> N -> L -> D:
@@ -75,10 +79,6 @@ let _set_trgtCSD = R.curry(
     (baseCSD, trgt_ndx, trgt_sibs) => {
         assert(false, R.isNil(trgt_ndx), 'ndx isNil IN _trgt_clss_CSD');
         var TST;
-        /**
-         *      _csdLens:: S:csdKey -> Lens:csdLens
-         */
-        const _csdLens = R.lensProp;// (S:propKey)-> Lens
 
         var wtSTUB = _StepER(R.length(trgt_sibs))(trgt_ndx); // uses _StepER() from setWeight_tests.js
 
@@ -88,16 +88,20 @@ let _set_trgtCSD = R.curry(
         var _lade_baseValu = R.multiply;// (N:wght) -> N:step -> N:lade
         assert(true, R.is(Number)(wtSTUB), 'expect all numbers');
 
-        // REFACT HARD CODED NOW call bth is next
-
         // var csdKey = 'fontSize'; // these will soon be arguments
         var csdKey = 'opacity';
 
         /**
-         *      _base_csdValu:: S:csdKey -> D:csdValu
+         *      _csdLens:: S:csdKey -> Lens:csdLens
+         *
+         */
+        const _csdLens = R.lensProp;// (S:propKey)-> Lens
+
+        /**
+         *      _csdBase:: S:csdKey -> D:csdValu
          *      the param: baseCSD is already partial ed
          */
-        const _base_csdValu = R.compose(
+        const _csdBase = R.compose(
             parseFloat,
             R.view(R.__, baseCSD),//
             _csdLens);// S:key -> D:keyCSD
@@ -106,17 +110,17 @@ let _set_trgtCSD = R.curry(
          *      csdStep::: -> N: v1 || v2
          *      constant for each of three rClasses
          */
-        var csdStep = _base_csdValu('stepSize');
+        var csdStep = _csdBase('stepSize');
         csdStep = csdKey == 'fontSize' ? csdStep * 100 : csdStep;
         // to much trouble to test for all three steps since baseCSD is 'baked in'
 
         /**
          *      csdValu:: S:key -> N:v1 || v2
          */
-        var csdValu = _base_csdValu(csdKey);
+        var csdValu = _csdBase(csdKey);
         csdValu += _lade_baseValu(wtSTUB)(csdStep);
         csdValu = csdKey == 'fontSize' ? `${csdValu}%` : csdValu;
-        assert(true, R.is(Number, _base_csdValu('fontSize')), '@125 forced fontSize:Str->Num');
+        assert(true, R.is(Number, _csdBase('fontSize')), '@125 forced fontSize:Str->Num');
 
         /**
          *      set_trgt_csd:: S:csdKey -> D:trgtCSD
@@ -159,8 +163,7 @@ const _rClss_Chldren = R.prop("children");// clssE -> L:[e, e,..]
  */
 const _RESTYLE_all_trgtEs = R.map(
     (clssE) => {
-        var base = _base_clss_CSD(clssE);// E -> CSD
-
+        var base = _get_clss_CSD(clssE);// E -> CSD
         return R.addIndex(R.map)(
             (trgtE, ndx, col)=> {
                 var trgt = _set_trgtCSD(base, ndx, col);// (CSD, N)-> CSD THIS IS THE WORKER FUNCTION !!!
@@ -205,7 +208,7 @@ function testMe() {
 
 //tests  __base_rClss_CSD
     tNum = 2;
-    CUT = _base_clss_CSD;
+    CUT = _get_clss_CSD;
     var test_CSDs = R.map(CUT);//  L:nl -> [[D:d, D:d, D:d]]
     RET = test_CSDs(NL);//  ->  [[D:d, D:d, D:d]]
     assert("60%", RET[0].fontSize, tNum);
