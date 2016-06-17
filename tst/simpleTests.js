@@ -1,5 +1,7 @@
 /**
  * 160617  simpleTests.js:: STABLE
+ * @1139 STABLE one assert Broken ADDED _getValu-BY_.... code
+ * NOW go thru and continue separation of code
  * @0823 STABLE with both N:opacity and S:fontSize csd s.
  *      whenStr_parseFloat() AND _get_Dict_Valu()
  * @0658 WIP CUT= _get_Dict_Valu IN _set_trgtCSD
@@ -50,20 +52,28 @@ let CSD_D = CssStylDecl_Dict; // -> D:csd
 /**
  *      --------------------------HELPERS for _RESTYLE_trgts
  */
+/**
+ *      whenStr_parseFloat:: S:v || N:v -> N:v
+ */
 const whenStr_parseFloat = R.when(R.is(String), parseFloat);
 assert(50, whenStr_parseFloat('50%'), ' whenStr_parseFloat()');
 assert(50, whenStr_parseFloat('50'), ' whenStr_parseFloat()');
+const _setView = R.compose(R.view, R.lensProp);//:: S;k -> a:{k:v) -> a:v
 /**
- *      _get_Dict_Valu: S:key -> D:{k,v} -> N:v
- *      R.lensProp::    Str -> Lens s a
- *      R.view::        Lens s a -> s -> a
- *      parseFloat::    Str | Num -> N
+ *      _get_Valu:         S:key -> D:{k,v} -> N:v
+ *      R.lensProp::            Str -> Lens s a
+ *      R.view::                Lens s a -> s -> a
+ *      whenStr_parseFloat::    Str | Num -> N
  */
-const _get_Dict_Valu = R.compose(whenStr_parseFloat, R.view, R.lensProp);
-// const _get_Dict_Valu = R.compose( R.view, R.lensProp);
-assert(90, whenStr_parseFloat(_get_Dict_Valu('fontSize')({fontSize: '90%'})), '_get_Dict_Valu');
-assert(-0.75, _get_Dict_Valu('stepSize')({stepSize: -0.75}), '_get_Dict_Valu');
-assert(0.9001, _get_Dict_Valu('opacity')({opacity: 0.9001}), '_get_Dict_Valu');
+let _getValu_by_Dict = (lensKey) => (dict) => whenStr_parseFloat(R.view(R.lensProp(lensKey), dict));//NG
+assert(90, _getValu_by_Dict('fontSize')({fontSize: '90%'}), '_getValu_by_Dict');
+assert(-0.75, _getValu_by_Dict('stepSize')({stepSize: -0.75}), '_getValu_by_Dict');
+assert(0.9001, _getValu_by_Dict('opacity')({opacity: 0.9001}), '_getValu_by_Dict');
+
+let _getValu_by_lensKey = (dict) => (lensKey) => whenStr_parseFloat(R.view(R.lensProp(lensKey), dict));
+assert(90, _getValu_by_lensKey({fontSize: '90%'})('fontSize'), '_getValu_by_lensKey flip');
+assert(-0.75, _getValu_by_lensKey({stepSize: -0.75})('stepSize'), '_getValu_by_lensKey flip');
+assert(0.9001, _getValu_by_lensKey({opacity: 0.9001})('opacity'), '_getValu_by_lensKey flip');
 
 /**
  *      _get_clss_CSD:: (E:clssElem) -> D:clssCSD
@@ -88,9 +98,7 @@ let _set_trgtCSD = R.curry(
      * @returns {*}
      */
     (baseCSD, trgt_ndx, trgt_sibs) => {
-        assert(false, R.isNil(trgt_ndx), 'ndx isNil IN _trgt_clss_CSD');
         var TST;
-
         var wtSTUB = _StepER(R.length(trgt_sibs))(trgt_ndx); // uses _StepER() from setWeight_tests.js
 
         /**
@@ -112,10 +120,8 @@ let _set_trgtCSD = R.curry(
          *      _csdBase:: S:csdKey -> D:csdValu
          *      the param: baseCSD is already partial ed
          */
-        const _csdBase = R.compose(
-            parseFloat,
-            R.view(R.__, baseCSD),//
-            _csdLens);// S:key -> D:keyCSD
+        const _csdBase = _getValu_by_Dict(baseCSD);
+        // assert();
 
         /**
          *      csdStep::: -> N: v1 || v2
@@ -131,7 +137,7 @@ let _set_trgtCSD = R.curry(
         var csdValu = _csdBase(csdKey);
         csdValu += _lade_baseValu(wtSTUB)(csdStep);
         csdValu = csdKey == 'fontSize' ? `${csdValu}%` : csdValu;
-        assert(true, R.is(Number, _csdBase('fontSize')), '@125 forced fontSize:Str->Num');
+        assert(true, R.is(Number, _csdBase('fontSize')), 'csdValu > forced fontSize:Str->Num');
 
         /**
          *      set_trgt_csd:: S:csdKey -> D:trgtCSD
@@ -232,7 +238,7 @@ function testMe() {
     assert(6, NL[2].childElementCount, tNum);
 
 // final MSG
-    MSG = 'testMe: completed';
+    MSG = 'completed tests';
     C_Both(MSG);
 }
 testMe();
