@@ -94,8 +94,8 @@ let clssWght_Dict = {
 var RET, EXP, CUT, TST, noop;
 //var C, F, L, N; CloseWt, FarWt, Length of Siblings, my Ndex in sibling list
 var C, F, L, N;
-var This = x => console.log('t:' + x);
-var tap_This = R.tap(This);
+// MOVED TO functions.js  160617 var This = x => console.log('t:' + x);
+// var tap_This = R.tap(This);
 //-------------------------
 C = 90, F = 50, L = 5, N = 2;
 TST = {far_wt: 50, ner_wt: 90};

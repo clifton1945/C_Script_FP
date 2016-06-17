@@ -62,6 +62,8 @@ const C_Both = (txt) => {
     C_It(txt);
     Doc_It(txt);
 };
+var This = x => console.log('t:' + x);
+var tap_This = R.tap(This);
 
 const MSG_It = (msg) => C_Both(msg);
 
