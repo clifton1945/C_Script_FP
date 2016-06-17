@@ -1,6 +1,6 @@
 /**
  * 160617  simpleTests.js:: STABLE
- * @1139 STABLE one assert Broken ADDED _getValu-BY_.... code
+ * @1139 BROKEN  ADDED _getValu-BY_.... code
  * NOW go thru and continue separation of code
  * @0823 STABLE with both N:opacity and S:fontSize csd s.
  *      whenStr_parseFloat() AND _get_Dict_Valu()
