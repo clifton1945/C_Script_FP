@@ -1,9 +1,7 @@
 /**
- * transformers_tests.js 6/7/17 .0515
- *  DROPPING mutating key: stepSize
- * END GET the trgt ndx into weighting fontSize and opacity
- */
-/**
+ * transformers_tests.js
+ * 160620 back to evolve to see if it is better / simpler
+ * @ 0617
  * 160610 0700  dropping evolve and transform. Will use Lens*
  */
 "use strict";
