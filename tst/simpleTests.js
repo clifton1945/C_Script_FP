@@ -23,21 +23,21 @@ const CssStylDecl_Dict = { //
     fut: {
         stepSize: -0.750,
         fontSize: "90%",
-        opacity: 0.9001,
+        opacity: '0.9001',
         textAlign: "left",
         backgroundColor: "rgba(145, 248, 29, 0.29)"
     },
     cur: {
         stepSize: 0, // start gig  stay big
         fontSize: "100%",
-        opacity: 1.0,
+        opacity: '1.0',
         textAlign: "center",
         // backgroundColor: "rgba(255, 0, 0, 0.24)"
     },
     pst: {
         stepSize: 0.25,
         fontSize: "60%",
-        opacity: 0.4,
+        opacity: '0.4',
         textAlign: "left",
         backgroundColor: "rgba(255, 0, 0, 0.24)"
     }
@@ -232,7 +232,7 @@ function testMe() {
     assert(6, NL[2].childElementCount, tNum);
 
 // final MSG
-    MSG = 'testMe: completed';
+    MSG = 'simpleTests - completed';
     C_Both(MSG);
 }
 testMe();
