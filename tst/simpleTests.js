@@ -1,4 +1,6 @@
-/**
+/** simpleTests.js
+ * 160620
+ * # 1408 USING transformers_test.js functions:  _transform_CSD() AND wt_factor()
  * 160617  simpleTests.js:: STABLE
  * @0823 STABLE with both N:opacity and S:fontSize csd s.
  *      whenStr_parseFloat() AND _get_Dict_Valu()
@@ -22,8 +24,8 @@ const NL = cur_Chptr_rClss_NL;
 const CssStylDecl_Dict = { //
     fut: {
         stepSize: -0.750,
-        fontSize: "90%",
-        opacity: '0.9001',
+        fontSize: "45%",
+        opacity: '0.45',
         textAlign: "left",
         backgroundColor: "rgba(145, 248, 29, 0.29)"
     },
@@ -143,6 +145,8 @@ let _set_trgtCSD = R.curry(
         return set_trgt_csd(csdKey)
     }
 );
+
+
 /**
  *      _set_trgtElem: CSD D -> E: trgt -> mutated E:trgt
  * @param csd
@@ -177,7 +181,8 @@ const _RESTYLE_all_trgtEs = R.map(
         var base = _get_clss_CSD(clssE);// E -> CSD
         return R.addIndex(R.map)(
             (trgtE, ndx, col)=> {
-                var trgt = _set_trgtCSD(base, ndx, col);// (CSD, N)-> CSD THIS IS THE WORKER FUNCTION !!!
+                // var trgt = _set_trgtCSD(base, ndx, col);// (CSD, N)-> CSD THIS IS THE WORKER FUNCTION !!!
+                var trgt = _transform_CSD(base, wt_factor(ndx, col));// (CSD, N)-> CSD THIS IS THE WORKER FUNCTION !!!
                 return _set_trgtElem(trgt, trgtE);
             },
             _rClss_Chldren(clssE)
