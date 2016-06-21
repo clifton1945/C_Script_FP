@@ -25,22 +25,22 @@ const bookTmpl = '.book';
 const C_Grp_Tmpl = '.ChptrReadGrps > div';
 const V_Grp_Tmpl = '.ChptrReadGrps .cur  .VerseReadGrps > div';
 const cur_Chptr_rClss_NL = document.querySelectorAll(V_Grp_Tmpl);
-const cur_Chptr_cur_rClss_Verse_tst1_Elem = document.querySelector('div #tst1');
-const div_tst1_E = document.querySelector('div #tst1');
-//var C_Grp_NL = book.querySelectorAll(C_Grp_Tmpl); // NL:: 3 div.classes: pst, cur, fut
-//var V_Grp_NL = book.querySelectorAll(V_Grp_Tmpl); // NL:: 3 div.classes: pst, cur, fut
-const GET_book =
-    function GET_book() {
-        return document.querySelector(bookTmpl)
-    };
-const GET_C_Grp_NL =
-    function GET_C_Grp_NL(book) {
-        return book.querySelectorAll(C_Grp_Tmpl)
-    };
-const GET_V_Grp_NL =
-    function GET_V_Grp_NL(book) {
-        return book.querySelectorAll(V_Grp_Tmpl)
-    };
+// const cur_Chptr_cur_rClss_Verse_tst1_Elem = document.querySelector('div #tst1');
+// const div_tst1_E = document.querySelector('div #tst1');
+// //var C_Grp_NL = book.querySelectorAll(C_Grp_Tmpl); // NL:: 3 div.classes: pst, cur, fut
+// //var V_Grp_NL = book.querySelectorAll(V_Grp_Tmpl); // NL:: 3 div.classes: pst, cur, fut
+// const GET_book =
+//     function GET_book() {
+//         return document.querySelector(bookTmpl)
+//     };
+// const GET_C_Grp_NL =
+//     function GET_C_Grp_NL(book) {
+//         return book.querySelectorAll(C_Grp_Tmpl)
+//     };
+// const GET_V_Grp_NL =
+//     function GET_V_Grp_NL(book) {
+//         return book.querySelectorAll(V_Grp_Tmpl)
+//     };
 
 
 /**
@@ -56,7 +56,7 @@ const assert = (exp, ret, tNum)=> console.assert(R.equals(exp, ret), ` EXP:[${ex
 const Doc_It = (txt) => document.querySelector(".console").textContent = txt;
 
 const C_It = (txt) => console.log(txt);
-//export {C_It};
+// export {C_It};
 
 const C_Both = (txt) => {
     C_It(txt);

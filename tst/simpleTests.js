@@ -1,6 +1,7 @@
 /**
  *  simpleTests.js
  * 160621
+ * @0655 REMOVED NOT USED CODE
  * @0635 WORKING STABLE
  *  first REFACT weighting
  *      STABLE BUT NOT GIT WIP BEGAN using new weighting
@@ -30,8 +31,8 @@ const NL = cur_Chptr_rClss_NL;
 const CssStylDecl_Dict = { //
     fut: {
         stepSize: -0.750,
-        fontSize: "45%",
-        opacity: '0.45',
+        fontSize: "75%",
+        opacity: '0.75',
         textAlign: "left",
         backgroundColor: "rgba(145, 248, 29, 0.29)"
     },
@@ -44,8 +45,8 @@ const CssStylDecl_Dict = { //
     },
     pst: {
         stepSize: 0.25,
-        fontSize: "60%",
-        opacity: '0.4',
+        fontSize: "80%",
+        opacity: '0.8',
         textAlign: "left",
         backgroundColor: "rgba(255, 0, 0, 0.24)"
     }
@@ -58,22 +59,22 @@ let CSD_D = CssStylDecl_Dict; // -> D:csd
 /**
  *      --------------------------HELPERS for _RESTYLE_trgts
  */
-const whenStr_parseFloat = R.when(R.is(String), parseFloat);
+// const whenStr_parseFloat = R.when(R.is(String), parseFloat);
 
-/**
- *      _get_Dict_Valu: S:key -> D:{k,v} -> N:v
- *      R.lensProp::    Str -> Lens s a
- *      R.view::        Lens s a -> s -> a
- *      parseFloat::    Str | Num -> N
- */
-const _get_Dict_Valu = R.compose(whenStr_parseFloat, R.view, R.lensProp);
+// /**
+//  *      _get_Dict_Valu: S:key -> D:{k,v} -> N:v
+//  *      R.lensProp::    Str -> Lens s a
+//  *      R.view::        Lens s a -> s -> a
+//  *      parseFloat::    Str | Num -> N
+//  */
+// const _get_Dict_Valu = R.compose(whenStr_parseFloat, R.view, R.lensProp);
 
 // ------------------------------- Tests
-assert(50, whenStr_parseFloat('50%'), ' whenStr_parseFloat()');
-assert(50, whenStr_parseFloat('50'), ' whenStr_parseFloat()');
-assert(90, whenStr_parseFloat(_get_Dict_Valu('fontSize')({fontSize: '90%'})), '_get_Dict_Valu');
-assert(-0.75, _get_Dict_Valu('stepSize')({stepSize: -0.75}), '_get_Dict_Valu');
-assert(0.9001, _get_Dict_Valu('opacity')({opacity: 0.9001}), '_get_Dict_Valu');
+// assert(50, whenStr_parseFloat('50%'), ' whenStr_parseFloat()');
+// assert(50, whenStr_parseFloat('50'), ' whenStr_parseFloat()');
+// assert(90, whenStr_parseFloat(_get_Dict_Valu('fontSize')({fontSize: '90%'})), '_get_Dict_Valu');
+// assert(-0.75, _get_Dict_Valu('stepSize')({stepSize: -0.75}), '_get_Dict_Valu');
+// assert(0.9001, _get_Dict_Valu('opacity')({opacity: 0.9001}), '_get_Dict_Valu');
 
 /**
  *      _get_clss_CSD:: (E:clssElem) -> D:clssCSD
@@ -130,7 +131,6 @@ var REStylED_trgts = _RESTYLE_all_trgtEs(NL);
 
 function testMe() {
     var MSG = '', CUT, _CUT, RET, EXP, TST, tNum = 0;
-    var trgt;
 
 // //tests  _RESTYLE_trgts
 //     tNum = 4;
