@@ -1,23 +1,16 @@
 /**
  * transformers_tests.js
  * 160621
+ *  @0932: STABLE CREATED AND TESTED wt_ER_pst AND wt_ER_fut FROM wt_factor
  *  @0628: CREATED wtFunc_pst AND wtFunc_fut FROM wt_factor
- * 160620 R.evolve IS a better way to mutate styles!
- * @ 1405: STABLE usable wtFunc_pst() AND _transform_CSD()
- * @ 1212: WIP STABLE _transform_CSD()
- * @ 0747:  STABLE transformers wt_opacity(0 and wt_fontSize() WORK nearly ready to accept an index argument.
- * @ 0617
- * 160610 0700  dropping evolve and transform. Will use Lens*
  */
 "use strict";
 //GLOBAL:
 var CUT, RET, MSG = ``;
 // ---------------------- tests data
-var stub_csd = {opacity: '76', fontSize: '80%'};
 
-var stub_fctr = 1 / 2;
-var stub_wtER = R.multiply(stub_fctr);
-// ---------------------- Code Under Test
+
+//---------------------- Code Under Test: wtFunctions
 /**
  *      wtFunc_pst:: (N:fctr, L:sibls -> fctr) -> (fctr -> N:b -> N:b)
 
@@ -30,15 +23,34 @@ var wtFunc_pst = (ndx, col) => {
     var den = R.length(col);
     return R.divide(num, den);
 };
-/**
- *      wtFunc_fut:: (N:fctr, L:sibls -> fctr) -> (fctr -> N:b -> N:b)
+var _wtER_pst = col => R.compose(R.flip(R.divide)(R.length(col)), R.inc);// L:col -> N:ndx -> (*->N:wt)
+var _wtER_fut = col => R.compose(R.inc, R.negate, R.divide(R.__, R.length(col)));// L:col -> N:ndx -> (*->N:wt)
 
- * @param ndx
- * @param col
- * @return {*}
- */
-var wtFunc_fut = (ndx, col) => R.inc(R.negate(wtFunc_pst(ndx, col)));
+// /**
+//  *      wtFunc_fut:: (N:fctr, L:sibls -> fctr) -> (fctr -> N:b -> N:b)
+//
+//  * @param ndx
+//  * @param col
+//  * @return {*}
+//  */
+// var wtFunc_fut = (ndx, col) => R.inc(R.negate(wtFunc_pst(ndx, col)));
+// ---------------------- tests: _transform_CSD
+MSG = '_wtER_ s -> ';
+CUT = _wtER_pst([0, 1, 2, 3]);// get 0.25, 0.50, 0.75, 1.0
+MSG += '#1 wt..._pst(0), ';
+assert(0.25, CUT(0), MSG);
+MSG += '#2 wt..._pst(3), ';
+assert(1.0, CUT(3), MSG);
+CUT = _wtER_fut([1, 2, 3, 4]);
+MSG += '#3 wt..._fut(0)  ';
+assert(1.0, CUT(0), MSG);
+MSG += '#4 wt..._fut(3), ';
+assert(0.25, CUT(3), MSG);
+MSG += `
+tested`;
+C_Both(MSG);
 
+// ---------------------- Code Under Test: wtFunctions
 /**
  *      _transform_CSD: D:csd, N:fctr
  */
@@ -52,9 +64,14 @@ var _transform_CSD = R.curry(function (csd, fctr) {
     };
     return R.evolve(transform, csd); //=>
 });
-// ---------------------- tests
-RET = _transform_CSD(stub_csd, stub_fctr);
+// ---------------------- tests: _transform_CSD
+MSG = `_transform_CSD-> `;
+var stub_csd = {opacity: '76', fontSize: '80%'};
+var stub_col = [1, 2, 3, 4];
+var stub_fctr = 1 / 2;
+var stub_wtER = R.multiply(stub_fctr);
 
+RET = _transform_CSD(stub_csd, stub_fctr);
 MSG += '#1 isString, ';
 assert(true, R.is(String, RET.opacity), MSG);
 MSG += '#2 opacity: wter:1/2, ';
@@ -65,8 +82,10 @@ MSG += '#4 fontSize: wter:1, ';
 RET = _transform_CSD(stub_csd, 1);
 assert('80%', RET.fontSize, MSG);
 
+
 MSG += '#5 fontSize: wter:fn(ndx, col), ';
 RET = _transform_CSD(stub_csd, wtFunc_pst(0, [1, 2, 3, 4]));
 assert('20%', RET.fontSize, MSG);
-
-C_Both(`ran transformers_tests-> ${MSG}`);
+MSG += `
+tested`;
+C_Both(MSG);
