@@ -13,7 +13,6 @@
 //GLOBAL:
 var CUT, RET, MSG = ``;
 // ---------------------- tests data
-var myTap = R.tap(o => C_Both(`t:${o} `));
 var stub_csd = {opacity: '76', fontSize: '80%'};
 
 var stub_fctr = 1 / 2;

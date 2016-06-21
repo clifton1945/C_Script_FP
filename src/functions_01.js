@@ -1,18 +1,12 @@
 /**
- * Created by CLIF on 2/19/2016.
+ * functions_01.js
+ * 160621 @ 0645 ADDED  myTapFROM transformers_tests.js
  */
 
 "use strict";
 //var R = require('ramda');
 // import * as R from "ramda"
-
-/**
- *      assert: a, b -> B:
- *      has built in msg: ret != exp
- * @param exp
- * @param ret
- */
-// 160603 const assert = (exp, ret)=> console.assert(R.equals(exp, ret), `${ret}!=${exp} @ ${noop}`);
+const myTap = R.tap(o => C_Both(` t:${o} `));
 const msg = (msg) => ` ${msg}`;
 const Doc_It = (txt) => document.querySelector(".console").textContent = txt;
 const C_It = (txt) => console.log(txt);
