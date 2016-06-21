@@ -1,11 +1,13 @@
-/** simpleTests.js
+/**
+ *  simpleTests.js
  * 160621
- * @0610 WORKING STABLE
- *  removed tests and cose not needed by using transformers introduced yesterday.
- *  first REFACT weighting - invert - for 'fut' class divs
+ * @0635 WORKING STABLE
+ *  first REFACT weighting
+ *      STABLE BUT NOT GIT WIP BEGAN using new weighting
+ *      CREATED  wtFunc_pst AND wtFunc_fut FROM wt_factor IN * transformers_tests.js
  *  second REFACT to eliminate the rClass divs
  * 160620
- * # 1408 USING transformers_test.js functions:  _transform_CSD() AND wt_factor()
+ * # 1408 USING transformers_test.js functions:  _transform_CSD() AND wtFunc_pst()
  * 160617  simpleTests.js:: STABLE
  * @0823 STABLE with both N:opacity and S:fontSize csd s.
  *      whenStr_parseFloat() AND _get_Dict_Valu()
@@ -13,7 +15,6 @@
  * REFACT    _RESTYLE_all_trgtEs()
  */
 "use strict";
-// import { _StepER, assert} from "tst/setWeight_tests-compiled"; //??
 /**
  *       --------------------------DATA:
  */
@@ -106,6 +107,7 @@ const _rClss_Chldren = R.prop("children");// clssE -> L:[e, e,..]
 const _RESTYLE_all_trgtEs = R.map(
     (clssE) => {
         var base = _get_clss_CSD(clssE);// E -> CSD
+        var wt_factor = wtFunc_pst;
         return R.addIndex(R.map)(
             (trgtE, ndx, col)=> {
                 var trgt = _transform_CSD(base, wt_factor(ndx, col));// (CSD, N)-> CSD THIS IS THE WORKER FUNCTION !!!
