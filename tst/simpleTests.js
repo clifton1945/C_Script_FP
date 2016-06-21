@@ -1,6 +1,7 @@
 /**
  *  simpleTests.js
  * 160621
+ * @0952 STABLE USE of wtER s; NOT finished but close.
  * @0655 REMOVED NOT USED CODE
  * @0635 WORKING STABLE
  *  first REFACT weighting
@@ -108,10 +109,11 @@ const _rClss_Chldren = R.prop("children");// clssE -> L:[e, e,..]
 const _RESTYLE_all_trgtEs = R.map(
     (clssE) => {
         var base = _get_clss_CSD(clssE);// E -> CSD
-        var wt_factor = wtFunc_pst;
+        var wt_factor = _wtER_pst;
         return R.addIndex(R.map)(
             (trgtE, ndx, col)=> {
-                var trgt = _transform_CSD(base, wt_factor(ndx, col));// (CSD, N)-> CSD THIS IS THE WORKER FUNCTION !!!
+                var wt_factor = _wtER_fut(col);
+                var trgt = _transform_CSD(base, wt_factor(ndx));// (CSD, N)-> CSD THIS IS THE WORKER FUNCTION !!!
                 return _set_trgtElem(trgt, trgtE);
             },
             _rClss_Chldren(clssE)
