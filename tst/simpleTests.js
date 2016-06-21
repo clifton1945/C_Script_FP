@@ -1,4 +1,9 @@
 /** simpleTests.js
+ * 160621
+ * @0610 WORKING STABLE
+ *  removed tests and cose not needed by using transformers introduced yesterday.
+ *  first REFACT weighting - invert - for 'fut' class divs
+ *  second REFACT to eliminate the rClass divs
  * 160620
  * # 1408 USING transformers_test.js functions:  _transform_CSD() AND wt_factor()
  * 160617  simpleTests.js:: STABLE
@@ -53,8 +58,7 @@ let CSD_D = CssStylDecl_Dict; // -> D:csd
  *      --------------------------HELPERS for _RESTYLE_trgts
  */
 const whenStr_parseFloat = R.when(R.is(String), parseFloat);
-assert(50, whenStr_parseFloat('50%'), ' whenStr_parseFloat()');
-assert(50, whenStr_parseFloat('50'), ' whenStr_parseFloat()');
+
 /**
  *      _get_Dict_Valu: S:key -> D:{k,v} -> N:v
  *      R.lensProp::    Str -> Lens s a
@@ -62,7 +66,10 @@ assert(50, whenStr_parseFloat('50'), ' whenStr_parseFloat()');
  *      parseFloat::    Str | Num -> N
  */
 const _get_Dict_Valu = R.compose(whenStr_parseFloat, R.view, R.lensProp);
-// const _get_Dict_Valu = R.compose( R.view, R.lensProp);
+
+// ------------------------------- Tests
+assert(50, whenStr_parseFloat('50%'), ' whenStr_parseFloat()');
+assert(50, whenStr_parseFloat('50'), ' whenStr_parseFloat()');
 assert(90, whenStr_parseFloat(_get_Dict_Valu('fontSize')({fontSize: '90%'})), '_get_Dict_Valu');
 assert(-0.75, _get_Dict_Valu('stepSize')({stepSize: -0.75}), '_get_Dict_Valu');
 assert(0.9001, _get_Dict_Valu('opacity')({opacity: 0.9001}), '_get_Dict_Valu');
@@ -74,86 +81,6 @@ assert(0.9001, _get_Dict_Valu('opacity')({opacity: 0.9001}), '_get_Dict_Valu');
  */
 const _get_clss_CSD = R.compose(R.flip(R.prop)(CSD_D), R.prop('className'));
 
-/**
- *      _set_trgtCSD:: D -> N -> L -> D:
- * @param baseCSD
- * @param trgt_ndx
- * @param trgt_sibs
- * @returns trgtCSD ready to be applied to an Element
- */
-let _set_trgtCSD = R.curry(
-    /**
-     *      _set_trgtCSD::
-     * @param baseCSD
-     * @param trgt_ndx
-     * @param trgt_sibs
-     * @returns {*}
-     */
-    (baseCSD, trgt_ndx, trgt_sibs) => {
-        assert(false, R.isNil(trgt_ndx), 'ndx isNil IN _trgt_clss_CSD');
-        var TST;
-
-        var wtSTUB = _StepER(R.length(trgt_sibs))(trgt_ndx); // uses _StepER() from setWeight_tests.js
-
-        /**
-         *      _lade_baseValu:: N:wtSTUB -> N:step -> N: wtSTUB*step
-         */
-        var _lade_baseValu = R.multiply;// (N:wght) -> N:step -> N:lade
-        assert(true, R.is(Number)(wtSTUB), 'expect all numbers');
-
-        // var csdKey = 'fontSize'; // these will soon be arguments
-        var csdKey = 'opacity';
-
-        /**
-         *      _csdLens:: S:csdKey -> Lens:csdLens
-         *
-         */
-        const _csdLens = R.lensProp;// (S:propKey)-> Lens
-
-        /**
-         *      _csdBase:: S:csdKey -> D:csdValu
-         *      the param: baseCSD is already partial ed
-         */
-        const _csdBase = R.compose(
-            parseFloat,
-            R.view(R.__, baseCSD),//
-            _csdLens);// S:key -> D:keyCSD
-
-        /**
-         *      csdStep::: -> N: v1 || v2
-         *      constant for each of three rClasses
-         */
-        var csdStep = _csdBase('stepSize');
-        csdStep = csdKey == 'fontSize' ? csdStep * 100 : csdStep;
-        // to much trouble to test for all three steps since baseCSD is 'baked in'
-
-        /**
-         *      csdValu:: S:key -> N:v1 || v2
-         */
-        var csdValu = _csdBase(csdKey);
-        csdValu += _lade_baseValu(wtSTUB)(csdStep);
-        csdValu = csdKey == 'fontSize' ? `${csdValu}%` : csdValu;
-        assert(true, R.is(Number, _csdBase('fontSize')), '@125 forced fontSize:Str->Num');
-
-        /**
-         *      set_trgt_csd:: S:csdKey -> D:trgtCSD
-         */
-        const set_trgt_csd = R.compose(
-            R.set(R.__, csdValu, baseCSD),
-            _csdLens);//S:key -> D:
-        var noop = 110;
-        return set_trgt_csd(csdKey)
-    }
-);
-
-
-/**
- *      _set_trgtElem: CSD D -> E: trgt -> mutated E:trgt
- * @param csd
- * @param e_trgt
- *
- *  REF: Object.assign( to target, from ...sources) -> trgt
- */
 const _set_trgtElem = R.curry(
     /**
      *      _set_trgtStyles: CSD D -> E: trgt -> mutated E:trgt
@@ -181,7 +108,6 @@ const _RESTYLE_all_trgtEs = R.map(
         var base = _get_clss_CSD(clssE);// E -> CSD
         return R.addIndex(R.map)(
             (trgtE, ndx, col)=> {
-                // var trgt = _set_trgtCSD(base, ndx, col);// (CSD, N)-> CSD THIS IS THE WORKER FUNCTION !!!
                 var trgt = _transform_CSD(base, wt_factor(ndx, col));// (CSD, N)-> CSD THIS IS THE WORKER FUNCTION !!!
                 return _set_trgtElem(trgt, trgtE);
             },
@@ -192,10 +118,6 @@ const _RESTYLE_all_trgtEs = R.map(
 /**
  *      ---------------------------- INVOKE and TEST
  */
-// var cee = R.map((v)=>R.values(R.values(v)));
-// C_Both('vals were: ' + JSON.stringify( cee(CSD_D.fut)));
-// var fut0 = R.map(R.props(['fontSize', 'opacity']))(CSD_D);//
-// // C_Both('Clss base props: ' + JSON.stringify(R.values(fut0)));
 
 var REStylED_trgts = _RESTYLE_all_trgtEs(NL);
 
@@ -222,22 +144,22 @@ function testMe() {
     RET = CUT(stub_rclssElem);// -> HTMLCollection[2]
     assert(1, RET.length, tNum);
 
-//tests  __base_rClss_CSD
-    tNum = 2;
-    CUT = _get_clss_CSD;
-    var test_CSDs = R.map(CUT);//  L:nl -> [[D:d, D:d, D:d]]
-    RET = test_CSDs(NL);//  ->  [[D:d, D:d, D:d]]
-    assert("60%", RET[0].fontSize, tNum);
-    assert("90%", RET[2].fontSize, tNum);
-
-// test   cur_Chptr_rClss_NL
-    tNum = 1;
-    // var nl = cur_Chptr_rClss_NL;
-    assert('fut', NL[2].className, tNum);
-    assert(6, NL[2].childElementCount, tNum);
+// //tests  __base_rClss_CSD
+//     tNum = 2;
+//     CUT = _get_clss_CSD;
+//     var test_CSDs = R.map(CUT);//  L:nl -> [[D:d, D:d, D:d]]
+//     RET = test_CSDs(NL);//  ->  [[D:d, D:d, D:d]]
+//     assert("60%", RET[0].fontSize, tNum);
+//     assert("90%", RET[2].fontSize, tNum);
+//
+// // test   cur_Chptr_rClss_NL
+//     tNum = 1;
+//     // var nl = cur_Chptr_rClss_NL;
+//     assert('fut', NL[2].className, tNum);
+//     assert(6, NL[2].childElementCount, tNum);
 
 // final MSG
-    MSG = 'simpleTests - completed';
+    MSG = 'ran simpleTests->';
     C_Both(MSG);
 }
 testMe();
