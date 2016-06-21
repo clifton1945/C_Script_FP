@@ -1,7 +1,9 @@
 /**
  * transformers_tests.js
+ * 160621
+ *  @0628: CREATED wtFunc_pst AND wtFunc_fut FROM wt_factor
  * 160620 R.evolve IS a better way to mutate styles!
- * @ 1405: STABLE usable wt_factor() AND _transform_CSD()
+ * @ 1405: STABLE usable wtFunc_pst() AND _transform_CSD()
  * @ 1212: WIP STABLE _transform_CSD()
  * @ 0747:  STABLE transformers wt_opacity(0 and wt_fontSize() WORK nearly ready to accept an index argument.
  * @ 0617
@@ -18,18 +20,25 @@ var stub_fctr = 1 / 2;
 var stub_wtER = R.multiply(stub_fctr);
 // ---------------------- Code Under Test
 /**
- *      wt_factor:: (N:fctr, L:sibls -> fctr) -> (fctr -> N:b -> N:b)
+ *      wtFunc_pst:: (N:fctr, L:sibls -> fctr) -> (fctr -> N:b -> N:b)
 
  * @param ndx
  * @param col
  * @return {*}
  */
-var wt_factor = (ndx, col) => {
+var wtFunc_pst = (ndx, col) => {
     var num = R.inc(ndx);
     var den = R.length(col);
-    var wt = R.divide(num, den);
-    return wt
+    return R.divide(num, den);
 };
+/**
+ *      wtFunc_fut:: (N:fctr, L:sibls -> fctr) -> (fctr -> N:b -> N:b)
+
+ * @param ndx
+ * @param col
+ * @return {*}
+ */
+var wtFunc_fut = (ndx, col) => R.inc(R.negate(wtFunc_pst(ndx, col)));
 
 /**
  *      _transform_CSD: D:csd, N:fctr
@@ -58,7 +67,7 @@ RET = _transform_CSD(stub_csd, 1);
 assert('80%', RET.fontSize, MSG);
 
 MSG += '#5 fontSize: wter:fn(ndx, col), ';
-RET = _transform_CSD(stub_csd, wt_factor(0, [1, 2, 3, 4]));
+RET = _transform_CSD(stub_csd, wtFunc_pst(0, [1, 2, 3, 4]));
 assert('20%', RET.fontSize, MSG);
 
 C_Both(`ran transformers_tests-> ${MSG}`);
