@@ -1,5 +1,7 @@
 /**
  *  simpleTests.js
+ * 160622
+ *  @0625 ADDED _wtER_ s TO CssStyleDecl_Dict
  * 160621
  * @0952 STABLE USE of wtER s; NOT finished but close.
  * @0655 REMOVED NOT USED CODE
@@ -31,21 +33,21 @@ const NL = cur_Chptr_rClss_NL;
  */
 const CssStylDecl_Dict = { //
     fut: {
-        stepSize: -0.750,
+        _wtER: _wtER_fut,
         fontSize: "75%",
         opacity: '0.75',
         textAlign: "left",
         backgroundColor: "rgba(145, 248, 29, 0.29)"
     },
     cur: {
-        stepSize: 0, // start gig  stay big
+        _wtER: _wtER_cur, // start big  stay big
         fontSize: "100%",
         opacity: '1.0',
         textAlign: "center",
         // backgroundColor: "rgba(255, 0, 0, 0.24)"
     },
     pst: {
-        stepSize: 0.25,
+        _wtER: _wtER_pst,
         fontSize: "80%",
         opacity: '0.8',
         textAlign: "left",
@@ -74,7 +76,7 @@ let CSD_D = CssStylDecl_Dict; // -> D:csd
 // assert(50, whenStr_parseFloat('50%'), ' whenStr_parseFloat()');
 // assert(50, whenStr_parseFloat('50'), ' whenStr_parseFloat()');
 // assert(90, whenStr_parseFloat(_get_Dict_Valu('fontSize')({fontSize: '90%'})), '_get_Dict_Valu');
-// assert(-0.75, _get_Dict_Valu('stepSize')({stepSize: -0.75}), '_get_Dict_Valu');
+// assert(-0.75, _get_Dict_Valu('_wtER')({_wtER: -0.75}), '_get_Dict_Valu');
 // assert(0.9001, _get_Dict_Valu('opacity')({opacity: 0.9001}), '_get_Dict_Valu');
 
 /**

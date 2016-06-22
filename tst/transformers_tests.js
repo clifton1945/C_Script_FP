@@ -1,5 +1,7 @@
 /**
  * transformers_tests.js
+ * 160622
+ *  @0625 ADDED & TESTED _wtER_cur
  * 160621
  *  @0932: STABLE CREATED AND TESTED wt_ER_pst AND wt_ER_fut FROM wt_factor
  *  @0628: CREATED wtFunc_pst AND wtFunc_fut FROM wt_factor
@@ -15,6 +17,12 @@ var CUT, RET, MSG = ``;
  */
 var _wtER_pst = col => R.compose(R.flip(R.divide)(R.length(col)), R.inc);
 /**
+ *      _wtER_cur:: (L:col) -> N:ndx -> (*->N:wt)
+ * @param col
+ * @private
+ */
+var _wtER_cur = col => R.always(1);
+/**
  *      _wtER_fut:: (L:col) -> N:ndx -> (*->N:wt)
  * @param col
  * @private
@@ -24,6 +32,9 @@ var _wtER_fut = col => R.compose(R.inc, R.negate, R.divide(R.__, R.length(col)))
 // test__wtER_s();
 function test__wtER_s() {
     MSG = '_wtER_ s -> ';
+    CUT = _wtER_cur([[]]);
+    MSG += '#0 wt..._cur(12345), ';
+    assert(1, CUT(12345), MSG);
     CUT = _wtER_pst([0, 1, 2, 3]);// get 0.25, 0.50, 0.75, 1.0
     MSG += '#1 wt..._pst(0), ';
     assert(0.25, CUT(0), MSG);

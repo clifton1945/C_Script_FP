@@ -19,7 +19,7 @@ var assert = function assert(exp, ret, txt) {
  */
 const _StepER = R.curry(
     /**
-     *      :: N:siblCount -> N: myIndex -> N:stepSize
+     *      :: N:siblCount -> N: myIndex -> N:_wtER
      * @param N
      * @param ndx
      * @returns {number}
