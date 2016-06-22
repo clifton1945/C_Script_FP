@@ -8,9 +8,9 @@
 // import * as R from "../node_modules/ramda"//  FIX  comment out 1030
 // import {assert} from '../src/functions-compiled'; //BREAKS
 var noop = 0;
-var assert = function assert(exp, ret, txt) {
-    return console.assert(R.equals(exp, ret), `${exp} != ${ret} @ ${txt}`);
-};
+// var assert = function assert(exp, ret, txt) {
+//     return console.assert(R.equals(exp, ret), `${exp} != ${ret} @ ${txt}`);
+// };
 
 /**
  *      ::(N:sibl_Count)->(N:myNdx) -> NS:n  1<= String: wt factor >= 0

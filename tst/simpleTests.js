@@ -6,17 +6,6 @@
  * @0952 STABLE USE of wtER s; NOT finished but close.
  * @0655 REMOVED NOT USED CODE
  * @0635 WORKING STABLE
- *  first REFACT weighting
- *      STABLE BUT NOT GIT WIP BEGAN using new weighting
- *      CREATED  wtFunc_pst AND wtFunc_fut FROM wt_factor IN * transformers_tests.js
- *  second REFACT to eliminate the rClass divs
- * 160620
- * # 1408 USING transformers_test.js functions:  _transform_CSD() AND wtFunc_pst()
- * 160617  simpleTests.js:: STABLE
- * @0823 STABLE with both N:opacity and S:fontSize csd s.
- *      whenStr_parseFloat() AND _get_Dict_Valu()
- * @0658 WIP CUT= _get_Dict_Valu IN _set_trgtCSD
- * REFACT    _RESTYLE_all_trgtEs()
  */
 "use strict";
 /**
@@ -62,22 +51,6 @@ let CSD_D = CssStylDecl_Dict; // -> D:csd
 /**
  *      --------------------------HELPERS for _RESTYLE_trgts
  */
-// const whenStr_parseFloat = R.when(R.is(String), parseFloat);
-
-// /**
-//  *      _get_Dict_Valu: S:key -> D:{k,v} -> N:v
-//  *      R.lensProp::    Str -> Lens s a
-//  *      R.view::        Lens s a -> s -> a
-//  *      parseFloat::    Str | Num -> N
-//  */
-// const _get_Dict_Valu = R.compose(whenStr_parseFloat, R.view, R.lensProp);
-
-// ------------------------------- Tests
-// assert(50, whenStr_parseFloat('50%'), ' whenStr_parseFloat()');
-// assert(50, whenStr_parseFloat('50'), ' whenStr_parseFloat()');
-// assert(90, whenStr_parseFloat(_get_Dict_Valu('fontSize')({fontSize: '90%'})), '_get_Dict_Valu');
-// assert(-0.75, _get_Dict_Valu('_wtER')({_wtER: -0.75}), '_get_Dict_Valu');
-// assert(0.9001, _get_Dict_Valu('opacity')({opacity: 0.9001}), '_get_Dict_Valu');
 
 /**
  *      _get_clss_CSD:: (E:clssElem) -> D:clssCSD
@@ -86,12 +59,13 @@ let CSD_D = CssStylDecl_Dict; // -> D:csd
  */
 const _get_clss_CSD = R.compose(R.flip(R.prop)(CSD_D), R.prop('className'));
 
+
+/**
+ *      _set_trgtStyles: CSD D -> E: trgt -> mutated E:trgt
+ * @param csd
+ * @param e_trgt
+ */
 const _set_trgtElem = R.curry(
-    /**
-     *      _set_trgtStyles: CSD D -> E: trgt -> mutated E:trgt
-     * @param csd
-     * @param e_trgt
-     */
     (csd, e_trgt)=> Object.assign(e_trgt.style, csd)
 );
 
@@ -128,44 +102,16 @@ const _RESTYLE_all_trgtEs = R.map(
 
 var REStylED_trgts = _RESTYLE_all_trgtEs(NL);
 
-// var fut1 = REStylED_trgts[1];// ->[csd, csd ...]
-// var fut2 = R.map(R.props(['fontSize', 'opacity']))(fut1);
-// C_Both(cee(fut));
-// C_Both('vals  are: ' + JSON.stringify(R.values(fut2)));
-
+// testMe();
 function testMe() {
-    var MSG = '', CUT, _CUT, RET, EXP, TST, tNum = 0;
+    var MSG, _CUT, RET, EXP, TST, tNum = 0;
+    MSG = ` simpleTests -> `;
 
-// //tests  _RESTYLE_trgts
-//     tNum = 4;
-//     CUT = _RESTYLE_all_trgtEs(NL); // INVOKED
-//     trgt = document.querySelector('div #tst1');
-//     RET = trgt.style.textAlign;
-//     assert('right', RET, tNum);
+    RET = _RESTYLE_all_trgtEs(NL); // INVOKED
 
-// tests  _rClss_Chldren
-    tNum = 3;
-    CUT = _rClss_Chldren;
-    const stub_rclssElem = document.querySelector('div #cur_VerseReadGrp');//
-    RET = CUT(stub_rclssElem);// -> HTMLCollection[2]
-    assert(1, RET.length, tNum);
-
-// //tests  __base_rClss_CSD
-//     tNum = 2;
-//     CUT = _get_clss_CSD;
-//     var test_CSDs = R.map(CUT);//  L:nl -> [[D:d, D:d, D:d]]
-//     RET = test_CSDs(NL);//  ->  [[D:d, D:d, D:d]]
-//     assert("60%", RET[0].fontSize, tNum);
-//     assert("90%", RET[2].fontSize, tNum);
-//
-// // test   cur_Chptr_rClss_NL
-//     tNum = 1;
-//     // var nl = cur_Chptr_rClss_NL;
-//     assert('fut', NL[2].className, tNum);
-//     assert(6, NL[2].childElementCount, tNum);
 
 // final MSG
-    MSG = 'ran simpleTests->';
+    MSG += `
+    tested simpleTests`;
     C_Both(MSG);
 }
-testMe();

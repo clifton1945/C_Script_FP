@@ -31,7 +31,7 @@ var _wtER_fut = col => R.compose(R.inc, R.negate, R.divide(R.__, R.length(col)))
 
 // test__wtER_s();
 function test__wtER_s() {
-    MSG = '_wtER_ s -> ';
+    MSG = ` _wtER_ s -> `;
     CUT = _wtER_cur([[]]);
     MSG += '#0 wt..._cur(12345), ';
     assert(1, CUT(12345), MSG);
@@ -46,7 +46,7 @@ function test__wtER_s() {
     MSG += '#4 wt..._fut(3), ';
     assert(0.25, CUT(3), MSG);
     MSG += `
-tested`;
+    tested _wtER_ s.`;
     C_Both(MSG);
 }
 // ---------------------- Code Under Test: wtFunctions
@@ -65,7 +65,7 @@ var _transform_CSD = R.curry(function (csd, fctr) {
 });
 
 // ---------------------- tests: _transform_CSD
-// test_transform_CSD()
+// test_transform_CSD();
 function test_transform_CSD() {
     MSG = `_transform_CSD-> `;
     var stub_csd = {opacity: '76', fontSize: '80%'};
@@ -83,12 +83,6 @@ function test_transform_CSD() {
     MSG += '#4 fontSize: wter:1, ';
     RET = _transform_CSD(stub_csd, 1);
     assert('80%', RET.fontSize, MSG);
-
-
-    MSG += '#5 fontSize: wter:fn(ndx, col), ';
-    RET = _transform_CSD(stub_csd, wtFunc_pst(0, [1, 2, 3, 4]));
-    assert('20%', RET.fontSize, MSG);
-    MSG += `
-tested`;
+    MSG += `  tested test_transform_CSD`;
     C_Both(MSG);
 }

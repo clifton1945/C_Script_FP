@@ -47,9 +47,9 @@ const cur_Chptr_rClss_NL = document.querySelectorAll(V_Grp_Tmpl);
  *      assert:: a:exp, a:ret, S:b -> true:  | false S:b
  * @param ret
  * @param exp
- * @param tNum
+ * @param txt
  */
-const assert = (exp, ret, tNum)=> console.assert(R.equals(exp, ret), ` EXP:[${exp}]; RET:[${ret}] @ ${tNum}`);
+const assert = (exp, ret, txt)=> console.assert(R.equals(exp, ret), ` EXP:[${exp}] != RET:[${ret}] ${txt}`);
 
 
 // *********** OLD BUT STILL IN USE
