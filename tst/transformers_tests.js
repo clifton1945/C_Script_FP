@@ -29,7 +29,7 @@ var _wtER_cur = col => R.always(1);
  */
 var _wtER_fut = col => R.compose(R.inc, R.negate, R.divide(R.__, R.length(col)));// L:col -> N:ndx -> (*->N:wt)
 
-// test__wtER_s();
+// ---------------------- test__wtER_s();
 function test__wtER_s() {
     MSG = ` _wtER_ s -> `;
     CUT = _wtER_cur([[]]);
@@ -65,7 +65,6 @@ var _transform_CSD = R.curry(function (csd, fctr) {
 });
 
 // ---------------------- tests: _transform_CSD
-// test_transform_CSD();
 function test_transform_CSD() {
     MSG = `_transform_CSD-> `;
     var stub_csd = {opacity: '76', fontSize: '80%'};

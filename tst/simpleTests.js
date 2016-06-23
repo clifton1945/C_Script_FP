@@ -51,14 +51,12 @@ let CSD_D = CssStylDecl_Dict; // -> D:csd
 /**
  *      --------------------------HELPERS for _RESTYLE_trgts
  */
-
 /**
  *      _get_clss_CSD:: (E:clssElem) -> D:clssCSD
  *  extracts the class style Dict -fut,cur,pst- from the class Element,
  *  NOTE: the base css style declaration dictionary, CSD_D, is hard coded in.
  */
 const _get_clss_CSD = R.compose(R.flip(R.prop)(CSD_D), R.prop('className'));
-
 
 /**
  *      _set_trgtStyles: CSD D -> E: trgt -> mutated E:trgt
@@ -68,7 +66,6 @@ const _get_clss_CSD = R.compose(R.flip(R.prop)(CSD_D), R.prop('className'));
 const _set_trgtElem = R.curry(
     (csd, e_trgt)=> Object.assign(e_trgt.style, csd)
 );
-
 /**
  *       _rClss_Chldren:: clssE -> L:[trgtE, trgtE, ...]
  *      an rClss Element:e -> a list of its verse elements.
@@ -112,6 +109,6 @@ function testMe() {
 
 // final MSG
     MSG += `
-    tested simpleTests`;
+    finished simpleTests`;
     C_Both(MSG);
 }
