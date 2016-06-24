@@ -22,21 +22,21 @@ const NL = cur_Chptr_rClss_NL;
  */
 const CssStylDecl_Dict = { //
     fut: {
-        _wtER: _wtER_fut,
+        // _wtER: _wtER_fut,
         fontSize: "75%",
         opacity: '0.75',
         textAlign: "left",
         backgroundColor: "rgba(145, 248, 29, 0.29)"
     },
     cur: {
-        _wtER: _wtER_cur, // start big  stay big
+        // _wtER: _wtER_cur, // start big  stay big
         fontSize: "100%",
         opacity: '1.0',
         textAlign: "center",
         // backgroundColor: "rgba(255, 0, 0, 0.24)"
     },
     pst: {
-        _wtER: _wtER_pst,
+        // _wtER: _wtER_pst,
         fontSize: "80%",
         opacity: '0.8',
         textAlign: "left",
@@ -86,7 +86,7 @@ const _RESTYLE_all_trgtEs = R.map(
         return R.addIndex(R.map)(
             (trgtE, ndx, col)=> {
                 var wt_factor = _wtER_fut(col);
-                var trgt = _transform_CSD(base, wt_factor(ndx));// (CSD, N)-> CSD THIS IS THE WORKER FUNCTION !!!
+                var trgt = _evolve_CSD(base, wt_factor(ndx));// (CSD, N)-> CSD THIS IS THE WORKER FUNCTION !!!
                 return _set_trgtElem(trgt, trgtE);
             },
             _rClss_Chldren(clssE)
