@@ -1,6 +1,7 @@
 /**
  *  classByIndex_tests.js
  *  160624  use splitAtCur() to construct _pstNL, _curNL, _futNL
+ *      @1633 ADDED these tests to simpleTests.html
  *      @0930 WIP _pstNL 2 test STABLE
  *
  */
