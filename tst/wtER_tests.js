@@ -1,7 +1,7 @@
 /**
  * wtEr_tests.js
  * 160624
- *      @1540  MOVED and RENAMED wtER code FROM tansformers_tests.js
+ *      @1540  MOVED and RENAMED wtER code FROM transformers_tests.js
  */
 "use strict";
 //GLOBAL:
