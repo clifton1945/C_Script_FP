@@ -1,17 +1,20 @@
 /**
  *  classByIndex_tests.js
- * 160623 built func: splitAtCur(begNdx)
- *  @0804:    STABLE: 3 tests   ADDED file classByIndex.js
- *      SplitAtCur:: (N:ndx) -> L:trgtList -> [[beforeINdex], [beginAtIndex]]
- *  @0555 use index in chapter instead of div.class
+ *  160624  use splitAtCur() to construct _pstNL, _curNL, _futNL
+ *      @0930 WIP _pstNL 2 test STABLE
+ *
  */
 "use strict";
 /**
  *       --------------------------DATA:
  */
-
 /**
- *      -------------------------- HELPERS for CodeUnderTest
+ *      aChptrVersesNL:: -> L:all verse elements
+ *      for use in extracting rClass Lists
+ */
+var curChptrVersesNL = document.querySelectorAll('#curChptrVerses .vers');
+/**
+ *      -------------------------- CodeUnderTest and HELPERS
  */
 
 /**
@@ -22,29 +25,31 @@ var REStylED_trgts = _RESTYLE_all_trgtEs(NL);
 
 testMe();
 function testMe() {
-    var MSG, _CUT, RET, EXP, TST;
-    MSG = ` classByIndex_tests -> `;
+    var NUM, _CUT, RET, EXP, MSG, TST;
+    NUM = ` cBI_t -> `;
     var stubList = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];// pretend these are verse INDEXES
-    var verseColl = cur_Chptr_rClss_NL[2].children;// 6 verse in rClss:fut
-    var cur_Index = {beg: 3, end: 5};
-    // tests
-    /**
-     *      SplitAtCur:: (N:ndx) -> L:trgtList -> [[beforeINdex], [beginAtIndex]]
-     *
-     * @param begNdx
-     */
-    var spltAtCur = (begNdx) => R.splitAt(begNdx);// NOTE; splits AT INDEX!!
-    RET = spltAtCur(cur_Index.beg)(stubList);
-    MSG += '#1, ';
-    assert(3, R.head(RET[1]), 'EXP 2nd Ary head is stubList[3] ');
+    var stubVerses = curChptrVersesNL;
+    // CUT
+    var _rClssNL = (beg) => R.compose(R.head, R.splitAt(beg));// NOTE; splits ARE INDEXES!!
+    var stub_curRange = {beg: 2, end: 3};
+    var _pstNL = _rClssNL(stub_curRange.beg);// NOTE; splits ON INDEXES!!
 
-    RET = spltAtCur(cur_Index.beg)(verseColl);
-    MSG += '#2, ';
-    assert(3, R.indexOf(R.head(RET[1]))(verseColl), ' > EXP 2nd Ary head is verseColl[3]');
-    MSG += '#3, ';
-    assert('chptr:2 verse:7 ndx:6', RET[1][0].innerText, ' > EXP 2nd Ary head text is chptr:2 verse:7 ndx:6');
-// final MSG
-    MSG += `
+    // tests
+
+    RET = _rClssNL(2)(stubList);
+    NUM += '#1, ';
+    MSG = '  >> [0,1] from _rClssNL(stubList)';
+    assert([0, 1], RET, MSG);
+
+    NUM += '#2 ';
+    RET = _pstNL(stubVerses);
+    TST = R.compose(R.prop('innerText'), R.last)(RET);
+    EXP = stubVerses[1].innerText;
+    MSG = ' >> index:2 from _pstNL(stubVerses)';
+    assert(EXP, TST, '\n' + NUM + MSG);
+
+// final NUM
+    NUM += `
     finished classByIndex_tests`;
-    C_Both(MSG);
+    C_Both(NUM);
 }
