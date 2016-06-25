@@ -1,5 +1,7 @@
 /**
  * simpleTests.js
+ * 160625
+ *      @1620 -> ADDED call tests from classByIndex and wtER_tests
  * 160624
  *      @1540  MOVED and RENAMED wtER code FROM tansformers_tests.js
  * 160622
@@ -100,8 +102,15 @@ const _RESTYLE_all_trgtEs = R.map(
  */
 var REStylED_trgts = _RESTYLE_all_trgtEs(NL);
 
-// isPst_isCur_isFut_tests();
-function testMe() {
+// TESTS FROM classByIndex_tests.js
+myBaseCSD_tests();
+triageByIndex_tests();
+isPst_isCur_isFut_tests();
+// TESTS FROM _wtER_tests.js;
+_wtER_tests();
+// TESTS FROM  simpleTests.js
+simpleTests();
+function simpleTests() {
     var MSG, _CUT, RET, EXP, TST, tNum = 0;
     MSG = ` simpleTests -> `;
 
@@ -110,6 +119,6 @@ function testMe() {
 
 // final MSG
     MSG += `
-    finished simpleTests`;
+    NO simpleTests!`;
     C_Both(MSG);
 }
