@@ -100,7 +100,7 @@ const _RESTYLE_all_trgtEs = R.map(
  */
 var REStylED_trgts = _RESTYLE_all_trgtEs(NL);
 
-// testMe();
+// isPst_isCur_isFut_tests();
 function testMe() {
     var MSG, _CUT, RET, EXP, TST, tNum = 0;
     MSG = ` simpleTests -> `;
