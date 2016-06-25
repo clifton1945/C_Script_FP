@@ -1,5 +1,8 @@
 /**
  *  classByIndex_tests.js
+ *  160625
+ *      @0736 -> SWITCH TO THE THREE isPst, isCur, isFut events.
+ *      Then invoke the Siblings, wtER, evolveCsd
  *  160624  use splitAtCur() to construct _pstNL, _curNL, _futNL
  *      @1633 ADDED these tests to simpleTests.html
  *      @0930 WIP _pstNL 2 test STABLE
