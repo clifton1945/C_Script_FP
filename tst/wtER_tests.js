@@ -28,9 +28,9 @@ var _wtER_cur = col => R.always(1);
  */
 var _wtER_fut = col => R.compose(R.inc, R.negate, R.divide(R.__, R.length(col)));// L:col -> N:ndx -> (*->N:wt)
 
-__wtER_tests();
+// _wtER_tests();
 // ---------------------- __wtER_tests();
-function __wtER_tests() {
+function _wtER_tests() {
     MSG = ` _wtER_ s -> `;
     CUT = _wtER_cur([[]]);
     MSG += '#0 wt..._cur(12345), ';
@@ -46,6 +46,6 @@ function __wtER_tests() {
     MSG += '#4 wt..._fut(3), ';
     assert(0.25, CUT(3), MSG);
     MSG += `
-    __wtER_tests DONE`;
+    _wtER_tests DONE`;
     C_Both(MSG);
 }

@@ -1,5 +1,5 @@
 /**
- * wtEr_tests.js
+ * simpleTests.js
  * 160624
  *      @1540  MOVED and RENAMED wtER code FROM tansformers_tests.js
  * 160622

@@ -27,7 +27,7 @@ var _evolve_CSD = R.curry(function (csd, fctr) {
     return R.evolve(transform, csd); //=>
 });
 // ---------------------- test: _evolve_CSD
-_evolve_CSD_tests();
+// _evolve_CSD_tests();
 function _evolve_CSD_tests() {
     MSG = `_transform_CSD-> `;
     var stub_csd = {opacity: '76', fontSize: '80%'};
@@ -46,6 +46,6 @@ function _evolve_CSD_tests() {
     RET = _evolve_CSD(stub_csd, 1);
     assert('80%', RET.fontSize, MSG);
     MSG += `
-      _transform_CSD_tests: DONE`;
+      _evolve_CSD_tests: DONE`;
     C_Both(MSG);
 }
