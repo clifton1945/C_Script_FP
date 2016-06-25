@@ -23,9 +23,9 @@ var MSG,
 var msg = function msg(s) {
     return console.log('t:' + s);
 };
-var assert = function assert(exp, ret) {
-    return console.assert(R.equals(exp, ret), ret + "!=" + exp);
-};
+// var assert = function assert(exp, ret) {
+//     return console.assert(R.equals(exp, ret), ret + "!=" + exp);
+// };
 var tIt = R.tap(msg);
 var C_It = function C_It(txt) {
     return console.log(txt);
